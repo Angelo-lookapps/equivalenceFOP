@@ -1,5 +1,8 @@
 package com.testHibernate.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,9 +10,6 @@ import com.testHibernate.converts.ProductFormToProduct;
 import com.testHibernate.model.Product;
 import com.testHibernate.model.ProductForm;
 import com.testHibernate.repo.ProductRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jt on 1/10/17.

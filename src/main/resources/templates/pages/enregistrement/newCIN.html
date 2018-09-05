@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+ <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>EQUIVALENCE</title>
+        <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
+    
+        <script>
+            WebFont.load({
+                google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
+                active: function () {
+                    sessionStorage.fonts = true;
+                }
+            });
+        </script>
+        <!-- START GLOBAL MANDATORY STYLE -->
+        <link href="assets/dist/css/base.css"rel="stylesheet" type="text/css">
+        <!-- START PAGE LABEL PLUGINS --> 
+
+        <!-- START THEME LAYOUT STYLE -->
+        <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+<title>Equivalence App</title>
+</head>
+<body class="hold-transition fixed sidebar-mini">
+        
+        <!-- Preloader -->
+        <div class="preloader"></div>
+        
+        <!-- Site wrapper -->
+        <!-- Content Wrapper. Contains page content -->
+        <div th:replace="fragments/header :: header">Enregistrement</div>   
+        <div class="content-wrapper">
+                <!-- Main content -->
+                <div class="content">
+                    <div class="content-header">
+                        <div class="header-icon">
+                            <i class="pe-7s-note2"></i>
+                        </div>
+                        <div class="header-title">
+                            <h1>Enregistrement d'un CIN</h1>
+                            <small></small>
+                            <ol class="breadcrumb">
+                                <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                                <li ><a href="#">Enregistrement</a></li>
+                                <li class="active">Ajout CIN</li>
+                            </ol>
+                        </div>
+                    </div> <!-- /. Content Header (Page header) -->
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="panel panel-bd lobidrag">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        <h4>Formulaire d'enregistrement CIN</h4>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 text-center">
+                                            <form method="post" class="f1">
+                                                <h3 class="m-t-0">KARA-PANONDROM-PIRENENA</h3>
+                                                <p>Carte d'Identit&eacute; Nationale</p>
+                                                <div class="f1-steps">
+                                                    <div class="f1-progress">
+                                                        <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="3"></div>
+                                                    </div>
+                                                    <div class="f1-step active">
+                                                        <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                                                        <p>Information personnel</p>
+                                                    </div>
+                                                    <div class="f1-step">
+                                                        <div class="f1-step-icon"><i class="fa fa-address-card"></i></div>
+                                                        <p>Localisation</p>
+                                                    </div>
+                                                    <div class="f1-step">
+                                                        <div class="f1-step-icon"><i class="fa fa-car"></i></div>
+                                                        <p>Information travail</p>
+                                                    </div>
+                                                </div>
+                                                <fieldset>
+                                                    <h4 class="m-t-0">Veuillez informer les champs suivant:</h4>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="nom">Nom</label>
+                                                        <input type="text" name="nom" placeholder="ANARANA..." class="form-control" id="nom">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="prenom">Pr&eacute;nom</label>
+                                                        <input type="text" name="prenom" placeholder="FANAMPIN'ANARANA..." class="form-control" id="prenom">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="photo">Photo d'identit&eacute;</label>
+                                                        <input type="file" name="photo" class="form-control" id="photo">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="dateNaissance">Date de naissance</label>
+                                                        <input type="date" name="dateNaissance" placeholder="TERAKA TAMIN'NY..." class="form-control" id="dateNaissance">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="lieuNaissance">&agrave;</label>
+                                                        <input type="text" name="lieuNaissance" placeholder="TAO..." class="form-control" id="lieuNaissance">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="f1-last-name">N° CIN</label>
+                                                        <input type="text" name="numeroCIN" placeholder="LAHARANA/N°:############" class="form-control" id="f1-last-name">
+                                                    </div>
+                                                    <div class="f1-buttons">
+                                                        <button type="button" class="btn btn-base btn-next">Suivant</button>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset>
+                                                    <h4>Info localisation:</h4>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="adresseActuelle">Adresse Actuelle</label>
+                                                        <input type="text" name="adresseActuelle" placeholder="FONENANA..." class="form-control" id="adresseActuelle">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="dateDelivrance">Date de d&eacute;livrance</label>
+                                                        <input type="date" name="dateDelivrance" placeholder="NATAO TAMIN'NY..." class="form-control" id="dateDelivrance">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="lieuDelivrance">Lieu de d&eacute;livrance</label>
+                                                        <input type="text" name="lieuDelivrance" placeholder="TAO..." class="form-control" id="lieuDelivrance">
+                                                    </div>
+                                                    <div class="f1-buttons">
+                                                        <button type="button" class="btn btn-previous">Pr&eacute;c&egrave;dent</button>
+                                                        <button type="button" class="btn btn-base btn-next">Suivant</button>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset>
+                                                    <h4>Information travail:</h4>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="f1-facebook">Nationalit&eacute;</label>
+                                                        <input type="text" name="nationalite" placeholder="nationalite..." class="form-control" id="f1-facebook">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="f1-twitter">Fonction</label>
+                                                        <input type="text" name="fonction" placeholder="ASA ATAO..." class="form-control" id="f1-twitter">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="sr-only" for="f1-google-plus">Lieu de travail</label>
+                                                        <input type="text" name="lieuTravail" placeholder="AO AMIN'NY..." class="form-control" id="f1-google-plus">
+                                                    </div>
+                                                    <div class="f1-buttons">
+                                                        <button type="button" class="btn btn-previous">Pr&eacute;c&egrave;dent</button>
+                                                        <button type="submit" class="btn btn-base btn-submit">Confirmer</button>
+                                                    </div>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="panel panel-bd lobidrag">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        <h4>CIN enregist&eacute;s</h4>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+                                        <table id="example1" class="footable table table-bordered toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
+                                            <thead>
+                                                <tr>
+                                                    <th>N°CIN</th>
+                                                    <th>Nom</th>
+                                                    <th>Pr&eacute;nom</th>
+                                                    <th>N&eacute;e le</th>
+                                                    <th>&agrave;</th>
+                                                    <th data-hide="all">Signiature</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Dennise</td>
+                                                    <td>Fuhrman</td>
+                                                    <td>High School History Teacher</td>
+                                                    <td>November 8th 2011</td>
+                                                    <td>July 25th 1960</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Elodia</td>
+                                                    <td>Weisz</td>
+                                                    <td>Wallpaperer Helper</td>
+                                                    <td>October 15th 2010</td>
+                                                    <td>March 30th 1982</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Raeann</td>
+                                                    <td>Haner</td>
+                                                    <td>Internal Medicine Nurse Practitioner</td>
+                                                    <td>November 28th 2013</td>
+                                                    <td>February 26th 1966</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>Junie</td>
+                                                    <td>Landa</td>
+                                                    <td>Offbearer</td>
+                                                    <td>October 31st 2010</td>
+                                                    <td>March 29th 1966</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td>Solomon</td>
+                                                    <td>Bittinger</td>
+                                                    <td>Roller Skater</td>
+                                                    <td>December 29th 2011</td>
+                                                    <td>September 22nd 1964</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6</td>
+                                                    <td>Bar</td>
+                                                    <td>Lewis</td>
+                                                    <td>Clown</td>
+                                                    <td>November 12th 2012</td>
+                                                    <td>August 4th 1991</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>7</td>
+                                                    <td>Usha</td>
+                                                    <td>Leak</td>
+                                                    <td>Ships Electronic Warfare Officer</td>
+                                                    <td>August 14th 2012</td>
+                                                    <td>November 20th 1979</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>8</td>
+                                                    <td>Lorriane</td>
+                                                    <td>Cooke</td>
+                                                    <td>Technical Services Librarian</td>
+                                                    <td>September 21st 2010</td>
+                                                    <td>April 7th 1969</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>9</td>
+                                                    <td>Lorriane</td>
+                                                    <td>Cooke</td>
+                                                    <td>Technical Services Librarian</td>
+                                                    <td>September 21st 2010</td>
+                                                    <td>April 7th 1969</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+        
+        <!-- ./²wrapper -->
+        <!-- START CORE PLUGINS -->
+        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+        <!-- BootStrap WiZarD -->
+        <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
+        <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
+        <!-- Footable Js -->
+        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+        <!-- START THEME LABEL SCRIPT -->
+        <script src="assets/dist/js/theme.js"></script>
+	</body>
+	
+</html>

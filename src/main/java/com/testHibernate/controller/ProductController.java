@@ -1,5 +1,7 @@
 package com.testHibernate.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +14,6 @@ import com.testHibernate.converts.ProductToProductForm;
 import com.testHibernate.model.Product;
 import com.testHibernate.model.ProductForm;
 import com.testHibernate.service.ProductService;
-
-import javax.validation.Valid;
 
 @Controller
 public class ProductController {
@@ -31,7 +31,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/accueil")
     public String redirToList(){
         return "redirect:/product/list";
     }
@@ -81,3 +81,4 @@ public class ProductController {
         return "redirect:/product/list";
     }
 }
+

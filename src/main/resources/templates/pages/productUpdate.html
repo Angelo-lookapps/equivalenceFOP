@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+ <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>EQUIVALENCE</title>
+        <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
+    
+        <script>
+            WebFont.load({
+                google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
+                active: function () {
+                    sessionStorage.fonts = true;
+                }
+            });
+        </script>
+        <!-- START GLOBAL MANDATORY STYLE -->
+        <link href="assets/dist/css/base.css"rel="stylesheet" type="text/css">
+
+		<!-- START PAGE LABEL PLUGINS --> 
+        <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css"/>
+        
+        <!-- START THEME LAYOUT STYLE -->
+       
+        <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
+        
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+<title>Equivalence App</title>
+</head>
+<body class="hold-transition fixed sidebar-mini">
+        
+        <!-- Preloader -->
+        <div class="preloader"></div>
+        
+        <!-- Site wrapper -->
+        <!-- Content Wrapper. Contains page content -->
+        <div th:replace="fragments/header :: header">Static header</div>   
+       	<div class="content-wrapper">
+            <!-- Main content -->
+            <div class="content">
+                    <div class="content-header">
+                        <div class="header-icon">
+                            <i class="pe-7s-note2"></i>
+                        </div>
+                        <div class="header-title">
+                            <h1>Enregistrement d'un dipl&ocirc;me</h1>
+                            <small></small>
+                            <ol class="breadcrumb">
+                                <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                                <li><a href="#">Enregistrement</a></li>
+                                <li><a href="/newRequest">faire une demande</a></li>
+                                <li><a href="/requestList">Liste des dipl&ocirc;mes</a></li>
+                                <li class="active">Ajout diplome</li>
+                            </ol>
+                        </div>
+                    </div> <!-- /. Content Header (Page header) -->
+                 
+                    <div class="row">
+                    <!-- Textual inputs -->
+                    <div class="col-sm-6">
+                        <div class="panel panel-bd lobidrag">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    <h4>Formulaire d'insertion de dipl&ocirc;me</h4>
+                                </div>
+                            </div>
+                            <div class="panel-body"> 
+                            	<form th:object="${productForm}" th:action="@{/product}" method="post"></form>
+                                
+	                                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+						                <p th:text="#{form.hasErrors}">Error Message</p>
+						            </div>
+					            <input type="hidden" th:field="*{id}"/>
+                                <div class="form-group row" th:class="${#fields.hasErrors('description')} ? 'form-group has-error' : 'form-group'">
+                                    <label for="Description" class="col-sm-3 col-form-label">Description:</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" type="text" th:field="*{description}" th:errorclass="has-error">
+                                    </div>
+                                    <span class="help-block">
+				                       <ul>
+				                           <li th:each="err : ${#fields.errors('description')}" th:text="${err}" />
+				                       </ul>
+				                    </span>
+                                </div>
+                                <div class="form-group row" th:class="${#fields.hasErrors('price')} ? 'form-group has-error' : 'form-group'"th:class="${#fields.hasErrors('price')} ? 'form-group has-error' : 'form-group'">
+                                    <label for="diplome" class="col-sm-3 col-form-label">Price:</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" type="number" min="0" max="5000" step="0.01"  th:field="*{price}" th:errorclass="has-error">
+                                    </div>
+                                     <span class="help-block">
+				                       <ul>
+				                           <li th:each="err : ${#fields.errors('price')}" th:text="${err}" />
+				                       </ul>
+				                    </span>
+                                </div>
+                                <div class="form-group row" th:class="${#fields.hasErrors('imageUrl')} ? 'form-group has-error' : 'form-group'">
+                                    <label for="utilisation" class="col-sm-3 col-form-label">Image Url:</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" type="text" th:field="*{imageUrl}" th:errorclass="has-error">
+                                    </div>
+                                    <span class="help-block">
+				                       <ul>
+				                           <li th:each="err : ${#fields.errors('imageUrl')}" th:text="${err}" />
+				                       </ul>
+				                    </span>
+                                </div>                                   
+                                <button type="submit" class="btn btn-base pull-right">Valider</button>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="col-sm-5">
+                          <div class="panel panel-bd lobidrag">
+                              <div class="panel-heading">
+                                  <div class="panel-title">
+                                      <h4>Products</h4>
+                                  </div>
+                              </div>
+                              <div class="panel-body">
+                                  <div class="table-responsive">
+	                                   <table class="table table-bordered table-hover">
+	                                       <thead>
+	                                           <tr>
+	                                               <th>ID </th>
+	                                               <th>description </th>
+	                                               <th>price </th>
+	                                               <th>imageUrl</th>
+	                                           </tr>
+	                                       </thead>
+	                                       <tbody>
+	                                           <tr th:each="product : ${products}">
+	                                               <td th:text="${product.id}"></td>
+	                                               <td th:text="${product.description}"></td>
+	                                               <td th:text="${product.price}"></td>
+	                                               <td th:text="${product.imageUrl}"></td>
+                                              </tr>
+	                                       </tbody>
+	                                   </table>
+	                               </div>
+                              </div>
+                          </div>
+                      </div>
+                </div>
+                </div>
+            </div>
+       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+        
+        <!-- ./²wrapper -->
+        <!-- START CORE PLUGINS -->
+        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+        <!-- Sumoselect Js -->
+        <script src="assets/plugins/jquery.sumoselect/jquery.sumoselect.min.js"></script>
+        <script src="assets/plugins/jquery.sumoselect/sumoselect-active.js"></script>
+      
+        <!-- START THEME LABEL SCRIPT -->
+        <script src="assets/dist/js/theme.js"></script>
+	</body>
+	
+</html>

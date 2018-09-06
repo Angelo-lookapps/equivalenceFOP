@@ -99,6 +99,30 @@ public class PagesController {
 	public String matchArrete() {
 		return "pages/equivalence/checkArrete";		
 	}
+	//espace personnel
+	@GetMapping("/listStaff")
+	public String listPersonnel() {
+		return "pages/espacePersonnel/listStaff";		
+	}
+	@GetMapping("/newStaff")
+	public String ajoutStaff() {
+		return "pages/espacePersonnel/newStaff";		
+	}
+	@GetMapping("/profileUser")
+	public String profile() {
+		return "pages/espacePersonnel/profile";		
+	}
+
+	//Liste promo
+	@GetMapping("/listProm")
+	public String listePromo() {
+		return "pages/listePromotion/listProm";		
+	}	
+	@GetMapping("/newListProm")
+	public String ajoutListePromo() {
+		return "pages/listePromotion/newListProm";		
+	}	
 	
+		
 	
 }

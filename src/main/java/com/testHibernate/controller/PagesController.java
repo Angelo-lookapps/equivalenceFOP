@@ -64,14 +64,7 @@ public class PagesController {
 	}
 	
 	///enregistrement
-	@GetMapping("/newCIN")
-	public String ajouterCIN() {
-		return "pages/enregistrement/newCIN";		
-	}
-	@GetMapping("/CINList")
-	public String listeCIN() {
-		return "pages/enregistrement/CINList";		
-	}
+
 	@GetMapping("/newRequest")
 	public String ajouterDemande() {
 		return "pages/enregistrement/newRequest";		

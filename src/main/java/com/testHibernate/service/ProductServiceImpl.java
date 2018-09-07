@@ -10,10 +10,7 @@ import com.testHibernate.converts.ProductFormToProduct;
 import com.testHibernate.model.Product;
 import com.testHibernate.model.ProductForm;
 import com.testHibernate.repo.ProductRepository;
-
-/**
- * Created by jt on 1/10/17.
- */
+ 
 @Service
 public class ProductServiceImpl implements ProductService {
 

@@ -64,7 +64,6 @@ public class PagesController {
 	}
 	
 	///enregistrement
-
 	@GetMapping("/newRequest")
 	public String ajouterDemande() {
 		return "pages/enregistrement/newRequest";		

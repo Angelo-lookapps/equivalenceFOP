@@ -3,8 +3,9 @@ package com.testHibernate.service;
 
 
 import java.util.List;
-
+ 
 import com.testHibernate.model.cin.CIN;
+import com.testHibernate.model.cin.CINForm;
 
 public interface CINService {
 
@@ -15,4 +16,7 @@ public interface CINService {
     CIN saveOrUpdate(CIN cin);
 
     void delete(Long id);
+    
+    CIN saveOrUpdateCINForm(CINForm cinForm);
+
 }

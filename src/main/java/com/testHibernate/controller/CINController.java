@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
+import com.testHibernate.converts.CINToCINForm;
+import com.testHibernate.converts.ProductToProductForm;
+import com.testHibernate.model.Product;
+import com.testHibernate.model.ProductForm;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
 import com.testHibernate.service.CINService;
@@ -22,6 +25,13 @@ import com.testHibernate.service.CINService;
 public class CINController {
 	 private CINService cinService;
 	 
+	 private CINToCINForm cinToCINForm;
+
+	 @Autowired
+	 public void setCinToCINForm(CINToCINForm cinToCINForm) {
+		this.cinToCINForm = cinToCINForm;
+	 }
+
 	 @Autowired
 	 public void setCINService(CINService cinService) {
         this.cinService = cinService;
@@ -38,6 +48,16 @@ public class CINController {
         model.addAttribute("listCIN", cinService.listAll());
         return "pages/enregistrement/CINList";
 	 }	
+	 
+	 @RequestMapping("cin/edit/{id}")
+	 public String edit(@PathVariable String id, Model model){
+        CIN cin = cinService.getById(Long.valueOf(id));
+        CINForm cinForm = cinToCINForm.convert(cin);
+
+        model.addAttribute("cinForm", cinForm);
+        return "pages/enregistrement/newCIN";
+	 }
+	 
 	 @GetMapping("/newCIN")
 	 public String ajouterCIN(Model model) {
 		 model.addAttribute("listCIN", cinService.listAll());

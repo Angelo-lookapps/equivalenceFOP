@@ -22,13 +22,8 @@
 
         <!-- START THEME LAYOUT STYLE -->
         <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-<title>Nouvelle CIN</title>
+     
+<title><div th:text="${isEdit == 1} ? 'Modification' : 'Nouvelle'"></div> CIN</title>
 </head>
 <body class="hold-transition fixed sidebar-mini">
         
@@ -51,7 +46,7 @@
                             <ol class="breadcrumb">
                                 <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
                                 <li ><a href="#">Enregistrement</a></li>
-                                <li class="active">Ajout CIN</li>
+                                <li class="active"><span th:text="${isEdit == 1} ? 'Modification' : 'Nouvelle'"></span> CIN</li>
                             </ol>
                         </div>
                     </div> <!-- /. Content Header (Page header) -->

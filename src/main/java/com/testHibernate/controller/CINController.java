@@ -40,6 +40,7 @@ public class CINController {
 	 @RequestMapping("/cin/show/{id}")
 	 public String getCIN(@PathVariable String id, Model model){
 		 model.addAttribute("cin", cinService.getById(Long.valueOf(id)));
+		 System.out.println("GEGE");
 		 return "pages/enregistrement/showCIN";
 	 }
 	 
@@ -55,6 +56,7 @@ public class CINController {
         CINForm cinForm = cinToCINForm.convert(cin);
 
         model.addAttribute("cinForm", cinForm);
+        model.addAttribute("isEdit", "1");
         return "pages/enregistrement/newCIN";
 	 }
 	 

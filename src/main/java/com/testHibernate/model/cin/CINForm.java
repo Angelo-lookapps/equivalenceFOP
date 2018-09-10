@@ -3,6 +3,8 @@ package com.testHibernate.model.cin;
 import java.sql.Blob;
 import java.sql.Date;
 
+import org.hibernate.annotations.Type;
+
 public class CINForm {
 	private Long id;
 	
@@ -17,7 +19,7 @@ public class CINForm {
 	private String nationalite;
 	private String fonction;
 	private String lieuTravail;
-	private String photo;
+	private byte[] photo;
 	public Long getId() {
 		return id;
 	}
@@ -90,10 +92,10 @@ public class CINForm {
 	public void setLieuTravail(String lieuTravail) {
 		this.lieuTravail = lieuTravail;
 	}
-	public String getPhoto() {
+	public byte[] getPhoto() {
 		return photo;
 	}
-	public void setPhoto(String photo) {
+	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
 	

@@ -234,91 +234,36 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                	<div th:if="${not #lists.isEmpty(listCIN)}">
+	                            
                                     <div class="table-responsive">
                                         <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
                                         <table id="example1" class="footable table table-bordered toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
                                             <thead>
                                                 <tr>
-                                                    <th>N°CIN</th>
-                                                    <th>Nom</th>
-                                                    <th>Pr&eacute;nom</th>
-                                                    <th>N&eacute;e le</th>
-                                                    <th>&agrave;</th>
-                                                    <th data-hide="all">Signiature</th>
+                                                   <th>ID </th>
+                                                   <th>Num&eacute;ro CIN</th>
+	                                               <th>Nom </th>
+	                                               <th>Pr&eacute;nom </th>
+	                                               <th>Date et lieu naissance</th>	                
+                                                   <th data-hide="all">Adresse</th>
+                                                   <th data-hide="all">Date et lieu de d&eacute;livrance </th>
+	                                               <th data-hide="all">Nationalit&eacute; </th>
+	                                               <th data-hide="all">Fonction et lieu de travail </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Dennise</td>
-                                                    <td>Fuhrman</td>
-                                                    <td>High School History Teacher</td>
-                                                    <td>November 8th 2011</td>
-                                                    <td>July 25th 1960</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Elodia</td>
-                                                    <td>Weisz</td>
-                                                    <td>Wallpaperer Helper</td>
-                                                    <td>October 15th 2010</td>
-                                                    <td>March 30th 1982</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Raeann</td>
-                                                    <td>Haner</td>
-                                                    <td>Internal Medicine Nurse Practitioner</td>
-                                                    <td>November 28th 2013</td>
-                                                    <td>February 26th 1966</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>4</td>
-                                                    <td>Junie</td>
-                                                    <td>Landa</td>
-                                                    <td>Offbearer</td>
-                                                    <td>October 31st 2010</td>
-                                                    <td>March 29th 1966</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>5</td>
-                                                    <td>Solomon</td>
-                                                    <td>Bittinger</td>
-                                                    <td>Roller Skater</td>
-                                                    <td>December 29th 2011</td>
-                                                    <td>September 22nd 1964</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>6</td>
-                                                    <td>Bar</td>
-                                                    <td>Lewis</td>
-                                                    <td>Clown</td>
-                                                    <td>November 12th 2012</td>
-                                                    <td>August 4th 1991</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>7</td>
-                                                    <td>Usha</td>
-                                                    <td>Leak</td>
-                                                    <td>Ships Electronic Warfare Officer</td>
-                                                    <td>August 14th 2012</td>
-                                                    <td>November 20th 1979</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>8</td>
-                                                    <td>Lorriane</td>
-                                                    <td>Cooke</td>
-                                                    <td>Technical Services Librarian</td>
-                                                    <td>September 21st 2010</td>
-                                                    <td>April 7th 1969</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>9</td>
-                                                    <td>Lorriane</td>
-                                                    <td>Cooke</td>
-                                                    <td>Technical Services Librarian</td>
-                                                    <td>September 21st 2010</td>
-                                                    <td>April 7th 1969</td>
+                                                <tr th:each="cin : ${listCIN}">
+                                               	   <td th:text="${cin.id}"></td>
+                                               	   <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.numeroCIN}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nom}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.prenom}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateNaissance}+' à '+${cin.lieuNaissance}"></a></td>
+	                                               <!-- DATA HIDE -->
+	                                               <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.adresseActuelle}"></a></b></td>
+	                                               <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateDelivrance}+' à '+${cin.lieuDelivrance}"></a></b></td>
+	                                               <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nationalite}"></a></b></td>
+	                                               <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.fonction}+' à '+${cin.lieuTravail}"></a></b></td>
                                                 </tr>
                                             </tbody>
                                             <tfoot>
@@ -330,6 +275,7 @@
                                             </tfoot>
                                         </table>
                                     </div>
+                                   </div>
                                 </div>
                             </div>
                         </div>

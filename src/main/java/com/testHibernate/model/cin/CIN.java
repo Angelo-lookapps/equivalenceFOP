@@ -10,13 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 public class CIN {
 	
 	
 	public CIN(Long id, String nom, String prenom, Date dateNaissance, String lieuNaissance, String numeroCIN,
 			String adresseActuelle, Date dateDelivrance, String lieuDelivrance, String nationalite, String fonction,
-			String lieuTravail, String photo) {
+			String lieuTravail, byte[] photo) {
 		super();
 		this.setId(id);
 		this.setNom(nom);
@@ -74,8 +76,9 @@ public class CIN {
 	@NotNull(message = "CIN lieuTravail is required.")
 	private String lieuTravail;
 	
-	
-	private String photo;
+	@Lob
+	@Type(type="org.hibernate.type.BinaryType")
+	private byte[] photo;
 
 	public Long getId() {
 		return id;
@@ -173,11 +176,11 @@ public class CIN {
 		this.lieuTravail = lieuTravail;
 	}
 
-	public String getPhoto() {
+	public byte[] getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(String photo) {
+	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
 

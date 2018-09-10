@@ -19,18 +19,18 @@ import com.testHibernate.model.cin.CINForm;
 import com.testHibernate.service.CINService;
 
 @Controller
-public class EnregistrementController {
+public class CINController {
 	 private CINService cinService;
 	 
 	 @Autowired
-	 public void setProductService(CINService cinService) {
+	 public void setCINService(CINService cinService) {
         this.cinService = cinService;
 	 }
 	 
-	 @RequestMapping("/CIN/show/{id}")
+	 @RequestMapping("/cin/show/{id}")
 	 public String getCIN(@PathVariable String id, Model model){
 		 model.addAttribute("cin", cinService.getById(Long.valueOf(id)));
-		 return "pages/enregistrement/CIN/show";
+		 return "pages/enregistrement/showCIN";
 	 }
 	 
 	 @RequestMapping({"/CINList", "/CIN"})
@@ -40,6 +40,7 @@ public class EnregistrementController {
 	 }	
 	 @GetMapping("/newCIN")
 	 public String ajouterCIN(Model model) {
+		 model.addAttribute("listCIN", cinService.listAll());
 		 model.addAttribute("cinForm", new CINForm());
 		 return "pages/enregistrement/newCIN";		
 	 }
@@ -53,7 +54,13 @@ public class EnregistrementController {
 	
 		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm);
 
-		 return "redirect:CIN/show/" + savedCIN.getId();
+		 return "redirect:cin/show/" + savedCIN.getId();
+	 }
+	 
+	 @RequestMapping("/cin/delete/{id}")
+	 public String delete(@PathVariable String id){
+        cinService.delete(Long.valueOf(id));
+        return "redirect:/CINList";
 	 }
 	
 

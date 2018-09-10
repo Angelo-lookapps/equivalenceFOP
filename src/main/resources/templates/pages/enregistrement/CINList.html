@@ -64,114 +64,51 @@
 	                               </div>
 	                           </div>
 	                           <div class="panel-body">
+	                           	<div th:if="${not #lists.isEmpty(listCIN)}">
 	                               <div class="table-responsive">
-	                                   <table class="table table-bordered table-hover">
+	                                   <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+                                       <table id="example1" class="footable table table-bordered table-hover toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
 	                                       <thead>
 	                                           <tr>
-	                                               <th>Sel&egrave;ction</th>
 	                                               <th>ID </th>
-	                                               <th>Niveau </th>
-	                                               <th>Fili&egrave;re </th>
-	                                               <th>Option</th>
-	                                               <th>Ecole </th>
-	                                               <th>Region </th>
-	                                               <th>Anne&eacute; scolaire </th>
-	                                               <th>Mention </th>
+	                                               <th>Nom </th>
+	                                               <th>Pr&eacute;nom </th>
+	                                               <th>Date et lieu naissance</th>
+	                                               <th>Num&eacute;ro CIN</th>
+	                                               <th>Adresse </th>
+	                                               <th>Date et lieu de d&eacute;livrance </th>
+	                                               <th>Nationalit&eacute; </th>
+	                                               <th>Fonction et lieu de travail </th>
 	                                               <th>Mise &agrave; jour </th>
+	                                               
+	                                               <th data-hide="all">Photo d'identit&eacute;</th>
 	                                           </tr>
 	                                       </thead>
 	                                       <tbody>
-	                                           <tr>
-	                                               <td>
-	                                                   <div class="checkbox checkbox-success">
-	                                                       <input id="checkbox1" type="checkbox">
-	                                                       <label for="checkbox1"></label>
-	                                                   </div>
+	                                           <tr th:each="cin : ${listCIN}">
+	                                           
+	                                               <td th:text="${cin.id}"></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nom}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.prenom}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateNaissance}+' à '+${cin.lieuNaissance}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.numeroCIN}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.adresseActuelle}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateDelivrance}+' à '+${cin.lieuDelivrance}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nationalite}"></a></td>
+	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.fonction}+' à '+${cin.lieuTravail}"></a></td>
+                                                   
+                                                   <td>
+	                                               		<button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+	                                                   	<a th:href="'cin/delete/'+${cin.id}"><button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
 	                                               </td>
-	                                               <td>JS325</td>
-	                                               <td>Farzana Yasmin</td>
-	                                               <td><a href="http://adminpix.thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a073f2823240a2d272b232664292527">[email&#160;protected]</a></td>
-	                                               <td>30.05.1016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>Complete</td>
-	                                               <td>Complete</td>
-	                                               <td>$43</td>
-	                                               <td>
-	                                               		<button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Voir ses diplôme"><i class="glyphicon glyphicon-education" aria-hidden="true"></i></button>
-	                                                    <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-	                                                   	<button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-	                                               </td>
+	                                               
+                                                   <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.photo}"></a></b></td>
 	                                           </tr>
-	                                           <tr>
-	                                               <td>
-	                                                   <div class="checkbox checkbox-success">
-	                                                       <input id="checkbox2" type="checkbox">
-	                                                       <label for="checkbox2"></label>
-	                                                   </div>
-	                                               </td>
-	                                               <td>JS325</td>
-	                                               <td>Farzana Yasmin</td>
-	                                               <td><a href="http://adminpix.thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b5e1ddd0d8d0d8dcdbdcc6c1d0c7f5d2d8d4dcd99bd6dad8">[email&#160;protected]</a></td>
-	                                               <td>30.05.1016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>Complete</td>
-	                                               <td>Complete</td>
-	                                               <td>$43</td>
-	                                               <td>
-	                                                   <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Voir ses diplôme"><i class="glyphicon glyphicon-education" aria-hidden="true"></i></button>
-	                                                    <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-	                                                   	<button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                                   </td>
-	                                           </tr>
-	                                           <tr>
-	                                               <td>
-	                                                   <div class="checkbox checkbox-success">
-	                                                       <input id="checkbox1" type="checkbox">
-	                                                       <label for="checkbox1"></label>
-	                                                   </div>
-	                                               </td>
-	                                               <td>JS325</td>
-	                                               <td>Farzana Yasmin</td>
-	                                               <td><a href="http://adminpix.thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a073f2823240a2d272b232664292527">[email&#160;protected]</a></td>
-	                                               <td>30.05.1016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>Complete</td>
-	                                               <td>Complete</td>
-	                                               <td>$43</td>
-	                                               <td>
-	                                                   <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Voir ses diplôme"><i class="glyphicon glyphicon-education" aria-hidden="true"></i></button>
-	                                                    <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-	                                                   	<button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-	                                               </td>
-	                                           </tr>
-	                                           <tr>
-	                                               <td>
-	                                                   <div class="checkbox checkbox-success">
-	                                                       <input id="checkbox2" type="checkbox">
-	                                                       <label for="checkbox2"></label>
-	                                                   </div>
-	                                               </td>
-	                                               <td>JS325</td>
-	                                               <td>Farzana Yasmin</td>
-	                                               <td><a href="http://adminpix.thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b5e1ddd0d8d0d8dcdbdcc6c1d0c7f5d2d8d4dcd99bd6dad8">[email&#160;protected]</a></td>
-	                                               <td>30.05.1016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>Complete</td>
-	                                               <td>Complete</td>
-	                                               <td>$43</td>
-	                                               <td>
-	                                                   <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Voir ses diplôme"><i class="glyphicon glyphicon-education" aria-hidden="true"></i></button>
-	                                                    <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-	                                                   	<button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-	                                               </td>
-	                                           </tr>
+	                                          
 	                                       </tbody>
 	                                   </table>
 	                               </div>
+                               	</div>
 	                           </div>
 	                       </div>
 	                   	</div>

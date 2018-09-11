@@ -1,4 +1,4 @@
-package com.testHibernate.service;
+package com.testHibernate.service.cin;
 
 
 

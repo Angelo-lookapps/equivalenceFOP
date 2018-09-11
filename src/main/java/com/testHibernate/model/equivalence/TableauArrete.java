@@ -11,20 +11,24 @@ public class TableauArrete {
 	public TableauArrete() {
 		
 	}
-	
-	public TableauArrete(Long id, String titre, String organismePaysDelivrance, String cadre, String echelle,
-			String classementCategorie) {
+
+	public TableauArrete(Long id, Long idArreteEqRef, String titre, String organismePaysDelivrance, String cadre,
+			String echelle, String classementCategorie) {
 		super();
-		this.setId(id);
-		this.setTitre(titre);
-		this.setOrganismePaysDelivrance(organismePaysDelivrance);
-		this.setCadre(cadre);
-		this.setEchelle(echelle);
-		this.setClassementCategorie(classementCategorie);
+		this.id = id;
+		this.idArreteEqRef = idArreteEqRef;
+		this.titre = titre;
+		this.organismePaysDelivrance = organismePaysDelivrance;
+		this.cadre = cadre;
+		this.echelle = echelle;
+		this.classementCategorie = classementCategorie;
 	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	private Long idArreteEqRef;
 	
 	private String titre;
 	private String organismePaysDelivrance;
@@ -32,7 +36,13 @@ public class TableauArrete {
 	private String echelle;
 	private String classementCategorie;
 	
-	
+
+	public Long getIdArreteEqRef() {
+		return idArreteEqRef;
+	}
+	public void setIdArreteEqRef(Long idArreteEqRef) {
+		this.idArreteEqRef = idArreteEqRef;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -1,4 +1,4 @@
-package com.testHibernate.repo;
+package com.testHibernate.repo.cin;
 
 import org.springframework.data.repository.CrudRepository;
 

@@ -1,4 +1,4 @@
-package com.testHibernate.service;
+package com.testHibernate.service.cin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import com.testHibernate.converts.CINFormToCIN;
 import com.testHibernate.model.Product;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
-import com.testHibernate.repo.CINRepository;
+import com.testHibernate.repo.cin.CINRepository;
  
 @Service
 public class CINServiceImpl implements CINService {
@@ -20,7 +20,7 @@ public class CINServiceImpl implements CINService {
     
     
     @Autowired
-    public CINServiceImpl(com.testHibernate.repo.CINRepository cINRepository, CINFormToCIN cinFormToCin) {
+    public CINServiceImpl(com.testHibernate.repo.cin.CINRepository cINRepository, CINFormToCIN cinFormToCin) {
 		super();
 		CINRepository = cINRepository;
 		this.cinFormToCin = cinFormToCin;

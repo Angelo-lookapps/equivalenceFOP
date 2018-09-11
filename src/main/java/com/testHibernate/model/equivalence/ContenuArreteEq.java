@@ -1,6 +1,5 @@
 package com.testHibernate.model.equivalence;
-
-import java.sql.Blob;
+ 
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,17 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 
 @Entity
-public class ArreteEquivalence {
+public class ContenuArreteEq {
 	
 	
-	public ArreteEquivalence(Long id, Long idListesDiplome, Long idTableauArrete, Blob logoGauche, Blob logoCentre,
+	public ContenuArreteEq() {
+		super();
+	}
+	public ContenuArreteEq(Long id, Long idArreteEqRef, Byte[] logoGauche, Byte[] logoCentre,
 			String textBox1, String textBox2, String titre1, String acte, String titre2, String[] articles,
-			String textBox3, String nomMinistre, String textBox4, Long numero, String delivreeA, String titulaireDe,
-			String specialite) {
+			String textBox3, String nomMinistre, String textBox4) {
 		super();
 		this.setId(id);
-		this.setIdListesDiplome(idListesDiplome);
-		this.setIdTableauArrete(idTableauArrete);
+		this.setIdArreteEqRef(idArreteEqRef);
 		this.setLogoGauche(logoGauche);
 		this.setLogoCentre(logoCentre);
 		this.setTextBox1(textBox1);
@@ -31,24 +31,18 @@ public class ArreteEquivalence {
 		this.setTextBox3(textBox3);
 		this.setNomMinistre(nomMinistre);
 		this.setTextBox4(textBox4);
-		this.setNumero(numero);
-		this.setDelivreeA(delivreeA);
-		this.setTitulaireDe(titulaireDe);
-		this.setSpecialite(specialite);
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long idListesDiplome;
-	
-	private Long idTableauArrete;
+	private Long idArreteEqRef;
 		
 	@Lob
-	private Blob logoGauche ;
+	private Byte[] logoGauche ;
 	
 	@Lob
-	private Blob logoCentre ;
+	private Byte[] logoCentre ;
 	
 	private String textBox1 ;
 	private String textBox2 ;
@@ -59,40 +53,28 @@ public class ArreteEquivalence {
 	private String textBox3 ;
 	private String nomMinistre ;
 	private String textBox4 ;
-	private Long numero ;
-	private String delivreeA ;
-	private String titulaireDe ;
-	private String specialite ;
-	
-	
-	public Long getIdTableauArrete() {
-		return idTableauArrete;
-	}
-	public void setIdTableauArrete(Long idTableauArrete) {
-		this.idTableauArrete = idTableauArrete;
-	}
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getIdListesDiplome() {
-		return idListesDiplome;
+	public Long getIdArreteEqRef() {
+		return idArreteEqRef;
 	}
-	public void setIdListesDiplome(Long idListesDiplome) {
-		this.idListesDiplome = idListesDiplome;
+	public void setIdArreteEqRef(Long idArreteEqRef) {
+		this.idArreteEqRef = idArreteEqRef;
 	}
-	public Blob getLogoGauche() {
+	public Byte[] getLogoGauche() {
 		return logoGauche;
 	}
-	public void setLogoGauche(Blob logoGauche) {
+	public void setLogoGauche(Byte[] logoGauche) {
 		this.logoGauche = logoGauche;
 	}
-	public Blob getLogoCentre() {
+	public Byte[] getLogoCentre() {
 		return logoCentre;
 	}
-	public void setLogoCentre(Blob logoCentre) {
+	public void setLogoCentre(Byte[] logoCentre) {
 		this.logoCentre = logoCentre;
 	}
 	public String getTextBox1() {
@@ -149,30 +131,8 @@ public class ArreteEquivalence {
 	public void setTextBox4(String textBox4) {
 		this.textBox4 = textBox4;
 	}
-	public Long getNumero() {
-		return numero;
-	}
-	public void setNumero(Long numero) {
-		this.numero = numero;
-	}
-	public String getDelivreeA() {
-		return delivreeA;
-	}
-	public void setDelivreeA(String delivreeA) {
-		this.delivreeA = delivreeA;
-	}
-	public String getTitulaireDe() {
-		return titulaireDe;
-	}
-	public void setTitulaireDe(String titulaireDe) {
-		this.titulaireDe = titulaireDe;
-	}
-	public String getSpecialite() {
-		return specialite;
-	}
-	public void setSpecialite(String specialite) {
-		this.specialite = specialite;
-	}
+
 	
 	
+		
 }

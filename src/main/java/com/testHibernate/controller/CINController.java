@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -19,7 +20,7 @@ import com.testHibernate.model.Product;
 import com.testHibernate.model.ProductForm;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
-import com.testHibernate.service.CINService;
+import com.testHibernate.service.cin.CINService;
 
 @Controller
 public class CINController {
@@ -37,20 +38,20 @@ public class CINController {
         this.cinService = cinService;
 	 }
 	 
-	 @RequestMapping("/cin/show/{id}")
+	 @GetMapping("/cin/show/{id}")
 	 public String getCIN(@PathVariable String id, Model model){
 		 model.addAttribute("cin", cinService.getById(Long.valueOf(id)));
 		 System.out.println("GEGE");
 		 return "pages/enregistrement/showCIN";
 	 }
 	 
-	 @RequestMapping({"/CINList", "/CIN"})
+	 @GetMapping({"/CINList", "/CIN"})
 	 public String listCIN(Model model){
         model.addAttribute("listCIN", cinService.listAll());
         return "pages/enregistrement/CINList";
 	 }	
 	 
-	 @RequestMapping("cin/edit/{id}")
+	 @GetMapping("cin/edit/{id}")
 	 public String edit(@PathVariable String id, Model model){
         CIN cin = cinService.getById(Long.valueOf(id));
         CINForm cinForm = cinToCINForm.convert(cin);
@@ -67,7 +68,7 @@ public class CINController {
 		 return "pages/enregistrement/newCIN";		
 	 }
 	
-	 @RequestMapping(value = "/saveCIN", method = RequestMethod.POST)
+	 @PostMapping(value = "/saveCIN")
 	 public String saveOrUpdateCIN(@Valid  @ModelAttribute CINForm cinForm, BindingResult bindingResult){
 		 
 		 if(bindingResult.hasErrors()){
@@ -79,7 +80,7 @@ public class CINController {
 		 return "redirect:cin/show/" + savedCIN.getId();
 	 }
 	 
-	 @RequestMapping("/cin/delete/{id}")
+	 @GetMapping("/cin/delete/{id}")
 	 public String delete(@PathVariable String id){
         cinService.delete(Long.valueOf(id));
         return "redirect:/CINList";

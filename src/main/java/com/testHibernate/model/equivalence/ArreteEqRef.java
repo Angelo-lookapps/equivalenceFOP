@@ -14,9 +14,9 @@ public class ArreteEqRef {
 	
 	public ArreteEqRef(Long id, Long idListesDiplome, String anneeSortie) {
 		super();
-		this.id = id;
-		this.idListesDiplome = idListesDiplome;
-		this.anneeSortie = anneeSortie;
+		this.setId(id);
+		this.setIdListesDiplome(idListesDiplome);
+		this.setAnneeSortie(anneeSortie);
 	}
 
 	@Id

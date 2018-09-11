@@ -85,8 +85,7 @@
 	                                           </tr>
 	                                       </thead>
 	                                       <tbody>
-	                                           <tr th:each="cin : ${listCIN}">
-	                                           
+	                                           <tr th:each="cin : ${listCIN}">		                                           	
 	                                               <td th:text="${cin.id}"></td>
 	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nom}"></a></td>
 	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.prenom}"></a></td>
@@ -99,10 +98,11 @@
                                                    
                                                    <td>
 	                                               		<a th:href="'cin/edit/'+${cin.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
-	                                                   	<a th:href="'cin/delete/'+${cin.id}"><button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+	                                                   	<!--<a th:href="'cin/delete/'+${cin.id}">--><button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${cin.id}')|" ><i class="fa fa-trash-o" aria-hidden="true"></i></button><!-- </a> -->
 	                                               </td>
 	                                               
                                                    <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.photo}"></a></b></td>
+	                                          
 	                                           </tr>
 	                                          
 	                                       </tbody>
@@ -119,7 +119,16 @@
                 </div>
             </div>
        	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-        
+        <script>
+		    function goToDelete(id) {
+		        var txt;
+		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
+		        if (r == true) {
+		        	window.location.href = "/cin/delete/"+id;		            
+		        } 
+		       
+		    }	
+		</script>
         <!-- ./²wrapper -->
         <!-- START CORE PLUGINS -->
         <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
@@ -129,9 +138,7 @@
         <script src="assets/plugins/fastclick/fastclick.min.js"></script>
         <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
         <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
-        <!-- BootStrap WiZarD -->
-        <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
-        <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
+
         <!-- Footable Js -->
         <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
         <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>

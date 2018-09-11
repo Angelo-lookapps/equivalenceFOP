@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.CINFormToCIN;
-import com.testHibernate.model.Product;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
 import com.testHibernate.repo.cin.CINRepository;
@@ -15,38 +14,38 @@ import com.testHibernate.repo.cin.CINRepository;
 @Service
 public class CINServiceImpl implements CINService {
 
-    private CINRepository CINRepository;
+    private CINRepository cinRepository;
     private CINFormToCIN cinFormToCin;
     
     
     @Autowired
-    public CINServiceImpl(com.testHibernate.repo.cin.CINRepository cINRepository, CINFormToCIN cinFormToCin) {
+    public CINServiceImpl(com.testHibernate.repo.cin.CINRepository cinRepository, CINFormToCIN cinFormToCin) {
 		super();
-		CINRepository = cINRepository;
+		this.cinRepository = cinRepository;
 		this.cinFormToCin = cinFormToCin;
 	}
 
 	@Override
     public List<CIN> listAll() {
-        List<CIN> CINs = new ArrayList<>();
-        CINRepository.findAll().forEach(CINs::add); //fun with Java 8
-        return CINs;
+        List<CIN> cins = new ArrayList<>();
+        cinRepository.findAll().forEach(cins::add); //fun with Java 8
+        return cins;
     }
 
     @Override
     public CIN getById(Long id) {
-        return CINRepository.findById(id).orElse(null);
+        return cinRepository.findById(id).orElse(null);
     }
 
     @Override
-    public CIN saveOrUpdate(CIN CIN) {
-        CINRepository.save(CIN);
-        return CIN;
+    public CIN saveOrUpdate(CIN cin) {
+    	cinRepository.save(cin);
+        return cin;
     }
 
     @Override
     public void delete(Long id) {
-        CINRepository.deleteById(id);
+    	cinRepository.deleteById(id);
 
     }
 

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.testHibernate.converts.CINToCINForm;
 import com.testHibernate.converts.ProductToProductForm;
+import com.testHibernate.converts.cin.CINToCINForm;
 import com.testHibernate.model.Product;
 import com.testHibernate.model.ProductForm;
 import com.testHibernate.model.cin.CIN;

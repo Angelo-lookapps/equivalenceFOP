@@ -1,4 +1,4 @@
-package com.testHibernate.converts;
+package com.testHibernate.converts.cin;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

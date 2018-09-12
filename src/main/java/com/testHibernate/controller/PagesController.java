@@ -69,14 +69,7 @@ public class PagesController {
 	public String ajouterDemande() {
 		return "pages/enregistrement/newRequest";		
 	}
-	@GetMapping("/newDiploma")
-	public String ajouterDiplome() {
-		return "pages/enregistrement/newDiploma";		
-	}
-	@GetMapping("/diplomaList")
-	public String listDiplome() {
-		return "pages/enregistrement/diplomaList";		
-	}
+	
 	@GetMapping("/requestList")
 	public String listDemande() {
 		return "pages/enregistrement/requestList";		

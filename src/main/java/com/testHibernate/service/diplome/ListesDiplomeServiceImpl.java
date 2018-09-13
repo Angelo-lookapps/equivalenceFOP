@@ -78,28 +78,8 @@ public class ListesDiplomeServiceImpl implements ListesDiplomeService {
 
 	@Override
 	public List<ListesDiplome> getByNiveauDiplome(NiveauDiplome niveauDiplome) {
-		List<ListesDiplome> listNiveauDiplome = new ArrayList<>();
-		listesDiplomeRepository.findById(id).orElse(null)
-        niveauDiplomeRepository.findAll().forEach(listNiveauDiplome::add); //fun with Java 8
-        return listNiveauDiplome;
-	}
-	
-	public TypedQuery<Object> createQuery(String where){
-	   EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "byNiveauDiplome_JPA" );
-	   EntityManager entitymanager = emfactory.createEntityManager( );
-	   CriteriaBuilder criteriaBuilder = entitymanager.getCriteriaBuilder();
-	   CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
-	   Root<Employee> from = criteriaQuery.from(Employee.class);
-
-	   //select all records
-	   CriteriaQuery<Object> select = criteriaQuery.select(from);
-	   TypedQuery<Object> typedQuery = entitymanager.createQuery(select);
-	   List<Object> resultlist = typedQuery.getResultList();
-
-	   for(Object o:resultlist) {
-	      Employee e = (Employee)o;
-	      System.out.println("EID : " + e.getEid() + " Ename : " + e.getEname());
-	   }
+		
+        return null;
 	}
 
 }

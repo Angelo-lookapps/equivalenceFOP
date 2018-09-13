@@ -10,7 +10,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
 	@NamedQuery(
-		name = "NiveauDiplome.findAll", 
+		name = "NiveauDiplome.findAllNiveau", 
 		query = "SELECT * FROM NiveauDiplome"),
 	@NamedQuery(
 		name = "NiveauDiplome.findByCategorie", 

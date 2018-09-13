@@ -1,6 +1,5 @@
 package com.testHibernate.model.cin;
 
-import java.sql.Blob;
 import java.sql.Date;
 
 import javax.persistence.Entity;
@@ -8,13 +7,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(
+		name = CIN.FIND_ALL_CUSTOM, 
+		query = "SELECT * FROM CIN ORDER BY id ASC "),
+	@NamedQuery(
+		name = "CIN.findByNom", 
+		query = "SELECT c FROM CIN c WHERE c.nom = :nom ")
+})
 public class CIN {
-	
+	public static final String FIND_ALL_CUSTOM = "CIN.findAllCIN";
 	
 	public CIN(Long id, String nom, String prenom, Date dateNaissance, String lieuNaissance, String numeroCIN,
 			String adresseActuelle, Date dateDelivrance, String lieuDelivrance, String nationalite, String fonction,

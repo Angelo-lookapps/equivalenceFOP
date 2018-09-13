@@ -11,10 +11,10 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
 	@NamedQuery(
 		name = "NiveauDiplome.findAllNiveau", 
-		query = "SELECT * FROM NiveauDiplome"),
+		query = "SELECT nv FROM NiveauDiplome nv"),
 	@NamedQuery(
 		name = "NiveauDiplome.findByCategorie", 
-		query = "SELECT * FROM NiveauDiplome nd WHERE nd.categorie = :categorie ")
+		query = "SELECT nv FROM NiveauDiplome nv WHERE nv.categorie = :categorie ")
 })
 public class NiveauDiplome {
 	

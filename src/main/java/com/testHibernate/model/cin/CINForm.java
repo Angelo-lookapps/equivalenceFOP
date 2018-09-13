@@ -1,9 +1,7 @@
 package com.testHibernate.model.cin;
 
-import java.sql.Blob;
 import java.sql.Date;
 
-import org.hibernate.annotations.Type;
 
 public class CINForm {
 	private Long id;

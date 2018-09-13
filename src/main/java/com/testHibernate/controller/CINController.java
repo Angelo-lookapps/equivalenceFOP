@@ -6,18 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.testHibernate.converts.ProductToProductForm;
 import com.testHibernate.converts.cin.CINToCINForm;
-import com.testHibernate.model.Product;
-import com.testHibernate.model.ProductForm;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
 import com.testHibernate.service.cin.CINService;

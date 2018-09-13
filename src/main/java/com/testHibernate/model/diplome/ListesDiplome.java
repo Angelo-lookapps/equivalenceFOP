@@ -9,13 +9,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries({
-@NamedQuery(name = "ListesDiplome.findAll", query = "SELECT * FROM ListesDiplome"),
-@NamedQuery(name = "ListesDiplome.findById", query = "SELECT * FROM ListesDiplome ld WHERE ld.id = :idListesDiplome")})
 public class ListesDiplome {
 	
 	public ListesDiplome() {}
-	
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

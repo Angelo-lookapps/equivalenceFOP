@@ -13,7 +13,7 @@ import com.testHibernate.repo.cin.CINRepository;
  
 @Service
 public class CINServiceImpl implements CINService {
-
+	
     private CINRepository cinRepository;
     private CINFormToCIN cinFormToCin;
     
@@ -27,9 +27,9 @@ public class CINServiceImpl implements CINService {
 
 	@Override
     public List<CIN> listAll() {
-        List<CIN> cins = new ArrayList<>();
-        cinRepository.findAll().forEach(cins::add); //fun with Java 8
-        return cins;
+       List<CIN> cins = new ArrayList<>();
+       cinRepository.findAll().forEach(cins::add); //fun with Java 8
+       return cins;
     }
 
     @Override

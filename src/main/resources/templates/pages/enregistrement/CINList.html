@@ -115,6 +115,54 @@
 	                   	<div class="col-sm-2">
 	                   		<a href="/newDiploma"><button type="button" class="btn btn-primary w-md m-rb-5">Nouveau</button></a>
 	               		</div>
+               		  	<div class="col-sm-2">
+	                   		<a href="/test"><button type="button" class="btn btn-base w-md m-rb-5">Test</button></a>
+	               		</div>
+              		<div th:if="${not #lists.isEmpty(listCINByJPA)}">
+                              <div class="table-responsive">
+                                  <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+                                     <table id="example1" class="footable table table-bordered table-hover toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
+                                      <thead>
+                                          <tr>
+                                              <th>ID </th>
+                                              <th>Nom </th>
+                                              <th>Pr&eacute;nom </th>
+                                              <th>Date et lieu naissance</th>
+                                              <th>Num&eacute;ro CIN</th>
+                                              <th>Adresse </th>
+                                              <th>Date et lieu de d&eacute;livrance </th>
+                                              <th>Nationalit&eacute; </th>
+                                              <th>Fonction et lieu de travail </th>
+                                              <th>Mise &agrave; jour </th>
+                                              
+                                              <th data-hide="all">Photo d'identit&eacute;</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr th:each="cin : ${listCINByJPA}">		                                           	
+                                              <td th:text="${cin.id}"></td>
+                                              <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nom}"></a></td>
+                                              <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.prenom}"></a></td>
+                                              <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateNaissance}+' à '+${cin.lieuNaissance}"></a></td>
+                                              <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.numeroCIN}"></a></td>
+                                              <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.adresseActuelle}"></a></td>
+                                              <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateDelivrance}+' à '+${cin.lieuDelivrance}"></a></td>
+                                              <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nationalite}"></a></td>
+                                              <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.fonction}+' à '+${cin.lieuTravail}"></a></td>
+                                                 
+                                                 <td>
+                                              		<a th:href="'cin/edit/'+${cin.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                  	<!--<a th:href="'cin/delete/'+${cin.id}">--><button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${cin.id}')|" ><i class="fa fa-trash-o" aria-hidden="true"></i></button><!-- </a> -->
+                                              </td>
+                                              
+                                                 <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.photo}"></a></b></td>
+                                         
+                                          </tr>
+                                         
+                                      </tbody>
+                                  </table>
+                              </div>
+                          	</div>
 	           		</div>
                 </div>
             </div>

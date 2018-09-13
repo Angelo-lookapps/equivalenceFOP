@@ -9,17 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.Type;
 
 @Entity
-/*@NamedQueries({
+@NamedQueries({
 	@NamedQuery(
-		name = CIN.FIND_ALL_CUSTOM, 
-		query = "SELECT * FROM CIN ORDER BY id ASC "),
+		name = "CIN.findAllCIN", 
+		query = "SELECT ci FROM CIN as ci ORDER BY ci.id ASC "),
 	@NamedQuery(
 		name = "CIN.findByNom", 
 		query = "SELECT c FROM CIN c WHERE c.nom = :nom ")
-})*/
+})
 public class CIN {
 	
 	public CIN(Long id, String nom, String prenom, Date dateNaissance, String lieuNaissance, String numeroCIN,

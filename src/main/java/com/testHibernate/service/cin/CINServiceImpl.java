@@ -3,6 +3,10 @@ package com.testHibernate.service.cin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +21,8 @@ public class CINServiceImpl implements CINService {
     private CINRepository cinRepository;
     private CINFormToCIN cinFormToCin;
     
+    @PersistenceContext
+    private EntityManager em;
     
     @Autowired
     public CINServiceImpl(com.testHibernate.repo.cin.CINRepository cinRepository, CINFormToCIN cinFormToCin) {
@@ -55,6 +61,14 @@ public class CINServiceImpl implements CINService {
 
         System.out.println("Saved CIN Id: " + savedCin.getId());
         return savedCin;
+	}
+
+	@Override
+	public List<CIN> listAllCIN() {
+		TypedQuery<CIN> query = em.createNamedQuery("CIN.findAllCIN", CIN.class);
+		List<CIN> ret = query.getResultList();
+		return ret;
+		//return null;
 	}
 
 }

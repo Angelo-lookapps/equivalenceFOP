@@ -1,5 +1,7 @@
 package com.testHibernate.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +81,22 @@ public class CINController {
         cinService.delete(Long.valueOf(id));
         return "redirect:/CINList";
 	 }
-	
+	 
+	 @GetMapping("/test")
+	 public String test(Model model){
+		 List<CIN> ret = cinService.listAllCIN();
+		 model.addAttribute("listCINByJPA", ret);
+		 if(ret.size()!=0) {
+			 System.out.println("\n\n *******  TEST  *******");
+			 for(CIN cin : ret) {
+				 System.out.println(cin.getNom()+ " - " + cin.getPrenom() + " - " + cin.getDateNaissance());
+			 }
+			
+		 }
+		 else {
+			 System.out.println("EMPTY!!!!!!!");
+		 }
+		 return "pages/enregistrement/CINList";
+	 }
 
 }

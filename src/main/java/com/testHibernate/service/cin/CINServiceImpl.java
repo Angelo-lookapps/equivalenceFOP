@@ -64,8 +64,8 @@ public class CINServiceImpl implements CINService {
 	}
 
 	@Override
-	public List<CIN> listAllCIN() {
-		TypedQuery<CIN> query = em.createNamedQuery("CIN.findAllCIN", CIN.class);
+	public List<CIN> listAllCIN(String nom) {
+		TypedQuery<CIN> query = em.createNamedQuery("CIN.findAllCIN", CIN.class).setParameter("nom", nom);
 		List<CIN> ret = query.getResultList();
 		return ret;
 		//return null;

@@ -84,7 +84,7 @@ public class CINController {
 	 
 	 @GetMapping("/test")
 	 public String test(Model model){
-		 List<CIN> ret = cinService.listAllCIN();
+		 List<CIN> ret = cinService.listAllCIN("Angelo");
 		 model.addAttribute("listCINByJPA", ret);
 		 if(ret.size()!=0) {
 			 System.out.println("\n\n *******  TEST  *******");

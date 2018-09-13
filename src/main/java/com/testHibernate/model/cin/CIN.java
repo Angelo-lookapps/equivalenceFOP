@@ -17,7 +17,7 @@ import org.hibernate.annotations.Type;
 @NamedQueries({
 	@NamedQuery(
 		name = "CIN.findAllCIN", 
-		query = "SELECT ci FROM CIN as ci ORDER BY ci.id ASC "),
+		query = "SELECT ci FROM CIN as ci  WHERE ci.nom = :nom"),
 	@NamedQuery(
 		name = "CIN.findByNom", 
 		query = "SELECT c FROM CIN c WHERE c.nom = :nom ")

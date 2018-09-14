@@ -1,6 +1,8 @@
 package com.testHibernate.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -44,8 +46,10 @@ public class DiplomeController {
 	 @GetMapping({"/diplomaList", "/diplomes"})
 	 public String listDiplome(Model model){
 		List<ListesDiplome> ret = listesDiplomeService.listAll();
+		List<NiveauDiplome> nivaux = niveauDiplomeService.listAll();
         model.addAttribute("listesDiplome", ret);
-        System.out.println("\n ret.Length = " + ret.size());
+        model.addAttribute("niveaux", nivaux);
+       // System.out.println("\n ret.Length = " + ret.size());
         return "pages/enregistrement/diplomaList";
 	 }	
 	 
@@ -68,11 +72,21 @@ public class DiplomeController {
 	
 	 @GetMapping("/newDiploma")
 	 public String ajouterDiplome(Model model) {
-		 model.addAttribute("listDiploma", listesDiplomeService.listAll());
-		 String[] niveaux = {"I","II","III","IV","V","VI","VII","VIII","IX","X"}; 
-		 model.addAttribute("niveaux", niveaux);
-		 model.addAttribute("listNiveauDiploma", niveauDiplomeService.listAll());
+		 //initial
+		// Map<String, String> listNiveau = new HashMap<String, String>();
+		 
+		 //Get Lists
+		 List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
+		 List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
+		 
+		 //traitement	
+		 /*for(NiveauDiplome niv : niveauxDiploma) {
+			 listNiveau.put(niv.getCategorie(), value);
+		 }*/
+		 model.addAttribute("listDiploma", listeDiploma);
+		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
 		 model.addAttribute("listesDiplome", new ListesDiplomeForm());
+		 
 		 return "pages/enregistrement/newDiploma";		
 	 }
 	

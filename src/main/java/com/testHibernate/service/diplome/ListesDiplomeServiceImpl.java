@@ -4,17 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.diplome.DiplomeFormToDiplome;
+import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
 import com.testHibernate.model.diplome.NiveauDiplome;
@@ -28,6 +25,8 @@ public class ListesDiplomeServiceImpl implements ListesDiplomeService {
     private NiveauDiplomeRepository niveauDiplomeRepository;
     private DiplomeFormToDiplome listFormTolist;
     
+    @PersistenceContext
+    private EntityManager em;
     
     @Autowired
     public ListesDiplomeServiceImpl(ListesDiplomeRepository listesDiplomeRepository, NiveauDiplomeRepository niveauDiplomeRepository, DiplomeFormToDiplome listFormTolist) {
@@ -70,16 +69,17 @@ public class ListesDiplomeServiceImpl implements ListesDiplomeService {
 	}
 
 	@Override
-	public List<NiveauDiplome> listAllNiveau() {
-		List<NiveauDiplome> listNiveauDiplome = new ArrayList<>();
-        niveauDiplomeRepository.findAll().forEach(listNiveauDiplome::add); //fun with Java 8
-        return listNiveauDiplome;
-	}
-
-	@Override
 	public List<ListesDiplome> getByNiveauDiplome(NiveauDiplome niveauDiplome) {
 		
         return null;
+	}
+
+	@Override
+	public List<ListesDiplome> findDiplomeByCategorie(String categorie) {
+		TypedQuery<ListesDiplome> query = em.createNamedQuery("ListesDiplome.findDiplomeByCategorie", ListesDiplome.class).setParameter("categorie", categorie);
+		List<ListesDiplome> ret = query.getResultList();
+		return ret;
+		//return null;
 	}
 
 }

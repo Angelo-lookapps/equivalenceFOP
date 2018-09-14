@@ -10,10 +10,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
 	@NamedQuery(
-		name = "NiveauDiplome.findAllNiveau", 
-		query = "SELECT nv FROM NiveauDiplome nv"),
-	@NamedQuery(
-		name = "NiveauDiplome.findByCategorie", 
+		name = "NiveauDiplome.findNiveauByCategorie", 
 		query = "SELECT nv FROM NiveauDiplome nv WHERE nv.categorie = :categorie ")
 })
 public class NiveauDiplome {
@@ -28,7 +25,7 @@ public class NiveauDiplome {
 	}
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 	private String niveau;

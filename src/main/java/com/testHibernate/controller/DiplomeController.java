@@ -1,5 +1,7 @@
 package com.testHibernate.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +16,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
+import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.service.diplome.ListesDiplomeService;
+import com.testHibernate.service.diplome.NiveauDiplomeService;
 
 @Controller
 public class DiplomeController {
 	 private ListesDiplomeService listesDiplomeService;
-	 
+	 private NiveauDiplomeService niveauDiplomeService;
 	 private DiplomeToDiplomeForm diplomeToDiplomeForm;
 	 
 	 @Autowired
 	 public void setDiplomeToDiplomeForm(DiplomeToDiplomeForm diplomeToDiplomeForm) {
 		this.diplomeToDiplomeForm = diplomeToDiplomeForm;
+	 }
+	 
+	 @Autowired
+	 public void setNiveauDiplomeService(NiveauDiplomeService niveauDiplomeService) {
+		this.niveauDiplomeService = niveauDiplomeService;
 	 }
 
 	 @Autowired
@@ -34,10 +43,11 @@ public class DiplomeController {
 	 
 	 @GetMapping({"/diplomaList", "/diplomes"})
 	 public String listDiplome(Model model){
-        model.addAttribute("listesDiplome", listesDiplomeService.listAll());
+		List<ListesDiplome> ret = listesDiplomeService.listAll();
+        model.addAttribute("listesDiplome", ret);
+        System.out.println("\n ret.Length = " + ret.size());
         return "pages/enregistrement/diplomaList";
 	 }	
-	 
 	 
 	 @GetMapping("/diploma/show/{id}")
 	 public String getDiploma(@PathVariable String id, Model model){
@@ -61,11 +71,15 @@ public class DiplomeController {
 		 model.addAttribute("listDiploma", listesDiplomeService.listAll());
 		 String[] niveaux = {"I","II","III","IV","V","VI","VII","VIII","IX","X"}; 
 		 model.addAttribute("niveaux", niveaux);
-		 model.addAttribute("listNiveauDiploma", listesDiplomeService.listAllNiveau());
+		 model.addAttribute("listNiveauDiploma", niveauDiplomeService.listAll());
 		 model.addAttribute("listesDiplome", new ListesDiplomeForm());
 		 return "pages/enregistrement/newDiploma";		
 	 }
 	
+	 public List<NiveauDiplome> getNiveauByCateg(String categ){
+		 return this.niveauDiplomeService.findNiveauByCategorie(categ);
+	 }
+	 
 	 @PostMapping(value = "/saveDiploma")
 	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, BindingResult bindingResult){
 		 

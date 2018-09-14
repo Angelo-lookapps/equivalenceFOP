@@ -6,9 +6,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.NamedQuery; 
 
 @Entity
+@NamedQueries({
+	@NamedQuery(
+		name = "ListesDiplome.findDiplomeByCategorie", 
+		query = "SELECT diplome FROM ListesDiplome diplome"
+				+ " JOIN NiveauDiplome nv ON diplome.niveauDiplome.id = nv.id WHERE diplome.niveauDiplome.categorie = :categorie ")
+})
 public class ListesDiplome {
 	
 	public ListesDiplome() {}
@@ -18,7 +24,6 @@ public class ListesDiplome {
     private Long id;
 	
 	private String filiere;
-	private String mention;
 	private String option;
 	private String ecole;
 	
@@ -35,14 +40,6 @@ public class ListesDiplome {
 
 	public void setFiliere(String filiere) {
 		this.filiere = filiere;
-	}
-
-	public String getMention() {
-		return mention;
-	}
-
-	public void setMention(String mention) {
-		this.mention = mention;
 	}
 
 	public String getOption() {

@@ -90,8 +90,7 @@ public class CINController {
 			 System.out.println("\n\n *******  TEST  *******");
 			 for(CIN cin : ret) {
 				 System.out.println(cin.getNom()+ " - " + cin.getPrenom() + " - " + cin.getDateNaissance());
-			 }
-			
+			 }			
 		 }
 		 else {
 			 System.out.println("EMPTY!!!!!!!");

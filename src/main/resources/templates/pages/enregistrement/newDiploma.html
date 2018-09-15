@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
  <meta charset="utf-8">
+ <base href="http://localhost:8080/newDiploma" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -82,7 +83,7 @@
 		                	   	<div class="form-group row">
                                     <label for="ecole" class="col-sm-3 col-form-label">Ecole</label>
                                     <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <input class="form-control" th:field="*{ecole}" placeholder="Ecole..." id="ecole">
+                                        <input class="form-control" th:field="*{ecole}" placeholder="Le nom de l'école . . ." id="ecole">
                                     </div>
                                     <span class="help-block">
 							             <ul>
@@ -94,7 +95,7 @@
                                 <div class="form-group row">
                                     <label for="filiere" class="col-sm-3 col-form-label">Fili&egrave;re</label>
                                     <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <input class="form-control" th:field="*{filiere}" placeholder="Filière..." id="filiere">
+                                        <input class="form-control" th:field="*{filiere}" placeholder="le filière associé . . ." id="filiere">
                                     </div>
                                     <span class="help-block">
 							             <ul>
@@ -105,7 +106,7 @@
                                 <div class="form-group row">
                                     <label for="option" class="col-sm-3 col-form-label">Option</label>
                                     <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <input class="form-control" th:field="*{option}" placeholder="Option..." id="option">
+                                        <input class="form-control" th:field="*{option}" placeholder="Option concernée . . ." id="option">
                                     </div>
                                     <span class="help-block">
 							             <ul>
@@ -157,9 +158,9 @@
                                             <tbody>
                                                 <tr th:each="diploma : ${listDiploma}">
                                                	   <td th:text="${diploma.id}"></td>
-	                                               <td><a th:href="'diploma/show/'+${diploma.id}" th:text="${diploma.filiere}"></a></td>
-	                                               <td><a th:href="'diploma/show/'+${diploma.id}" th:text="${diploma.option}"></a></td>
-	                                               <td><a th:href="'diploma/show/'+${diploma.id}" th:text="${diploma.ecole}"></a></td>
+	                                               <td><a th:href="'/showDiploma/'+${diploma.id}" th:text="${diploma.filiere}"></a></td>
+	                                               <td><a th:href="'/showDiploma/'+${diploma.id}" th:text="${diploma.option}"></a></td>
+	                                               <td><a th:href="'/showDiploma/'+${diploma.id}" th:text="${diploma.ecole}"></a></td>
                                               	</tr>
                                             </tbody>
                                             <tfoot>

@@ -2,11 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
  <meta charset="utf-8">
+ <base href="http://localhost:8080/showCIN" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>CIN - Administration Equivalence FOP(67Ha)</title>
-        <link rel="shortcut icon" th:href="@{/resources/static/assets/dist/img/favicon.png}" type="image/x-icon">
+        <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
     
         <script>
             WebFont.load({
@@ -17,11 +18,11 @@
             });
         </script>
         <!-- START GLOBAL MANDATORY STYLE -->
-        <link th:href="@{/resources/static/assets/dist/css/base.css}" rel="stylesheet" type="text/css">
+        <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
         <!-- START PAGE LABEL PLUGINS --> 
 
         <!-- START THEME LAYOUT STYLE -->
-        <link th:href="@{/resources/static/assets/dist/css/style.css}" rel="stylesheet" type="text/css"/>
+        <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css"/>
        
 <title>Fiche CIN</title>
 </head>
@@ -60,66 +61,68 @@
                                     <h4>Mon CIN</h4>
                                 </div>
                             </div>
-                            <fieldset>
-							<legend>Informations personnels :</legend>
-                            	<h4 class="m-t-0">Veuillez informer les champs suivant:</h4>
-                                <div class="form-group">
-                                    <label class="sr-only" for="nom">Nom</label>
-                                    <p th:text="${cin.nom}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="prenom">Pr&eacute;nom</label>
-                                    <p th:text="*{cin.prenom}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="photo">Photo d'identit&eacute;</label>
-                                    <p th:text="*{cin.photo}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="dateNaissance">Date de naissance</label>
-                                    <p th:text="*{cin.dateNaissance}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="lieuNaissance">&agrave;</label>
-                                    <p th:text="*{cin.lieuNaissance}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-last-name">N° CIN</label>
-                                    <p th:text="*{cin.numeroCIN}" class="form-control" >
-                                </div>
-                        	</fieldset>
+                            <div class="panel-body">
+	                            <fieldset>
+								<legend>Informations personnels :</legend>
+	                            	<h4 class="m-t-0">Veuillez informer les champs suivant:</h4>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="nom">Nom</label>
+	                                    <p th:text="${cin.nom}" class="form-control" >
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="prenom">Pr&eacute;nom</label>
+	                                    <p th:text="*{cin.prenom}" class="form-control" >
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="photo">Photo d'identit&eacute;</label>
+	                                    <p th:text="*{cin.photo}" class="form-control">
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="dateNaissance">Date de naissance</label>
+	                                    <p th:text="*{cin.dateNaissance}" class="form-control" >
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="lieuNaissance">&agrave;</label>
+	                                    <p th:text="*{cin.lieuNaissance}" class="form-control" >
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="f1-last-name">N° CIN</label>
+	                                    <p th:text="*{cin.numeroCIN}" class="form-control" >
+	                                </div>
+	                        	</fieldset>
                         	
-                        	<fieldset>
-							<legend>Localisation :</legend>
-                                <div class="form-group">
-                                    <label class="sr-only" for="adresseActuelle">adresseActuelle</label>
-                                    <p th:text="${cin.adresseActuelle}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="dateDelivrance">dateDelivrance</label>
-                                    <p th:text="*{cin.dateDelivrance}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="lieuDelivrance">lieuDelivrance</label>
-                                    <p th:text="*{cin.lieuDelivrance}" class="form-control">
-                                </div>
-                        	</fieldset>
+	                        	<fieldset>
+								<legend>Localisation :</legend>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="adresseActuelle">adresseActuelle</label>
+	                                    <p th:text="${cin.adresseActuelle}" class="form-control" >
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="dateDelivrance">dateDelivrance</label>
+	                                    <p th:text="*{cin.dateDelivrance}" class="form-control" >
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="lieuDelivrance">lieuDelivrance</label>
+	                                    <p th:text="*{cin.lieuDelivrance}" class="form-control">
+	                                </div>
+	                        	</fieldset>
                         	
-                        	<fieldset>
-							<legend>Information travail :</legend>
-                                <div class="form-group">
-                                    <label class="sr-only" for="adresseActuelle">adresseActuelle</label>
-                                    <p th:text="${cin.nationalite}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="fonction">fonction</label>
-                                    <p th:text="*{cin.fonction}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="lieuTravail">lieuTravail</label>
-                                    <p th:text="*{cin.lieuTravail}" class="form-control">
-                                </div>
-                        	</fieldset>
+	                        	<fieldset>
+								<legend>Information travail :</legend>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="adresseActuelle">adresseActuelle</label>
+	                                    <p th:text="${cin.nationalite}" class="form-control" >
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="fonction">fonction</label>
+	                                    <p th:text="*{cin.fonction}" class="form-control" >
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="sr-only" for="lieuTravail">lieuTravail</label>
+	                                    <p th:text="*{cin.lieuTravail}" class="form-control">
+	                                </div>
+	                        	</fieldset>
+                        	</div>
                         </div>
                     </div>
                    <div class="col-sm-2">

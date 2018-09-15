@@ -65,6 +65,10 @@ public class DiplomeController {
         ListesDiplome liste = listesDiplomeService.getById(Long.valueOf(id));
         ListesDiplomeForm listesDiplome = diplomeToDiplomeForm.convert(liste);
 
+		List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
+        List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
+        model.addAttribute("listNiveauDiploma", niveauxDiploma);
+        model.addAttribute("listDiploma", listeDiploma);
         model.addAttribute("listesDiplome", listesDiplome);
         model.addAttribute("isEdit", "1");
         return "pages/enregistrement/newDiploma";

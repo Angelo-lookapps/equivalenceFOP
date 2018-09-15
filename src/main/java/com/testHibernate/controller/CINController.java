@@ -51,7 +51,8 @@ public class CINController {
 	 public String edit(@PathVariable String id, Model model){
         CIN cin = cinService.getById(Long.valueOf(id));
         CINForm cinForm = cinToCINForm.convert(cin);
-
+        
+        model.addAttribute("listCIN", cinService.listAll());
         model.addAttribute("cinForm", cinForm);
         model.addAttribute("isEdit", "1");
         return "pages/enregistrement/newCIN";

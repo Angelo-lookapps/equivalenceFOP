@@ -53,85 +53,151 @@
                     </div> <!-- /. Content Header (Page header) -->
                  
                     <div class="row">
-                    <!-- Textual inputs -->
-                    <div class="col-sm-10">
-                        <div class="panel panel-bd lobidrag">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    <h4>Mon CIN</h4>
-                                </div>
-                            </div>
-                            <div class="panel-body">
-	                            <fieldset>
-								<legend>Informations personnels :</legend>
-	                            	<h4 class="m-t-0">Veuillez informer les champs suivant:</h4>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="nom">Nom</label>
-	                                    <p th:text="${cin.nom}" class="form-control" >
+	                    <!-- Textual inputs -->
+	                    <div class="col-sm-8">
+	                        <div class="panel panel-bd lobidrag">
+	                            <div class="panel-heading">
+	                                <div class="panel-title">
+	                                    <h4>Informations personnels</h4>
 	                                </div>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="prenom">Pr&eacute;nom</label>
-	                                    <p th:text="*{cin.prenom}" class="form-control" >
+	                            </div>
+	                                                      	
+                           		<div class="panel-body">
+                                   	<div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Informations personnels :</th>
+                                                    <th> </th>
+                                                   	<th> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            	<tr>	
+                                           			
+				                                    <th>Nom  </th>
+				                                    <td th:text="${cin.nom}"></td>
+				                                </tr>
+				                                <tr>
+			                                		
+				                                    <th>Pr&eacute;nom  </th>
+				                                    <td th:text="*{cin.prenom}"></td>
+					                             </tr>
+					                             <tr>
+					                             	
+				                                    <th>Photo r&eacute;f  </th>
+				                                    <td th:text="*{cin.photo}"></td>
+					                             </tr>
+					                             <tr>
+				                                    
+				                                    <th>Date de naissance </th>
+				                                    <td th:text="*{cin.dateNaissance}" ></td>
+					                             </tr>
+					                             <tr>
+				                                    
+				                                    <th>Lieu de naissance </th>
+				                                    <td th:text="*{cin.lieuNaissance}" ></td>
+					                             </tr>
+			                                     <tr>
+				                                    
+				                                    <th>N° CIN </th>
+				                                    <td th:text="*{cin.numeroCIN}" ></td>
+					                             </tr> 
+					                               
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>    
+	                        </div>
+	                     </div>
+	                     <div class="col-sm-2">
+	                  		<a href="/CINList"><button type="button" class="btn btn-primary w-md m-rb-5">Revenir</button></a>
+	               		 	<a th:href="'cin/edit/'+${cin.id}"><button type="button" class="btn btn-base w-md m-rb-5">Mettre &agrave; jour</button></a>
+	               		 </div>
+	               		 
+	               		 <div class="col-sm-8">
+	                        <div class="panel panel-bd lobidrag">
+	                            <div class="panel-heading">
+	                                <div class="panel-title">
+	                                    <h4>Localisation</h4>
 	                                </div>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="photo">Photo d'identit&eacute;</label>
-	                                    <p th:text="*{cin.photo}" class="form-control">
+	                            </div>           
+		                        	<div class="panel-body">
+	                                   	<div class="table-responsive">
+	                                        <table class="table table-striped">
+	                                            <thead>
+	                                                <tr>
+	                                                    <th>Localisation :</th>
+	                                                    <th> </th>
+	                                                   	<th> </th>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody>
+	                                            	<tr>	
+	                                           			
+					                                    <th>Adresse actuelle  </th>
+					                                    <td th:text="${cin.adresseActuelle}"></td>
+					                                </tr>
+					                                <tr>
+				                                		
+					                                    <th>Date de D&eacute;livrance  </th>
+					                                    <td th:text="*{cin.dateDelivrance}"></td>
+						                             </tr>
+						                             <tr>
+						                             	
+					                                    <th>Lieu de d&eacute;livrance  </th>
+					                                    <td th:text="*{cin.lieuDelivrance}"></td>
+						                             </tr>
+	                                            </tbody>
+	                                        </table>
+	                                    </div>
 	                                </div>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="dateNaissance">Date de naissance</label>
-	                                    <p th:text="*{cin.dateNaissance}" class="form-control" >
+	  	                       	 </div>
+	  	                   </div>
+	                     <div class="col-sm-8">
+	                        <div class="panel panel-bd lobidrag">
+	                            <div class="panel-heading">
+	                                <div class="panel-title">
+	                                    <h4>Information travail </h4>
 	                                </div>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="lieuNaissance">&agrave;</label>
-	                                    <p th:text="*{cin.lieuNaissance}" class="form-control" >
+	                            </div>           
+		                        	<div class="panel-body">
+	                                   	<div class="table-responsive">
+	                                        <table class="table table-striped">
+	                                            <thead>
+	                                                <tr>
+	                                                    <th>Information travail :</th>
+	                                                    <th> </th>
+	                                                   	
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody>
+	                                            	<tr>	
+	                                           			
+					                                    <th>Nationalit&eacute;  </th>
+					                                    <td th:text="${cin.nationalite}"></td>
+					                                </tr>
+					                                <tr>
+				                                		
+					                                    <th>Fonction </th>
+					                                    <td th:text="*{cin.fonction}"></td>
+						                             </tr>
+						                             <tr>
+						                             	
+					                                    <th>Lieu travail  </th>
+					                                    <td th:text="*{cin.lieuTravail}"></td>
+						                             </tr>
+	                                            </tbody>
+	                                        </table>
+	                                    </div>
 	                                </div>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="f1-last-name">N° CIN</label>
-	                                    <p th:text="*{cin.numeroCIN}" class="form-control" >
-	                                </div>
-	                        	</fieldset>
-                        	
-	                        	<fieldset>
-								<legend>Localisation :</legend>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="adresseActuelle">adresseActuelle</label>
-	                                    <p th:text="${cin.adresseActuelle}" class="form-control" >
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="dateDelivrance">dateDelivrance</label>
-	                                    <p th:text="*{cin.dateDelivrance}" class="form-control" >
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="lieuDelivrance">lieuDelivrance</label>
-	                                    <p th:text="*{cin.lieuDelivrance}" class="form-control">
-	                                </div>
-	                        	</fieldset>
-                        	
-	                        	<fieldset>
-								<legend>Information travail :</legend>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="adresseActuelle">adresseActuelle</label>
-	                                    <p th:text="${cin.nationalite}" class="form-control" >
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="fonction">fonction</label>
-	                                    <p th:text="*{cin.fonction}" class="form-control" >
-	                                </div>
-	                                <div class="form-group">
-	                                    <label class="sr-only" for="lieuTravail">lieuTravail</label>
-	                                    <p th:text="*{cin.lieuTravail}" class="form-control">
-	                                </div>
-	                        	</fieldset>
-                        	</div>
-                        </div>
-                    </div>
-                   <div class="col-sm-2">
-                   		<a href="/CINList"><button type="button" class="btn btn-primary w-md m-rb-5">Revenir</button></a>
-               		</div>
-                </div>
-                </div>
-            </div>
-       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+	                       	 </div>
+	                     </div>
+	                      	
+	          		 </div>
+                 </div>		<!-- CONTENT -->
+              </div>	<!-- WRAPPER -->
+      	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
         
         <!-- ./²wrapper -->
         <!-- START CORE PLUGINS -->

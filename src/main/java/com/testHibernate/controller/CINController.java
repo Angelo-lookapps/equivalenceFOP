@@ -37,7 +37,7 @@ public class CINController {
 	 @GetMapping("/cin/show/{id}")
 	 public String getCIN(@PathVariable String id, Model model){
 		 model.addAttribute("cin", cinService.getById(Long.valueOf(id)));
-		 System.out.println("GEGE");
+		
 		 return "pages/enregistrement/showCIN";
 	 }
 	 

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
  <meta charset="utf-8">
- <base href="http://localhost:8080/" />
+ <base href="http://localhost:8080/showDiploma" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -54,43 +54,52 @@
                  
                     <div class="row">
                     <!-- Textual inputs -->
-                    <div class="col-sm-10">
-                        <div class="panel panel-bd lobidrag">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    <h4>Ce Diplome</h4>
-                                </div>
-                            </div>
-                            <fieldset>
-							<legend>Informations sur le diplome :</legend>
-                            	<h4 class="m-t-0">Veuillez informer les champs suivant:</h4>
-                                <div class="form-group">
-                                    <label class="sr-only" for="id">ID</label>
-                                    <p th:text="*{diploma.id}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="ecole">Ecole</label>
-                                    <p th:text="*{diploma.ecole}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="filiere">Fili&egrave;re</label>
-                                    <p th:text="*{diploma.filiere}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="option">Option</label>
-                                    <p th:text="*{diploma.option}" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="niveauDiplome">Niveau</label>
-                                    <p th:text="*{diploma.niveauDiplome.niveau} + ' | Categorie : ' + *{diploma.niveauDiplome.categorie}" class="form-control" >
-                                </div>
-                             
-                        	</fieldset>
-                        </div>
+                    <div class="col-sm-8">
+	                        <div class="panel panel-bd lobidrag">
+	                            <div class="panel-heading">
+	                                <div class="panel-title">
+	                                    <h4>Informations sur le diplome</h4>
+	                                </div>
+	                            </div>
+	                                                      	
+                           		<div class="panel-body">
+                                   	<div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Informations sur le diplome :</th>
+                                                    <th> </th>
+                                                   	<th> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            	<tr>
+				                                    <th>Ecole  </th>
+				                                    <td th:text="${diploma.ecole}"></td>
+				                                </tr>
+				                                <tr>
+				                                    <th>Fili&egrave;re  </th>
+				                                    <td th:text="*{diploma.filiere}"></td>
+					                             </tr>
+					                             <tr>
+				                                    <th>Option  </th>
+				                                    <td th:text="*{diploma.option}"></td>
+					                             </tr>
+					                             <tr>
+				                                    <th>Niveau + categorie </th>
+				                                    <td th:text="*{diploma.niveauDiplome.niveau} + ' | Categorie : ' + *{diploma.niveauDiplome.categorie}" ></td>
+					                             </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>    
+	                        </div>
+	                     </div>
+	                     <div class="col-sm-2">
+	                  		<a href="/diplomaList"><button type="button" class="btn btn-primary w-md m-rb-5">Revenir</button></a>
+	               		 	<a th:href="'/editDiploma/'+${diploma.id}"><button type="button" class="btn btn-base w-md m-rb-5">Mettre &agrave; jour</button></a>
+	               		 </div>
                     </div>
-                   <div class="col-sm-2">
-                   		<a href="/diplomaList"><button type="button" class="btn btn-primary w-md m-rb-5">Revenir</button></a>
-               		</div>
                 </div>
                 </div>
             </div>

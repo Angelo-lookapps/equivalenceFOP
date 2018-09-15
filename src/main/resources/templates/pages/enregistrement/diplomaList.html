@@ -69,14 +69,7 @@
 	                                   <h4>Liste des Dipl&ocirc;mes</h4>
 	                               </div>
 	                           </div>
-	                           <div class="panel-body">
-		                           <!-- Inline form -->
-	                                 <form class="form-inline">
-	                                     <div class="form-group"><label for="exampleInputName2">Name</label> <input class="form-control" id="exampleInputName2" placeholder="Jane Doe" type="text"></div>
-	                                     <div class="form-group"><label for="exampleInputEmail2">Email</label> <input class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com" type="email"></div>
-	                                 </form>
-	                                 <hr/>
-	                                 
+	                           <div class="panel-body">	                                 
 	                               <div th:if="${not #lists.isEmpty(listesDiplome)}">
 		                               <div class="table-responsive">
 		                                   <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
@@ -85,27 +78,29 @@
 		                                       <thead>
 		                                           <tr>
 		                                               <th>ID </th>
-		                                               <th>Fili&egrave;re </th>
-		                                               <th>Option</th>
 		                                               <th>Ecole </th>
+		                                               <th>Fili&egrave;re </th>
+		                                               <th>Option</th>		                                               
+		                                               <th>Mise &agrave; jour </th>
+		                                               
 		                                               <th data-hide="all">Niveau du dipl&ocirc;me</th>
 		                                               <th data-hide="all">Categorie </th>
-		                                               <th>Mise &agrave; jour </th>
 		                                           </tr>
 		                                       </thead>
 		                                       <tbody>
 		                                           <tr th:each="diploma : ${listesDiplome}">		                                           	
 		                                               <td th:text="${diploma.id}"></td>
-		                                               <td><a th:href="'diploma/show/'+${diploma.id}" th:text="${diploma.filiere}"></a></td>
-		                                               <td><a th:href="'diploma/show/'+${diploma.id}" th:text="${diploma.option}"></a></td>
-		                                               <td><a th:href="'diploma/show/'+${diploma.id}" th:text="${diploma.ecole}"></a></td>
-		                                               
-	                                             	   <!-- <td><b><a th:href="'diploma/show/'+${diploma.id}" th:text="${diploma.niveauDiplome.niveau}"></a></b></td>
-	                                                   <td><b><a th:href="'diploma/show/'+${diploma.id}" th:text="${diploma.niveauDiplome.categorie}"></a></b></td>-->
+		                                               <td><a th:href="'/showDiploma/'+${diploma.id}" th:text="${diploma.filiere}"></a></td>
+		                                               <td><a th:href="'/showDiploma/'+${diploma.id}" th:text="${diploma.option}"></a></td>
+		                                               <td><a th:href="'/showDiploma/'+${diploma.id}" th:text="${diploma.ecole}"></a></td>
+		                                                                              	                   
                                  	                   <td> 
-		                                               		<a th:href="'diploma/edit/'+${diploma.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
-        <!--<a th:href="'diploma/delete/'+${diploma.id}">--><button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${diploma.id}')|" ><i class="fa fa-trash-o" aria-hidden="true"></i></button><!-- </a> -->
+		                                               		<a th:href="'/editDiploma/'+${diploma.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+      														<button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${diploma.id}')|" ><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 		                                               </td>
+		                                                
+	                                                  <td><b><a th:href="'/showDiploma/'+${diploma.id}" th:text="*{diploma.niveauDiplome.niveau}"></a></b></td>
+	                                                  <td><b><a th:href="'/showDiploma/'+${diploma.id}" th:text="*{diploma.niveauDiplome.categorie}"></a></b></td> 
 		                                             
 		                                           </tr>
 		                                          
@@ -180,6 +175,9 @@
         <script src="assets/plugins/jquery.sumoselect/jquery.sumoselect.min.js"></script>
         <script src="assets/plugins/jquery.sumoselect/sumoselect-active.js"></script>
       
+        <!-- Footable Js -->
+        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
         <!-- START THEME LABEL SCRIPT -->
         <script src="assets/dist/js/theme.js"></script>
 	</body>

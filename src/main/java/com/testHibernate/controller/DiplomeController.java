@@ -53,19 +53,19 @@ public class DiplomeController {
         return "pages/enregistrement/diplomaList";
 	 }	
 	 
-	 @GetMapping("/diploma/show/{id}")
+	 @GetMapping("/showDiploma/{id}")
 	 public String getDiploma(@PathVariable String id, Model model){
 		 model.addAttribute("diploma", listesDiplomeService.getById(Long.valueOf(id)));
-		 System.out.println("GEGE");
+		// System.out.println("GEGE");
 		 return "pages/enregistrement/showDiploma";
 	 }
 
-	 @GetMapping("diploma/edit/{id}")
+	 @GetMapping("/editDiploma/{id}")
 	 public String edit(@PathVariable String id, Model model){
-        ListesDiplome cin = listesDiplomeService.getById(Long.valueOf(id));
-        ListesDiplomeForm listesDiplomeForm = diplomeToDiplomeForm.convert(cin);
+        ListesDiplome liste = listesDiplomeService.getById(Long.valueOf(id));
+        ListesDiplomeForm listesDiplome = diplomeToDiplomeForm.convert(liste);
 
-        model.addAttribute("listesDiplomeForm", listesDiplomeForm);
+        model.addAttribute("listesDiplome", listesDiplome);
         model.addAttribute("isEdit", "1");
         return "pages/enregistrement/newDiploma";
 	 }
@@ -100,10 +100,11 @@ public class DiplomeController {
 		 if(bindingResult.hasErrors()){
 			 return "pages/enregistrement/newDiploma";
 		 }
+		 
 	
 		 ListesDiplome listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
 
-		 return "redirect:diploma/show/" + listesSaved.getId();
+		 return "redirect:/showDiploma/" + listesSaved.getId();
 	 }
 	 
 	@GetMapping("/diploma/delete/{id}")

@@ -7,16 +7,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 
-@Entity
-public class FicheDemandeDetail {
+public class FicheDemandeDetailForm {
 	
-	public FicheDemandeDetail () {
+	public FicheDemandeDetailForm () {
 		
 	}
 
-	public FicheDemandeDetail(Long id, FicheDemande ficheDemande, String anneeDeb, String anneeFin, String mention,
+	public FicheDemandeDetailForm(Long id, FicheDemande ficheDemande, String anneeDeb, String anneeFin, String mention,
 			Blob image) {
 		super();
 		this.id = id;
@@ -27,18 +25,11 @@ public class FicheDemandeDetail {
 		this.image = image;
 	}
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-	@ManyToOne
 	private FicheDemande ficheDemande;
-	
 	private String anneeDeb;
 	private String anneeFin;
 	private String mention;
-
-	@Lob
 	private Blob image;
 
 	public Long getId() {

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+ <meta charset="utf-8">
+ <base href="http://localhost:8080/showRequest" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Demande d'&eacute;quivalence - Administration Equivalence FOP(67Ha)</title>
+        <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
+    
+        <script>
+            WebFont.load({
+                google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
+                active: function () {
+                    sessionStorage.fonts = true;
+                }
+            });
+        </script>
+        <!-- START GLOBAL MANDATORY STYLE -->
+        <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+        <!-- START PAGE LABEL PLUGINS --> 
+
+        <!-- START THEME LAYOUT STYLE -->
+        <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css"/>
+       
+<title>Fiche Demande</title>
+</head>
+<body class="hold-transition fixed sidebar-mini">
+        
+        
+        <!-- Site wrapper -->
+        <!-- Content Wrapper. Contains page content -->
+        <div th:replace="fragments/header :: header">Enregistrement</div>   
+        	<div class="content-wrapper">
+                <!-- Main content -->
+                <div class="content">
+                    <div class="content-header">
+                        <div class="header-icon">
+                            <i class="pe-7s-note2"></i>
+                        </div>
+                        <div class="header-title">
+                            <h1>Fiche de demande</h1>
+                            <small></small>
+                            <ol class="breadcrumb">
+                                <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                                <li><a href="#">Enregistrement</a></li>
+                                <li><a href="/requestList">Liste Demande</a></li>
+                                <li><a href="/newRequest">Nouveau demande</a></li>
+                                <li class="active">Fiche demande</li>
+                            </ol>
+                        </div>
+                    </div> <!-- /. Content Header (Page header) -->
+                 
+                    <div class="row">
+	                    <!-- Textual inputs -->
+	                    <div class="col-sm-8">
+	                        <div class="panel panel-bd lobidrag">
+	                            <div class="panel-heading">
+	                                <div class="panel-title">
+	                                    <h4>Demande d'&eacute;quivalence</h4>
+	                                </div>
+	                            </div>
+	                                                      	
+                           		<div class="panel-body">
+                                   	<div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fiche detaill&eacute; :</th>
+                                                    <th> </th>
+                                                   	<th> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            	<tr>	
+				                                    <th>Num&eacute;ro enregistre&eacute;  </th>
+				                                    <td th:text="*{ficheDemande.id}"></td>
+				                                </tr>
+                                            	<tr>	
+				                                    <th>Carte d'identit&eacute; (associ&eacute;)   </th>
+				                                    <td th:text="*{ficheDemande.cin.nom} + ' ' + *{ficheDemande.cin.prenom}"><a th:href="'/showCIN/'+ *{ficheDemande.cin.id}"></a> </td>
+				                                </tr>
+				                                <tr>
+				                                    <th>Dipl&ocirc;me (associ&eacute;)  </th>
+				                                    <td th:text="*{ficheDemande.listesDiplome.id}"><a th:href="'/showDiploma/'+ *{ficheDemande.listesDiplome.id}"></a></td>
+					                             </tr>
+					                             <tr>
+				                                    <th>t&eacute;l&eacute;phone  </th>
+				                                    <td th:text="*{ficheDemande.telephone}"></td>
+					                             </tr>
+					                             <tr>
+				                                    <th>Diplome </th>
+				                                    <td th:text="*{ficheDemande.diplome}" ></td>
+					                             </tr>
+					                             <tr>
+				                                    <th>Utilisation </th>
+				                                    <td th:text="*{ficheDemande.utilisation}" ></td>
+					                             </tr>
+			                                     <tr>
+				                                    <th>Status Enregistrement </th>
+				                                    <td th:text="*{ficheDemande.statusEnregistrement}" ></td>
+					                             </tr> 
+					                             <tr>
+				                                    <th>Date Retrait </th>
+				                                    <td th:text="*{ficheDemande.dateRetrait}" ></td>
+					                             </tr>  
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>    
+	                        </div>
+	                     </div>
+	                     <div class="col-sm-2">
+	                  		<a href="/requestList"><button type="button" class="btn btn-primary w-md m-rb-5">Revenir</button></a>
+	               		 	<a th:href="'/editRequest/'+${ficheDemande.id}"><button type="button" class="btn btn-base w-md m-rb-5">Mettre &agrave; jour</button></a>
+	               		 </div>                      	
+	          		 </div>
+                 </div>		<!-- CONTENT -->
+              </div>	<!-- WRAPPER -->
+      	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+        
+        <!-- ./²wrapper -->
+        <!-- START CORE PLUGINS -->
+        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+        <!-- BootStrap WiZarD -->
+        <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
+        <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
+        <!-- Footable Js -->
+        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+        <!-- START THEME LABEL SCRIPT -->
+        <script src="assets/dist/js/theme.js"></script>
+	</body>
+	
+</html>

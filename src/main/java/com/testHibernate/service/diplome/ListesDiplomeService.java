@@ -12,6 +12,8 @@ public interface ListesDiplomeService {
 
 	List<ListesDiplome> findDiplomeByCategorie(@Param(value = "categorie") String categorie);
 	
+	List<String> getAllEcole();
+	
     List<ListesDiplome> listAll();
 
     ListesDiplome getById(Long id);

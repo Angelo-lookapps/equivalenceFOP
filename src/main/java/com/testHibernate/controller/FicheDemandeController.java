@@ -1,5 +1,6 @@
 package com.testHibernate.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,106 +16,132 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
+import com.testHibernate.model.cin.CIN;
+import com.testHibernate.model.demande.FicheDemande;
+import com.testHibernate.model.demande.FicheDemandeForm;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
 import com.testHibernate.model.diplome.NiveauDiplome;
+import com.testHibernate.service.cin.CINService;
+import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
 
 @Controller
 public class FicheDemandeController {
-	 private ListesDiplomeService listesDiplomeService;
+	
+	 ///SERVICES
+	 private FicheDemandeService ficheDemandeService;
 	 private NiveauDiplomeService niveauDiplomeService;
-	 private DiplomeToDiplomeForm diplomeToDiplomeForm;
+	 private CINService cinService;
+	 private ListesDiplomeService listesDiplomeService;
 	 
-	 @Autowired
-	 public void setDiplomeToDiplomeForm(DiplomeToDiplomeForm diplomeToDiplomeForm) {
-		this.diplomeToDiplomeForm = diplomeToDiplomeForm;
-	 }
+	 ///CONVERTS
+	 private DemandeToDemandeForm demandeToDemandeForm;
 	 
 	 @Autowired
 	 public void setNiveauDiplomeService(NiveauDiplomeService niveauDiplomeService) {
 		this.niveauDiplomeService = niveauDiplomeService;
 	 }
-
+	 
+	 @Autowired
+	 public void setDemandeToDemandeForm(DemandeToDemandeForm demandeToDemandeForm) {
+		this.demandeToDemandeForm = demandeToDemandeForm;
+	 }
+	 
+	 @Autowired
+	 public void setCINService(CINService cinService) {
+		this.cinService = cinService;
+	 }
+	 
 	 @Autowired
 	 public void setListesDiplomeService(ListesDiplomeService listesDiplomeService) {
-        this.listesDiplomeService = listesDiplomeService;
+		this.listesDiplomeService = listesDiplomeService;
 	 }
 	 
-	 @GetMapping({"/diplomaList", "/diplomes"})
-	 public String listDiplome(Model model){
-		List<ListesDiplome> ret = listesDiplomeService.listAll();
-		List<NiveauDiplome> nivaux = niveauDiplomeService.listAll();
-        model.addAttribute("listesDiplome", ret);
-        model.addAttribute("niveaux", nivaux);
+	 @Autowired
+	 public void setFicheDemandeService(FicheDemandeService ficheDemandeService) {
+		this.ficheDemandeService = ficheDemandeService;
+	 }
+ 
+	 @GetMapping({"/requestList", "/requests"})
+	 public String listDemande(Model model){
+		List<FicheDemande> ret = ficheDemandeService.listAll();
+
+        model.addAttribute("listeDemande", ret);
        // System.out.println("\n ret.Length = " + ret.size());
-        return "pages/enregistrement/diplomaList";
+        return "pages/enregistrement/requestList";
 	 }	
 	 
-	 @GetMapping("/showDiploma/{id}")
-	 public String getDiploma(@PathVariable String id, Model model){
-		 model.addAttribute("diploma", listesDiplomeService.getById(Long.valueOf(id)));
+	 @GetMapping("/showRequest/{id}")
+	 public String getDemandeById(@PathVariable String id, Model model){
+		 model.addAttribute("ficheDemande", ficheDemandeService.getById(Long.valueOf(id)));
 		// System.out.println("GEGE");
-		 return "pages/enregistrement/showDiploma";
+		 return "pages/enregistrement/showRequest";
 	 }
 
-	 @GetMapping("/editDiploma/{id}")
+	 @GetMapping("/editRequest/{id}")
 	 public String edit(@PathVariable String id, Model model){
-        ListesDiplome liste = listesDiplomeService.getById(Long.valueOf(id));
-        ListesDiplomeForm listesDiplome = diplomeToDiplomeForm.convert(liste);
+        FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));
+        FicheDemandeForm ficheForm = demandeToDemandeForm.convert(fiche);
 
-		List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
-        List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
-        model.addAttribute("listNiveauDiploma", niveauxDiploma);
-        model.addAttribute("listDiploma", listeDiploma);
-        model.addAttribute("listesDiplome", listesDiplome);
+		List<FicheDemande> listeDemande = ficheDemandeService.listAll();
+      
+        model.addAttribute("listeDemande", listeDemande);
+        model.addAttribute("ficheForm", ficheForm);
         model.addAttribute("isEdit", "1");
-        return "pages/enregistrement/newDiploma";
+       
+        return "pages/enregistrement/newRequest";
 	 }
-	
-	 @GetMapping("/newDiploma")
-	 public String ajouterDiplome(Model model) {
+	 
+	 @GetMapping("/newRequest")
+	 public String ajouterDemande(Model model) {
 		 //initial
-		// Map<String, String> listNiveau = new HashMap<String, String>();
 		 
 		 //Get Lists
-		 List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
-		 List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
+		 List<FicheDemande> listeDemande = ficheDemandeService.listAll();
+		 List<CIN> listCIN = cinService.listAll();
+		 List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
+		 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
+		 List<String> listEcole = listesDiplomeService.getAllEcole();
+			
+		 //Dispatch
+		 model.addAttribute("listesDiplome", listesDiplome);
+		 model.addAttribute("listEcole", listEcole);
+		 model.addAttribute("listCIN", listCIN);
+		 model.addAttribute("listeDemande", listeDemande);
+		 model.addAttribute("listLieuDelivrance", listLieuDelivrance);
+		 model.addAttribute("ficheDemandeForm", new FicheDemandeForm());
 		 
-		 //traitement	
-		 /*for(NiveauDiplome niv : niveauxDiploma) {
-			 listNiveau.put(niv.getCategorie(), value);
-		 }*/
-		 model.addAttribute("listDiploma", listeDiploma);
-		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
-		 model.addAttribute("listesDiplome", new ListesDiplomeForm());
-		 
-		 return "pages/enregistrement/newDiploma";		
+		 return "pages/enregistrement/newRequest";		
 	 }
 	
-	 public List<NiveauDiplome> getNiveauByCateg(String categ){
-		 return this.niveauDiplomeService.findNiveauByCategorie(categ);
+	 public List<FicheDemande> getDemandeByCIN(String idCin){
+		 return this.ficheDemandeService.getFicheDemandeByCIN(Long.valueOf(idCin));
+	 }
+	 public List<FicheDemande> getDemandeByDate(String dateRetrait){
+		 return this.ficheDemandeService.getFicheDemandeByDate(dateRetrait);
 	 }
 	 
-	 @PostMapping(value = "/saveDiploma")
-	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, BindingResult bindingResult){
+	 
+	 @PostMapping(value = "/saveRequest")
+	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult){
 		 
 		 if(bindingResult.hasErrors()){
-			 return "pages/enregistrement/newDiploma";
+			 return "pages/enregistrement/newRequest";
 		 }
 		 
-	
-		 ListesDiplome listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
+		 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
 
-		 return "redirect:/showDiploma/" + listesSaved.getId();
+		 return "redirect:/showRequest/" + ficheSaved.getId();
 	 }
 	 
-	@GetMapping("/diploma/delete/{id}")
+	@GetMapping("/request/delete/{id}")
 	 public String delete(@PathVariable String id){
-		listesDiplomeService.delete(Long.valueOf(id));
-        return "redirect:/diplomaList";
+		ficheDemandeService.delete(Long.valueOf(id));
+        return "redirect:/requestList";
 	 }
 	
 

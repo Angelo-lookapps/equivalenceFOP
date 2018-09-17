@@ -82,4 +82,15 @@ public class ListesDiplomeServiceImpl implements ListesDiplomeService {
 		//return null;
 	}
 
+	@Override
+	public List<String> getAllEcole() {
+		TypedQuery<ListesDiplome> query = em.createNamedQuery("CIN.findAllEcole", ListesDiplome.class);
+		List<ListesDiplome> diplomeList = query.getResultList();
+		List<String> ret = new ArrayList<String>();
+		for(ListesDiplome liste : diplomeList) {
+			ret.add(liste.getEcole());
+		}
+		return ret;
+	}
+
 }

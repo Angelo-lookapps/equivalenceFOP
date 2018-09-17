@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>EQUIVALENCE</title>
+        <title>Demande d'&eacute;quivalence - Administration Equivalence FOP(67Ha)</title>
         <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
     
         <script>
@@ -33,7 +33,7 @@
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-<title>Equivalence App</title>
+<title>Nouvelle demande</title>
 </head>
 <body class="hold-transition fixed sidebar-mini">
         
@@ -56,9 +56,8 @@
                         <ol class="breadcrumb">
                             <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
                             <li ><a href="#">Enregistrement</a></li>
-                         <li ><a href="#">Faire une deamande</a></li>
-                         <li ><a href="/requestList">Liste des demandes</a></li>
-                         <li class="active">Ajout demande</li>
+	                        <li ><a href="/requestList">Liste des demandes</a></li>
+	                        <li class="active">Ajout demande</li>
                         </ol>
                     </div>
                 </div> <!-- /. Content Header (Page header) -->
@@ -71,125 +70,80 @@
                                     <h4>Formulaire demande d'&eacute;quivalence</h4>
                                 </div>
                             </div>
+                            
                             <div class="panel-body"> 
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">S&eacute;lectionner un CIN</label>
-                                    <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <select class="form-control placeholder-single" name="idCIN">
-                                            <optgroup label="Alaskan/Hawaiian Time Zone">
-                                                <option value="AK">Alaska</option>
-                                                <option value="HI">Hawaii</option>
-                                            </optgroup>
-                                            <optgroup label="Pacific Time Zone">
-                                                <option value="CA">California</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="OR">Oregon</option>
-                                                <option value="WA">Washington</option>
-                                            </optgroup>
-                                            <optgroup label="Mountain Time Zone">
-                                                <option value="AZ">Arizona</option>
-                                                <option value="CO">Colorado</option>
-                                                <option value="ID">Idaho</option>
-                                                <option value="MT">Montana</option>
-                                                <option value="NE">Nebraska</option>
-                                                <option value="NM">New Mexico</option>
-                                                <option value="ND">North Dakota</option>
-                                                <option value="UT">Utah</option>
-                                                <option value="WY">Wyoming</option>
-                                            </optgroup>
-                                            <optgroup label="Central Time Zone">
-                                                <option value="AL">Alabama</option>
-                                                <option value="AR">Arkansas</option>
-                                                <option value="IL">Illinois</option>
-                                                <option value="IA">Iowa</option>
-                                                <option value="KS">Kansas</option>
-                                                <option value="KY">Kentucky</option>
-                                                <option value="LA">Louisiana</option>
-                                                <option value="MN">Minnesota</option>
-                                                <option value="MS">Mississippi</option>
-                                                <option value="MO">Missouri</option>
-                                                <option value="OK">Oklahoma</option>
-                                                <option value="SD">South Dakota</option>
-                                                <option value="TX">Texas</option>
-                                                <option value="TN">Tennessee</option>
-                                                <option value="WI">Wisconsin</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-1 col-form-label"><a href="/newCIN" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle CIN"><i class="glyphicon glyphicon-plus"></i></a></div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">s&eacute;lectionner dipl&ocirc;me</label>
-                                    <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <select class="form-control placeholder-multiple" multiple="multiple" name="idDiplome">
-                                            <optgroup label="Alaskan/Hawaiian Time Zone">
-                                                <option value="AK">Alaska</option>
-                                                <option value="HI">Hawaii</option>
-                                            </optgroup>
-                                            <optgroup label="Pacific Time Zone">
-                                                <option value="CA">California</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="OR">Oregon</option>
-                                                <option value="WA">Washington</option>
-                                            </optgroup>
-                                            <optgroup label="Mountain Time Zone">
-                                                <option value="AZ">Arizona</option>
-                                                <option value="CO">Colorado</option>
-                                                <option value="ID">Idaho</option>
-                                                <option value="MT">Montana</option>
-                                                <option value="NE">Nebraska</option>
-                                                <option value="NM">New Mexico</option>
-                                                <option value="ND">North Dakota</option>
-                                                <option value="UT">Utah</option>
-                                                <option value="WY">Wyoming</option>
-                                            </optgroup>
-                                            <optgroup label="Central Time Zone">
-                                                <option value="AL">Alabama</option>
-                                                <option value="AR">Arkansas</option>
-                                                <option value="IL">Illinois</option>
-                                                <option value="IA">Iowa</option>
-                                                <option value="KS">Kansas</option>
-                                                <option value="KY">Kentucky</option>
-                                                <option value="LA">Louisiana</option>
-                                                <option value="MN">Minnesota</option>
-                                                <option value="MS">Mississippi</option>
-                                                <option value="MO">Missouri</option>
-                                                <option value="OK">Oklahoma</option>
-                                                <option value="SD">South Dakota</option>
-                                                <option value="TX">Texas</option>
-                                                <option value="TN">Tennessee</option>
-                                                <option value="WI">Wisconsin</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-1 col-form-label"><a href="/newDiploma" data-toggle="tooltip" data-placement="right" title="Ajouter un diplôme"><i class="glyphicon glyphicon-plus"></i></a></div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="telephone" class="col-sm-3 col-form-label">T&eacute;l&eacute;phone</label>
-                                    <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <input class="form-control" type="tel" name="telephone" placeholder="+261(32|33|34|39) ### ##" id="telephone">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="diplome" class="col-sm-3 col-form-label">D&eacute;signation dip&ocirc;me</label>
-                                    <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <input class="form-control" type="text" name="diplome" placeholder="Diplôme..." id="diplome">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="utilisation" class="col-sm-3 col-form-label">Utilisation</label>
-                                    <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <input class="form-control" type="text" name="utilisation" placeholder="Utilisation..." id="utilisation">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="dateRetrait" class="col-sm-3 col-form-label">Date de retrait</label>
-                                    <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <input class="form-control" type="date" name="dateRetrait" placeholder="Date de retrait" id="dateRetrait">
-                                    </div>
-                                </div>
-                                    
-                                <button type="submit" class="btn btn-base pull-right">Valider</button>
+                                <form th:object="${ficheDemandeForm}" th:action="@{/saveRequest}" method="post" class="f1">
+                               
+                              	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+			                    	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                    	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
+			                	</div>
+                                
+	                                <div class="form-group row">
+	                                	<div th:if="${not #lists.isEmpty(listCIN)}">
+	                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un CIN</label>
+	                                        <div class="col-lg-6 col-md-9 col-sm-12">
+	                                            <select class="form-control basic-single" th:field="*{cin}">
+	                                            	<div th:each="lieu : ${listLieuDelivrance}">
+	                                            		<optgroup th:label="'Délivrance à '+${lieu} + ' : '">
+	                                            			<div th:each="cins : ${listCIN}">
+	                                            				<div th:if="${lieu == cins.lieuDelivrance}">
+			                                           				<option th:value="${cins.id}" th:text="${cins.nom} + ' ' + ${cins.prenom} "></option>
+			                                           			</div>
+			                                           		</div>
+			                                           	</optgroup>
+	                                            	</div>
+	                                            </select>
+	                                        </div>
+	                                    </div>
+										<div class="col-sm-1 col-form-label"><a href="/newCIN" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle CIN"><i class="glyphicon glyphicon-plus"></i></a></div>
+	                                </div>
+	                                <div class="form-group row">
+	                                	<div th:if="${not #lists.isEmpty(listesDiplome)}">
+	                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me </label>
+	                                        <div class="col-lg-6 col-md-9 col-sm-12">
+	                                            <select class="form-control basic-single" th:field="*{listesDiplome}">
+	                                            	<div th:each="ecole : ${listEcole}">
+	                                            		<optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
+	                                            			<div th:each="diplome : ${listesDiplome}">
+	                                            				<div th:if="${ecole == diplome.ecole}">
+			                                           				<option th:value="${diplome.id}" th:text="${diplome.filiere} + ' option: ' + ${diplome.option} "></option>
+			                                           			</div>
+			                                           		</div>
+			                                           	</optgroup>
+	                                            	</div>
+	                                            </select>
+	                                        </div>
+	                                    </div>
+										<div class="col-sm-1 col-form-label"><a href="/newDiplome" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle Diplome"><i class="glyphicon glyphicon-plus"></i></a></div>
+	                                </div>
+	                                <div class="form-group row">
+	                                    <label for="telephone" class="col-sm-3 col-form-label">T&eacute;l&eacute;phone</label>
+	                                    <div class="col-lg-6 col-md-9 col-sm-12">
+	                                        <input class="form-control" type="tel"  th:field="*{telephone}" placeholder="+261(32|33|34|39) ### ##" id="telephone">
+	                                    </div>
+	                                </div>
+	                                <div class="form-group row">
+	                                    <label for="diplome" class="col-sm-3 col-form-label">D&eacute;signation dip&ocirc;me</label>
+	                                    <div class="col-lg-6 col-md-9 col-sm-12">
+	                                        <input class="form-control" type="text"  th:field="*{diplome}" placeholder="Diplôme nommer..." id="diplome">
+	                                    </div>
+	                                </div>
+	                                <div class="form-group row">
+	                                    <label for="utilisation" class="col-sm-3 col-form-label">Utilisation</label>
+	                                    <div class="col-lg-6 col-md-9 col-sm-12">
+	                                        <input class="form-control" type="text"  th:field="*{utilisation}" placeholder="Utilisation de l'équivalence..." id="utilisation">
+	                                    </div>
+	                                </div>
+	                                <div class="form-group row">
+	                                    <label for="dateRetrait" class="col-sm-3 col-form-label">Date de retrait</label>
+	                                    <div class="col-lg-6 col-md-9 col-sm-12">
+	                                        <input class="form-control" type="date" th:field="*{dateRetrait}" placeholder="Date de retrait" id="dateRetrait">
+	                                    </div>
+	                                </div>
+	                                    
+                               		<button type="submit" class="btn btn-base pull-right">Valider</button>
+                            	</form>
                             </div>
                         </div>
                     </div>
@@ -201,92 +155,37 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                	<div th:if="${not #lists.isEmpty(listeDemande)}">
+	                            
                                     <div class="table-responsive">
                                         <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
                                         <table id="example1" class="footable table table-bordered toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
                                             <thead>
-                                                <tr>
-                                                    <th>N°CIN</th>
-                                                    <th>Niveau</th>
-                                                    <th>Filiere</th>
-                                                    <th>N&eacute;e le</th>
-                                                    <th>&agrave;</th>
-                                                    <th data-hide="all">Signiature</th>
-                                                </tr>
+                                               <tr>
+	                                               <th>Num&eacute;ro /anne&eacute; </th>
+	                                               <th>Carte d'identit&eacute; </th>
+	                                               <th>Date de retrait </th>
+	                                               <th>Status d'enregistrement </th>
+	                                               
+                                                   <th data-hide="all">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
+	                                               <th data-hide="all">T&eacute;l&eacute;phone :</th>
+	                                               <th data-hide="all">Dipl&ocirc;me evoqu&eacute; :</th>
+	                                               <th data-hide="all">Utilisation :</th>
+	                                           </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Dennise</td>
-                                                    <td>Fuhrman</td>
-                                                    <td>High School History Teacher</td>
-                                                    <td>November 8th 2011</td>
-                                                    <td>July 25th 1960</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Elodia</td>
-                                                    <td>Weisz</td>
-                                                    <td>Wallpaperer Helper</td>
-                                                    <td>October 15th 2010</td>
-                                                    <td>March 30th 1982</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Raeann</td>
-                                                    <td>Haner</td>
-                                                    <td>Internal Medicine Nurse Practitioner</td>
-                                                    <td>November 28th 2013</td>
-                                                    <td>February 26th 1966</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>4</td>
-                                                    <td>Junie</td>
-                                                    <td>Landa</td>
-                                                    <td>Offbearer</td>
-                                                    <td>October 31st 2010</td>
-                                                    <td>March 29th 1966</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>5</td>
-                                                    <td>Solomon</td>
-                                                    <td>Bittinger</td>
-                                                    <td>Roller Skater</td>
-                                                    <td>December 29th 2011</td>
-                                                    <td>September 22nd 1964</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>6</td>
-                                                    <td>Bar</td>
-                                                    <td>Lewis</td>
-                                                    <td>Clown</td>
-                                                    <td>November 12th 2012</td>
-                                                    <td>August 4th 1991</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>7</td>
-                                                    <td>Usha</td>
-                                                    <td>Leak</td>
-                                                    <td>Ships Electronic Warfare Officer</td>
-                                                    <td>August 14th 2012</td>
-                                                    <td>November 20th 1979</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>8</td>
-                                                    <td>Lorriane</td>
-                                                    <td>Cooke</td>
-                                                    <td>Technical Services Librarian</td>
-                                                    <td>September 21st 2010</td>
-                                                    <td>April 7th 1969</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>9</td>
-                                                    <td>Lorriane</td>
-                                                    <td>Cooke</td>
-                                                    <td>Technical Services Librarian</td>
-                                                    <td>September 21st 2010</td>
-                                                    <td>April 7th 1969</td>
-                                                </tr>
+                                                <tr th:each="demande : ${listeDemande}">
+                                               	   <td th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()}"></td>
+                                               	   <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
+	                                               <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+	                                               <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+	                                              
+	                                               <!-- DATA HIDE -->
+	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
+	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.telephone}"></a></b></td>
+	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.diplome}"></a></b></td>
+	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.utilisation}"></a></b></td>
+	                                             </tr>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
@@ -297,6 +196,7 @@
                                             </tfoot>
                                         </table>
                                     </div>
+                                   </div>
                                 </div>
                             </div>
                         </div>

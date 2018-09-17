@@ -14,6 +14,8 @@ public interface CINService {
 	List<CIN> listAllCIN(@Param("nom") String nom);
 	
     List<CIN> listAll();
+    
+	List<String> getAllLieuDelivrance();
 
     CIN getById(Long id);
 

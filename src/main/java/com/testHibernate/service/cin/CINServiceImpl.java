@@ -71,4 +71,15 @@ public class CINServiceImpl implements CINService {
 		//return null;
 	}
 
+	@Override
+	public List<String> getAllLieuDelivrance() {
+		TypedQuery<CIN> query = em.createNamedQuery("CIN.findAllLieuDelivrance", CIN.class);
+		List<CIN> cinList = query.getResultList();
+		List<String> ret = new ArrayList<String>();
+		for(CIN cin : cinList) {
+			ret.add(cin.getLieuDelivrance());
+		}
+		return ret;
+	}
+
 }

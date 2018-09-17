@@ -13,7 +13,10 @@ import javax.persistence.NamedQuery;
 	@NamedQuery(
 		name = "ListesDiplome.findDiplomeByCategorie", 
 		query = "SELECT diplome FROM ListesDiplome diplome"
-				+ " JOIN NiveauDiplome nv ON diplome.niveauDiplome.id = nv.id WHERE diplome.niveauDiplome.categorie = :categorie ")
+				+ " JOIN NiveauDiplome nv ON diplome.niveauDiplome.id = nv.id WHERE diplome.niveauDiplome.categorie = :categorie "),
+	@NamedQuery(
+		name = "ListesDiplome.findAllEcole", 
+		query = "SELECT DISTINCT ld.ecole FROM ListesDiplome as ld")
 })
 public class ListesDiplome {
 	

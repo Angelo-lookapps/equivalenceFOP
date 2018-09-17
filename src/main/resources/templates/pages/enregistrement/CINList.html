@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
  <meta charset="utf-8">
+  <base href="http://localhost:8080/CINList" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -77,11 +78,12 @@
 	                                               <th>Num&eacute;ro CIN</th>
 	                                               <th>Adresse </th>
 	                                               <th>Date et lieu de d&eacute;livrance </th>
-	                                               <th>Nationalit&eacute; </th>
 	                                               <th>Fonction et lieu de travail </th>
 	                                               <th>Mise &agrave; jour </th>
 	                                               
 	                                               <th data-hide="all">Photo d'identit&eacute;</th>
+	                                               
+	                                               <th data-hide="all">Nationalit&eacute; </th>
 	                                           </tr>
 	                                       </thead>
 	                                       <tbody>
@@ -93,8 +95,7 @@
 	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.numeroCIN}"></a></td>
 	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.adresseActuelle}"></a></td>
 	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateDelivrance}+' à '+${cin.lieuDelivrance}"></a></td>
-	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nationalite}"></a></td>
-	                                               <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.fonction}+' à '+${cin.lieuTravail}"></a></td>
+                                               	   <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.fonction}+' à '+${cin.lieuTravail}"></a></td>
                                                    
                                                    <td>
 	                                               		<a th:href="'cin/edit/'+${cin.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
@@ -102,7 +103,7 @@
 	                                               </td>
 	                                               
                                                    <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.photo}"></a></b></td>
-	                                          
+	                                          	   <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nationalite}"></a></b></td>
 	                                           </tr>
 	                                          
 	                                       </tbody>

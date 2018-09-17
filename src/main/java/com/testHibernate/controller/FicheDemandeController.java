@@ -85,12 +85,22 @@ public class FicheDemandeController {
 	 @GetMapping("/editRequest/{id}")
 	 public String edit(@PathVariable String id, Model model){
         FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));
-        FicheDemandeForm ficheForm = demandeToDemandeForm.convert(fiche);
+        FicheDemandeForm ficheDemandeForm = demandeToDemandeForm.convert(fiche);
 
 		List<FicheDemande> listeDemande = ficheDemandeService.listAll();
-      
+		List<CIN> listCIN = cinService.listAll();
+		List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
+		List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
+		List<String> listEcole = listesDiplomeService.getAllEcole();
+			
+		 //Dispatch
+		 model.addAttribute("listesDiplome", listesDiplome);
+		 model.addAttribute("listEcole", listEcole);
+		 model.addAttribute("listCIN", listCIN);
+		 model.addAttribute("listeDemande", listeDemande);
+		 model.addAttribute("listLieuDelivrance", listLieuDelivrance);
         model.addAttribute("listeDemande", listeDemande);
-        model.addAttribute("ficheForm", ficheForm);
+        model.addAttribute("ficheDemandeForm", ficheDemandeForm);
         model.addAttribute("isEdit", "1");
        
         return "pages/enregistrement/newRequest";
@@ -115,6 +125,9 @@ public class FicheDemandeController {
 		 model.addAttribute("listLieuDelivrance", listLieuDelivrance);
 		 model.addAttribute("ficheDemandeForm", new FicheDemandeForm());
 		 
+		 System.out.println("\n\n List TEST \n");
+		 System.out.println("\n\n List TEST \n");
+		 
 		 return "pages/enregistrement/newRequest";		
 	 }
 	
@@ -130,6 +143,18 @@ public class FicheDemandeController {
 	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult){
 		 
 		 if(bindingResult.hasErrors()){
+			/* List<FicheDemande> listeDemande = ficheDemandeService.listAll();
+			 List<CIN> listCIN = cinService.listAll();
+			 List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
+			 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
+			 List<String> listEcole = listesDiplomeService.getAllEcole();
+				
+			 //Dispatch
+			 model.addAttribute("listesDiplome", listesDiplome);
+			 model.addAttribute("listEcole", listEcole);
+			 model.addAttribute("listCIN", listCIN);
+			 model.addAttribute("listeDemande", listeDemande);
+			 model.addAttribute("listLieuDelivrance", listLieuDelivrance);*/
 			 return "pages/enregistrement/newRequest";
 		 }
 		 

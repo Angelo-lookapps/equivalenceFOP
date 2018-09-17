@@ -62,18 +62,7 @@ public class PagesController {
 	public String logout() {
 		return "pages/login";	
 	}
-	
-	///enregistrement
-	@GetMapping("/newRequest")
-	public String ajouterDemande() {
-		return "pages/enregistrement/newRequest";		
-	}
-	
-	@GetMapping("/requestList")
-	public String listDemande() {
-		return "pages/enregistrement/requestList";		
-	}
-	
+
 	
 	//Equivalence
 	@GetMapping("/newArrete")

@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
  <meta charset="utf-8">
+  <base href="http://localhost:8080/requestList" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -67,111 +68,55 @@
 	                               </div>
 	                           </div>
 	                           <div class="panel-body">
-	                               <div class="table-responsive">
-	                                   <table class="table table-bordered table-hover">
-	                                       <thead>
-	                                           <tr>
-	                                               <th>Sel&egrave;ction</th>
-	                                               <th>ID </th>
-	                                               <th>Niveau </th>
-	                                               <th>Fili&egrave;re </th>
-	                                               <th>Option</th>
-	                                               <th>Ecole </th>
-	                                               <th>Region </th>
-	                                               <th>Anne&eacute; scolaire </th>
-	                                               <th>Mention </th>
-	                                               <th>Mise &agrave; jour </th>
+                                	<div th:if="${not #lists.isEmpty(listeDemande)}">
+	                            
+                                    <div class="table-responsive">
+                                        <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+                                        <table id="example1" class="footable table table-bordered toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
+                                            <thead>
+                                               <tr>
+	                                               <th>Num&eacute;ro /anne&eacute; </th>
+	                                               <th>Carte d'identit&eacute; </th>
+	                                               <th>Date de retrait </th>
+	                                               <th>Status d'enregistrement</th>
+	                                               <th>Action</th>
+	                                               
+                                                   <th data-hide="all">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
+	                                               <th data-hide="all">T&eacute;l&eacute;phone :</th>
+	                                               <th data-hide="all">Dipl&ocirc;me evoqu&eacute; :</th>
+	                                               <th data-hide="all">Utilisation :</th>
 	                                           </tr>
-	                                       </thead>
-	                                       <tbody>
-	                                           <tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="demande : ${listeDemande}">
+                                               	   <td th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()+1900}"></td>
+                                               	   <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
+	                                               <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+	                                               <td><a th:class="${demande.statusEnregistrement} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'" th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'confirmé' : 'non-confirmé'"></a></td>
 	                                               <td>
-	                                                   <div class="checkbox checkbox-success">
-	                                                       <input id="checkbox1" type="checkbox">
-	                                                       <label for="checkbox1"></label>
-	                                                   </div>
-	                                               </td>
-	                                               <td>JS325</td>
-	                                               <td>Farzana Yasmin</td>
-	                                               <td><a href="http://adminpix.thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a073f2823240a2d272b232664292527">[email&#160;protected]</a></td>
-	                                               <td>30.05.1016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>Complete</td>
-	                                               <td>Complete</td>
-	                                               <td>$43</td>
-	                                               <td>
-	                                                   <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-	                                                   <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow">
+	                                               	   <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                  	   <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${demande.id}')|" ><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+		                                              
+                                                  	  <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow"> --> 
 			                                       </td>
-	                                           </tr>
-	                                           <tr>
-	                                               <td>
-	                                                   <div class="checkbox checkbox-success">
-	                                                       <input id="checkbox2" type="checkbox">
-	                                                       <label for="checkbox2"></label>
-	                                                   </div>
-	                                               </td>
-	                                               <td>JS325</td>
-	                                               <td>Farzana Yasmin</td>
-	                                               <td><a href="http://adminpix.thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b5e1ddd0d8d0d8dcdbdcc6c1d0c7f5d2d8d4dcd99bd6dad8">[email&#160;protected]</a></td>
-	                                               <td>30.05.1016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>Complete</td>
-	                                               <td>Complete</td>
-	                                               <td>$43</td>
-	                                               <td>
-	                                                   <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-	                                                   <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small">
-			                                       </td>
-	                                           </tr>
-	                                           <tr>
-	                                               <td>
-	                                                   <div class="checkbox checkbox-success">
-	                                                       <input id="checkbox1" type="checkbox">
-	                                                       <label for="checkbox1"></label>
-	                                                   </div>
-	                                               </td>
-	                                               <td>JS325</td>
-	                                               <td>Farzana Yasmin</td>
-	                                               <td><a href="http://adminpix.thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a073f2823240a2d272b232664292527">[email&#160;protected]</a></td>
-	                                               <td>30.05.1016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>Complete</td>
-	                                               <td>Complete</td>
-	                                               <td>$43</td>
-	                                               <td>
-	                                                   <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-	                                                   <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small">
-			                                       </td>
-	                                           </tr>
-	                                           <tr>
-	                                               <td>
-	                                                   <div class="checkbox checkbox-success">
-	                                                       <input id="checkbox2" type="checkbox">
-	                                                       <label for="checkbox2"></label>
-	                                                   </div>
-	                                               </td>
-	                                               <td>JS325</td>
-	                                               <td>Farzana Yasmin</td>
-	                                               <td><a href="http://adminpix.thememinister.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b5e1ddd0d8d0d8dcdbdcc6c1d0c7f5d2d8d4dcd99bd6dad8">[email&#160;protected]</a></td>
-	                                               <td>30.05.1016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>10.06.2016</td>
-	                                               <td>Complete</td>
-	                                               <td>Complete</td>
-	                                               <td>$43</td>
-	                                               <td>
-	                                                   <button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-	                                                   <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small">
-			                                       </td>
-	                                           </tr>
-	                                       </tbody>
-	                                   </table>
-	                               </div>
-	                           </div>
+	                                               <!-- DATA HIDE -->
+	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
+	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.telephone}"></a></b></td>
+	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.diplome}"></a></b></td>
+	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.utilisation}"></a></b></td>
+	                                             </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                   </div>
+                                </div>
 	                       </div>
 	                   	</div>
 	                   	<div class="col-sm-2">
@@ -181,7 +126,16 @@
            		</div>
            	</div>
        	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-        
+        <script>
+		    function goToDelete(id) {
+		        var txt;
+		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
+		        if (r == true) {
+		        	window.location.href = "/request/delete/"+id;		            
+		        } 
+		       
+		    }	
+		</script>
         <!-- ./²wrapper -->
         <!-- START CORE PLUGINS -->
         <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
@@ -194,6 +148,11 @@
         <!-- DataTable Js -->
         <script src="assets/plugins/datatables/dataTables.min.js"></script>
         <script src="assets/plugins/datatables/dataTables-active.js"></script>
+        
+        <!-- Footable Js -->
+        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+      
         <!-- icheck Js -->
         <script src="assets/plugins/icheck/icheck.min.js"></script>
         <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>

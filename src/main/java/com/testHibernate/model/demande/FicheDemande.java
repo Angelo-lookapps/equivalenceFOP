@@ -34,7 +34,7 @@ public class FicheDemande {
 	}
 
 	public FicheDemande(Long id, CIN cin, ListesDiplome listesDiplome, String telephone, String diplome,
-			String utilisation, int statusEnregistrement, Date dateRetrait) {
+			String utilisation, boolean statusEnregistrement, Date dateRetrait) {
 		super();
 		this.id = id;
 		this.cin = cin;
@@ -59,7 +59,7 @@ public class FicheDemande {
 	private String telephone;
 	private String diplome;
 	private String utilisation;
-	private int statusEnregistrement;
+	private boolean statusEnregistrement;
 	private Date dateRetrait;	
 	
 	public Long getId() {
@@ -98,10 +98,10 @@ public class FicheDemande {
 	public void setUtilisation(String utilisation) {
 		this.utilisation = utilisation;
 	}
-	public int getStatusEnregistrement() {
+	public boolean getStatusEnregistrement() {
 		return statusEnregistrement;
 	}
-	public void setStatusEnregistrement(int statusEnregistrement) {
+	public void setStatusEnregistrement(boolean statusEnregistrement) {
 		this.statusEnregistrement = statusEnregistrement;
 	}
 	public Date getDateRetrait() {

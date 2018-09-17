@@ -12,7 +12,7 @@ public class FicheDemandeForm {
 	}
 	
     public FicheDemandeForm(Long id, CIN cin, ListesDiplome listesDiplome, String telephone, String diplome,
-			String utilisation, int statusEnregistrement, Date dateRetrait) {
+			String utilisation, boolean statusEnregistrement, Date dateRetrait) {
 		super();
 		this.id = id;
 		this.cin = cin;
@@ -30,7 +30,7 @@ public class FicheDemandeForm {
 	private String telephone;
 	private String diplome;
 	private String utilisation;
-	private int statusEnregistrement;
+	private boolean statusEnregistrement;
 	private Date dateRetrait;
 	
 	
@@ -70,10 +70,10 @@ public class FicheDemandeForm {
 	public void setUtilisation(String utilisation) {
 		this.utilisation = utilisation;
 	}
-	public int getStatusEnregistrement() {
+	public boolean getStatusEnregistrement() {
 		return statusEnregistrement;
 	}
-	public void setStatusEnregistrement(int statusEnregistrement) {
+	public void setStatusEnregistrement(boolean statusEnregistrement) {
 		this.statusEnregistrement = statusEnregistrement;
 	}
 	public Date getDateRetrait() {

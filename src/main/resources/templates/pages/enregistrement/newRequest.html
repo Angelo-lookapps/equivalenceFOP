@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
  <meta charset="utf-8">
+  <base href="http://localhost:8080/newRequest" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -26,7 +27,10 @@
         <!-- START THEME LAYOUT STYLE -->
         <link href="assets/dist/css/component_ui.css" rel="stylesheet" type="text/css"/>
         <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
-        
+        <!-- START PAGE LABEL PLUGINS --> 
+        <link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
+        <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
+     
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -107,7 +111,7 @@
 	                                            		<optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
 	                                            			<div th:each="diplome : ${listesDiplome}">
 	                                            				<div th:if="${ecole == diplome.ecole}">
-			                                           				<option th:value="${diplome.id}" th:text="${diplome.filiere} + ' option: ' + ${diplome.option} "></option>
+			                                           				<option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
 			                                           			</div>
 			                                           		</div>
 			                                           	</optgroup>
@@ -120,19 +124,19 @@
 	                                <div class="form-group row">
 	                                    <label for="telephone" class="col-sm-3 col-form-label">T&eacute;l&eacute;phone</label>
 	                                    <div class="col-lg-6 col-md-9 col-sm-12">
-	                                        <input class="form-control" type="tel"  th:field="*{telephone}" placeholder="+261(32|33|34|39) ### ##" id="telephone">
+	                                        <input class="form-control" type="tel"  th:field="*{telephone}" placeholder="+261(32|33|34|39) ### ##" id="telephone" >
 	                                    </div>
 	                                </div>
 	                                <div class="form-group row">
 	                                    <label for="diplome" class="col-sm-3 col-form-label">D&eacute;signation dip&ocirc;me</label>
 	                                    <div class="col-lg-6 col-md-9 col-sm-12">
-	                                        <input class="form-control" type="text"  th:field="*{diplome}" placeholder="Diplôme nommer..." id="diplome">
+	                                        <input class="form-control" type="text"  th:field="*{diplome}" placeholder="Diplôme evoqué..." id="diplome" required>
 	                                    </div>
 	                                </div>
 	                                <div class="form-group row">
 	                                    <label for="utilisation" class="col-sm-3 col-form-label">Utilisation</label>
 	                                    <div class="col-lg-6 col-md-9 col-sm-12">
-	                                        <input class="form-control" type="text"  th:field="*{utilisation}" placeholder="Utilisation de l'équivalence..." id="utilisation">
+	                                        <input class="form-control" type="text"  th:field="*{utilisation}" placeholder="Utilisation de l'équivalence..." id="utilisation" required>
 	                                    </div>
 	                                </div>
 	                                <div class="form-group row">
@@ -141,7 +145,13 @@
 	                                        <input class="form-control" type="date" th:field="*{dateRetrait}" placeholder="Date de retrait" id="dateRetrait">
 	                                    </div>
 	                                </div>
-	                                    
+		                                <div class="form-group row">
+		                                    <label for="statusEnregistrement" class="col-sm-3 col-form-label">Status d'enregistrement</label>
+		                                    <div class="col-lg-6 col-md-9 col-sm-12">
+		                                        <input type="checkbox" th:field="*{statusEnregistrement}" data-toggle="toggle" data-on="confirmé" data-off="non-confirmé" data-onstyle="base" data-offstyle="danger" data-size="small" >
+	                                        </div>
+		                                </div>
+	                               
                                		<button type="submit" class="btn btn-base pull-right">Valider</button>
                             	</form>
                             </div>
@@ -195,7 +205,7 @@
                                                 </tr>
                                             </tfoot>
                                         </table>
-                                    </div>
+                                   	</div>
                                    </div>
                                 </div>
                             </div>
@@ -217,7 +227,10 @@
         <!-- Select2 Js -->
         <script src="assets/plugins/select2/select2.min.js"></script>
         <script src="assets/plugins/select2/select2-active.js"></script>
-       
+        <!-- icheck Js -->
+        <script src="assets/plugins/icheck/icheck.min.js"></script>
+        <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+        <script src="assets/plugins/icheck/icheck-active.js"></script>
         <!-- Footable Js -->
         <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
         <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>

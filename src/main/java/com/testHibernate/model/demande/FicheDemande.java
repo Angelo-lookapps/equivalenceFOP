@@ -24,8 +24,7 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		query = "SELECT fi FROM FicheDemande as fi WHERE fi.statusEnregistrement = :status "),
 	@NamedQuery(
 		name = "FicheDemande.findFicheDemandeByDate", 
-		query = "SELECT fi FROM FicheDemande as fi WHERE fi.dateRetrait = :dateRetrait ")
-		
+		query = "SELECT fi FROM FicheDemande as fi WHERE fi.dateRetrait = :dateRetrait ")		
 })
 public class FicheDemande {
 	

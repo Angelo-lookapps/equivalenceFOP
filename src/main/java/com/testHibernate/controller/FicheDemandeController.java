@@ -1,9 +1,6 @@
 package com.testHibernate.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -17,13 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
-import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.demande.FicheDemandeForm;
 import com.testHibernate.model.diplome.ListesDiplome;
-import com.testHibernate.model.diplome.ListesDiplomeForm;
-import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
@@ -34,7 +28,6 @@ public class FicheDemandeController {
 	
 	 ///SERVICES
 	 private FicheDemandeService ficheDemandeService;
-	 private NiveauDiplomeService niveauDiplomeService;
 	 private CINService cinService;
 	 private ListesDiplomeService listesDiplomeService;
 	 
@@ -43,7 +36,6 @@ public class FicheDemandeController {
 	 
 	 @Autowired
 	 public void setNiveauDiplomeService(NiveauDiplomeService niveauDiplomeService) {
-		this.niveauDiplomeService = niveauDiplomeService;
 	 }
 	 
 	 @Autowired
@@ -163,7 +155,7 @@ public class FicheDemandeController {
 		 return "redirect:/showRequest/" + ficheSaved.getId();
 	 }
 	 
-	@GetMapping("/request/delete/{id}")
+	 @GetMapping("/request/delete/{id}")
 	 public String delete(@PathVariable String id){
 		ficheDemandeService.delete(Long.valueOf(id));
         return "redirect:/requestList";

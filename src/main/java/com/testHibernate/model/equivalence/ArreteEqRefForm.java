@@ -1,18 +1,12 @@
 package com.testHibernate.model.equivalence;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class ArreteEqRefForm {
 
-@Entity
-public class ArreteEqRef {
-
-	public ArreteEqRef() {
+	public ArreteEqRefForm() {
 		
 	}
 
-	public ArreteEqRef(Long id, Long idListesDiplome, String anneeSortie, String titre) {
+	public ArreteEqRefForm(Long id, Long idListesDiplome, String anneeSortie, String titre) {
 		super();
 		this.id = id;
 		this.idListesDiplome = idListesDiplome;
@@ -20,8 +14,6 @@ public class ArreteEqRef {
 		this.titre = titre;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private Long idListesDiplome;

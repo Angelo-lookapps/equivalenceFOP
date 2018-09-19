@@ -1,4 +1,4 @@
-package com.testHibernate.model.equivalence;
+package com.testHibernate.converts.equivalence;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,13 +6,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ArreteEqRef {
+public class ArreteEqRefToArreteEqRefForm {
 
-	public ArreteEqRef() {
+	public ArreteEqRefToArreteEqRefForm() {
 		
 	}
 
-	public ArreteEqRef(Long id, Long idListesDiplome, String anneeSortie, String titre) {
+	public ArreteEqRefToArreteEqRefForm(Long id, Long idListesDiplome, String anneeSortie, String titre) {
 		super();
 		this.id = id;
 		this.idListesDiplome = idListesDiplome;

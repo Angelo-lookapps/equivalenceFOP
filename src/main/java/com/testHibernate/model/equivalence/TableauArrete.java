@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class TableauArrete {
@@ -12,11 +13,11 @@ public class TableauArrete {
 		
 	}
 
-	public TableauArrete(Long id, Long idArreteEqRef, String titre, String organismePaysDelivrance, String cadre,
+	public TableauArrete(Long id, ArreteEqRef arreteEqRef, String titre, String organismePaysDelivrance, String cadre,
 			String echelle, String classementCategorie) {
 		super();
 		this.id = id;
-		this.idArreteEqRef = idArreteEqRef;
+		this.arreteEqRef = arreteEqRef;
 		this.titre = titre;
 		this.organismePaysDelivrance = organismePaysDelivrance;
 		this.cadre = cadre;
@@ -28,7 +29,8 @@ public class TableauArrete {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long idArreteEqRef;
+	@ManyToOne
+	private ArreteEqRef arreteEqRef;
 	
 	private String titre;
 	private String organismePaysDelivrance;
@@ -37,11 +39,12 @@ public class TableauArrete {
 	private String classementCategorie;
 	
 
-	public Long getIdArreteEqRef() {
-		return idArreteEqRef;
+	
+	public ArreteEqRef getArreteEqRef() {
+		return arreteEqRef;
 	}
-	public void setIdArreteEqRef(Long idArreteEqRef) {
-		this.idArreteEqRef = idArreteEqRef;
+	public void setArreteEqRef(ArreteEqRef arreteEqRef) {
+		this.arreteEqRef = arreteEqRef;
 	}
 	public Long getId() {
 		return id;

@@ -1,37 +1,23 @@
 package com.testHibernate.model.equivalence;
 
-
 public class ChampArreteEqForm {
 
 	public ChampArreteEqForm() {
 		
 	}
-	public ChampArreteEqForm(Long id, Long idArreteEqRef, int numero, String delivreeA, String titulaireDe,
-			String specialite) {
-		super();
-		this.id = id;
-		this.idArreteEqRef = idArreteEqRef;
-		this.numero = numero;
-		this.delivreeA = delivreeA;
-		this.titulaireDe = titulaireDe;
-		this.specialite = specialite;
-	}
-	
+
 	private Long id;
-	
-	private Long idArreteEqRef;
-	
+	private ArreteEqRef arreteEqRef;
 	private int numero;
 	private String delivreeA;
 	private String titulaireDe;
 	private String specialite;
-	
 
-	public Long getIdArreteEqRef() {
-		return idArreteEqRef;
+	public ArreteEqRef getArreteEqRef() {
+		return arreteEqRef;
 	}
-	public void setIdArreteEqRef(Long idArreteEqRef) {
-		this.idArreteEqRef = idArreteEqRef;
+	public void setArreteEqRef(ArreteEqRef arreteEqRef) {
+		this.arreteEqRef = arreteEqRef;
 	}
 	public Long getId() {
 		return id;

@@ -15,11 +15,12 @@ public class ArticleLoiArrete {
 		super();
 	}
 
-	public ArticleLoiArrete(Long id, Long arreteEqRef, String contenu) {
+	public ArticleLoiArrete(Long id, ArreteEqRef arreteEqRef, String articleComplet, String signatureMinistre) {
 		super();
 		this.id = id;
 		this.arreteEqRef = arreteEqRef;
-		this.contenu = contenu;
+		this.articleComplet = articleComplet;
+		this.signatureMinistre = signatureMinistre;
 	}
 
 	@Id
@@ -27,9 +28,18 @@ public class ArticleLoiArrete {
 	private Long id;
 	
 	@ManyToOne
-	private Long arreteEqRef;
+	private ArreteEqRef arreteEqRef;
 		
-	private String contenu ;
+	private String articleComplet ;
+	private String signatureMinistre ;
+
+	public String getSignatureMinistre() {
+		return signatureMinistre;
+	}
+
+	public void setSignatureMinistre(String signatureMinistre) {
+		this.signatureMinistre = signatureMinistre;
+	}
 
 	public Long getId() {
 		return id;
@@ -39,21 +49,22 @@ public class ArticleLoiArrete {
 		this.id = id;
 	}
 
-	public Long getArreteEqRef() {
+	public ArreteEqRef getArreteEqRef() {
 		return arreteEqRef;
 	}
 
-	public void setArreteEqRef(Long arreteEqRef) {
+	public void setArreteEqRef(ArreteEqRef arreteEqRef) {
 		this.arreteEqRef = arreteEqRef;
 	}
 
-	public String getContenu() {
-		return contenu;
+	public String getArticleComplet() {
+		return articleComplet;
 	}
 
-	public void setContenu(String contenu) {
-		this.contenu = contenu;
+	public void setArticleComplet(String articleComplet) {
+		this.articleComplet = articleComplet;
 	}
-		
+
+
 	
 }

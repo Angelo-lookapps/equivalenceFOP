@@ -6,11 +6,11 @@ public class TableauArreteForm {
 		
 	}
 
-	public TableauArreteForm(Long id, Long idArreteEqRef, String titre, String organismePaysDelivrance, String cadre,
-			String echelle, String classementCategorie) {
+	public TableauArreteForm(Long id, ArreteEqRef arreteEqRef, String titre, String organismePaysDelivrance,
+			String cadre, String echelle, String classementCategorie) {
 		super();
 		this.id = id;
-		this.idArreteEqRef = idArreteEqRef;
+		this.arreteEqRef = arreteEqRef;
 		this.titre = titre;
 		this.organismePaysDelivrance = organismePaysDelivrance;
 		this.cadre = cadre;
@@ -18,22 +18,21 @@ public class TableauArreteForm {
 		this.classementCategorie = classementCategorie;
 	}
 
+
 	private Long id;
-	
-	private Long idArreteEqRef;
-	
+	private ArreteEqRef arreteEqRef;
 	private String titre;
 	private String organismePaysDelivrance;
 	private String cadre;
 	private String echelle;
 	private String classementCategorie;
 	
-
-	public Long getIdArreteEqRef() {
-		return idArreteEqRef;
+	
+	public ArreteEqRef getArreteEqRef() {
+		return arreteEqRef;
 	}
-	public void setIdArreteEqRef(Long idArreteEqRef) {
-		this.idArreteEqRef = idArreteEqRef;
+	public void setArreteEqRef(ArreteEqRef arreteEqRef) {
+		this.arreteEqRef = arreteEqRef;
 	}
 	public Long getId() {
 		return id;

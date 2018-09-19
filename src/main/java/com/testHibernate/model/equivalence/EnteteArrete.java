@@ -16,7 +16,7 @@ public class EnteteArrete {
 		super();
 	}
 
-	public EnteteArrete(Long id, Long arreteEqRef, byte[] logo, String titreGauche, String titreDroite) {
+	public EnteteArrete(Long id, ArreteEqRef arreteEqRef, byte[] logo, String titreGauche, String titreDroite) {
 		super();
 		this.id = id;
 		this.arreteEqRef = arreteEqRef;
@@ -30,7 +30,7 @@ public class EnteteArrete {
 	private Long id;
 	
 	@ManyToOne
-	private Long arreteEqRef;
+	private ArreteEqRef arreteEqRef;
 		
 	@Lob
 	private byte[] logo ;
@@ -43,10 +43,10 @@ public class EnteteArrete {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getArreteEqRef() {
+	public ArreteEqRef getArreteEqRef() {
 		return this.arreteEqRef;
 	}
-	public void setArreteEqRef(Long arreteEqRef) {
+	public void setArreteEqRef(ArreteEqRef arreteEqRef) {
 		this.arreteEqRef = arreteEqRef;
 	}
 	public byte[] getLogo() {

@@ -8,7 +8,7 @@ public class EnteteArreteForm {
 		super();
 	}
 
-	public EnteteArreteForm(Long id, Long arreteEqRef, byte[] logo, String titreGauche, String titreDroite) {
+	public EnteteArreteForm(Long id, ArreteEqRef arreteEqRef, byte[] logo, String titreGauche, String titreDroite) {
 		super();
 		this.id = id;
 		this.arreteEqRef = arreteEqRef;
@@ -20,7 +20,7 @@ public class EnteteArreteForm {
 	
 	private Long id;
 	
-	private Long arreteEqRef;
+	private ArreteEqRef arreteEqRef;
 		
 	private byte[] logo ;
 		
@@ -32,10 +32,10 @@ public class EnteteArreteForm {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getArreteEqRef() {
+	public ArreteEqRef getArreteEqRef() {
 		return this.arreteEqRef;
 	}
-	public void setArreteEqRef(Long arreteEqRef) {
+	public void setArreteEqRef(ArreteEqRef arreteEqRef) {
 		this.arreteEqRef = arreteEqRef;
 	}
 	public byte[] getLogo() {

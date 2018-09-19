@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class ChampArreteEq {
@@ -11,22 +12,27 @@ public class ChampArreteEq {
 	public ChampArreteEq() {
 		
 	}
-	public ChampArreteEq(Long id, Long idArreteEqRef, int numero, String delivreeA, String titulaireDe,
+	
+	
+	public ChampArreteEq(Long id, ArreteEqRef arreteEqRef, int numero, String delivreeA, String titulaireDe,
 			String specialite) {
 		super();
 		this.id = id;
-		this.idArreteEqRef = idArreteEqRef;
+		this.arreteEqRef = arreteEqRef;
 		this.numero = numero;
 		this.delivreeA = delivreeA;
 		this.titulaireDe = titulaireDe;
 		this.specialite = specialite;
 	}
-	
+
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long idArreteEqRef;
+	@ManyToOne
+	private ArreteEqRef arreteEqRef;
 	
 	private int numero;
 	private String delivreeA;
@@ -34,11 +40,12 @@ public class ChampArreteEq {
 	private String specialite;
 	
 
-	public Long getIdArreteEqRef() {
-		return idArreteEqRef;
+	
+	public ArreteEqRef getArreteEqRef() {
+		return arreteEqRef;
 	}
-	public void setIdArreteEqRef(Long idArreteEqRef) {
-		this.idArreteEqRef = idArreteEqRef;
+	public void setArreteEqRef(ArreteEqRef arreteEqRef) {
+		this.arreteEqRef = arreteEqRef;
 	}
 	public Long getId() {
 		return id;

@@ -15,12 +15,11 @@ public class LoiDecretArrete {
 		super();
 	}
 	
-	public LoiDecretArrete(Long id, Long arreteEqRef, String articleComplet, String signatureMinistre) {
+	public LoiDecretArrete(Long id, ArreteEqRef arreteEqRef, String contenu) {
 		super();
 		this.id = id;
 		this.arreteEqRef = arreteEqRef;
-		this.articleComplet = articleComplet;
-		this.signatureMinistre = signatureMinistre;
+		this.contenu = contenu;
 	}
 
 	@Id
@@ -28,10 +27,9 @@ public class LoiDecretArrete {
 	private Long id;
 	
 	@ManyToOne
-	private Long arreteEqRef;
+	private ArreteEqRef arreteEqRef;
 		
-	private String articleComplet ;
-	private String signatureMinistre ;
+	private String contenu ;
 	
 	public Long getId() {
 		return id;
@@ -41,28 +39,20 @@ public class LoiDecretArrete {
 		this.id = id;
 	}
 
-	public Long getArreteEqRef() {
+	public ArreteEqRef getArreteEqRef() {
 		return arreteEqRef;
 	}
 
-	public void setArreteEqRef(Long arreteEqRef) {
+	public void setArreteEqRef(ArreteEqRef arreteEqRef) {
 		this.arreteEqRef = arreteEqRef;
 	}
 
-	public String getArticleComplet() {
-		return articleComplet;
+	public String getContenu() {
+		return contenu;
 	}
 
-	public void setArticleComplet(String articleComplet) {
-		this.articleComplet = articleComplet;
-	}
-
-	public String getSignatureMinistre() {
-		return signatureMinistre;
-	}
-
-	public void setSignatureMinistre(String signatureMinistre) {
-		this.signatureMinistre = signatureMinistre;
+	public void setContenu(String contenu) {
+		this.contenu = contenu;
 	}
 
 	

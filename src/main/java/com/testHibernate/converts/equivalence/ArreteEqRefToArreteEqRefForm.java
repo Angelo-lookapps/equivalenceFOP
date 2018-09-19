@@ -1,65 +1,24 @@
 package com.testHibernate.converts.equivalence;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-@Entity
-public class ArreteEqRefToArreteEqRefForm {
+import com.testHibernate.model.equivalence.ArreteEqRef;
+import com.testHibernate.model.equivalence.ArreteEqRefForm;
 
-	public ArreteEqRefToArreteEqRefForm() {
-		
-	}
+@Component
+public class ArreteEqRefToArreteEqRefForm implements Converter<ArreteEqRef, ArreteEqRefForm> {
 
-	public ArreteEqRefToArreteEqRefForm(Long id, Long idListesDiplome, String anneeSortie, String titre) {
-		super();
-		this.id = id;
-		this.idListesDiplome = idListesDiplome;
-		this.anneeSortie = anneeSortie;
-		this.titre = titre;
-	}
+    @Override
+    public ArreteEqRefForm convert(ArreteEqRef arreteEqRef) {
+    	ArreteEqRefForm arreteEqRefForm = new ArreteEqRefForm();
+    	
+    	arreteEqRefForm.setId(arreteEqRef.getId());
+    	arreteEqRefForm.setListesDiplome(arreteEqRef.getListesDiplome());
+    	arreteEqRefForm.setTitre(arreteEqRef.getTitre());
+    	arreteEqRefForm.setAnneeSortie(arreteEqRef.getAnneeSortie());  
+    	
+        return arreteEqRefForm;
+    }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private Long idListesDiplome;
-	
-	private String anneeSortie;
-	private String titre;
-	
-	public String getTitre() {
-		return titre;
-	}
-
-	public void setTitre(String titre) {
-		this.titre = titre;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getIdListesDiplome() {
-		return idListesDiplome;
-	}
-
-	public void setIdListesDiplome(Long idListesDiplome) {
-		this.idListesDiplome = idListesDiplome;
-	}
-
-	public String getAnneeSortie() {
-		return anneeSortie;
-	}
-
-	public void setAnneeSortie(String anneeSortie) {
-		this.anneeSortie = anneeSortie;
-	}
-	
-	
 }

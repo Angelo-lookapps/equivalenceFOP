@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import com.testHibernate.model.diplome.ListesDiplome;
 
 @Entity
 public class ArreteEqRef {
@@ -12,10 +15,10 @@ public class ArreteEqRef {
 		
 	}
 
-	public ArreteEqRef(Long id, Long idListesDiplome, String anneeSortie, String titre) {
+	public ArreteEqRef(Long id, ListesDiplome listesDiplome, String anneeSortie, String titre) {
 		super();
 		this.id = id;
-		this.idListesDiplome = idListesDiplome;
+		this.listesDiplome = listesDiplome;
 		this.anneeSortie = anneeSortie;
 		this.titre = titre;
 	}
@@ -24,7 +27,8 @@ public class ArreteEqRef {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long idListesDiplome;
+	@ManyToOne
+	private ListesDiplome listesDiplome;
 	
 	private String anneeSortie;
 	private String titre;
@@ -45,12 +49,12 @@ public class ArreteEqRef {
 		this.id = id;
 	}
 
-	public Long getIdListesDiplome() {
-		return idListesDiplome;
+	public ListesDiplome getListesDiplome() {
+		return listesDiplome;
 	}
 
-	public void setIdListesDiplome(Long idListesDiplome) {
-		this.idListesDiplome = idListesDiplome;
+	public void setListesDiplome(ListesDiplome listesDiplome) {
+		this.listesDiplome = listesDiplome;
 	}
 
 	public String getAnneeSortie() {

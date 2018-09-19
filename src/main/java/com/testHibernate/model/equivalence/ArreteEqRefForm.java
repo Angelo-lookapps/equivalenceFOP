@@ -1,22 +1,24 @@
 package com.testHibernate.model.equivalence;
 
+import com.testHibernate.model.diplome.ListesDiplome;
+
 public class ArreteEqRefForm {
 
 	public ArreteEqRefForm() {
 		
 	}
 
-	public ArreteEqRefForm(Long id, Long idListesDiplome, String anneeSortie, String titre) {
+	public ArreteEqRefForm(Long id, ListesDiplome listesDiplome, String anneeSortie, String titre) {
 		super();
 		this.id = id;
-		this.idListesDiplome = idListesDiplome;
+		this.listesDiplome = listesDiplome;
 		this.anneeSortie = anneeSortie;
 		this.titre = titre;
 	}
 
 	private Long id;
 	
-	private Long idListesDiplome;
+	private ListesDiplome listesDiplome;
 	
 	private String anneeSortie;
 	private String titre;
@@ -37,12 +39,12 @@ public class ArreteEqRefForm {
 		this.id = id;
 	}
 
-	public Long getIdListesDiplome() {
-		return idListesDiplome;
+	public ListesDiplome getListesDiplome() {
+		return listesDiplome;
 	}
 
-	public void setIdListesDiplome(Long idListesDiplome) {
-		this.idListesDiplome = idListesDiplome;
+	public void setListesDiplome(ListesDiplome listesDiplome) {
+		this.listesDiplome = listesDiplome;
 	}
 
 	public String getAnneeSortie() {

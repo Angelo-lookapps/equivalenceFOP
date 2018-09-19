@@ -8,20 +8,16 @@ public class LoiDecretArreteForm {
 		super();
 	}
 	
-	public LoiDecretArreteForm(Long id, Long arreteEqRef, String articleComplet, String signatureMinistre) {
+	public LoiDecretArreteForm(Long id, ArreteEqRef arreteEqRef, String contenu) {
 		super();
 		this.id = id;
 		this.arreteEqRef = arreteEqRef;
-		this.articleComplet = articleComplet;
-		this.signatureMinistre = signatureMinistre;
+		this.contenu = contenu;
 	}
 
 	private Long id;
-	
-	private Long arreteEqRef;
-		
-	private String articleComplet ;
-	private String signatureMinistre ;
+	private ArreteEqRef arreteEqRef;
+	private String contenu ;
 	
 	public Long getId() {
 		return id;
@@ -31,28 +27,20 @@ public class LoiDecretArreteForm {
 		this.id = id;
 	}
 
-	public Long getArreteEqRef() {
+	public ArreteEqRef getArreteEqRef() {
 		return arreteEqRef;
 	}
 
-	public void setArreteEqRef(Long arreteEqRef) {
+	public void setArreteEqRef(ArreteEqRef arreteEqRef) {
 		this.arreteEqRef = arreteEqRef;
 	}
 
-	public String getArticleComplet() {
-		return articleComplet;
+	public String getContenu() {
+		return contenu;
 	}
 
-	public void setArticleComplet(String articleComplet) {
-		this.articleComplet = articleComplet;
-	}
-
-	public String getSignatureMinistre() {
-		return signatureMinistre;
-	}
-
-	public void setSignatureMinistre(String signatureMinistre) {
-		this.signatureMinistre = signatureMinistre;
+	public void setContenu(String contenu) {
+		this.contenu = contenu;
 	}
 
 	

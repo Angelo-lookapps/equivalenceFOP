@@ -6,9 +6,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 import com.testHibernate.model.diplome.ListesDiplome;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(
+		name = "ArreteEqRef.findArreteByTitre", 
+		query = "SELECT c FROM ArreteEqRef as c WHERE c.titre = :titre ")
+	})
 public class ArreteEqRef {
 
 	public ArreteEqRef() {

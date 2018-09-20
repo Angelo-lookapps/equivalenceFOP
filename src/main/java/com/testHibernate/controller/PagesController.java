@@ -64,15 +64,7 @@ public class PagesController {
 	}
 
 	
-	//Equivalence
-	@GetMapping("/newArrete")
-	public String ajoutArrete() {
-		return "pages/equivalence/newArrete";		
-	}
-	@GetMapping("/checkArrete")
-	public String matchArrete() {
-		return "pages/equivalence/checkArrete";		
-	}
+	
 	//espace personnel
 	@GetMapping("/listStaff")
 	public String listPersonnel() {

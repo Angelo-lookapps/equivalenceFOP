@@ -8,7 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 @Entity
+@NamedQueries({
+	@NamedQuery(
+		name = "EnteteArrete.findEnteteByIdArretEqRef", 
+		query = "SELECT c FROM EnteteArrete as c WHERE c.arreteEqRef.id = :idArreteEqRef ")
+	})
 public class EnteteArrete {
 	
 	

@@ -44,20 +44,35 @@ public class ArreteController {
 	}
 	//Equivalence
 	@PostMapping("/saveArrete")
-	public String ajoutArrete(@Valid  @ModelAttribute ArreteEqRefForm arreteEqRefForm, BindingResult bindingResult) {
-		 if(bindingResult.hasErrors()){
-			 return "pages/equivalence/listArrete";
-		 }
+	public String ajoutArrete(@Valid  @ModelAttribute ArreteEqRefForm arreteEqRefForm , BindingResult bindingResult, Model model) {
+		ArreteEqRef listesSaved = null;
+		if(bindingResult.hasErrors()){
+			return "pages/equivalence/listArrete";
+		}
 
-		 ArreteEqRef listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
-
+		listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
+			
 		return "redirect:/newArrete/" + listesSaved.getId();		
 	}
 	
 	@GetMapping("/newArrete/{id}")
 	public String newArrete(@PathVariable String id, Model model){
-		 model.addAttribute("arreteEqRef", arreteEqRefService.getById(Long.valueOf(id)));
+		try { 
+			 ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
+			 ArreteEqRefForm arreteEqRefForm = this.arreteEqRefToArreteEqRefForm.convert(listesSaved);
+			 
+			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
+			List<String> listEcole = listesDiplomeService.getAllEcole();
+			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
 		
+			model.addAttribute("arreteEqRef", listesSaved);
+			model.addAttribute("annees", annee);
+			model.addAttribute("listEcole", listEcole);
+			model.addAttribute("listeDiploma", listeDiploma);
+			model.addAttribute("arreteEqRefForm", arreteEqRefForm);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		 return "pages/equivalence/newArrete";	
 	}
 	

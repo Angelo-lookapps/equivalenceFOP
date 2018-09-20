@@ -59,8 +59,9 @@
                                         <div class="col-xs-8">
                                             <div class="inbox-toolbar btn-toolbar">
                                                 <div class="btn-group">
-                                                    <a href="mailbox.html" class="btn btn-default"><span class="fa fa-long-arrow-left"></span></a>
-                                                    <a href="#" class="hidden-xs hidden-sm btn btn-default"><span class="fa fa-reply-all"></span></a>
+                                                 	<a href="#" class="btn btn-default  w-md m-rb-5">Sauvegarder</a>
+                                                    <button class="btn btn-primary w-md m-rb-5" data-toggle="modal" data-target="#myModal">Renommer ce titre</button>
+                                                    <a href="/listArrete" class="hidden-xs hidden-sm btn btn-default"><span class="fa fa-reply-all"></span></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -186,6 +187,69 @@
                                 </div>
                             </div>
                         </div>
+	                        <!-- MODALS DIALOG -->
+	             		 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                           	<div class="modal-dialog" role="document">
+                               <div class="modal-content">
+                                   	 <div class="modal-header">
+                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                         <h1 class="modal-title">Nommer l'arr&ecirc;t&eacute; </h1>
+                                     </div>
+                                     <form th:object="${arreteEqRefForm}" th:action="@{/saveArrete}" method="POST">
+                                     
+	                                     <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+		                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
+		                              	</div>
+		                              	
+	                                     <div class="modal-body">
+	                                        <div class="form-group row">
+		                                        <label for="example-text-input" class="col-sm-3 col-form-label">Nommer le titre de l'Arr&ecirc;t&eacute; :</label>
+		                                        <div class="col-sm-9">
+		                                            <input class="form-control" type="text" th:field="*{titre}" id="example-text-input" placholder="Titre de l'arrêté d'équivalence ..." required>
+		                                        </div>
+		                                    </div>
+		                                     	
+			                              	<div class="form-group row">
+			                                	<div th:if="${not #lists.isEmpty(listeDiploma)}">
+			                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me </label>
+			                                        <div class="col-sm-7">
+			                                            <select class="form-control basic-single" th:field="*{listesDiplome}">
+			                                            	<div th:each="ecole : ${listEcole}">
+			                                            		<optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
+			                                            			<div th:each="diplome : ${listeDiploma}">
+			                                            				<div th:if="${ecole == diplome.ecole}">
+					                                           				<option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
+					                                           			</div>
+					                                           		</div>
+					                                           	</optgroup>
+			                                            	</div>
+			                                            </select>
+			                                        </div>
+			                                    </div>
+												<div class="col-sm-1 col-form-label"><b><a href="/newDiploma" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle Diplome" th:text="'Nouveau!!!'"></a></b></div>
+			                                </div>
+		                                    <div class="form-group row">
+		                                        <label class="col-sm-3 col-form-label">Anne&eacute; sortie</label>
+		                                        <div class="col-sm-7">
+		                                            <select class="form-control basic-single" th:field="*{anneeSortie}">
+		                                                <option disabled="disabled" selected="selected" th:value="${#calendars.format(#calendars.createNow(), 'yyyy')}" th:text="'Sortie le'"></option>
+		                                                <!--placeholder-->
+		                                                <div th:each="annee : ${annees}">
+		                                                	<option th:value="${annee}" th:text="${annee}"></option>
+		                                                </div>
+		                                            </select>
+		                                        </div>
+		                                    </div>
+	                                     </div>
+	                                     <div class="modal-footer">
+	                                         <button type="submit" class="btn btn-base">Ok</button>
+                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+	                                     </div>
+                                     </form>
+                                 </div><!-- /.modal-content -->
+                             </div><!-- /.modal-dialog -->
+                         </div><!-- /.modal --> 
                     </div>
                 </div>
             </div>
@@ -207,6 +271,9 @@
         <!-- Summernote Js -->
         <script src="assets/plugins/summernote/summernote.js"></script>
         <script src="assets/plugins/summernote/summernote-active.js"></script>
+        <!-- modals js -->
+        <script src="assets/plugins/modals/classie.js"></script>
+        <script src="assets/plugins/modals/modalEffects.js"></script>
         <!-- START THEME LABEL SCRIPT -->
         <script src="assets/dist/js/theme.js"></script>
 	</body>

@@ -82,10 +82,10 @@
                                             <tbody>
                                                 <tr th:each="arrete : ${arreteList}">
                                                	   <td th:text="${arrete.id}"></td>
-                                               	   <td><a th:href="#" th:text="${arrete.titre}"></a></td>
-	                                               <td><a th:href="#" th:text="${arrete.anneeSortie}"></a></td>
+                                               	   <td><a  th:text="${arrete.titre}"></a></td>
+	                                               <td><a  th:text="${arrete.anneeSortie}"></a></td>
                                                    <td>
-                                                   	   <a th:href="'/showArrete/'+${arrete.id}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Voir"><i class="fa fa-open-file" aria-hidden="true"></i></button></a>
+                                                   	   <a th:href="'/newArrete/'+${arrete.id}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Voir"><i class="fa fa-eercast" aria-hidden="true"></i></button></a>
                                                 	   <a th:href="'/editArrete/'+${arrete.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                    </td>
                                                	</tr>
@@ -150,8 +150,8 @@
 		                                    <div class="form-group row">
 		                                        <label class="col-sm-3 col-form-label">Anne&eacute; sortie</label>
 		                                        <div class="col-sm-7">
-		                                            <select class="form-control basic-single" >
-		                                                <option disabled="disabled" selected="selected" th:text="'Sortie le'"></option>
+		                                            <select class="form-control basic-single" th:field="*{anneeSortie}">
+		                                                <option disabled="disabled" selected="selected" th:value="${#calendars.format(#calendars.createNow(), 'yyyy')}" th:text="'Sortie le'"></option>
 		                                                <!--placeholder-->
 		                                                <div th:each="annee : ${annees}">
 		                                                	<option th:value="${annee}" th:text="${annee}"></option>

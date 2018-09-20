@@ -11,11 +11,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.model.diplome.ListesDiplome;
-import com.testHibernate.model.diplome.ListesDiplomeForm;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
 import com.testHibernate.service.diplome.ListesDiplomeService;
@@ -43,7 +43,7 @@ public class ArreteController {
 		this.arreteEqRefToArreteEqRefForm = arreteEqRefToArreteEqRefForm;
 	}
 	//Equivalence
-	@GetMapping("/saveArrete")
+	@PostMapping("/saveArrete")
 	public String ajoutArrete(@Valid  @ModelAttribute ArreteEqRefForm arreteEqRefForm, BindingResult bindingResult) {
 		 if(bindingResult.hasErrors()){
 			 return "pages/equivalence/listArrete";

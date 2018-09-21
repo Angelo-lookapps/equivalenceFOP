@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>EQUIVALENCE</title>
+        <title>Arrete - Administration Equivalence FOP(67Ha)</title>
         <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
     	<script src="assets/js/webfont.js"></script>
         <script>
@@ -22,14 +22,24 @@
 
 		<!-- START PAGE LABEL PLUGINS --> 
         <link href="assets/plugins/summernote/summernote.css" rel="stylesheet" type="text/css"/>
-        
+         
+        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
         <!-- START THEME LAYOUT STYLE -->
         <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
-        
-        <!-- START THEME CKEDITOR -->
-    	<script src="https://cdn.ckeditor.com/4.10.0/full-all/ckeditor.js"></script>
        
-<title>Equivalence App</title>
+       	<!-- THEME INPUTS -->
+       	<link href="assets/plugins/inputs/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+       
+        <!-- START THEME JS -->
+    	<script src="https://cdn.ckeditor.com/4.10.0/full-all/ckeditor.js"></script>
+    	
+       	<script src="assets/plugins/inputs/js/plugins/sortable.js" type="text/javascript"></script>
+	    <script src="assets/plugins/inputs/js/fileinput.js" type="text/javascript"></script>
+	    <script src="assets/plugins/inputs/js/locales/fr.js" type="text/javascript"></script>
+	    <script src="assets/plugins/inputs/js/locales/es.js" type="text/javascript"></script>
+	    
+    	<script src="assets/js/popper.min.js" type="text/javascript"></script>
+<title>Nouvelle arret&eacute;</title>
 </head>
 <body class="hold-transition fixed sidebar-mini">
         
@@ -45,15 +55,15 @@
                 <div class="content">
                     <div class="row">
                         <div class="col-sm-12"> 
-                        	<form action="#" method="POST" >
+
 	                            <div class="mailbox">
 	                                <div class="mailbox-header">
-	                                    <div class="row">
+	                                    <div th:object="${arreteEqRefForm}"  class="row">
 	                                        <div class="col-xs-4">
 	                                            <div class="inbox-avatar"><img src="assets/dist/img/logo.png" class="img-circle border-green" alt="img">
 	                                                <div class="inbox-avatar-text hidden-xs hidden-sm">
 	                                                    <div class="avatar-name">Cr&eacute;ation de l'Arr&ecirc;t&eacute; d'&eacute;quivalence</div>
-	                                                    <div><small></small></div>
+	                                                    <div>TITRE: <small th:text="*{titre}+' anneé: '+*{anneeSortie}"></small></div>
 	                                                </div>
 	                                            </div>
 	                                        </div>
@@ -99,15 +109,46 @@
 	                                            
 	                                            <!-- En-tête -->
 	                                            <div class="tab-pane fade in active" id="tab1">
-				                                    <div class="panel-body">
-				                                        <p><strong>Lorem Ipsum is simply dummy text of the printing and. </strong></p>
-				                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-				                                            standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
-				                                            a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-				                                            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-				                                            Lorem Ipsum passages, and more recently with desktop publishing software like Aldus .</p>
-				                                    </div>
-				                                </div>
+				                                    <form th:method="POST" enctype="multipart/form-data">
+					                                    <div class="panel-body">
+					                                        <p><strong>En-t&ecirc;te arr&ecirc;t&eacute; : </strong></p>
+				                                        	<h4>Veuillez ajouter un logo : </h4>
+				                                        	<div class="form-group row">
+														        <div class="file-loading">
+														            <input id="logo" class="file" type="file" multiple data-min-file-count="1" name="logo">
+														        </div>
+															</div>
+															<div class="panel-body">
+																<ul class="nav nav-tabs">
+																<h4>Titre sur en-t&ecirc;te: </h4>
+																	<li><a href="#titre1" data-toggle="tab">Titre gauche</a></li>
+		                                                   			<li><a href="#titre2" data-toggle="tab">Titre droite</a></li>
+		                                                   		</ul>
+	                                                   		
+																<div class="tab-content" >
+																	<div class="tab-pane fade in active" id="titre1">
+						                                    			
+																		<div class="form-group row">
+																			<textarea cols="80" rows="10" id="editor1" name="titreGauche"></textarea>
+																		</div>
+																		
+																	</div>
+																	<div class="tab-pane fade" id="titre2">
+						                                    			
+																		<div class="form-group row">
+																			<textarea cols="80" rows="10" id="editor2" name="titreDroite"></textarea>
+																		</div>
+																		
+																	</div>
+																</div>
+															
+																<div class="btn-group pull-right">
+																	<button type="button" class="btn btn-base" onclick="getAlert()">Sauvegarder</button>
+																</div>
+															</div>
+					                                	</div>
+				                                	</form>
+			                                 	</div>
 	                                            <div class="tab-pane fade" id="tab2">
 				                                    <div class="panel-body">
 				                                        <p><strong>TAB 2</strong></p>
@@ -154,7 +195,7 @@
 				                                        <p><strong>TAB 4 </strong></p>
 			                                        	
 			                                        	<!-- summernote -->
-														<div id="summernote2"></div>
+														<div id="summernote"></div>
 														<div class="btn-group pull-right">
 															<button type="button" class="btn btn-base">Finir</button>
 														</div>
@@ -177,7 +218,7 @@
 				                                    <div class="panel-body">
 				                                        <p><strong>Signature </strong></p>
 															<!-- summernote -->
-															<div id="summernote3"></div>
+															<div id="summernote"></div>
 															<div class="btn-group pull-right">
 																<button type="button" class="btn btn-base">Finir</button>
 															</div>
@@ -187,7 +228,7 @@
 	                                    </div>
 	                                </div>
 	                            </div> 
-                        	</form>
+                        	
                         </div>
 	                        <!-- MODALS DIALOG -->
 	             		 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
@@ -265,17 +306,28 @@
         
         <!-- ./²wrapper -->
         <!-- START CORE PLUGINS -->
+     
+       	
        	<script>
 			CKEDITOR.replace( 'editor1' );
+			CKEDITOR.replace( 'editor2' );
+		</script>
+	  	<script>
+			function getAlert(){
+				console.log(CKEDITOR.instances.editor1.getData());
+				console.log("\n "+CKEDITOR.instances.editor2.getData());
+			}
+			
 		</script>
         <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
         <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        
+      
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <script src="assets/plugins/fastclick/fastclick.min.js"></script>
         <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
         <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
-           
         <!-- Summernote Js -->
         <script src="assets/plugins/summernote/summernote.js"></script>
         <script src="assets/plugins/summernote/summernote-active.js"></script>

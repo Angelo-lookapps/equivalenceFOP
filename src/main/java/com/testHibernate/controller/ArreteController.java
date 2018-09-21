@@ -18,6 +18,8 @@ import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.model.diplome.ListesDiplome;
+import com.testHibernate.model.diplome.ListesDiplomeForm;
+import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
 import com.testHibernate.service.diplome.ListesDiplomeService;
@@ -85,7 +87,7 @@ public class ArreteController {
 			if(listesSaved==null) {
 				return "redirect:/error404/listArrete";	
 			}
-			ArreteEqRefForm arreteEqRefForm = this.arreteEqRefToArreteEqRefForm.convert(listesSaved);
+			ArreteEqRefForm arreteEqRefForm = listesSaved!=null ? this.arreteEqRefToArreteEqRefForm.convert(listesSaved) : new ArreteEqRefForm();
 			 
 			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 			List<String> listEcole = listesDiplomeService.getAllEcole();
@@ -96,6 +98,8 @@ public class ArreteController {
 			model.addAttribute("listEcole", listEcole);
 			model.addAttribute("listeDiploma", listeDiploma);
 			model.addAttribute("arreteEqRefForm", arreteEqRefForm);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

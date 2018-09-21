@@ -38,7 +38,7 @@ public class CINController {
 	 public String getCIN(@PathVariable String id, Model model){
 		 CIN listesSaved = cinService.getById(Long.valueOf(id));
 		 if(listesSaved==null) {
-			 return "redirect:/error404";	
+			 return "redirect:/error404/CINList";	
 		 }
 		 model.addAttribute("cin", listesSaved);
 		 

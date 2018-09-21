@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,18 +82,24 @@ public class ArreteEqRefServiceImpl implements ArreteEqRefService {
 	@Override
 	public int update(Long id, Long idListesDiplome, String anneeSortie, String titre) {
 		int ret = -1;
-		try{
-			em.createNamedQuery("ArreteEqRef.updateArreteEqRef")
+		try{ 
+			
+			Query query = em.createNamedQuery("ArreteEqRef.updateArreteEqRef", ArreteEqRef.class)
 					.setParameter("id", id)
 					.setParameter("idListesDiplome", idListesDiplome)
 					.setParameter("anneeSortie", anneeSortie)
-					.setParameter("titre", titre)
-					.executeUpdate();
-			ret = 1;
+					.setParameter("titre", titre);
+			
+			ret = query.executeUpdate();
+			
 		}catch(Exception e) { 
 			e.printStackTrace();
 		//	System.out.println(e.getMessage());
-			ret = 2;
+			
+		}finally {
+			if(em.isOpen()) {
+				em.close();
+			}
 		}
 		return ret;
 	}

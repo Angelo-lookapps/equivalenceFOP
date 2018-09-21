@@ -72,7 +72,7 @@ public class FicheDemandeController {
 		 FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));
 		 model.addAttribute("ficheDemande", fiche);
 		 if(fiche==null) {
-			 return "redirect:/error404";	
+			 return "redirect:/error404/requestList";	
 		 }	
 		// System.out.println("GEGE");
 		 return "pages/enregistrement/showRequest";

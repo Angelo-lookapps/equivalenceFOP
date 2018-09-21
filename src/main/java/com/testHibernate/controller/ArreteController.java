@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
@@ -62,7 +63,7 @@ public class ArreteController {
 		return "redirect:/newArrete/" + listesSaved.getId();		
 	}
 	//Equivalence
-	@PostMapping("/updateArrete/{id}")
+	@PutMapping("/updateArrete/{id}")
 	public String updateArrete(@Valid @ModelAttribute ArreteEqRefForm arreteEqRefForm , @PathVariable String id, BindingResult bindingResult, Model model) {
 	
 		if(bindingResult.hasErrors()){
@@ -70,10 +71,15 @@ public class ArreteController {
 		}
 		ArreteEqRef newEntity = arreteEqRefFormToArreteEqRef.convert(arreteEqRefForm);
 		ArreteEqRef oldEntity = arreteEqRefService.getById(Long.valueOf(id));
+		oldEntity.setListesDiplome(newEntity.getListesDiplome());
+		oldEntity.setTitre(newEntity.getTitre());
+		oldEntity.setAnneeSortie(newEntity.getAnneeSortie());
 		
-		int test = arreteEqRefService.update(oldEntity.getId(), newEntity.getListesDiplome().getId(), newEntity.getAnneeSortie(), newEntity.getTitre());
 		
-		System.out.println("\n\t TEST :::> "+test);
+		oldEntity = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
+		//int test = arreteEqRefService.update(oldEntity.getId(), newEntity.getListesDiplome().getId(), newEntity.getAnneeSortie(), newEntity.getTitre());
+		
+		//System.out.println("\n\t TEST :::> "+test);
 		return "redirect:/newArrete/" + oldEntity.getId();		
 	}
 	
@@ -83,7 +89,7 @@ public class ArreteController {
 			 
 			ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
 			if(listesSaved==null) {
-				return "redirect:/error404";	
+				return "redirect:/error404/listArrete";	
 			}
 			ArreteEqRefForm arreteEqRefForm = this.arreteEqRefToArreteEqRefForm.convert(listesSaved);
 			 

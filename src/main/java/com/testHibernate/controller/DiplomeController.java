@@ -56,7 +56,7 @@ public class DiplomeController {
 		 ListesDiplome list = listesDiplomeService.getById(Long.valueOf(id));
 		 model.addAttribute("diploma", list);
 		 if(list==null) {
-			return "redirect:/error404";	
+			return "redirect:/error404/diplomaList";	
 		 }
 		 // System.out.println("GEGE");
 		 return "pages/enregistrement/showDiploma";

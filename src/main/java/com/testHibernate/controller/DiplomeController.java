@@ -53,14 +53,21 @@ public class DiplomeController {
 	 
 	 @GetMapping("/showDiploma/{id}")
 	 public String getDiploma(@PathVariable String id, Model model){
-		 model.addAttribute("diploma", listesDiplomeService.getById(Long.valueOf(id)));
-		// System.out.println("GEGE");
+		 ListesDiplome list = listesDiplomeService.getById(Long.valueOf(id));
+		 model.addAttribute("diploma", list);
+		 if(list==null) {
+			return "redirect:/error404";	
+		 }
+		 // System.out.println("GEGE");
 		 return "pages/enregistrement/showDiploma";
 	 }
 
 	 @GetMapping("/editDiploma/{id}")
 	 public String edit(@PathVariable String id, Model model){
         ListesDiplome liste = listesDiplomeService.getById(Long.valueOf(id));
+        if(liste==null) {
+        	return "redirect:/error404";	
+        }
         ListesDiplomeForm listesDiplome = diplomeToDiplomeForm.convert(liste);
 
 		List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
@@ -100,7 +107,8 @@ public class DiplomeController {
 	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, BindingResult bindingResult){
 		 
 		 if(bindingResult.hasErrors()){
-			 return "pages/enregistrement/newDiploma";
+			 return "redirect:/error505";
+			 //return "pages/enregistrement/newDiploma";
 		 }
 		 
 	

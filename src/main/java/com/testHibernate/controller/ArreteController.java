@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.model.diplome.ListesDiplome;
@@ -27,10 +28,16 @@ public class ArreteController {
 	 private ArreteEqRefService arreteEqRefService;
 	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm;
 	 private ListesDiplomeService listesDiplomeService;
-	
+	 private ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef;
+	 
 	@Autowired
 	public void setListesDiplomeService(ListesDiplomeService listesDiplomeService) {
 		this.listesDiplomeService = listesDiplomeService;
+	}
+	
+	@Autowired
+	public void setArreteEqRefFormToArreteEqRef(ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef) {
+		this.arreteEqRefFormToArreteEqRef = arreteEqRefFormToArreteEqRef;
 	}
 	
 	@Autowired
@@ -54,12 +61,31 @@ public class ArreteController {
 			
 		return "redirect:/newArrete/" + listesSaved.getId();		
 	}
+	//Equivalence
+	@PostMapping("/updateArrete/{id}")
+	public String updateArrete(@Valid @ModelAttribute ArreteEqRefForm arreteEqRefForm , @PathVariable String id, BindingResult bindingResult, Model model) {
+	
+		if(bindingResult.hasErrors()){
+			return "pages/equivalence/listArrete";
+		}
+		ArreteEqRef newEntity = arreteEqRefFormToArreteEqRef.convert(arreteEqRefForm);
+		ArreteEqRef oldEntity = arreteEqRefService.getById(Long.valueOf(id));
+		
+		int test = arreteEqRefService.update(oldEntity.getId(), newEntity.getListesDiplome().getId(), newEntity.getAnneeSortie(), newEntity.getTitre());
+		
+		System.out.println("\n\t TEST :::> "+test);
+		return "redirect:/newArrete/" + oldEntity.getId();		
+	}
 	
 	@GetMapping("/newArrete/{id}")
 	public String newArrete(@PathVariable String id, Model model){
 		try { 
-			 ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
-			 ArreteEqRefForm arreteEqRefForm = this.arreteEqRefToArreteEqRefForm.convert(listesSaved);
+			 
+			ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
+			if(listesSaved==null) {
+				return "redirect:/error404";	
+			}
+			ArreteEqRefForm arreteEqRefForm = this.arreteEqRefToArreteEqRefForm.convert(listesSaved);
 			 
 			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 			List<String> listEcole = listesDiplomeService.getAllEcole();

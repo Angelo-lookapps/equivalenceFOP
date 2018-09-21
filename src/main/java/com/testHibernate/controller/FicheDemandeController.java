@@ -69,7 +69,11 @@ public class FicheDemandeController {
 	 
 	 @GetMapping("/showRequest/{id}")
 	 public String getDemandeById(@PathVariable String id, Model model){
-		 model.addAttribute("ficheDemande", ficheDemandeService.getById(Long.valueOf(id)));
+		 FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));
+		 model.addAttribute("ficheDemande", fiche);
+		 if(fiche==null) {
+			 return "redirect:/error404";	
+		 }	
 		// System.out.println("GEGE");
 		 return "pages/enregistrement/showRequest";
 	 }
@@ -77,6 +81,9 @@ public class FicheDemandeController {
 	 @GetMapping("/editRequest/{id}")
 	 public String edit(@PathVariable String id, Model model){
         FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));
+        if(fiche==null) {
+			 return "redirect:/error404";	
+		 }	
         FicheDemandeForm ficheDemandeForm = demandeToDemandeForm.convert(fiche);
 
 		List<FicheDemande> listeDemande = ficheDemandeService.listAll();
@@ -147,7 +154,10 @@ public class FicheDemandeController {
 			 model.addAttribute("listCIN", listCIN);
 			 model.addAttribute("listeDemande", listeDemande);
 			 model.addAttribute("listLieuDelivrance", listLieuDelivrance);*/
-			 return "pages/enregistrement/newRequest";
+			 
+			return "redirect:/error505";	
+			 
+			 //return "pages/enregistrement/newRequest";
 		 }
 		 
 		 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);

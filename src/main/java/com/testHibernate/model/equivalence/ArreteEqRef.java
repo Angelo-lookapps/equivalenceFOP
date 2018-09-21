@@ -15,8 +15,11 @@ import com.testHibernate.model.diplome.ListesDiplome;
 @NamedQueries({
 	@NamedQuery(
 		name = "ArreteEqRef.findArreteByTitre", 
-		query = "SELECT c FROM ArreteEqRef as c WHERE c.titre = :titre ")
-	})
+		query = "SELECT c FROM ArreteEqRef as c WHERE c.titre = :titre "),
+	@NamedQuery(
+		name = "ArreteEqRef.updateArreteEqRef", 
+		query = "UPDATE ArreteEqRef SET id = :id, listesDiplome.id = :idListesDiplome, anneeSortie = :anneeSortie, titre = :titre WHERE id = :id")
+})
 public class ArreteEqRef {
 
 	public ArreteEqRef() {

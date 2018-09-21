@@ -17,6 +17,9 @@ public interface ArreteEqRefService {
 
     ArreteEqRef saveOrUpdate(ArreteEqRef ArreteEqRef);
 
+    int update(@Param(value = "id") Long id, @Param(value = "idListesDiplome") Long idListesDiplome,
+    		@Param(value = "anneeSortie") String anneeSortie, @Param(value = "titre") String titre);
+    
     void delete(Long id);
     
     ArreteEqRef saveOrUpdateArreteEqRefForm(ArreteEqRefForm ArreteEqRefForm);

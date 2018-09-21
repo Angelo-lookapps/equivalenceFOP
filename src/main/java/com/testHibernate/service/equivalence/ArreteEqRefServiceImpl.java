@@ -77,4 +77,24 @@ public class ArreteEqRefServiceImpl implements ArreteEqRefService {
         return savedArreteEqRef;
 	}
 
+
+	@Override
+	public int update(Long id, Long idListesDiplome, String anneeSortie, String titre) {
+		int ret = -1;
+		try{
+			em.createNamedQuery("ArreteEqRef.updateArreteEqRef")
+					.setParameter("id", id)
+					.setParameter("idListesDiplome", idListesDiplome)
+					.setParameter("anneeSortie", anneeSortie)
+					.setParameter("titre", titre)
+					.executeUpdate();
+			ret = 1;
+		}catch(Exception e) { 
+			e.printStackTrace();
+		//	System.out.println(e.getMessage());
+			ret = 2;
+		}
+		return ret;
+	}
+
 }

@@ -62,7 +62,8 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 text-center">
-                                            <form th:object="${cinForm}" th:action="@{/saveCIN}" method="post" class="f1">
+                                            
+                                            <form th:object="${cinForm}" th:action="${isEdit != 1} ? '/updatesCIN' : '/saveCIN'" th:method="PUT" class="f1">
                                                 <h3 class="m-t-0">KARA-PANONDROM-PIRENENA</h3>
                                     
                                     <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">

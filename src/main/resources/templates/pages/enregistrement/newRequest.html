@@ -76,7 +76,7 @@
                             </div>
                             
                             <div class="panel-body"> 
-                                <form th:object="${ficheDemandeForm}" th:action="@{/saveRequest}" method="post" class="f1">
+                                <form th:object="${ficheDemandeForm}" th:action="${isEdit == 1} ? @{/udpateRequest} : @{/saveRequest}" th:method="${isEdit == 1} ? 'PUT' : 'POST'" class="f1">
                                
                               	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
 			                    	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

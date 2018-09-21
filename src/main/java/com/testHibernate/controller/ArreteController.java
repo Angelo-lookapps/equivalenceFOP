@@ -65,22 +65,16 @@ public class ArreteController {
 	//Equivalence
 	@PutMapping("/updateArrete/{id}")
 	public String updateArrete(@Valid @ModelAttribute ArreteEqRefForm arreteEqRefForm , @PathVariable String id, BindingResult bindingResult, Model model) {
-	
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
 		}
-		ArreteEqRef newEntity = arreteEqRefFormToArreteEqRef.convert(arreteEqRefForm);
-		ArreteEqRef oldEntity = arreteEqRefService.getById(Long.valueOf(id));
-		oldEntity.setListesDiplome(newEntity.getListesDiplome());
-		oldEntity.setTitre(newEntity.getTitre());
-		oldEntity.setAnneeSortie(newEntity.getAnneeSortie());
-		
-		
-		oldEntity = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
-		//int test = arreteEqRefService.update(oldEntity.getId(), newEntity.getListesDiplome().getId(), newEntity.getAnneeSortie(), newEntity.getTitre());
-		
-		//System.out.println("\n\t TEST :::> "+test);
-		return "redirect:/newArrete/" + oldEntity.getId();		
+		/*ArreteEqRef newEntity = arreteEqRefFormToArreteEqRef.convert(arreteEqRefForm);
+		ArreteEqRef updateEntity = arreteEqRefService.getById(Long.valueOf(id));
+		updateEntity.setListesDiplome(newEntity.getListesDiplome());
+		updateEntity.setTitre(newEntity.getTitre());
+		updateEntity.setAnneeSortie(newEntity.getAnneeSortie());*/
+		ArreteEqRef updateEntity = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
+		return "redirect:/newArrete/" + updateEntity.getId();		
 	}
 	
 	@GetMapping("/newArrete/{id}")

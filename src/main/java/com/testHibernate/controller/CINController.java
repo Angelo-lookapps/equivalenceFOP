@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.testHibernate.converts.cin.CINToCINForm;
 import com.testHibernate.model.cin.CIN;
@@ -74,6 +75,19 @@ public class CINController {
 	
 	 @PostMapping(value = "/saveCIN")
 	 public String saveOrUpdateCIN(@Valid  @ModelAttribute CINForm cinForm, BindingResult bindingResult){
+		 
+		 if(bindingResult.hasErrors()){
+			 return "redirect:/error505";
+			 //return "pages/enregistrement/newCIN";
+		 }
+	
+		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm);
+
+		 return "redirect:cin/show/" + savedCIN.getId();
+	 }
+	 
+	 @PutMapping(value = "/updatesCIN")
+	 public String updatesCIN(@Valid  @ModelAttribute CINForm cinForm, BindingResult bindingResult){
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.model.cin.CIN;
@@ -140,6 +141,32 @@ public class FicheDemandeController {
 	 
 	 @PostMapping(value = "/saveRequest")
 	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult){
+		 
+		 if(bindingResult.hasErrors()){
+			/* List<FicheDemande> listeDemande = ficheDemandeService.listAll();
+			 List<CIN> listCIN = cinService.listAll();
+			 List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
+			 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
+			 List<String> listEcole = listesDiplomeService.getAllEcole();
+				
+			 //Dispatch
+			 model.addAttribute("listesDiplome", listesDiplome);
+			 model.addAttribute("listEcole", listEcole);
+			 model.addAttribute("listCIN", listCIN);
+			 model.addAttribute("listeDemande", listeDemande);
+			 model.addAttribute("listLieuDelivrance", listLieuDelivrance);*/
+			 
+			return "redirect:/error505";	
+			 
+			 //return "pages/enregistrement/newRequest";
+		 }
+		 
+		 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
+
+		 return "redirect:/showRequest/" + ficheSaved.getId();
+	 }
+	 @PutMapping(value = "/updateRequest")
+	 public String updateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult){
 		 
 		 if(bindingResult.hasErrors()){
 			/* List<FicheDemande> listeDemande = ficheDemandeService.listAll();

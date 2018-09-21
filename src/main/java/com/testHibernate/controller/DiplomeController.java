@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
+import com.testHibernate.converts.diplome.DiplomeFormToDiplome;
 import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
@@ -25,10 +27,15 @@ public class DiplomeController {
 	 private ListesDiplomeService listesDiplomeService;
 	 private NiveauDiplomeService niveauDiplomeService;
 	 private DiplomeToDiplomeForm diplomeToDiplomeForm;
-	 
+	 private DiplomeFormToDiplome diplomeFormToDiplome;
 	 @Autowired
 	 public void setDiplomeToDiplomeForm(DiplomeToDiplomeForm diplomeToDiplomeForm) {
 		this.diplomeToDiplomeForm = diplomeToDiplomeForm;
+	 }
+	 
+	 @Autowired
+	 public void setDiplomeFormToDiplome(DiplomeFormToDiplome diplomeFormToDiplome) {
+		this.diplomeFormToDiplome = diplomeFormToDiplome;
 	 }
 	 
 	 @Autowired
@@ -99,6 +106,7 @@ public class DiplomeController {
 		 return "pages/enregistrement/newDiploma";		
 	 }
 	
+	
 	 public List<NiveauDiplome> getNiveauByCateg(String categ){
 		 return this.niveauDiplomeService.findNiveauByCategorie(categ);
 	 }
@@ -112,6 +120,25 @@ public class DiplomeController {
 		 }
 		 
 	
+		 ListesDiplome listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
+
+		 return "redirect:/showDiploma/" + listesSaved.getId();
+	 }
+	 
+	 @PutMapping(value = "/updateDiploma")
+	 public String updateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @PathVariable String id, BindingResult bindingResult){
+		 
+		 if(bindingResult.hasErrors()){
+			 return "redirect:/error505";
+		 }
+		 /* ListesDiplome newEntity = diplomeFormToDiplome.convert(listesDiplome);
+		ListesDiplome updateEntity = listesDiplomeService.getById(Long.valueOf(id));
+		 
+		 updateEntity.setEcole(newEntity.getEcole());
+		 updateEntity.setFiliere(newEntity.getFiliere());
+		 updateEntity.setNiveauDiplome(newEntity.getNiveauDiplome());
+		 updateEntity.setOption(newEntity.getOption());*/
+		 
 		 ListesDiplome listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
 
 		 return "redirect:/showDiploma/" + listesSaved.getId();

@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="panel-body"> 
-                               <form th:object="${listesDiplome}" th:action="@{/saveDiploma}" method="post" class="f1">
+                               <form th:object="${listesDiplome}" th:action="${isEdit == 1} ? @{/udpateDiploma} : @{/saveDiploma}" th:method="${isEdit == 1} ? 'PUT' : 'POST'" class="f1">
                                
                                
 			                    <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">

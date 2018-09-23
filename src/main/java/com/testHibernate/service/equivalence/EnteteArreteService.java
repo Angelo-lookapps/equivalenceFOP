@@ -13,7 +13,7 @@ public interface EnteteArreteService {
 
     EnteteArrete getById(Long id);
     
-    List<EnteteArrete>  getEnteteByIdArreteEqRef(@Param(value = "idArreteEqRef") String idArreteEqRef);
+    EnteteArrete  getEnteteByIdArreteEqRef(@Param(value = "idArreteEqRef") String idArreteEqRef);
 
     EnteteArrete saveOrUpdate(EnteteArrete enteteArrete);
 

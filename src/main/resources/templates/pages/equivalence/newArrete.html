@@ -109,15 +109,21 @@
 	                                            
 	                                            <!-- En-tête -->
 	                                            <div class="tab-pane fade in active" id="tab1">
-				                                    <form th:method="POST" enctype="multipart/form-data">
+				                                    <form th:object="${enteteArreteForm}" th:method="POST" enctype="multipart/form-data" class="formEntete">
+				                                      	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+						                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
+						                              	</div>
 					                                    <div class="panel-body">
 					                                        <p><strong>En-t&ecirc;te arr&ecirc;t&eacute; : </strong></p>
 				                                        	<h4>Veuillez ajouter un logo : </h4>
-				                                        	<div class="form-group row">
-														        <div class="file-loading">
-														            <input id="logo" class="file" type="file" multiple data-min-file-count="1" name="logo">
-														        </div>
-															</div>
+				                                        	<div class="form-group">
+				                                                <div class="input-group">
+				                                                    <input type="file" th:field="*{logo}" id="logo" class="form-control"  >
+				                                                    <span class="input-group-addon" id="basic-addon2">LOGO</span>
+				                                                </div><!-- /input-group -->
+				                                            </div>
+				                                        	
 															<div class="panel-body">
 																<ul class="nav nav-tabs">
 																<h4>Titre sur en-t&ecirc;te: </h4>
@@ -129,21 +135,24 @@
 																	<div class="tab-pane fade in active" id="titre1">
 						                                    			
 																		<div class="form-group row">
-																			<textarea cols="80" rows="10" id="editor1" name="titreGauche"></textarea>
+																			<textarea cols="80" rows="10"  th:field="*{titreGauche}" id="editor1" ></textarea>
 																		</div>
 																		
 																	</div>
 																	<div class="tab-pane fade" id="titre2">
 						                                    			
 																		<div class="form-group row">
-																			<textarea cols="80" rows="10" id="editor2" name="titreDroite"></textarea>
+																			<textarea cols="80" rows="10" th:field="*{titreDroite}" id="editor2"></textarea>
 																		</div>
 																		
 																	</div>
+																	
 																</div>
-															
+																
+																<div id="postResultDiv"></div>
+																
 																<div class="btn-group pull-right">
-																	<button type="button" class="btn btn-base" onclick="getAlert()">Sauvegarder</button>
+																	<button type="submit" class="btn btn-base">Sauvegarder</button>
 																</div>
 															</div>
 					                                	</div>
@@ -318,7 +327,76 @@
 				console.log("\n "+CKEDITOR.instances.editor2.getData());
 			}
 			
+			$(document).ready(function() {
+				
+				// SUBMIT FORM
+				$(".formEntete").submit(function(event) {
+					// Prevent the form from submitting via the browser.
+					event.preventDefault();
+					ajaxPost();
+					
+				});
+			});
+			
+			function ajaxPost() {
+				// PREPARE FORM DATA
+				var formData1 = CKEDITOR.instances.editor1.getData();
+				var formData2 = CKEDITOR.instances.editor2.getData();
+				var image = $("input[type='file']").val();
+				console.log("formData1 = " + formData1 + "\n");
+				console.log("formData2 = " + formData2 + "\n");
+				
+				var f = $("input[type='file']")[0].files[0]; 
+				if (f) {
+				    var reader = new FileReader();
+				    reader.readAsDataURL(f);
+				    reader.onload = function(e) {
+				        // browser completed reading file - display it
+				        alert(e.target.result);
+				    };
+				}
+			   /* if (f) {
+				      var r = new FileReader();
+				      r.onload = function(e) { 
+				          var contents = e.target.result;
+				        alert(FileReader.readAsBinaryString(f));  
+				      }
+				      r.readAsText(f);
+		      	}*/
+				console.log("image = " + image + "\n");
+				/*var tabs = [];
+				tabs.push(formData1, formData2);
+				// DO POST
+				$.ajax({
+					type : "POST",
+					contentType : "text/html",
+					url : $("#formEntete").attr("action"),
+					data : tabs,
+					dataType : 'text',
+					success : function(result) {
+				 	
+						$("#postResultDiv").html(
+						"
+						 
+						"
+						+ "Post Successfully! "
+						+ "
+						 
+						");
+				 
+					console.log(result);
+					},
+					error : function(e) {
+						alert("Error!")
+						console.log("ERROR: ", e);
+					}
+				});
+				 
+				}
+				 */
+				}
 		</script>
+		
         <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
         <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
         

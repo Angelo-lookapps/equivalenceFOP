@@ -47,11 +47,19 @@ public class EnteteArreteServiceImpl implements EnteteArreteService {
 
 
 	@Override
-	public List<EnteteArrete> getEnteteByIdArreteEqRef(String idArreteEqRef) {
+	public EnteteArrete getEnteteByIdArreteEqRef(String idArreteEqRef) {
 		TypedQuery<EnteteArrete> query = em.createNamedQuery("EnteteArrete.findEnteteByIdArretEqRef", EnteteArrete.class).setParameter("idArreteEqRef", idArreteEqRef);
 		List<EnteteArrete> ret = query.getResultList();
+		System.out.println("\n\n \t Single resultat = "+ret.size());
 		
-		return ret;
+		EnteteArrete sortie = null;
+		if(ret.size()!=0) {
+			sortie = ret.get(0);
+		}
+		
+		System.out.println("\n\n \t Single resultat = "+sortie.getId()+" titreG: "+sortie.getTitreGauche()+sortie.getId()+" titreD: "+sortie.getTitreDroite());
+		
+		return sortie;
 	}
 
 	

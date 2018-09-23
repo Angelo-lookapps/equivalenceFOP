@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,17 +14,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
+import com.testHibernate.converts.equivalence.EnteteArreteFormToEnteteArrete;
+import com.testHibernate.converts.equivalence.EnteteArreteToEnteteArreteForm;
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
 import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
+import com.testHibernate.model.equivalence.EnteteArrete;
+import com.testHibernate.model.equivalence.EnteteArreteForm;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.equivalence.ArreteEqRefService;
+import com.testHibernate.service.equivalence.EnteteArreteService;
 
 @Controller
 public class ArreteController {
@@ -32,10 +41,28 @@ public class ArreteController {
 	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm;
 	 private ListesDiplomeService listesDiplomeService;
 	 private ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef;
+	 private EnteteArreteFormToEnteteArrete enteteArreteFormToEnteteArrete;
+	 private EnteteArreteService enteteArreteService;
+	 private EnteteArreteToEnteteArreteForm enteteArreteToEnteteArreteForm;
 	 
 	@Autowired
 	public void setListesDiplomeService(ListesDiplomeService listesDiplomeService) {
 		this.listesDiplomeService = listesDiplomeService;
+	}
+	
+	@Autowired
+	public void setEnteteArreteToEnteteArreteForm(EnteteArreteToEnteteArreteForm enteteArreteToEnteteArreteForm) {
+		this.enteteArreteToEnteteArreteForm = enteteArreteToEnteteArreteForm;
+	}
+	
+	@Autowired
+	public void setEnteteArreteService(EnteteArreteService enteteArreteService) {
+		this.enteteArreteService = enteteArreteService;
+	}
+	
+	@Autowired
+	public void setEnteteArreteFormToEnteteArrete(EnteteArreteFormToEnteteArrete enteteArreteFormToEnteteArrete) {
+		this.enteteArreteFormToEnteteArrete = enteteArreteFormToEnteteArrete;
 	}
 	
 	@Autowired
@@ -89,6 +116,14 @@ public class ArreteController {
 			}
 			ArreteEqRefForm arreteEqRefForm = listesSaved!=null ? this.arreteEqRefToArreteEqRefForm.convert(listesSaved) : new ArreteEqRefForm();
 			 
+		//	System.out.println("\n\n ArreteEq Ref FOrm = "+arreteEqRefForm.getTitre());
+			
+			
+			//EnteteArrete enteteArrete = this.enteteArreteService.getEnteteByIdArreteEqRef(id);
+		//	EnteteArreteForm enteteArreteForm = enteteArrete!=null ? this.enteteArreteToEnteteArreteForm.convert(enteteArrete) : new EnteteArreteForm();
+			
+		
+			
 			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 			List<String> listEcole = listesDiplomeService.getAllEcole();
 			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
@@ -98,7 +133,7 @@ public class ArreteController {
 			model.addAttribute("listEcole", listEcole);
 			model.addAttribute("listeDiploma", listeDiploma);
 			model.addAttribute("arreteEqRefForm", arreteEqRefForm);
-			
+			model.addAttribute("enteteArreteForm", new EnteteArreteForm());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,6 +167,25 @@ public class ArreteController {
 		}
 		
 		return "pages/equivalence/listArrete";		
+	}
+	/*@PostMapping("/saveEntete", consumes = MediaType.TEXT_HTML_VALUE)
+	   public @ResponseBody String saveSong(@Valid  @ModelAttribute EnteteArreteForm enteteArreteForm, @RequestBody String body, BindingResult bindingResult, Model model){
+	       //ResponseModel response = new ResponseModel();
+	       
+	        
+	       return response;
+	   }*/
+	@PostMapping("/saveEntete")
+	public String enteteArrete(@Valid  @ModelAttribute EnteteArreteForm enteteArreteForm , BindingResult bindingResult, Model model) {
+		EnteteArrete listesSaved = null;
+		if(bindingResult.hasErrors()){
+			return "/error505";
+			//return "pages/equivalence/listArrete";
+		}
+
+		listesSaved = enteteArreteService.saveOrUpdateEnteteArreteForm(enteteArreteForm);
+			
+		return "redirect:/newArrete/" + listesSaved.getId();		
 	}
 	
 

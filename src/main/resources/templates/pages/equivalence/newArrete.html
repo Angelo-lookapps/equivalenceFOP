@@ -109,17 +109,20 @@
 	                                            
 	                                            <!-- En-tête -->
 	                                            <div class="tab-pane fade in active" id="tab1">
-				                                    <form th:object="${enteteArreteForm}" th:method="POST" enctype="multipart/form-data" class="formEntete">
+				                                    <form th:object="${enteteArreteForm}" th:action="@{/saveEntete}+ '/' + ${arreteEqRefForm.id}" method="POST" enctype="multipart/form-data" class="formEntete">
 				                                      	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
 						                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
 						                              	</div>
+						                              	
+						                              
+				                                                
 					                                    <div class="panel-body">
 					                                        <p><strong>En-t&ecirc;te arr&ecirc;t&eacute; : </strong></p>
 				                                        	<h4>Veuillez ajouter un logo : </h4>
 				                                        	<div class="form-group">
 				                                                <div class="input-group">
-				                                                    <input type="file" th:field="*{logo}" id="logo" class="form-control"  >
+				                                                    <input type="file" th:field="*{logo}"  class="form-control  logo" th:name="logo"  >
 				                                                    <span class="input-group-addon" id="basic-addon2">LOGO</span>
 				                                                </div><!-- /input-group -->
 				                                            </div>
@@ -330,12 +333,19 @@
 			$(document).ready(function() {
 				
 				// SUBMIT FORM
-				$(".formEntete").submit(function(event) {
+				/*$(".formEntete").submit(function(event) {
 					// Prevent the form from submitting via the browser.
 					event.preventDefault();
 					ajaxPost();
 					
-				});
+				});*/
+		        $('.formEntete').submit(function (event) {
+		        	event.preventDefault();
+		            for (instance in CKEDITOR.instances) {
+		                CKEDITOR.instances[instance].updateElement();
+		            }
+		            ajaxPost();
+		        });     
 			});
 			
 			function ajaxPost() {
@@ -343,57 +353,38 @@
 				var formData1 = CKEDITOR.instances.editor1.getData();
 				var formData2 = CKEDITOR.instances.editor2.getData();
 				var image = $("input[type='file']").val();
-				console.log("formData1 = " + formData1 + "\n");
-				console.log("formData2 = " + formData2 + "\n");
-				
 				var f = $("input[type='file']")[0].files[0]; 
-				if (f) {
-				    var reader = new FileReader();
-				    reader.readAsDataURL(f);
-				    reader.onload = function(e) {
-				        // browser completed reading file - display it
-				        alert(e.target.result);
-				    };
-				}
-			   /* if (f) {
-				      var r = new FileReader();
-				      r.onload = function(e) { 
-				          var contents = e.target.result;
-				        alert(FileReader.readAsBinaryString(f));  
-				      }
-				      r.readAsText(f);
-		      	}*/
-				console.log("image = " + image + "\n");
-				/*var tabs = [];
-				tabs.push(formData1, formData2);
-				// DO POST
-				$.ajax({
-					type : "POST",
-					contentType : "text/html",
-					url : $("#formEntete").attr("action"),
-					data : tabs,
-					dataType : 'text',
-					success : function(result) {
-				 	
-						$("#postResultDiv").html(
-						"
-						 
-						"
-						+ "Post Successfully! "
-						+ "
-						 
-						");
-				 
-					console.log(result);
-					},
-					error : function(e) {
-						alert("Error!")
-						console.log("ERROR: ", e);
+				
+				var formData = new FormData();
+				formData.append('logo', $("input[type='file']")[0].files[0]);
+					if (f) {
+					    var reader = new FileReader();
+					    reader.readAsDataURL(f);
+					    reader.onload = function(e) {
+					    	var image = e.target.result;
+					    	var $data = { 'titreGauche': formData1, 'titreDroite': formData1, 'logo': image };
+					    	
+						$.ajax({
+							type : "POST",
+							contentType : "text/html",
+							url : $(".formEntete").attr("action"),
+							data : $data,
+							dataType : 'text',
+							success : function(result) {
+								$("#postResultDiv")
+									.html("<div class=\"alert alert-sm alert-info alert-dismissible\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><i class=\"fa fa-exclamation-circle\"></i><strong>INFO :</strong> Sauvegarde reussie!</div> ");
+							 
+									console.log(result);
+								},
+							error : function(e) {
+								alert("Error!")
+								console.log("ERROR: ", e);
+							}
+						});
+					        
+					        alert(e.target.result);
+					    };
 					}
-				});
-				 
-				}
-				 */
 				}
 		</script>
 		

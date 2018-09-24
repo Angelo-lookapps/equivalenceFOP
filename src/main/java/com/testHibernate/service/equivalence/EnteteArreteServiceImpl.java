@@ -9,7 +9,9 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
- 
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.testHibernate.converts.equivalence.EnteteArreteFormToEnteteArrete;
 import com.testHibernate.model.equivalence.EnteteArrete;
 import com.testHibernate.model.equivalence.EnteteArreteForm;
@@ -85,4 +87,25 @@ public class EnteteArreteServiceImpl implements EnteteArreteService {
         return savedEnteteArrete;
 	}
 
+	@Override
+	public EnteteArrete storeFile(MultipartFile file, EnteteArrete cible) throws Exception {
+        // Normalize file name
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        try {
+            // Check if the file's name contains invalid characters
+            if(fileName.contains("..")) {
+                throw new Exception("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+
+            EnteteArrete enteteArrete = cible;
+            enteteArrete.setLogo(file.getBytes());
+
+            return enteteArreteRepository.save(enteteArrete);
+            
+        } catch (Exception ex) {
+            throw new Exception("Could not store file " + fileName + ". Please try again!", ex);
+        }
+    }
+	
 }

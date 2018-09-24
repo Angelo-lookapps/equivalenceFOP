@@ -3,6 +3,8 @@ package com.testHibernate.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +90,6 @@ public class ArreteController {
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
 		}
-
 		listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
 			
 		return "redirect:/newArrete/" + listesSaved.getId();		
@@ -123,8 +124,6 @@ public class ArreteController {
 			
 			//EnteteArrete enteteArrete = this.enteteArreteService.getEnteteByIdArreteEqRef(id);
 		//	EnteteArreteForm enteteArreteForm = enteteArrete!=null ? this.enteteArreteToEnteteArreteForm.convert(enteteArrete) : new EnteteArreteForm();
-			
-		
 			
 			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 			List<String> listEcole = listesDiplomeService.getAllEcole();
@@ -179,21 +178,21 @@ public class ArreteController {
 	       return response;
 	   }*/
 	@PostMapping("/saveEntete/{id}")
-	public String enteteArrete(@PathVariable String id, @Valid  @ModelAttribute EnteteArreteForm enteteArreteForm , BindingResult bindingResult, Model model) {
+	public String enteteArrete(@PathVariable String id, @Valid  @ModelAttribute EnteteArreteForm enteteArreteForm, BindingResult bindingResult, Model model) {
 		EnteteArrete listesSaved = null;
 		if(bindingResult.hasErrors()){
 			return "/error505";
-			//return "pages/equivalence/listArrete";
 		}
-		System.out.println("\n idRef = " + id);
-				ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
-		enteteArreteForm.setArreteEqRef(temp);
-		System.out.println("\n LOGO = " + enteteArreteForm.getTitreDroite());
-		System.out.println("\n LOGO = " + enteteArreteForm.getTitreGauche());
+
+		System.out.println("\n\n\n arreteEqRefForm using EnteteArreteForm==== " + enteteArreteForm.getTitreGauche());
+			ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
+			enteteArreteForm.setArreteEqRef(temp);
+		 
 		try {
-		
+			//EnteteArrete ajout = enteteArreteFormToEnteteArrete.convert(enteteArreteForm);
+			//listesSaved = enteteArreteService.storeFile(file, ajout) ;
 			listesSaved = enteteArreteService.saveOrUpdateEnteteArreteForm(enteteArreteForm);
-			
+						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

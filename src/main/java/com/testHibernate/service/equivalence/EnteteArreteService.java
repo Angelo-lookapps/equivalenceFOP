@@ -3,7 +3,8 @@ package com.testHibernate.service.equivalence;
 import java.util.List;
 
 import org.springframework.data.repository.query.Param;
-  
+import org.springframework.web.multipart.MultipartFile;
+
 import com.testHibernate.model.equivalence.EnteteArrete;
 import com.testHibernate.model.equivalence.EnteteArreteForm;
 
@@ -20,5 +21,7 @@ public interface EnteteArreteService {
     void delete(Long id);
     
     EnteteArrete saveOrUpdateEnteteArreteForm(EnteteArreteForm enteteArreteForm);
+
+	EnteteArrete storeFile(MultipartFile file, EnteteArrete cible) throws Exception;
 
 }

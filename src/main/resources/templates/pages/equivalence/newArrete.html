@@ -110,6 +110,7 @@
 	                                            <!-- En-tête -->
 	                                            <div class="tab-pane fade in active" id="tab1">
 				                                    <form th:object="${enteteArreteForm}" th:action="@{/saveEntete}+ '/' + ${arreteEqRefForm.id}" method="POST" enctype="multipart/form-data" class="formEntete">
+				                                      	
 				                                      	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
 						                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
@@ -122,7 +123,7 @@
 				                                        	<h4>Veuillez ajouter un logo : </h4>
 				                                        	<div class="form-group">
 				                                                <div class="input-group">
-				                                                    <input type="file" th:field="*{logo}"  class="form-control  logo" th:name="logo"  >
+				                                                    <input type="file" class="form-control logo" th:field="*{logo}" name="logo"  >
 				                                                    <span class="input-group-addon" id="basic-addon2">LOGO</span>
 				                                                </div><!-- /input-group -->
 				                                            </div>
@@ -138,14 +139,14 @@
 																	<div class="tab-pane fade in active" id="titre1">
 						                                    			
 																		<div class="form-group row">
-																			<textarea cols="80" rows="10"  th:field="*{titreGauche}" id="editor1" ></textarea>
+																			<textarea type="text"  th:field="*{titreGauche}"  ></textarea>
 																		</div>
 																		
 																	</div>
 																	<div class="tab-pane fade" id="titre2">
 						                                    			
 																		<div class="form-group row">
-																			<textarea cols="80" rows="10" th:field="*{titreDroite}" id="editor2"></textarea>
+																			<textarea type="text"  th:field="*{titreDroite}"  ></textarea>
 																		</div>
 																		
 																	</div>
@@ -155,7 +156,7 @@
 																<div id="postResultDiv"></div>
 																
 																<div class="btn-group pull-right">
-																	<button type="submit" class="btn btn-base">Sauvegarder</button>
+																	<button type="submit" class="btn btn-base" onclick="getAlert()">Sauvegarder</button>
 																</div>
 															</div>
 					                                	</div>
@@ -326,8 +327,12 @@
 		</script>
 	  	<script>
 			function getAlert(){
-				console.log(CKEDITOR.instances.editor1.getData());
+				//console.log(CKEDITOR.instances.editor1.getData());
 				console.log("\n "+CKEDITOR.instances.editor2.getData());
+			//	$('#editor1').val = CKEDITOR.instances.editor1.getData();	
+			//	$('#editor2').val = CKEDITOR.instances.editor2.getData();
+				$('.formEntete').submit();
+				console.log("Hello world!!!!!!!!!!!!!!!!!");
 			}
 			
 			$(document).ready(function() {
@@ -339,13 +344,7 @@
 					ajaxPost();
 					
 				});*/
-		        $('.formEntete').submit(function (event) {
-		        	event.preventDefault();
-		            for (instance in CKEDITOR.instances) {
-		                CKEDITOR.instances[instance].updateElement();
-		            }
-		            ajaxPost();
-		        });     
+		        
 			});
 			
 			function ajaxPost() {
@@ -355,14 +354,14 @@
 				var image = $("input[type='file']").val();
 				var f = $("input[type='file']")[0].files[0]; 
 				
-				var formData = new FormData();
-				formData.append('logo', $("input[type='file']")[0].files[0]);
+				//var formData = new FormData();
+				//formData.append('logo', $("input[type='file']")[0].files[0]);
 					if (f) {
 					    var reader = new FileReader();
 					    reader.readAsDataURL(f);
 					    reader.onload = function(e) {
 					    	var image = e.target.result;
-					    	var $data = { 'titreGauche': formData1, 'titreDroite': formData1, 'logo': image };
+					    	var $data = { 'titreGauche': formData1, 'titreDroite': formData2, 'logo': image };
 					    	
 						$.ajax({
 							type : "POST",
@@ -374,14 +373,14 @@
 								$("#postResultDiv")
 									.html("<div class=\"alert alert-sm alert-info alert-dismissible\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><i class=\"fa fa-exclamation-circle\"></i><strong>INFO :</strong> Sauvegarde reussie!</div> ");
 							 
-									console.log(result);
-								},
+								console.log("SUCCESS!!!");
+								//window.location.replace($(".formEntete").attr("action"));
+							},
 							error : function(e) {
 								alert("Error!")
 								console.log("ERROR: ", e);
 							}
 						});
-					        
 					        alert(e.target.result);
 					    };
 					}

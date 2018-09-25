@@ -1,9 +1,11 @@
 package com.testHibernate.model.equivalence;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -12,17 +14,12 @@ public class TableauArrete {
 	public TableauArrete() {
 		
 	}
-
-	public TableauArrete(Long id, ArreteEqRef arreteEqRef, String titre, String organismePaysDelivrance, String cadre,
-			String echelle, String classementCategorie) {
+	
+	public TableauArrete(Long id, ArreteEqRef arreteEqRef, String contenuTableau) {
 		super();
 		this.id = id;
 		this.arreteEqRef = arreteEqRef;
-		this.titre = titre;
-		this.organismePaysDelivrance = organismePaysDelivrance;
-		this.cadre = cadre;
-		this.echelle = echelle;
-		this.classementCategorie = classementCategorie;
+		this.contenuTableau = contenuTableau;
 	}
 
 	@Id
@@ -32,11 +29,9 @@ public class TableauArrete {
 	@ManyToOne
 	private ArreteEqRef arreteEqRef;
 	
-	private String titre;
-	private String organismePaysDelivrance;
-	private String cadre;
-	private String echelle;
-	private String classementCategorie;
+	@Lob 
+	@Column(name="contenuTableau", length=2048)
+	private String contenuTableau;
 	
 
 	
@@ -52,35 +47,13 @@ public class TableauArrete {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getTitre() {
-		return titre;
+
+	public String getContenuTableau() {
+		return contenuTableau;
 	}
-	public void setTitre(String titre) {
-		this.titre = titre;
-	}
-	public String getOrganismePaysDelivrance() {
-		return this.organismePaysDelivrance;
-	}
-	public void setOrganismePaysDelivrance(String organismePaysDelivrance) {
-		this.organismePaysDelivrance = organismePaysDelivrance;
-	}
-	public String getCadre() {
-		return cadre;
-	}
-	public void setCadre(String cadre) {
-		this.cadre = cadre;
-	}
-	public String getEchelle() {
-		return echelle;
-	}
-	public void setEchelle(String echelle) {
-		this.echelle = echelle;
-	}
-	public String getClassementCategorie() {
-		return classementCategorie;
-	}
-	public void setClassementCategorie(String classementCategorie) {
-		this.classementCategorie = classementCategorie;
+
+	public void setContenuTableau(String contenuTableau) {
+		this.contenuTableau = contenuTableau;
 	}
 	
 	

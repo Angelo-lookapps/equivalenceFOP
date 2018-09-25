@@ -85,9 +85,8 @@
 	                                                <div class="profile-usermenu">
 	                                                    <h6>En-t&ecirc;te</h6>
 	                                                    <ul class="nav nav-tabs tabs-left">
-	                                                    	<li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-inbox"></i>Logo-dgfop<small class="label pull-right bg-green">61</small></a></li>
-	                                    					<li><a href="#tab2" data-toggle="tab"><i class="fa fa-trash-o"></i>Info-sortie de l'&eacute;quivalence</a></li>
-	                                                    </br>
+	                                                    	<li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-inbox"></i>Logo-dgfop</a></li>
+	                                    				</br>
 	                                             		<h6>Loi constitutionnel</h6>
 	                                                    
 	                                                    	<li><a href="#tab3" data-toggle="tab"><i class="fa fa-inbox"></i>LOI + DECRET</a></li>
@@ -97,10 +96,8 @@
 	                                                    	<li><a href="#tab4" data-toggle="tab"><i class="fa fa-inbox"></i>TITRE + ORGANISME + CATEGORIE </a></li>
 	                                    			     </br>
 	                                             		<h6>Articles + lois </h6>
-	                                                    
-	                                                    	<li><a href="#tab5" data-toggle="tab"><i class="fa fa-inbox"></i>Article(s)<small class="label pull-right bg-green">61</small></a></li>
-	                                    					<li><a href="#tab6" data-toggle="tab"><i class="fa fa-trash-o"></i>Signature + MINISTRE</a></li>
-	                                             		
+	                                                    	<li><a href="#tab5" data-toggle="tab"><i class="fa fa-inbox"></i>Article(s) + Signature + MINISTRE</a></li>
+	      	                                             		
 	                                                </div>
 	                                            </div>
 	                                        </div>
@@ -115,9 +112,7 @@
 						                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
 						                              	</div>
-						                              	
-						                              
-				                                                
+						                              	        
 					                                    <div class="panel-body">
 					                                        <p><strong>En-t&ecirc;te arr&ecirc;t&eacute; : </strong></p>
 				                                        	<h4>Veuillez ajouter un logo : </h4>
@@ -139,14 +134,14 @@
 																	<div class="tab-pane fade in active" id="titre1">
 						                                    			
 																		<div class="form-group row">
-																			<textarea type="text"  th:field="*{titreGauche}"  ></textarea>
+																			<textarea type="text"  th:field="*{titreGauche}" id="editor1" ></textarea>
 																		</div>
 																		
 																	</div>
 																	<div class="tab-pane fade" id="titre2">
 						                                    			
 																		<div class="form-group row">
-																			<textarea type="text"  th:field="*{titreDroite}"  ></textarea>
+																			<textarea type="text"  th:field="*{titreDroite}" id="editor2" ></textarea>
 																		</div>
 																		
 																	</div>
@@ -162,80 +157,73 @@
 					                                	</div>
 				                                	</form>
 			                                 	</div>
-	                                            <div class="tab-pane fade" id="tab2">
-				                                    <div class="panel-body">
-				                                        <p><strong>TAB 2</strong></p>
-				                                        	<div class="row">
-																<div class="col-xs-6">
-																	 <div class="form-group row">
-																		<label class="col-sm-3 col-md-2 col-form-label text-right">Subject :</label>
-																		<div class="col-sm-9 col-md-10">
-																			<input class="form-control" type="text" id="subjejct">
-																		</div>
-																	</div>
-																	<div class="form-group row">
-																		<label class="col-sm-3 col-md-2 col-form-label text-right">Subject :</label>
-																		<div class="col-sm-9 col-md-10">
-																			<input class="form-control" type="text" id="subjejct">
-																		</div>
-																	</div>
+				                                <div class="tab-pane fade" id="tab3">
+				                                    <form   th:action="@{/saveLoiDecret}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
+				                                      	
+				                                      	<!-- <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+						                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
+						                              	</div >-->
+						                              	    
+					                                    <div class="panel-body">
+					                                    	<h4>Loi et d&eacute;cret : </h4>
+															<div class="tab-content" >
+																<div class="form-group row">
+																	<textarea type="text"  id="editor3" ></textarea>
 																</div>
 															</div>
-															<!-- summernote -->
-															<div id="summernote"></div>
-															<div class="hidden-xs hidden-sm btn-group">
-																<button type="button" class="text-center btn btn-default">DISCARD</button>
-																<button type="button" class="btn btn-default">SAVE</button>
-															</div>
 															<div class="btn-group pull-right">
-																<button type="button" class="btn btn-base">SEND</button>
+																<button type="submit" class="btn btn-base" >Sauvegarder</button>
 															</div>
-				                                    </div>
-				                                </div>
-				                                <div class="tab-pane fade" id="tab3">
-				                                    <div class="panel-body">
-				                                        <p><strong>TAB 3 </strong></p>
-				                                        <p>Cras nec tincidunt erat. Donec tincidunt dictum mauris at lacinia. 
-				                                        Nullam rhoncus elit sed lectus facilisis hendrerit. Cras vitae erat non purus iaculis pretium vitae laoreet enim.
-				                                         In ac luctus nisi, eu sollicitudin leo. Vestibulum scelerisque quam a felis posuere, quis feugiat tellus ullamcorper. 
-				                                         Aliquam erat volutpat. Phasellus in enim faucibus, sodales libero eget, ornare arcu. In hac habitasse platea dictumst.
-				                                          Nam tempus dolor id mauris aliquet, ac dignissim massa pellentesque. 
-				                                        Etiam convallis malesuada quam, volutpat dignissim sem semper ut.</p>
-				                                    </div>
+					                                	</div>
+				                                	</form>
 				                                </div>
 				                                <div class="tab-pane fade" id="tab4">
-				                                    <div class="panel-body">
-				                                        <p><strong>TAB 4 </strong></p>
-			                                        	
-			                                        	<!-- summernote -->
-														<div id="summernote"></div>
-														<div class="btn-group pull-right">
-															<button type="button" class="btn btn-base">Finir</button>
-														</div>
-			                                    	</div>
+				                                    <form   th:action="@{/saveTableauArrete}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
+					                                   <div class="panel-body">
+					                                        <h4>Tableau classificatif de dipl&ocirc;me(par Cat&eacute;gorie): </h4>
+				                                        	 
+															<textarea type="text"  id="editor4"></textarea>
+															<div class="btn-group pull-right">
+																<button type="submit" class="btn btn-base" >Sauvegarder</button>
+															</div>
+				                                    	</div>
+			                                    	</form>
 				                                </div>
-				                                
-				                                
+
 				                                <!-- Tableau categorie -->
 				                                <div class="tab-pane fade" id="tab5">
-				                                    <div class="panel-body">
-				                                        <p><strong>TAB 5</strong></p>
-				                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-				                                            standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
-				                                            a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-				                                            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-				                                            Lorem Ipsum passages, and more recently with desktop publishing software like Aldus .</p>
-				                                    </div>
-				                                </div>
-				                                <div class="tab-pane fade" id="tab6">
-				                                    <div class="panel-body">
-				                                        <p><strong>Signature </strong></p>
-															<!-- summernote -->
-															<div id="summernote"></div>
-															<div class="btn-group pull-right">
-																<button type="button" class="btn btn-base">Finir</button>
+				                                    <form   th:action="@{/saveArticleLoiArrete}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
+					                                  	<div class="panel-body">
+															<ul class="nav nav-tabs">
+															<h4>Article + Signature Ministre: </h4> 
+																<li><a href="#article1" data-toggle="tab" class="btn btn-default w-md m-rb-5">Article(s)</a></li>
+	                                                   			<li><a href="#article2" data-toggle="tab" class="btn btn-default w-md m-rb-5">Signature Ministre</a></li>
+                                                   			</ul>
+                                                   		
+															<div class="tab-content" >
+																<div class="tab-pane fade in active" id="article1">
+					                                    			
+																	<div class="form-group row">
+																		<textarea type="text"    id="editor5" ></textarea>
+																	</div>
+																	
+																</div>
+																<div class="tab-pane fade" id="article2">
+					                                    			
+																	<div class="form-group row">
+																		<textarea type="text"    id="editor6" ></textarea>
+																	</div>
+																	
+																</div>
+																
 															</div>
-				                                    </div>
+															 
+															<div class="btn-group pull-right">
+																<button type="submit" class="btn btn-base" >Sauvegarder</button>
+															</div>
+														</div>
+			                                    	</form>
 				                                </div>
 	                                        </div>
 	                                    </div>
@@ -322,8 +310,19 @@
      
        	
        	<script>
+       		//entete
 			CKEDITOR.replace( 'editor1' );
 			CKEDITOR.replace( 'editor2' );
+			
+			//Loi+decret
+			CKEDITOR.replace( 'editor3' );
+			
+			//Tableau
+			CKEDITOR.replace( 'editor4' );
+			
+			//article + signature
+			CKEDITOR.replace( 'editor5' );
+			CKEDITOR.replace( 'editor6' );
 		</script>
 	  	<script>
 			function getAlert(){

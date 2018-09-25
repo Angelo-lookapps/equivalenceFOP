@@ -6,28 +6,26 @@ public class TableauArreteForm {
 		
 	}
 
-	public TableauArreteForm(Long id, ArreteEqRef arreteEqRef, String titre, String organismePaysDelivrance,
-			String cadre, String echelle, String classementCategorie) {
+	public TableauArreteForm(Long id, ArreteEqRef arreteEqRef, String contenuTableau) {
 		super();
 		this.id = id;
 		this.arreteEqRef = arreteEqRef;
-		this.titre = titre;
-		this.organismePaysDelivrance = organismePaysDelivrance;
-		this.cadre = cadre;
-		this.echelle = echelle;
-		this.classementCategorie = classementCategorie;
+		this.contenuTableau = contenuTableau;
 	}
-
 
 	private Long id;
 	private ArreteEqRef arreteEqRef;
-	private String titre;
-	private String organismePaysDelivrance;
-	private String cadre;
-	private String echelle;
-	private String classementCategorie;
+	private String contenuTableau;
 	
 	
+	public String getContenuTableau() {
+		return contenuTableau;
+	}
+
+	public void setContenuTableau(String contenuTableau) {
+		this.contenuTableau = contenuTableau;
+	}
+
 	public ArreteEqRef getArreteEqRef() {
 		return arreteEqRef;
 	}
@@ -40,36 +38,5 @@ public class TableauArreteForm {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getTitre() {
-		return titre;
-	}
-	public void setTitre(String titre) {
-		this.titre = titre;
-	}
-	public String getOrganismePaysDelivrance() {
-		return this.organismePaysDelivrance;
-	}
-	public void setOrganismePaysDelivrance(String organismePaysDelivrance) {
-		this.organismePaysDelivrance = organismePaysDelivrance;
-	}
-	public String getCadre() {
-		return cadre;
-	}
-	public void setCadre(String cadre) {
-		this.cadre = cadre;
-	}
-	public String getEchelle() {
-		return echelle;
-	}
-	public void setEchelle(String echelle) {
-		this.echelle = echelle;
-	}
-	public String getClassementCategorie() {
-		return classementCategorie;
-	}
-	public void setClassementCategorie(String classementCategorie) {
-		this.classementCategorie = classementCategorie;
-	}
-	
 	
 }

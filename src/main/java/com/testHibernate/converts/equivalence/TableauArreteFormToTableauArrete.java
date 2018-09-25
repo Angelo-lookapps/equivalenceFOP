@@ -18,11 +18,7 @@ public class TableauArreteFormToTableauArrete implements Converter<TableauArrete
     		tableauArreteForm.setId(new Long(tableauArrete.getId()));
         }
     	tableauArreteForm.setArreteEqRef(tableauArrete.getArreteEqRef());
-    	tableauArreteForm.setTitre(tableauArrete.getTitre());
-    	tableauArreteForm.setOrganismePaysDelivrance(tableauArrete.getOrganismePaysDelivrance());
-    	tableauArreteForm.setCadre(tableauArrete.getCadre());
-    	tableauArreteForm.setEchelle(tableauArrete.getEchelle());
-    	tableauArreteForm.setClassementCategorie(tableauArrete.getClassementCategorie());
+    	tableauArreteForm.setContenuTableau(tableauArrete.getContenuTableau());
     	
         return tableauArreteForm;
     }

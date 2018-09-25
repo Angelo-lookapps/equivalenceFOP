@@ -1,10 +1,12 @@
 package com.testHibernate.model.equivalence;
  
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -29,6 +31,8 @@ public class LoiDecretArrete {
 	@ManyToOne
 	private ArreteEqRef arreteEqRef;
 		
+	@Lob 
+	@Column(name="contenu", length=2048)
 	private String contenu ;
 	
 	public Long getId() {

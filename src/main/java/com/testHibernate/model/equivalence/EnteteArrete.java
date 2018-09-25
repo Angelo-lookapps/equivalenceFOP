@@ -1,6 +1,7 @@
 package com.testHibernate.model.equivalence;
  
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,7 +44,12 @@ public class EnteteArrete {
 	@Lob
 	private byte[] logo ;
 		
+	@Lob 
+	@Column(name="titreGauche", length=2048)
 	private String titreGauche ;
+	
+	@Lob 
+	@Column(name="titreDroite", length=2048)
 	private String titreDroite ;
 	public Long getId() {
 		return id;

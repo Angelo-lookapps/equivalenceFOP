@@ -1,10 +1,12 @@
 package com.testHibernate.model.equivalence;
  
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -30,7 +32,12 @@ public class ArticleLoiArrete {
 	@ManyToOne
 	private ArreteEqRef arreteEqRef;
 		
+	@Lob 
+	@Column(name="articleComplet", length=2048)
 	private String articleComplet ;
+	
+	@Lob 
+	@Column(name="signatureMinistre", length=2048)
 	private String signatureMinistre ;
 
 	public String getSignatureMinistre() {

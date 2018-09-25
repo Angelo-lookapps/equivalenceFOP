@@ -8,17 +8,17 @@ import com.testHibernate.model.equivalence.TableauArrete;
 import com.testHibernate.model.equivalence.TableauArreteForm;
 
 @Component
-public class TableauArreteFormToTableauArrete implements Converter<TableauArrete, TableauArreteForm> {
+public class TableauArreteFormToTableauArrete implements Converter<TableauArreteForm, TableauArrete> {
 
     @Override
-    public TableauArreteForm convert(TableauArrete tableauArrete) {
-    	TableauArreteForm tableauArreteForm = new TableauArreteForm();
+    public TableauArrete convert(TableauArreteForm tableauArreteForm2) {
+    	TableauArrete tableauArreteForm = new TableauArrete();
     	
-    	if (tableauArrete.getId() != null  && !StringUtils.isEmpty(tableauArrete.getId())) {
-    		tableauArreteForm.setId(new Long(tableauArrete.getId()));
+    	if (tableauArreteForm2.getId() != null  && !StringUtils.isEmpty(tableauArreteForm2.getId())) {
+    		tableauArreteForm.setId(new Long(tableauArreteForm2.getId()));
         }
-    	tableauArreteForm.setArreteEqRef(tableauArrete.getArreteEqRef());
-    	tableauArreteForm.setContenuTableau(tableauArrete.getContenuTableau());
+    	tableauArreteForm.setArreteEqRef(tableauArreteForm2.getArreteEqRef());
+    	tableauArreteForm.setContenuTableau(tableauArreteForm2.getContenuTableau());
     	
         return tableauArreteForm;
     }

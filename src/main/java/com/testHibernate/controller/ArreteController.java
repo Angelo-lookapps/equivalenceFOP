@@ -1,14 +1,10 @@
 package com.testHibernate.controller;
  
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,10 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
@@ -28,27 +20,58 @@ import com.testHibernate.converts.equivalence.EnteteArreteFormToEnteteArrete;
 import com.testHibernate.converts.equivalence.EnteteArreteToEnteteArreteForm;
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.model.diplome.ListesDiplome;
-import com.testHibernate.model.diplome.ListesDiplomeForm;
-import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
+import com.testHibernate.model.equivalence.ArticleLoiArrete;
+import com.testHibernate.model.equivalence.ArticleLoiArreteForm;
+import com.testHibernate.model.equivalence.ChampArreteEqForm;
 import com.testHibernate.model.equivalence.EnteteArrete;
 import com.testHibernate.model.equivalence.EnteteArreteForm;
+import com.testHibernate.model.equivalence.LoiDecretArrete;
+import com.testHibernate.model.equivalence.LoiDecretArreteForm;
+import com.testHibernate.model.equivalence.TableauArrete;
+import com.testHibernate.model.equivalence.TableauArreteForm;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.equivalence.ArreteEqRefService;
+import com.testHibernate.service.equivalence.ArticleLoiArreteService;
 import com.testHibernate.service.equivalence.EnteteArreteService;
+import com.testHibernate.service.equivalence.LoiDecretArreteService;
+import com.testHibernate.service.equivalence.TableauArreteService;
 
 @Controller
 public class ArreteController {
 	
 	 private ArreteEqRefService arreteEqRefService;
 	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm;
-	 private ListesDiplomeService listesDiplomeService;
 	 private ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef;
+	 
+	 private ListesDiplomeService listesDiplomeService;
+	 
 	 private EnteteArreteFormToEnteteArrete enteteArreteFormToEnteteArrete;
 	 private EnteteArreteService enteteArreteService;
 	 private EnteteArreteToEnteteArreteForm enteteArreteToEnteteArreteForm;
 	 
+	 private LoiDecretArreteService loiDecretArreteService;
+	 
+	 private TableauArreteService tableauArreteService;
+	 
+	 private ArticleLoiArreteService articleLoiArreteService;
+	
+	@Autowired
+	public void setTableauArreteService(TableauArreteService tableauArreteService) {
+		this.tableauArreteService = tableauArreteService;
+	}
+	
+	@Autowired
+	public void setArticleLoiArreteService(ArticleLoiArreteService articleLoiArreteService) {
+		this.articleLoiArreteService = articleLoiArreteService;
+	}
+
+	@Autowired
+	public void setLoiDecretArreteService(LoiDecretArreteService loiDecretArreteService) {
+		this.loiDecretArreteService = loiDecretArreteService;
+	}
+
 	@Autowired
 	public void setListesDiplomeService(ListesDiplomeService listesDiplomeService) {
 		this.listesDiplomeService = listesDiplomeService;
@@ -136,6 +159,10 @@ public class ArreteController {
 			model.addAttribute("arreteEqRefForm", arreteEqRefForm);
 			model.addAttribute("idArrete", arreteEqRefForm!=null ? arreteEqRefForm.getId().toString() : "");
 			model.addAttribute("enteteArreteForm", new EnteteArreteForm());
+			model.addAttribute("champArreteEqForm", new ChampArreteEqForm());
+			model.addAttribute("loiDecretArreteForm", new LoiDecretArreteForm());
+			model.addAttribute("articleLoiArreteForm", new ArticleLoiArreteForm());
+			model.addAttribute("tableauArreteForm", new TableauArreteForm());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,6 +219,65 @@ public class ArreteController {
 			//EnteteArrete ajout = enteteArreteFormToEnteteArrete.convert(enteteArreteForm);
 			//listesSaved = enteteArreteService.storeFile(file, ajout) ;
 			listesSaved = enteteArreteService.saveOrUpdateEnteteArreteForm(enteteArreteForm);
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		return "redirect:/newArrete/" + listesSaved.getId();		
+	}
+	@PostMapping("/saveLoiDecret/{id}")
+	public String loiDecretArrete(@PathVariable String id, @Valid  @ModelAttribute LoiDecretArreteForm loiDecretArreteForm, BindingResult bindingResult, Model model) {
+		LoiDecretArrete listesSaved = null;
+		if(bindingResult.hasErrors()){
+			return "/error505";
+		}
+
+			ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
+			loiDecretArreteForm.setArreteEqRef(temp);
+		 
+		try {
+			//EnteteArrete ajout = enteteArreteFormToEnteteArrete.convert(enteteArreteForm);
+			//listesSaved = enteteArreteService.storeFile(file, ajout) ;
+			listesSaved = loiDecretArreteService.saveOrUpdateLoiDecretArreteForm(loiDecretArreteForm);
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		return "redirect:/newArrete/" + listesSaved.getId();		
+	}
+	@PostMapping("/saveTableauArrete/{id}")
+	public String tableauArrete(@PathVariable String id, @Valid  @ModelAttribute TableauArreteForm tableauArreteForm, BindingResult bindingResult, Model model) {
+		TableauArrete listesSaved = null;
+		if(bindingResult.hasErrors()){
+			return "/error505";
+		}
+
+			ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
+			tableauArreteForm.setArreteEqRef(temp);
+		 
+	try {
+			listesSaved = tableauArreteService.saveOrUpdateTableauArreteForm(tableauArreteForm);
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		return "redirect:/newArrete/" + listesSaved.getId();		
+	}
+	@PostMapping("/saveArticleLoiArrete/{id}")
+	public String articleLoiArrete(@PathVariable String id, @Valid  @ModelAttribute ArticleLoiArreteForm articleLoiArreteForm, BindingResult bindingResult, Model model) {
+		ArticleLoiArrete listesSaved = null;
+		if(bindingResult.hasErrors()){
+			return "/error505";
+		}
+
+			ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
+			articleLoiArreteForm.setArreteEqRef(temp);
+		 
+	try {
+			listesSaved = articleLoiArreteService.saveOrUpdateArticleLoiArreteForm(articleLoiArreteForm);
 						
 		} catch (Exception e) {
 			e.printStackTrace();

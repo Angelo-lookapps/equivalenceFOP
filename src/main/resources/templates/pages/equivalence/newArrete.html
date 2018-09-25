@@ -83,21 +83,29 @@
 	                                        <div class="col-sm-3 p-0 inbox-nav hidden-xs hidden-sm">
 	                                            <div class="mailbox-sideber">
 	                                                <div class="profile-usermenu">
-	                                                    <h6>En-t&ecirc;te</h6>
+	                                                    
 	                                                    <ul class="nav nav-tabs tabs-left">
-	                                                    	<li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-inbox"></i>Logo-dgfop</a></li>
-	                                    				</br>
-	                                             		<h6>Loi constitutionnel</h6>
-	                                                    
-	                                                    	<li><a href="#tab3" data-toggle="tab"><i class="fa fa-inbox"></i>LOI + DECRET</a></li>
-	                                					 </br>
-	                                             		<h6>Tableau categorie</h6>
-	                                                    
-	                                                    	<li><a href="#tab4" data-toggle="tab"><i class="fa fa-inbox"></i>TITRE + ORGANISME + CATEGORIE </a></li>
-	                                    			     </br>
-	                                             		<h6>Articles + lois </h6>
-	                                                    	<li><a href="#tab5" data-toggle="tab"><i class="fa fa-inbox"></i>Article(s) + Signature + MINISTRE</a></li>
-	      	                                             		
+		                                                    <h6>Arr&ecirc;t&eacute; detail</h6>	
+		                                                    	<li><a href="#arreteDetail" data-toggle="tab" ><i class="fa fa-check-square-o"></i>Voir arret&eacute; detail</a></li>
+	                                                 		<br/>
+	                                                 		<h6>En-t&ecirc;te</h6>
+		                                                    	<li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-picture-o"></i>Logo-dgfop</a></li>
+		                                    				<br/>
+		                                             		<h6>Loi constitutionnel</h6>
+		                                                    
+		                                                    	<li><a href="#tab3" data-toggle="tab"><i class="fa fa-reorder"></i>LOI + DECRET</a></li>
+		                                					 <br/>
+		                                             		<h6>Tableau categorie</h6>
+		                                                    
+		                                                    	<li><a href="#tab4" data-toggle="tab"><i class="fa fa-table"></i>TITRE + ORGANISME + CATEGORIE </a></li>
+		                                    			     <br/>
+		                                             		<h6>Articles + lois </h6>
+		                                                    	<li><a href="#tab5" data-toggle="tab"><i class="fa fa-umbrella"></i>Article(s) + Signature + MINISTRE</a></li>
+	      	                                             	
+	      	                                             	<hr/>
+		      	                                              	<a class="btn btn-default" data-toggle="modal" data-target="#champArrete"><i class="fa fa-address-card-o"></i>  Voir extrait champ d'arr&ecirc;t&eacute;</a>
+                                                		
+                                                		</ul>
 	                                                </div>
 	                                            </div>
 	                                        </div>
@@ -158,18 +166,18 @@
 				                                	</form>
 			                                 	</div>
 				                                <div class="tab-pane fade" id="tab3">
-				                                    <form   th:action="@{/saveLoiDecret}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
+				                                    <form th:object="${loiDecretArreteForm}" th:action="@{/saveLoiDecret}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
 				                                      	
-				                                      	<!-- <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+				                                        <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
 						                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
-						                              	</div >-->
+						                              	</div >
 						                              	    
 					                                    <div class="panel-body">
 					                                    	<h4>Loi et d&eacute;cret : </h4>
 															<div class="tab-content" >
 																<div class="form-group row">
-																	<textarea type="text"  id="editor3" ></textarea>
+																	<textarea type="text" th:field="*{contenu}" id="editor3" ></textarea>
 																</div>
 															</div>
 															<div class="btn-group pull-right">
@@ -179,11 +187,15 @@
 				                                	</form>
 				                                </div>
 				                                <div class="tab-pane fade" id="tab4">
-				                                    <form   th:action="@{/saveTableauArrete}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
+				                                    <form th:object="${tableauArreteForm}" th:action="@{/saveTableauArrete}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
+					                                   <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+						                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
+					                              		</div >	
 					                                   <div class="panel-body">
 					                                        <h4>Tableau classificatif de dipl&ocirc;me(par Cat&eacute;gorie): </h4>
 				                                        	 
-															<textarea type="text"  id="editor4"></textarea>
+															<textarea type="text" th:field="*{contenuTableau}" id="editor4"></textarea>
 															<div class="btn-group pull-right">
 																<button type="submit" class="btn btn-base" >Sauvegarder</button>
 															</div>
@@ -193,7 +205,11 @@
 
 				                                <!-- Tableau categorie -->
 				                                <div class="tab-pane fade" id="tab5">
-				                                    <form   th:action="@{/saveArticleLoiArrete}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
+				                                    <form  th:object="${articleLoiArreteForm}" th:action="@{/saveArticleLoiArrete}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
+					                                  	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+						                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
+						                              	</div >
 					                                  	<div class="panel-body">
 															<ul class="nav nav-tabs">
 															<h4>Article + Signature Ministre: </h4> 
@@ -205,14 +221,14 @@
 																<div class="tab-pane fade in active" id="article1">
 					                                    			
 																	<div class="form-group row">
-																		<textarea type="text"    id="editor5" ></textarea>
+																		<textarea type="text" th:field="*{articleComplet}"  id="editor5" ></textarea>
 																	</div>
 																	
 																</div>
 																<div class="tab-pane fade" id="article2">
 					                                    			
 																	<div class="form-group row">
-																		<textarea type="text"    id="editor6" ></textarea>
+																		<textarea type="text" th:field="*{signatureMinistre}"  id="editor6" ></textarea>
 																	</div>
 																	
 																</div>
@@ -225,12 +241,94 @@
 														</div>
 			                                    	</form>
 				                                </div>
+				                                
+				                                <!-- Detail Arrete -->
+				                                <div class="tab-pane fade" id="arreteDetail">
+				                                  	<div class="panel-body">
+					                                  	<div class="inbox-mail-details p-20">
+			                                                <p><strong>Hi Tanzil,</strong></p>
+			                                                <p><span>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that</span></p>
+			                                                <p><span>Maecenas sed enim ut sem viverra aliquet. Consectetur adipiscing elit ut aliquam purus sit amet luctus.</span><span>Bibendum est ultricies integer quis :</span></p>
+			                                                <div>
+			                                                    <ul class="ml-20">
+			                                                        <li><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></li>
+			                                                        <li><span>Quisque dictum lorem id tempus lacinia.</span></li>
+			                                                        <li><span>Aenean placerat metus eget dignissim sodales.</span></li>
+			                                                        <li><span>Vivamus pretium risus vitae nibh maximus bibendum.</span></li>
+			                                                        <li><span>Curabitur maximus neque eget elit fermentum, at sagittis elit gravida.</span></li>
+			                                                    </ul>
+			                                                    <blockquote><small><strong>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</strong></small></blockquote>
+			                                                </div>
+			                                                <p><span>Ac tincidunt vitae semper quis lectus nulla at volutpat diam. Pellentesque massa placerat duis ultricies.</span></p>
+			                                                <div><strong>Regards,</strong></div>
+			                                                <div><strong>Tanjil Ahmed</strong></div>
+			                                                <hr>
+			                                                <h4> <i class="fa fa-paperclip"></i> Attachments <span>(3)</span> </h4>
+			                                                <div class="row">
+			                                                    <div class="col-sm-2 col-xs-4">
+			                                                        <a href="#"><img class="img-thumbnail img-responsive" alt="attachment" src="assets/dist/img/Zipper-icon.jpg"> </a>
+			                                                    </div>
+			                                                    <div class="col-sm-2 col-xs-4">
+			                                                        <a href="#"><img class="img-thumbnail img-responsive" alt="attachment" src="assets/dist/img/Zipper-icon.jpg"> </a>
+			                                                    </div>
+			                                                    <div class="col-sm-2 col-xs-4">
+			                                                        <a href="#"><img class="img-thumbnail img-responsive" alt="attachment" src="assets/dist/img/Zipper-icon.jpg"> </a>
+			                                                    </div>
+			                                                </div>
+			                                                <div class="m-t-20 border-all p-20">
+			                                                    <p class="p-b-20">click here to <a href="#">Reply</a> or <a href="compose.html">Forward</a></p>
+			                                                </div> 
+			                                            </div>
+		                                            </div>
+				                                </div>
 	                                        </div>
 	                                    </div>
 	                                </div>
 	                            </div> 
                         	
                         </div>
+                        	<!-- MODALS DIALOG -->
+	             		 	<div class="modal fade" id="champArrete" tabindex="-1" role="dialog">
+	                           	<div class="modal-dialog" role="document">
+	                               <div class="modal-content">
+	                                   	 <div class="modal-header">
+	                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                                         <h1 class="modal-title">Champ l'arr&ecirc;t&eacute; </h1>
+	                                     </div> 
+		                                       
+	                                     <div class="modal-body">
+	                                      	<div class="form-group row">
+		                                        <label for="example-text-input" class="col-sm-3 col-form-label">N° d'enregistrement / Année</label>
+		                                        <div class="col-sm-9">
+		                                            <input class="form-control" value="ex: N° 17 002/1818 - MFPRATELS/SG/DGFOP/DFPAE " type="text" disabled>
+		                                        </div>
+		                                    </div>
+	                                        <div class="form-group row">
+		                                        <label for="example-text-input" class="col-sm-3 col-form-label">D&eacute;livr&eacute; &agrave;</label>
+		                                        <div class="col-sm-9">
+		                                            <input class="form-control" value="ex: RAKOTO JEAN " type="text" disabled>
+		                                        </div>
+		                                    </div>
+	             							<div class="form-group row">
+		                                        <label for="example-text-input" class="col-sm-3 col-form-label">Titulaire de</label>
+		                                        <div class="col-sm-9">
+		                                            <input class="form-control" value="ex: MASTER I EN DROIT ET SCIENCES POLITIQUES  " type="text" disabled>
+		                                        </div>
+		                                    </div>
+		                                    <div class="form-group row">
+		                                        <label for="example-text-input" class="col-sm-3 col-form-label">Sp&eacute;cialit&eacute;</label>
+		                                        <div class="col-sm-9">
+		                                            <input class="form-control" value="ex: DROIT PRIVE" type="text" disabled>
+		                                        </div>
+		                                    </div>
+	                                     </div>
+	                                     <div class="modal-footer">
+                                             <button type="button" class="btn btn-base" data-dismiss="modal">OK</button>
+	                                     </div>
+	                                 </div><!-- /.modal-content -->
+	                             </div><!-- /.modal-dialog -->
+	                         </div><!-- /.modal --> 
+	                         
 	                        <!-- MODALS DIALOG -->
 	             		 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
                            	<div class="modal-dialog" role="document">

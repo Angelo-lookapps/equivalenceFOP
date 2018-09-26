@@ -79,16 +79,6 @@ public class PagesController {
 		return "pages/espacePersonnel/profile";		
 	}
 
-	//Liste promo
-	@GetMapping("/listProm")
-	public String listePromo() {
-		return "pages/listePromotion/listProm";		
-	}	
-	@GetMapping("/newListProm")
-	public String ajoutListePromo() {
-		return "pages/listePromotion/newListProm";		
-	}	
-	
 		
 	
 }

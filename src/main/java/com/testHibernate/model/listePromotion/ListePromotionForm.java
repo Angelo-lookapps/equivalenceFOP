@@ -1,13 +1,13 @@
-package com.testHibernate.model.listeDiplomes;
+package com.testHibernate.model.listePromotion;
  
 import com.testHibernate.model.diplome.ListesDiplome;
 
-public class TousListeDiplomeForm {
+public class ListePromotionForm {
 
-	public TousListeDiplomeForm() {
+	public ListePromotionForm() {
 		
 	}
-	public TousListeDiplomeForm(Long id, ListesDiplome listesDiplome, String sessionSortie, String nomPromotion) {
+	public ListePromotionForm(Long id, ListesDiplome listesDiplome, String sessionSortie, String nomPromotion) {
 		super();
 		this.id = id;
 		this.listesDiplome = listesDiplome;

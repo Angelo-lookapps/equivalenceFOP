@@ -1,17 +1,17 @@
-package com.testHibernate.converts.listeDiplomes;
+package com.testHibernate.converts.listePromotion;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
- 
-import com.testHibernate.model.listeDiplomes.TousListeDiplome;
-import com.testHibernate.model.listeDiplomes.TousListeDiplomeForm;
+
+import com.testHibernate.model.listePromotion.ListePromotion;
+import com.testHibernate.model.listePromotion.ListePromotionForm;
 
 @Component
-public class TousListeDiplomeToTousListeDiplomeForm implements Converter<TousListeDiplome, TousListeDiplomeForm> {
+public class ListePromotionToListePromotionForm implements Converter<ListePromotion, ListePromotionForm> {
 
     @Override
-    public TousListeDiplomeForm convert(TousListeDiplome tousListeDiplome) {
-    	TousListeDiplomeForm tousListeDiplomeForm = new TousListeDiplomeForm();
+    public ListePromotionForm convert(ListePromotion tousListeDiplome) {
+    	ListePromotionForm tousListeDiplomeForm = new ListePromotionForm();
     	
     	tousListeDiplomeForm.setId(tousListeDiplome.getId());
     	tousListeDiplomeForm.setListesDiplome(tousListeDiplome.getListesDiplome());

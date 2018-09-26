@@ -1,4 +1,4 @@
-package com.testHibernate.model.listeDiplomes;
+package com.testHibernate.model.listePromotion;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,13 +17,13 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		name = "TousListeDiplome.findBySession", 
 		query = "SELECT c FROM TousListeDiplome as c WHERE c.sessionSortie = :session ")
 	})
-public class TousListeDiplome {
+public class ListePromotion {
 
-	public TousListeDiplome() {
+	public ListePromotion() {
 		
 	}
 	
-	public TousListeDiplome(Long id, ListesDiplome listesDiplome, String sessionSortie, String nomPromotion) {
+	public ListePromotion(Long id, ListesDiplome listesDiplome, String sessionSortie, String nomPromotion) {
 		super();
 		this.id = id;
 		this.listesDiplome = listesDiplome;

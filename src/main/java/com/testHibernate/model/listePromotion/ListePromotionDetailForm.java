@@ -1,14 +1,14 @@
-package com.testHibernate.model.listeDiplomes;
+package com.testHibernate.model.listePromotion;
 
  
-public class TousListeDiplomeDetailForm {
+public class ListePromotionDetailForm {
 
-	public TousListeDiplomeDetailForm() {
+	public ListePromotionDetailForm() {
 		
 	}
 	
 
- 	public TousListeDiplomeDetailForm(Long id, TousListeDiplome tousListeDiplome, String numeroMatricule,
+ 	public ListePromotionDetailForm(Long id, ListePromotion tousListeDiplome, String numeroMatricule,
 			String nomComplet, String dateNaissance, String lieuNaissance, String mention) {
 		super();
 		this.id = id;
@@ -22,7 +22,7 @@ public class TousListeDiplomeDetailForm {
 
 
 	private Long id;
- 	private TousListeDiplome tousListeDiplome;
+ 	private ListePromotion tousListeDiplome;
  	private String numeroMatricule;
 	private String nomComplet;
 	private String dateNaissance;
@@ -42,10 +42,10 @@ public class TousListeDiplomeDetailForm {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public TousListeDiplome getTousListeDiplome() {
+	public ListePromotion getTousListeDiplome() {
 		return tousListeDiplome;
 	}
-	public void setTousListeDiplome(TousListeDiplome tousListeDiplome) {
+	public void setTousListeDiplome(ListePromotion tousListeDiplome) {
 		this.tousListeDiplome = tousListeDiplome;
 	}
 	public String getNumeroMatricule() {

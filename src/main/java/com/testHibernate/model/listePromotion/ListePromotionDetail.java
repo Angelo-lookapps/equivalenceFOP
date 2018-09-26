@@ -1,4 +1,4 @@
-package com.testHibernate.model.listeDiplomes;
+package com.testHibernate.model.listePromotion;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,15 +16,15 @@ import org.hibernate.annotations.NamedQuery;
 		name = "TousListeDiplomeDetail.findByIdTousListeDiplome", 
 		query = "SELECT c FROM TousListeDiplomeDetail as c WHERE c.tousListeDiplome.id = :idTousListeDiplome ")
 	})
-public class TousListeDiplomeDetail {
+public class ListePromotionDetail {
 
-	public TousListeDiplomeDetail() {
+	public ListePromotionDetail() {
 		
 	}
 
 	 
 
-	public TousListeDiplomeDetail(Long id, TousListeDiplome tousListeDiplome, String numeroMatricule, String nomComplet,
+	public ListePromotionDetail(Long id, ListePromotion tousListeDiplome, String numeroMatricule, String nomComplet,
 			String dateNaissance, String lieuNaissance, String mention) {
 		super();
 		this.id = id;
@@ -43,7 +43,7 @@ public class TousListeDiplomeDetail {
 	private Long id;
 	
 	@ManyToOne
-	private TousListeDiplome tousListeDiplome;
+	private ListePromotion tousListeDiplome;
 	
 	private String numeroMatricule;
 	private String nomComplet;
@@ -65,10 +65,10 @@ public class TousListeDiplomeDetail {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public TousListeDiplome getTousListeDiplome() {
+	public ListePromotion getTousListeDiplome() {
 		return tousListeDiplome;
 	}
-	public void setTousListeDiplome(TousListeDiplome tousListeDiplome) {
+	public void setTousListeDiplome(ListePromotion tousListeDiplome) {
 		this.tousListeDiplome = tousListeDiplome;
 	}
 	public String getNumeroMatricule() {

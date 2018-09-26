@@ -6,13 +6,12 @@ public class ListePromotionDetailForm {
 	public ListePromotionDetailForm() {
 		
 	}
-	
 
- 	public ListePromotionDetailForm(Long id, ListePromotion tousListeDiplome, String numeroMatricule,
-			String nomComplet, String dateNaissance, String lieuNaissance, String mention) {
+	public ListePromotionDetailForm(Long id, ListePromotion listePromotion, String numeroMatricule, String nomComplet,
+			String dateNaissance, String lieuNaissance, String mention) {
 		super();
 		this.id = id;
-		this.tousListeDiplome = tousListeDiplome;
+		this.listePromotion = listePromotion;
 		this.numeroMatricule = numeroMatricule;
 		this.nomComplet = nomComplet;
 		this.dateNaissance = dateNaissance;
@@ -21,8 +20,9 @@ public class ListePromotionDetailForm {
 	}
 
 
+
 	private Long id;
- 	private ListePromotion tousListeDiplome;
+ 	private ListePromotion listePromotion;
  	private String numeroMatricule;
 	private String nomComplet;
 	private String dateNaissance;
@@ -42,11 +42,12 @@ public class ListePromotionDetailForm {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public ListePromotion getTousListeDiplome() {
-		return tousListeDiplome;
+	 
+	public ListePromotion getListePromotion() {
+		return listePromotion;
 	}
-	public void setTousListeDiplome(ListePromotion tousListeDiplome) {
-		this.tousListeDiplome = tousListeDiplome;
+	public void setListePromotion(ListePromotion listePromotion) {
+		this.listePromotion = listePromotion;
 	}
 	public String getNumeroMatricule() {
 		return numeroMatricule;

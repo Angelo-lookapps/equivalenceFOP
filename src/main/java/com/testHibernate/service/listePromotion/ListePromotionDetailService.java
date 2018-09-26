@@ -13,7 +13,7 @@ public interface ListePromotionDetailService {
 
     ListePromotionDetail getById(Long id);
     
-    List<ListePromotionDetail>  getDetailByIdListePromotion(@Param(value = "idListePromotion") String idListePromotion);
+    List<ListePromotionDetail>  getDetailByIdListePromotion(@Param(value = "idListePromotion") Long idListePromotion);
 
     ListePromotionDetail saveOrUpdate(ListePromotionDetail tousListePromotionDetail);
     

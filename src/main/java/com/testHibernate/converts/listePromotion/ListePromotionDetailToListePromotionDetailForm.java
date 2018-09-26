@@ -10,15 +10,15 @@ import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 public class ListePromotionDetailToListePromotionDetailForm implements Converter<ListePromotionDetail, ListePromotionDetailForm> {
 
     @Override
-    public ListePromotionDetailForm convert(ListePromotionDetail tousListeDiplomeDetail) {
+    public ListePromotionDetailForm convert(ListePromotionDetail listePromotionDetail) {
     	ListePromotionDetailForm tousListeDiplomeDetailForm = new ListePromotionDetailForm();
         
-    	tousListeDiplomeDetailForm.setId(tousListeDiplomeDetail.getId());
-    	tousListeDiplomeDetailForm.setTousListeDiplome(tousListeDiplomeDetail.getTousListeDiplome());
-    	tousListeDiplomeDetailForm.setNomComplet(tousListeDiplomeDetail.getNomComplet());
-    	tousListeDiplomeDetailForm.setDateNaissance(tousListeDiplomeDetail.getDateNaissance());  
-    	tousListeDiplomeDetailForm.setLieuNaissance(tousListeDiplomeDetail.getLieuNaissance());
-    	tousListeDiplomeDetailForm.setMention(tousListeDiplomeDetail.getMention());
+    	tousListeDiplomeDetailForm.setId(listePromotionDetail.getId());
+    	tousListeDiplomeDetailForm.setListePromotion(listePromotionDetail.getListePromotion());
+    	tousListeDiplomeDetailForm.setNomComplet(listePromotionDetail.getNomComplet());
+    	tousListeDiplomeDetailForm.setDateNaissance(listePromotionDetail.getDateNaissance());  
+    	tousListeDiplomeDetailForm.setLieuNaissance(listePromotionDetail.getLieuNaissance());
+    	tousListeDiplomeDetailForm.setMention(listePromotionDetail.getMention());
         
     	return tousListeDiplomeDetailForm;
     }

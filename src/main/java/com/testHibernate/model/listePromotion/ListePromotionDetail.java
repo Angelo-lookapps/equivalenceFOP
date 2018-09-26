@@ -10,11 +10,11 @@ import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 
-@Entity(name="TousListeDiplomeDetail")
+@Entity(name="ListePromotionDetail")
 @NamedQueries({
 	@NamedQuery(
-		name = "TousListeDiplomeDetail.findByIdTousListeDiplome", 
-		query = "SELECT c FROM TousListeDiplomeDetail as c WHERE c.tousListeDiplome.id = :idTousListeDiplome ")
+		name = "ListePromotionDetail.findByIdListePromotion", 
+		query = "SELECT c FROM ListePromotionDetail as c WHERE c.listePromotion.id = :idListePromotion ")
 	})
 public class ListePromotionDetail {
 
@@ -24,11 +24,11 @@ public class ListePromotionDetail {
 
 	 
 
-	public ListePromotionDetail(Long id, ListePromotion tousListeDiplome, String numeroMatricule, String nomComplet,
+	public ListePromotionDetail(Long id, ListePromotion listePromotion, String numeroMatricule, String nomComplet,
 			String dateNaissance, String lieuNaissance, String mention) {
 		super();
 		this.id = id;
-		this.tousListeDiplome = tousListeDiplome;
+		this.listePromotion = listePromotion;
 		this.numeroMatricule = numeroMatricule;
 		this.nomComplet = nomComplet;
 		this.dateNaissance = dateNaissance;
@@ -37,13 +37,12 @@ public class ListePromotionDetail {
 	}
 
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne
-	private ListePromotion tousListeDiplome;
+	private ListePromotion listePromotion;
 	
 	private String numeroMatricule;
 	private String nomComplet;
@@ -65,11 +64,11 @@ public class ListePromotionDetail {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public ListePromotion getTousListeDiplome() {
-		return tousListeDiplome;
+	public ListePromotion getListePromotion() {
+		return listePromotion;
 	}
-	public void setTousListeDiplome(ListePromotion tousListeDiplome) {
-		this.tousListeDiplome = tousListeDiplome;
+	public void setListePromotion(ListePromotion listePromotion) {
+		this.listePromotion = listePromotion;
 	}
 	public String getNumeroMatricule() {
 		return numeroMatricule;

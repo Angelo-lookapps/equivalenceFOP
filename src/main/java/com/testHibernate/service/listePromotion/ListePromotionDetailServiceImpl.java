@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.listePromotion.ListePromotionDetailFormToListePromotionDetail;
+import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 import com.testHibernate.repo.listePromotion.ListePromotionDetailRepository;
@@ -49,9 +51,11 @@ public class ListePromotionDetailServiceImpl implements ListePromotionDetailServ
 	}
 	
 	@Override
-	public List<ListePromotionDetail> getDetailByIdListePromotion(String idListePromotion) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ListePromotionDetail> getDetailByIdListePromotion(Long idListePromotion) {
+		TypedQuery<ListePromotionDetail> query = em.createNamedQuery("ListePromotionDetail.findByIdListePromotion", ListePromotionDetail.class).setParameter("idListePromotion", idListePromotion);
+		List<ListePromotionDetail> ret = query.getResultList();
+		
+		return ret;
 	}
 
 	@Override

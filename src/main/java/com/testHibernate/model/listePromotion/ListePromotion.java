@@ -1,10 +1,14 @@
 package com.testHibernate.model.listePromotion;
 
+import java.sql.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -40,6 +44,18 @@ public class ListePromotion {
 	
 	private String sessionSortie;
 	private String nomPromotion;
+	
+	@Column(name = "dateAjout",columnDefinition = "DATE DEFAULT CURRENT_DATE")
+	private Date dateAjout;
+	
+	
+	public Date getDateAjout() {
+		return dateAjout;
+	}
+
+	public void setDateAjout(Date dateAjout) {
+		this.dateAjout = dateAjout;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
  <meta charset="utf-8">
+ <base href="http://localhost:8080/homePage" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -19,16 +20,13 @@
         <!-- START GLOBAL MANDATORY STYLE -->
         <link href="assets/dist/css/base.css"rel="stylesheet" type="text/css">
         <!-- START PAGE LABEL PLUGINS --> 
-
+ 		<link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
+        <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
+       
         <!-- START THEME LAYOUT STYLE -->
         <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-<title>Equivalence App</title>
+       
+<title>Tableau de bord</title>
 </head>
 <body class="hold-transition fixed sidebar-mini">
         
@@ -38,15 +36,180 @@
         <!-- Site wrapper -->
         <!-- Content Wrapper. Contains page content -->
         <div th:replace="fragments/header :: header">Static header</div>   
-        <div class="content-wrapper">
-             <!-- Main content -->
+       
+             <!-- Main content 
              <div class="content">
                 <h1 th:text="'Hello ' + ${#strings.capitalize(pseudo)} + '!!!'"></h1>	
 				<a href="/users"> Test Connections databases</a>              
-     	     </div>
-        </div>
+     	     </div>-->
+     	     
+        <div class="content-wrapper">
+                <div class="content">
+                    <!-- Content Header (Page header) -->
+                    <div class="content-header">
+                        <div class="header-icon">
+                            <i class="pe-7s-box1"></i>
+                        </div>
+                        <div class="header-title">
+                            <h1>Liste des promotions de chaque &eacute;cole par session</h1>
+	                        <small></small>
+	                        <ol class="breadcrumb">
+	                            <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+	                            <li ><a href="/listProm">ListePromotion</a></li>
+	                            <li class="active">Recherche promotion</li>
+	                        </ol>
+                        </div>
+                    </div> <!-- /. Content Header (Page header) -->
+                    <div class="row">
+                    	<div class="col-sm-8">
+                    		<div class="panel panel-bd lobidrag">
+	                            <div class="panel-heading">
+	                                <div class="panel-title">
+	                                    <h4>Trier :</h4>
+	                                </div>
+	                            </div>
+	                            <div class="panel-body"> 
+	                               <form th:action="@{/filter}" method="GET" class="f1">
+				                	   	 <div class="form-group row">
+		                                    <label class="col-sm-2 col-form-label">Champ :</label>
+	                                        <div class="col-lg-3 col-md-9 ">
+	                                            <select class="form-control " th:name="'champ'">
+	                                           		<option th:value="'*'" th:text="'Trier par'" selected disabled></option>
+	                                            	<div th:each="champ : ${champs}">
+	                                            		<option th:value="${champ.key}" th:text="${champ.value}"></option>
+			                                        </div>
+	                                            </select>
+	                                        </div>
+		                                    <div class="col-md-2 ">
+		                                    	<label for="lieuNaissance" class="col-form-label"> par Ordre: </label>
+	                                    	 </div>
+		                                    <div class="col-lg-3  ">
+		                                       <select class="form-control " th:name="'ordre'">
+	                                            	<option th:value="'ASC'" th:text="'croissant'"></option>
+	                                            	<option th:value="'DESC'" th:text="'décroissant'"></option>
+											   </select>
+                                            </div>
+                                            <div class="col-lg-2">
+                                            	<button type="submit" class="btn btn-base pull-right">Valider</button>
+                                            </div>
+		                                </div>   
+	                                	
+	                                </form>
+	                            </div>
+	                        </div>
+	                        
+	                        <div class="panel panel-bd lobidrag">
+	                           <div class="panel-heading">
+	                               <div class="panel-title">
+	                                   <h4>Liste des Demandes en cours</h4>
+	                               </div>
+	                           </div>
+	                           <div class="panel-body">
+                                	<div th:if="${not #lists.isEmpty(listeDemande)}">
+	                            
+                                    <div class="table-responsive">
+                                        	<input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+	                                        <table id="example1" class="footable table table-bordered toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
+	                                            <thead>
+	                                               <tr>
+		                                               <th>Num&eacute;ro /anne&eacute; </th>
+		                                               <th>Carte d'identit&eacute; </th>
+		                                               <th>Date de retrait </th>
+		                                               <th>Status d'enregistrement</th>
+		                                               <th>Action</th>
+		                                               
+	                                                   <th data-hide="all">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
+		                                               <th data-hide="all">T&eacute;l&eacute;phone :</th>
+		                                               <th data-hide="all">Dipl&ocirc;me evoqu&eacute; :</th>
+		                                               <th data-hide="all">Utilisation :</th>
+		                                           </tr>
+	                                            </thead>
+	                                            <tbody>
+	                                                <tr th:each="demande : ${listeDemande}">
+	                                               	   <td th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()+1900}"></td>
+	                                               	   <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
+		                                               <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+		                                               <td><a th:class="${demande.statusEnregistrement} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'" th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'confirmé' : 'non-confirmé'"></a></td>
+		                                               <td>
+		                                               	   <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+	                                                  	   <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${demande.id}')|" ><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+			                                              
+	                                                  	  <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow"> --> 
+				                                       </td>
+		                                               <!-- DATA HIDE -->
+		                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
+		                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.telephone}"></a></b></td>
+		                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.diplome}"></a></b></td>
+		                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.utilisation}"></a></b></td>
+		                                             </tr>
+	                                            </tbody>
+	                                            <tfoot>
+	                                                <tr>
+	                                                    <td colspan="6">
+	                                                        <ul class="pagination pull-right"></ul>
+	                                                    </td>
+	                                                </tr>
+	                                            </tfoot>
+	                                        </table>
+                                    	</div>
+                                   </div>
+                                </div>
+	                       </div>
+                    	</div>
+	                    	<div class="col-lg-4 visible-lg">
+	                            <div class="panel panel-bd lobidisable">
+	                                <div class=panel-heading>
+	                                    <div class=panel-title>
+	                                        <i class=ti-stats-up></i>
+	                                        <h4>R&eacute;cent Activit&eacute;s</h4>
+	                                    </div>
+	                                </div>
+	                                <div class=panel-body>
+	                                    <ul class="activity-list list-unstyled">
+	                                        <li class=activity-purple>
+	                                            <small class=text-muted>9 minutes ago</small>
+	                                            <p>You <span class="label label-success label-pill">recommended</span> Karen Ortega</p>
+	                                        </li>
+	                                        <li class=activity-danger>
+	                                            <small class=text-muted>15 minutes ago</small>
+	                                            <p>You followed Olivia Williamson</p>
+	                                        </li>
+	                                        <li class=activity-warning>
+	                                            <small class=text-muted>22 minutes ago</small>
+	                                            <p>You <span class=text-danger>subscribed</span> to Harold Fuller</p>
+	                                        </li>
+	                                        <li class=activity-primary>
+	                                            <small class=text-muted>30 minutes ago</small>
+	                                            <p>You updated your profile picture</p>
+	                                        </li>
+	                                        <li>
+	                                            <small class=text-muted>35 minutes ago</small>
+	                                            <p>You deleted homepage.psd</p>
+	                                        </li>
+	                                    </ul>
+	                                </div>
+	                            </div>
+	                            
+	                             <div class="col-sm-2">
+			                   	 	<button type="button" class="btn btn-primary w-md m-rb-5" data-toggle="modal" data-target="#myModal">Ajouter une nouvelle promotion</button>
+			                   	</div>
+	                        </div>
+                        
+                       
+                    </div>
+                </div> <!-- /.main content -->
+            </div>
        	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-        
+        <script>
+		    function goToDelete(id) {
+		        var txt;
+		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
+		        if (r == true) {
+		        	window.location.href = "/request/delete/"+id;		            
+		        } 
+		       
+		    }	
+		</script>
         <!-- ./²wrapper -->
         <!-- START CORE PLUGINS -->
         <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
@@ -57,6 +220,19 @@
         <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
         <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
         <!-- START THEME LABEL SCRIPT -->
+        
+         <!-- DataTable Js -->
+        <script src="assets/plugins/datatables/dataTables.min.js"></script>
+        <script src="assets/plugins/datatables/dataTables-active.js"></script>
+        
+        <!-- Footable Js -->
+        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+      
+        <!-- icheck Js -->
+        <script src="assets/plugins/icheck/icheck.min.js"></script>
+        <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+        <script src="assets/plugins/icheck/icheck-active.js"></script>
         <script src="assets/dist/js/theme.js"></script>
 	</body>
 	

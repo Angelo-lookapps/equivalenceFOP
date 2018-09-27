@@ -2,11 +2,13 @@ package com.testHibernate.model.cin;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NamedQueries;
@@ -91,6 +93,17 @@ public class CIN {
 	@Type(type="org.hibernate.type.BinaryType")
 	private byte[] photo;
 
+	@Column(name = "dateAjout",columnDefinition = "DATE DEFAULT CURRENT_DATE")
+	private Date dateAjout;
+	
+	public Date getDateAjout() {
+		return dateAjout;
+	}
+
+	public void setDateAjout(Date dateAjout) {
+		this.dateAjout = dateAjout;
+	}
+	
 	public Long getId() {
 		return id;
 	}

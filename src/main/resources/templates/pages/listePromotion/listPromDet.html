@@ -54,7 +54,7 @@
 	                        <small></small>
 	                        <ol class="breadcrumb">
 	                            <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
-	                            <li ><a href="#">ListePromotion</a></li>
+	                            <li ><a href="/listProm">ListePromotion</a></li>
 	                            <li class="active">liste des admis</li>
 	                        </ol>
                         </div>
@@ -150,8 +150,12 @@
 					                                <td th:text="${listePromotion.listesDiplome.niveauDiplome.niveau}"></td>
 					                          	</tr>
 			                          			<tr>
-					                                <th>Nom promotion  </th>
+					                                <th>Nom promotion : </th>
 					                                <td th:text="${listePromotion.nomPromotion}"></td>
+					                         	</tr>
+					                         	<tr>
+					                                <th>Session : </th>
+					                                <td th:text="${listePromotion.sessionSortie}"></td>
 					                         	</tr>
 		                                    </tbody>
 		                                </table>
@@ -255,7 +259,9 @@
                         </div>
                         
                         <div class="col-sm-2">
-	                   	 	<button type="button" class="btn btn-primary w-md m-rb-5" data-toggle="modal" data-target="#myModal">Ajouter une nouvelle promotion</button>
+	                   	 	 <a href="/listProm" class="btn btn-labeled btn-primary w-md m-rb-5">
+                                 <span class="btn-label"><i class="fa fa-reply"></i></span>Revenir
+                             </a>
 	                   	</div>
                     </div>
                     

@@ -1,5 +1,9 @@
 package com.testHibernate.model.listePromotion;
  
+import java.sql.Date;
+
+import javax.persistence.TemporalType;
+
 import com.testHibernate.model.diplome.ListesDiplome;
 
 public class ListePromotionForm {
@@ -19,7 +23,11 @@ public class ListePromotionForm {
 	private ListesDiplome listesDiplome;
 	private String sessionSortie;
 	private String nomPromotion;
-	
+	private Date dateAjout;
+
+	public void setDateAjout(Date dateAjout) {
+		this.dateAjout = dateAjout;
+	}
 	public Long getId() {
 		return id;
 	}

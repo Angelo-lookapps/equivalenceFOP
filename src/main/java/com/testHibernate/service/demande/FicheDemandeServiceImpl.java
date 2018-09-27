@@ -91,4 +91,22 @@ public class FicheDemandeServiceImpl implements FicheDemandeService {
 		ficheDemandeRepository.deleteById(id);
 	}
 
+
+	@Override
+	public List<FicheDemande> getFicheDemandeByFilterASC(String champ) {
+		TypedQuery<FicheDemande> query = em.createNamedQuery("FicheDemande.findByFilterASC", FicheDemande.class)
+				.setParameter("champ", champ) ;
+		List<FicheDemande> ret = query.getResultList();
+		
+		return ret;
+	}
+	@Override
+	public List<FicheDemande> getFicheDemandeByFilterDESC(String champ) {
+		TypedQuery<FicheDemande> query = em.createNamedQuery("FicheDemande.findByFilterDESC", FicheDemande.class)
+				.setParameter("champ", champ) ;
+		List<FicheDemande> ret = query.getResultList();
+		
+		return ret;
+	}
+
 }

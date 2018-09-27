@@ -18,6 +18,7 @@ public class ListePromotionDetailFormToListePromotionDetail implements Converter
     		tousListeDiplomeDetail.setId(new Long(listePromotionDetailForm.getId()));
         }
     	tousListeDiplomeDetail.setListePromotion(listePromotionDetailForm.getListePromotion());
+    	tousListeDiplomeDetail.setNumeroMatricule(listePromotionDetailForm.getNumeroMatricule());
     	tousListeDiplomeDetail.setNomComplet(listePromotionDetailForm.getNomComplet());
     	tousListeDiplomeDetail.setDateNaissance(listePromotionDetailForm.getDateNaissance());  
     	tousListeDiplomeDetail.setLieuNaissance(listePromotionDetailForm.getLieuNaissance());

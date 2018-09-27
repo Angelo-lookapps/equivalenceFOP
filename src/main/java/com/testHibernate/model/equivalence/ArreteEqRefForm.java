@@ -1,5 +1,9 @@
 package com.testHibernate.model.equivalence;
 
+import java.sql.Date;
+
+import javax.persistence.TemporalType;
+
 import com.testHibernate.model.diplome.ListesDiplome;
 
 public class ArreteEqRefForm {
@@ -22,7 +26,16 @@ public class ArreteEqRefForm {
 	
 	private String anneeSortie;
 	private String titre;
+	private Date dateAjout;
 	
+	
+	public Date getDateAjout() {
+		return dateAjout;
+	}
+
+	public void setDateAjout(Date dateAjout) {
+		this.dateAjout = dateAjout;
+	}
 	public String getTitre() {
 		return titre;
 	}

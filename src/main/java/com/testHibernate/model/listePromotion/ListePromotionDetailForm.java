@@ -1,6 +1,9 @@
 package com.testHibernate.model.listePromotion;
 
- 
+import java.sql.Date;
+
+import javax.persistence.TemporalType;
+
 public class ListePromotionDetailForm {
 
 	public ListePromotionDetailForm() {
@@ -28,7 +31,12 @@ public class ListePromotionDetailForm {
 	private String dateNaissance;
 	private String lieuNaissance;
 	private String mention;
+	private Date dateAjout;
 	
+
+	public void setDateAjout(Date dateAjout) {
+		this.dateAjout = dateAjout;
+	}
 	
 	public String getMention() {
 		return mention;

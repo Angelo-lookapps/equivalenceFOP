@@ -2,11 +2,13 @@ package com.testHibernate.model.demande;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -24,7 +26,14 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		query = "SELECT fi FROM FicheDemande as fi WHERE fi.statusEnregistrement = :status "),
 	@NamedQuery(
 		name = "FicheDemande.findFicheDemandeByDate", 
-		query = "SELECT fi FROM FicheDemande as fi WHERE fi.dateRetrait = :dateRetrait ")		
+		query = "SELECT fi FROM FicheDemande as fi WHERE fi.dateRetrait = :dateRetrait "),		
+	@NamedQuery(
+		name = "FicheDemande.findByFilterDESC", 
+		query = "SELECT fi FROM FicheDemande as fi ORDER BY :champ DESC ")	,
+	@NamedQuery(
+		name = "FicheDemande.findByFilterASC", 
+		query = "SELECT fi FROM FicheDemande as fi ORDER BY :champ ASC ")	
+
 })
 public class FicheDemande {
 	
@@ -33,7 +42,7 @@ public class FicheDemande {
 	}
 
 	public FicheDemande(Long id, CIN cin, ListesDiplome listesDiplome, String telephone, String diplome,
-			String utilisation, boolean statusEnregistrement, Date dateRetrait) {
+			String utilisation, boolean statusEnregistrement, Date dateRetrait, Date dateAjout) {
 		super();
 		this.id = id;
 		this.cin = cin;
@@ -43,6 +52,7 @@ public class FicheDemande {
 		this.utilisation = utilisation;
 		this.statusEnregistrement = statusEnregistrement;
 		this.dateRetrait = dateRetrait;
+		this.dateAjout = dateAjout;
 	}
 
 	@Id
@@ -59,8 +69,20 @@ public class FicheDemande {
 	private String diplome;
 	private String utilisation;
 	private boolean statusEnregistrement;
-	private Date dateRetrait;	
+	private Date dateRetrait;
 	
+	@Column(name = "dateAjout",columnDefinition = "DATE DEFAULT CURRENT_DATE")
+	private Date dateAjout;
+	
+	
+	public Date getDateAjout() {
+		return dateAjout;
+	}
+
+	public void setDateAjout(Date dateAjout) {
+		this.dateAjout = dateAjout;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -2,6 +2,7 @@ package com.testHibernate.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,12 @@ public class ListePromotionController {
 	 
 	 private ListesDiplomeService listesDiplomeService;
 	 
+	 private HttpSession session;
+	 
+	 @Autowired
+	 public void setSession(HttpSession session) {
+		this.session = session;
+	 }
 	 ///CONVERTS
 	 private ListePromotionToListePromotionForm tousListeDiplomeToTousListeDiplomeForm;
 	 
@@ -75,9 +82,14 @@ public class ListePromotionController {
 			e.printStackTrace();
 		}
 		
-    
+		if(session.getAttribute("isConnected")!=null) {
+			 return "pages/listePromotion/listProm";
+        }
+    	model.addAttribute("errorlogin", "4");
+		return "pages/login";
        // System.out.println("\n ret.Length = " + ret.size());
-        return "pages/listePromotion/listProm";
+      
+        
 	 }	
 	
 	@PostMapping("/savePromo")

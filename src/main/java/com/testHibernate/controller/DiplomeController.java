@@ -2,6 +2,7 @@ package com.testHibernate.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,13 @@ public class DiplomeController {
 	 private NiveauDiplomeService niveauDiplomeService;
 	 private DiplomeToDiplomeForm diplomeToDiplomeForm;
 	 private DiplomeFormToDiplome diplomeFormToDiplome;
+	 
+	 private HttpSession session;
+	 
+	 @Autowired
+	 public void setSession(HttpSession session) {
+		this.session = session;
+	 }
 	 @Autowired
 	 public void setDiplomeToDiplomeForm(DiplomeToDiplomeForm diplomeToDiplomeForm) {
 		this.diplomeToDiplomeForm = diplomeToDiplomeForm;
@@ -50,12 +58,17 @@ public class DiplomeController {
 	 
 	 @GetMapping({"/diplomaList", "/diplomes"})
 	 public String listDiplome(Model model){
+		
 		List<ListesDiplome> ret = listesDiplomeService.listAll();
 		List<NiveauDiplome> nivaux = niveauDiplomeService.listAll();
         model.addAttribute("listesDiplome", ret);
         model.addAttribute("niveaux", nivaux);
        // System.out.println("\n ret.Length = " + ret.size());
-        return "pages/enregistrement/diplomaList";
+        if(session.getAttribute("isConnected")!=null) {
+	    	return "pages/enregistrement/diplomaList";
+        }
+    	model.addAttribute("errorlogin", "4");
+		return "pages/login";
 	 }	
 	 
 	 @GetMapping("/showDiploma/{id}")

@@ -13,6 +13,10 @@ public interface FicheDemandeService {
 	
 	List<FicheDemande> listAll();
 	
+	List<FicheDemande> getFicheDemandeByFilterASC(@Param("champ") String champ);
+	List<FicheDemande> getFicheDemandeByFilterDESC(@Param("champ") String champ);
+	
+	
 	List<FicheDemande> getFicheDemandeByCIN(@Param("idCIN") Long idCin);
 	
 	List<FicheDemande> getFicheDemandeByStatus(@Param("status") String status);

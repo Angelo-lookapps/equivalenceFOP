@@ -2,6 +2,7 @@ package com.testHibernate.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,13 @@ public class CINController {
 	 private CINService cinService;
 	 
 	 private CINToCINForm cinToCINForm;
-
+	 
+	 private HttpSession session;
+	 
+	 @Autowired
+	 public void setSession(HttpSession session) {
+		this.session = session;
+	 }
 	 @Autowired
 	 public void setCinToCINForm(CINToCINForm cinToCINForm) {
 		this.cinToCINForm = cinToCINForm;
@@ -49,7 +56,12 @@ public class CINController {
 	 @GetMapping({"/CINList", "/CIN"})
 	 public String listCIN(Model model){
         model.addAttribute("listCIN", cinService.listAll());
-        return "pages/enregistrement/CINList";
+        
+        if(session.getAttribute("isConnected")!=null) {
+        	return "pages/enregistrement/CINList";
+        }
+    	model.addAttribute("errorlogin", "4");
+		return "pages/login";
 	 }	
 	 
 	 @GetMapping("cin/edit/{id}")

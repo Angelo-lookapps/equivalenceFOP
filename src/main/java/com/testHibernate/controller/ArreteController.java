@@ -2,6 +2,7 @@ package com.testHibernate.controller;
  
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,13 @@ public class ArreteController {
 	 private TableauArreteService tableauArreteService;
 	 
 	 private ArticleLoiArreteService articleLoiArreteService;
-	
+	 
+	 private HttpSession session;
+	 
+	 @Autowired
+	 public void setSession(HttpSession session) {
+		this.session = session;
+	 }
 	@Autowired
 	public void setTableauArreteService(TableauArreteService tableauArreteService) {
 		this.tableauArreteService = tableauArreteService;
@@ -167,7 +174,9 @@ public class ArreteController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 return "pages/equivalence/newArrete";	
+		
+		return "pages/equivalence/newArrete";	
+	
 	}
 	
 	@GetMapping("/checkArrete")

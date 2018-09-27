@@ -2,6 +2,7 @@ package com.testHibernate.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class FicheDemandeController {
 	 private CINService cinService;
 	 private ListesDiplomeService listesDiplomeService;
 	 
+	 private HttpSession session;
+	 
+	 @Autowired
+	 public void setSession(HttpSession session) {
+		this.session = session;
+	 }
 	 ///CONVERTS
 	 private DemandeToDemandeForm demandeToDemandeForm;
 	 
@@ -65,7 +72,12 @@ public class FicheDemandeController {
 
         model.addAttribute("listeDemande", ret);
        // System.out.println("\n ret.Length = " + ret.size());
-        return "pages/enregistrement/requestList";
+        if(session.getAttribute("isConnected")!=null) {
+        	return "pages/enregistrement/requestList";
+        }
+    	model.addAttribute("errorlogin", "4");
+		return "pages/login";
+        
 	 }	
 	 
 	 @GetMapping("/showRequest/{id}")

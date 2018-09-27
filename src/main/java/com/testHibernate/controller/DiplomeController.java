@@ -17,11 +17,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import com.testHibernate.converts.diplome.DiplomeFormToDiplome;
 import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
+import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
 import com.testHibernate.model.diplome.NiveauDiplome;
+import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
+import com.testHibernate.service.historique.ActiviteRecentService;
 
 @Controller
 public class DiplomeController {
@@ -36,6 +40,14 @@ public class DiplomeController {
 	 public void setSession(HttpSession session) {
 		this.session = session;
 	 }
+	 
+	 private ActiviteRecentService activiteRecentService;
+	 
+	 @Autowired
+	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
+		this.activiteRecentService = activiteRecentService;
+	 }
+	 
 	 @Autowired
 	 public void setDiplomeToDiplomeForm(DiplomeToDiplomeForm diplomeToDiplomeForm) {
 		this.diplomeToDiplomeForm = diplomeToDiplomeForm;
@@ -107,11 +119,7 @@ public class DiplomeController {
 		 //Get Lists
 		 List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 		 List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
-		 
-		 //traitement	
-		 /*for(NiveauDiplome niv : niveauxDiploma) {
-			 listNiveau.put(niv.getCategorie(), value);
-		 }*/
+		
 		 model.addAttribute("listDiploma", listeDiploma);
 		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
 		 model.addAttribute("listesDiplome", new ListesDiplomeForm());
@@ -134,7 +142,13 @@ public class DiplomeController {
 		 
 	
 		 ListesDiplome listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
-
+		 //Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un diplome \""+listesSaved.getFiliere())+"\"");
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique
+		 
 		 return "redirect:/showDiploma/" + listesSaved.getId();
 	 }
 	 
@@ -144,22 +158,27 @@ public class DiplomeController {
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
 		 }
-		 /* ListesDiplome newEntity = diplomeFormToDiplome.convert(listesDiplome);
-		ListesDiplome updateEntity = listesDiplomeService.getById(Long.valueOf(id));
-		 
-		 updateEntity.setEcole(newEntity.getEcole());
-		 updateEntity.setFiliere(newEntity.getFiliere());
-		 updateEntity.setNiveauDiplome(newEntity.getNiveauDiplome());
-		 updateEntity.setOption(newEntity.getOption());*/
 		 
 		 ListesDiplome listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
-
+		//Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(3, "Un diplome \""+listesSaved.getFiliere()+" "+listesSaved.getOption()+"\""));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique
 		 return "redirect:/showDiploma/" + listesSaved.getId();
 	 }
 	 
 	@GetMapping("/diploma/delete/{id}")
 	 public String delete(@PathVariable String id){
+		ListesDiplome listesSaved = listesDiplomeService.getById(Long.valueOf(id));
 		listesDiplomeService.delete(Long.valueOf(id));
+		//Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le diplome \""+listesSaved.getFiliere()+" "+listesSaved.getOption()+"\""));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique
         return "redirect:/diplomaList";
 	 }
 	

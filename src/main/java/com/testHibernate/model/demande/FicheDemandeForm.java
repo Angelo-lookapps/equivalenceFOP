@@ -1,6 +1,7 @@
 package com.testHibernate.model.demande;
 
 import java.sql.Date;
+ 
 
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;
@@ -31,8 +32,17 @@ public class FicheDemandeForm {
 	private String diplome;
 	private String utilisation;
 	private boolean statusEnregistrement;
-	private Date dateRetrait;
+	private Date dateRetrait; 
 	
+	private String dateAjout;
+	
+	public String getDateAjout() {
+		return dateAjout;
+	}
+
+	public void setDateAjout(String dateAjout2) {
+		this.dateAjout = dateAjout2;
+	}
 	
 	public Long getId() {
 		return id;

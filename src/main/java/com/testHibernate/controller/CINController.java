@@ -1,5 +1,9 @@
 package com.testHibernate.controller;
 
+ 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,13 +20,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.testHibernate.converts.cin.CINToCINForm;
+import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
+import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.cin.CINService;
+import com.testHibernate.service.historique.ActiviteRecentService;
 
 @Controller
 public class CINController {
 	 private CINService cinService;
+	 
+	
 	 
 	 private CINToCINForm cinToCINForm;
 	 
@@ -32,6 +41,14 @@ public class CINController {
 	 public void setSession(HttpSession session) {
 		this.session = session;
 	 }
+	 
+	 private ActiviteRecentService activiteRecentService;
+	 
+	 @Autowired
+	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
+		this.activiteRecentService = activiteRecentService;
+	 }
+	 
 	 @Autowired
 	 public void setCinToCINForm(CINToCINForm cinToCINForm) {
 		this.cinToCINForm = cinToCINForm;
@@ -91,10 +108,18 @@ public class CINController {
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
 			 //return "pages/enregistrement/newCIN";
-		 }
-	
+		 } 
+			
+			 	
+		 cinForm.setDateAjout(GlobalHelper.getCurrentDate());
 		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm);
-
+		 //Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un CIN "+savedCIN.getNom().toUpperCase()+" "+savedCIN.getPrenom()));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique
+		 	
 		 return "redirect:cin/show/" + savedCIN.getId();
 	 }
 	 
@@ -113,7 +138,14 @@ public class CINController {
 	 
 	 @GetMapping("/cin/delete/{id}")
 	 public String delete(@PathVariable String id){
+		CIN listesSaved = cinService.getById(Long.valueOf(id));
         cinService.delete(Long.valueOf(id));
+        //Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent();
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le CIN "+listesSaved.getNom().toUpperCase()+" "+listesSaved.getPrenom()));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	//fin historique
         return "redirect:/CINList";
 	 }
 }

@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -48,15 +47,15 @@ public class ArreteEqRef {
 	private String anneeSortie;
 	private String titre;
 	
-	@Column(name = "dateAjout",columnDefinition = "DATE DEFAULT CURRENT_DATE")
-	private Date dateAjout;
+	
+	private String dateAjout;
 	
 	
-	public Date getDateAjout() {
+	public String getDateAjout() {
 		return dateAjout;
 	}
 
-	public void setDateAjout(Date dateAjout) {
+	public void setDateAjout(String dateAjout) {
 		this.dateAjout = dateAjout;
 	}
 	public String getTitre() {

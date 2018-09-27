@@ -1,5 +1,8 @@
 package com.testHibernate.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,11 +21,13 @@ import com.testHibernate.converts.listePromotion.ListePromotionToListePromotionF
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.model.diplome.ListesDiplome;
+import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 import com.testHibernate.model.listePromotion.ListePromotionForm;
 import com.testHibernate.service.diplome.ListesDiplomeService;
+import com.testHibernate.service.historique.ActiviteRecentService;
 import com.testHibernate.service.listePromotion.*;
 
 @Controller
@@ -40,6 +45,14 @@ public class ListePromotionController {
 	 public void setSession(HttpSession session) {
 		this.session = session;
 	 }
+	 
+	 private ActiviteRecentService activiteRecentService;
+	 
+	 @Autowired
+	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
+		this.activiteRecentService = activiteRecentService;
+	 }
+	 
 	 ///CONVERTS
 	 private ListePromotionToListePromotionForm tousListeDiplomeToTousListeDiplomeForm;
 	 
@@ -94,18 +107,28 @@ public class ListePromotionController {
 	
 	@PostMapping("/savePromo")
 	public String ajoutPromo(@Valid  @ModelAttribute ListePromotionForm listePromotionForm , BindingResult bindingResult, Model model) {
-		@SuppressWarnings("unused")
+		
 		ListePromotion listesSaved = null;
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
-		}
+		} 
+		System.out.println("\n\n Hello world \n");
+		listePromotionForm.setDateAjout(GlobalHelper.getCurrentDate());
+		
+		System.out.println("\n\n date d'ajout = "+listePromotionForm.getDateAjout());
+		
 		listesSaved = listePromotionService.saveOrUpdateListePromotionForm(listePromotionForm);
-			
+		//Mis en historique
+		ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Une nouvelle promotion \""+listesSaved.getNomPromotion()+" "+listesSaved.getListesDiplome().getFiliere()+" "+listesSaved.getListesDiplome().getOption()+" "+listesSaved.getListesDiplome().getEcole()+"\""));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique
 		return "redirect:/listProm/";		
 	}
 	@PostMapping("/saveAdmis/{id}")
 	public String ajoutAdmis(@PathVariable String id,@Valid  @ModelAttribute ListePromotionDetailForm listePromotionDetailForm , BindingResult bindingResult, Model model) {
-		@SuppressWarnings("unused")
+
 		ListePromotionDetail listesSaved = null;
 		ListePromotion listePromotion1 = listePromotionService.getById(Long.valueOf(id));
 		if(listePromotion1==null) {
@@ -114,10 +137,19 @@ public class ListePromotionController {
 		if(bindingResult.hasErrors()){
 			return "redirect:/error505";
 			//return "pages/equivalence/listArrete";
-		}
+		} 
+		listePromotion1.setDateAjout(GlobalHelper.getCurrentDate());
+		
 		listePromotionDetailForm.setListePromotion(listePromotion1);
 		listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
 		
+		//Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à "+listesSaved.getListePromotion().getNomPromotion() + " en " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique
+		 	
 		System.out.println("\n\n Hello : "+listesSaved.getNumeroMatricule());	
 		return "redirect:/showPromoDetail/"+listePromotion1.getId();		
 	}

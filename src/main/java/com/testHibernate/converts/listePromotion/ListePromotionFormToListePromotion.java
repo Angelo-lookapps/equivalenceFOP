@@ -20,7 +20,7 @@ public class ListePromotionFormToListePromotion implements Converter<ListePromot
     	tousListeDiplome.setListesDiplome(tousListeDiplomeForm.getListesDiplome());
     	tousListeDiplome.setSessionSortie(tousListeDiplomeForm.getSessionSortie());
     	tousListeDiplome.setNomPromotion(tousListeDiplomeForm.getNomPromotion());  
-    	
+    	tousListeDiplome.setDateAjout(tousListeDiplomeForm.getDateAjout()); 
         return tousListeDiplome;
     }
 

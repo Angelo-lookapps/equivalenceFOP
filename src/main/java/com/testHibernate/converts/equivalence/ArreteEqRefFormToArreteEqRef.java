@@ -20,7 +20,7 @@ public class ArreteEqRefFormToArreteEqRef implements Converter<ArreteEqRefForm, 
         arreteEqRef.setListesDiplome(arreteEqRefForm.getListesDiplome());
         arreteEqRef.setTitre(arreteEqRefForm.getTitre());
         arreteEqRef.setAnneeSortie(arreteEqRefForm.getAnneeSortie());  
-    	
+    	arreteEqRef.setDateAjout(arreteEqRefForm.getDateAjout());
         return arreteEqRef;
     }
 

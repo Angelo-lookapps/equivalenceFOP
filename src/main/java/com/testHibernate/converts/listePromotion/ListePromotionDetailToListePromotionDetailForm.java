@@ -20,7 +20,7 @@ public class ListePromotionDetailToListePromotionDetailForm implements Converter
     	tousListeDiplomeDetailForm.setDateNaissance(listePromotionDetail.getDateNaissance());  
     	tousListeDiplomeDetailForm.setLieuNaissance(listePromotionDetail.getLieuNaissance());
     	tousListeDiplomeDetailForm.setMention(listePromotionDetail.getMention());
-        
+    	tousListeDiplomeDetailForm.setDateAjout(listePromotionDetail.getDateAjout()); 
     	return tousListeDiplomeDetailForm;
     }
 

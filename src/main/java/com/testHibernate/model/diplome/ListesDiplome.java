@@ -1,5 +1,7 @@
 package com.testHibernate.model.diplome;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +34,16 @@ public class ListesDiplome {
 	
 	@ManyToOne
 	private NiveauDiplome niveauDiplome;
+	
+	private Date dateAjout;
+	
+	public Date getDateAjout() {
+		return dateAjout;
+	}
 
+	public void setDateAjout(Date dateAjout2) {
+		this.dateAjout = (Date) dateAjout2;
+	}
 	public Long getId() {
 		return id;
 	}

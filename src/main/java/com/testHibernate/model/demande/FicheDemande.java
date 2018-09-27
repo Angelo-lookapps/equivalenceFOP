@@ -7,8 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.TemporalType;
+import javax.persistence.ManyToOne; 
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -42,7 +41,7 @@ public class FicheDemande {
 	}
 
 	public FicheDemande(Long id, CIN cin, ListesDiplome listesDiplome, String telephone, String diplome,
-			String utilisation, boolean statusEnregistrement, Date dateRetrait, Date dateAjout) {
+			String utilisation, boolean statusEnregistrement, Date dateRetrait, String dateAjout) {
 		super();
 		this.id = id;
 		this.cin = cin;
@@ -71,15 +70,14 @@ public class FicheDemande {
 	private boolean statusEnregistrement;
 	private Date dateRetrait;
 	
-	@Column(name = "dateAjout",columnDefinition = "DATE DEFAULT CURRENT_DATE")
-	private Date dateAjout;
+	private String dateAjout;
 	
 	
-	public Date getDateAjout() {
+	public String getDateAjout() {
 		return dateAjout;
 	}
 
-	public void setDateAjout(Date dateAjout) {
+	public void setDateAjout(String dateAjout) {
 		this.dateAjout = dateAjout;
 	}
 

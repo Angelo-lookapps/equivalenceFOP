@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.model.demande.FicheDemande;
+import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
+import com.testHibernate.service.historique.ActiviteRecentService;
 
 @Controller
 public class PagesController {
@@ -27,6 +29,12 @@ public class PagesController {
 	 private CINService cinService;
 	 private ListesDiplomeService listesDiplomeService;
 	 private HttpSession session;
+	 private ActiviteRecentService activiteRecentService;
+	 
+	 @Autowired
+	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
+		this.activiteRecentService = activiteRecentService;
+	 }
 	 
 	 @Autowired
 	 public void setSession(HttpSession session) {
@@ -86,11 +94,18 @@ public class PagesController {
 	@GetMapping("/home")
 	public String home(@RequestParam(required=false) String name, ModelMap modelMap) {
 		List<FicheDemande> ret = ficheDemandeService.listAll();
+		List<ActiviteRecent> activities = activiteRecentService.getRecentActiviteByNumber(5);
+		 
+		if(activities.size()==5) {
+			//activiteRecentService.deleteTheLatest(activities.get(activities.size()-1).getDateAjout());
+		}
+		
 		HashMap<String, String> champs = GlobalHelper.getChampDemande();
 		if(session.getAttribute("isConnected")!=null) {
 			 
 			String pseudo = ""+session.getAttribute("isConnected");
 			modelMap.put("pseudo", pseudo);	
+			modelMap.put("activities", activities);	
 			modelMap.put("champs", champs); 
 			modelMap.put("listeDemande", ret);
 			modelMap.put("name", name);	
@@ -101,6 +116,7 @@ public class PagesController {
 		modelMap.put("errorlogin", "4");
 		return "pages/login";
 	}
+	
 	@GetMapping("/filter")
 	public String home(@RequestParam(required=false) String champ, @RequestParam(required=false) String ordre, ModelMap modelMap) {
 		 

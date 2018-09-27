@@ -1,8 +1,5 @@
 package com.testHibernate.model.listePromotion;
-
-import java.sql.Date;
-
-import javax.persistence.TemporalType;
+  
 
 public class ListePromotionDetailForm {
 
@@ -31,11 +28,14 @@ public class ListePromotionDetailForm {
 	private String dateNaissance;
 	private String lieuNaissance;
 	private String mention;
-	private Date dateAjout;
+	private String dateAjout;
 	
 
-	public void setDateAjout(Date dateAjout) {
+	public void setDateAjout(String dateAjout) {
 		this.dateAjout = dateAjout;
+	}
+	public String getDateAjout() {
+		return this.dateAjout ;
 	}
 	
 	public String getMention() {

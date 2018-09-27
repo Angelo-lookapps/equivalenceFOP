@@ -7,8 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.TemporalType;
+import javax.persistence.Lob; 
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NamedQueries;
@@ -92,15 +91,14 @@ public class CIN {
 	@Lob
 	@Type(type="org.hibernate.type.BinaryType")
 	private byte[] photo;
-
-	@Column(name = "dateAjout",columnDefinition = "DATE DEFAULT CURRENT_DATE")
-	private Date dateAjout;
+ 
+	private String dateAjout;
 	
-	public Date getDateAjout() {
+	public String getDateAjout() {
 		return dateAjout;
 	}
 
-	public void setDateAjout(Date dateAjout) {
+	public void setDateAjout(String dateAjout) {
 		this.dateAjout = dateAjout;
 	}
 	

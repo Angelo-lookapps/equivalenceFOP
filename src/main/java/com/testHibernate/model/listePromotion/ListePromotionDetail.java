@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -25,8 +24,6 @@ public class ListePromotionDetail {
 	public ListePromotionDetail() {
 		
 	}
-
-	 
 
 	public ListePromotionDetail(Long id, ListePromotion listePromotion, String numeroMatricule, String nomComplet,
 			String dateNaissance, String lieuNaissance, String mention) {
@@ -54,15 +51,14 @@ public class ListePromotionDetail {
 	private String lieuNaissance;
 	private String mention;
 	
-	@Column(name = "dateAjout",columnDefinition = "DATE DEFAULT CURRENT_DATE")
-	private Date dateAjout;
+	private String dateAjout;
 	
 	
-	public Date getDateAjout() {
+	public String getDateAjout() {
 		return dateAjout;
 	}
 
-	public void setDateAjout(Date dateAjout) {
+	public void setDateAjout(String dateAjout) {
 		this.dateAjout = dateAjout;
 	}
 	public String getMention() {

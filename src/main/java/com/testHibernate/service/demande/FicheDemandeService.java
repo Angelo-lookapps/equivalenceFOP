@@ -14,6 +14,7 @@ public interface FicheDemandeService {
 	List<FicheDemande> listAll();
 	
 	List<FicheDemande> getFicheDemandeByFilterASC(@Param("champ") String champ);
+	
 	List<FicheDemande> getFicheDemandeByFilterDESC(@Param("champ") String champ);
 	
 	

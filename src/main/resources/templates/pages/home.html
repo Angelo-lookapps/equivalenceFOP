@@ -20,6 +20,7 @@
         <!-- START GLOBAL MANDATORY STYLE -->
         <link href="assets/dist/css/base.css"rel="stylesheet" type="text/css">
         <!-- START PAGE LABEL PLUGINS --> 
+        
  		<link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
         <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
        
@@ -97,7 +98,17 @@
 	                                </form>
 	                            </div>
 	                        </div>
-	                        
+                         	<div class="panel panel-bd lobidrag">
+                         		
+	                         	<div class="panel-body">
+	                         		<div class="row">
+		                         		<div class="col-sm-9"></div>
+		                         		<div class="col-sm-3">
+		                        	 		<a href="/newRequest" class="btn btn-primary w-md m-rb-5" >Faire une nouvelle demande</a>
+		                  				</div>
+		                  			</div>
+		                  		</div>
+		                  	</div>
 	                        <div class="panel panel-bd lobidrag">
 	                           <div class="panel-heading">
 	                               <div class="panel-title">
@@ -158,41 +169,25 @@
                     	</div>
 	                    	<div class="col-lg-4 visible-lg">
 	                            <div class="panel panel-bd lobidisable">
-	                                <div class=panel-heading>
-	                                    <div class=panel-title>
-	                                        <i class=ti-stats-up></i>
+	                                <div class="panel-heading">
+	                                    <div class="panel-title">
+	                                        <i class="ti-stats-up"></i>
 	                                        <h4>R&eacute;cent Activit&eacute;s</h4>
 	                                    </div>
 	                                </div>
-	                                <div class=panel-body>
+	                                <div class="panel-body">
 	                                    <ul class="activity-list list-unstyled">
-	                                        <li class=activity-purple>
-	                                            <small class=text-muted>9 minutes ago</small>
-	                                            <p>You <span class="label label-success label-pill">recommended</span> Karen Ortega</p>
+	                                        
+	                                        <li th:each="activity : ${activities}" class="activity-purple">
+	                                            <small class="text-muted" th:text="'il y a, '+${activity.dateAjout}"></small>
+	                                            <p th:text="${activity.definition}"></p>
 	                                        </li>
-	                                        <li class=activity-danger>
-	                                            <small class=text-muted>15 minutes ago</small>
-	                                            <p>You followed Olivia Williamson</p>
-	                                        </li>
-	                                        <li class=activity-warning>
-	                                            <small class=text-muted>22 minutes ago</small>
-	                                            <p>You <span class=text-danger>subscribed</span> to Harold Fuller</p>
-	                                        </li>
-	                                        <li class=activity-primary>
-	                                            <small class=text-muted>30 minutes ago</small>
-	                                            <p>You updated your profile picture</p>
-	                                        </li>
-	                                        <li>
-	                                            <small class=text-muted>35 minutes ago</small>
-	                                            <p>You deleted homepage.psd</p>
-	                                        </li>
+	                                      
 	                                    </ul>
 	                                </div>
 	                            </div>
 	                            
-	                             <div class="col-sm-2">
-			                   	 	<button type="button" class="btn btn-primary w-md m-rb-5" data-toggle="modal" data-target="#myModal">Ajouter une nouvelle promotion</button>
-			                   	</div>
+	                           
 	                        </div>
                         
                        
@@ -205,7 +200,7 @@
 		        var txt;
 		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
 		        if (r == true) {
-		        	window.location.href = "/request/delete/"+id;		            
+		        	window.location.href = "/request/delete/"+id+"/home";		            
 		        } 
 		       
 		    }	

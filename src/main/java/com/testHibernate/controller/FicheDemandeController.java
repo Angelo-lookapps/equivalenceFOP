@@ -1,5 +1,8 @@
 package com.testHibernate.controller;
-
+ 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,14 +19,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
+import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.demande.FicheDemandeForm;
 import com.testHibernate.model.diplome.ListesDiplome;
+import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
+import com.testHibernate.service.historique.ActiviteRecentService;
 
 @Controller
 public class FicheDemandeController {
@@ -39,6 +45,14 @@ public class FicheDemandeController {
 	 public void setSession(HttpSession session) {
 		this.session = session;
 	 }
+	 
+	 private ActiviteRecentService activiteRecentService;
+	 
+	 @Autowired
+	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
+		this.activiteRecentService = activiteRecentService;
+	 }
+	 
 	 ///CONVERTS
 	 private DemandeToDemandeForm demandeToDemandeForm;
 	 
@@ -111,9 +125,9 @@ public class FicheDemandeController {
 		 model.addAttribute("listCIN", listCIN);
 		 model.addAttribute("listeDemande", listeDemande);
 		 model.addAttribute("listLieuDelivrance", listLieuDelivrance);
-        model.addAttribute("listeDemande", listeDemande);
-        model.addAttribute("ficheDemandeForm", ficheDemandeForm);
-        model.addAttribute("isEdit", "1");
+		 model.addAttribute("listeDemande", listeDemande);
+		 model.addAttribute("ficheDemandeForm", ficheDemandeForm);
+		 model.addAttribute("isEdit", "1");
        
         return "pages/enregistrement/newRequest";
 	 }
@@ -154,45 +168,27 @@ public class FicheDemandeController {
 	 @PostMapping(value = "/saveRequest")
 	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult){
 		 
-		 if(bindingResult.hasErrors()){
-			/* List<FicheDemande> listeDemande = ficheDemandeService.listAll();
-			 List<CIN> listCIN = cinService.listAll();
-			 List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
-			 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
-			 List<String> listEcole = listesDiplomeService.getAllEcole();
-				
-			 //Dispatch
-			 model.addAttribute("listesDiplome", listesDiplome);
-			 model.addAttribute("listEcole", listEcole);
-			 model.addAttribute("listCIN", listCIN);
-			 model.addAttribute("listeDemande", listeDemande);
-			 model.addAttribute("listLieuDelivrance", listLieuDelivrance);*/
-			 
-			return "redirect:/error505";	
-			 
-			 //return "pages/enregistrement/newRequest";
+		 if(bindingResult.hasErrors()){  
+			return "redirect:/error505";	 
 		 }
 		 
+		 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
+		 
 		 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
-
+		 
+		 //Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Une demande au NOM de \""+ficheSaved.getCin().getNom().toUpperCase()+" "+ficheSaved.getCin().getPrenom()+"\""));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique	
+		 	
 		 return "redirect:/showRequest/" + ficheSaved.getId();
 	 }
 	 @PutMapping(value = "/updateRequest")
 	 public String updateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult){
 		 
-		 if(bindingResult.hasErrors()){
-			/* List<FicheDemande> listeDemande = ficheDemandeService.listAll();
-			 List<CIN> listCIN = cinService.listAll();
-			 List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
-			 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
-			 List<String> listEcole = listesDiplomeService.getAllEcole();
-				
-			 //Dispatch
-			 model.addAttribute("listesDiplome", listesDiplome);
-			 model.addAttribute("listEcole", listEcole);
-			 model.addAttribute("listCIN", listCIN);
-			 model.addAttribute("listeDemande", listeDemande);
-			 model.addAttribute("listLieuDelivrance", listLieuDelivrance);*/
+		 if(bindingResult.hasErrors()){ 
 			 
 			return "redirect:/error505";	
 			 
@@ -200,14 +196,27 @@ public class FicheDemandeController {
 		 }
 		 
 		 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
-
+		 //Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(3, "Une demande au NOM de \""+ficheSaved.getCin().getNom().toUpperCase()+" "+ficheSaved.getCin().getPrenom()+"\""));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique	
 		 return "redirect:/showRequest/" + ficheSaved.getId();
 	 }
 	 
-	 @GetMapping("/request/delete/{id}")
-	 public String delete(@PathVariable String id){
-		ficheDemandeService.delete(Long.valueOf(id));
-        return "redirect:/requestList";
+	 @GetMapping("/request/delete/{id}/{page}")
+	 public String delete(@PathVariable String id, @PathVariable String page){
+		 FicheDemande listesSaved = ficheDemandeService.getById(Long.valueOf(id));
+		 ficheDemandeService.delete(Long.valueOf(id));
+         
+		 //Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent();
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "La demande de "+listesSaved.getCin().getNom().toUpperCase()+" "+listesSaved.getCin().getPrenom()));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	//fin historique
+        return "redirect:/"+page;
 	 }
 	
 

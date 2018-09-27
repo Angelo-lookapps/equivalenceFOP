@@ -75,7 +75,7 @@
                                             <tbody>
                                             	<tr>	
 				                                    <th>Num&eacute;ro enregistre&eacute;  </th>
-				                                    <td th:text="*{ficheDemande.id}"></td>
+				                                    <td th:text="*{ficheDemande.id} + ' /' + *{ficheDemande.dateRetrait.getYear()-100}"></td>
 				                                </tr>
                                             	<tr>	
 				                                    <th>Carte d'identit&eacute; (associ&eacute;)   </th>

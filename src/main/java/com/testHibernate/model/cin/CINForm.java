@@ -2,7 +2,6 @@ package com.testHibernate.model.cin;
 
 import java.sql.Date;
 
-import javax.persistence.TemporalType;
 
 
 public class CINForm {
@@ -21,14 +20,14 @@ public class CINForm {
 	private String lieuTravail;
 	private byte[] photo;
 	
-	private Date dateAjout;
+	private String dateAjout;
 	
-	public Date getDateAjout() {
+	public String getDateAjout() {
 		return dateAjout;
 	}
 
-	public void setDateAjout(Date dateAjout) {
-		this.dateAjout = dateAjout;
+	public void setDateAjout(String dateAjout2) {
+		this.dateAjout = dateAjout2;
 	}
 	public Long getId() {
 		return id;

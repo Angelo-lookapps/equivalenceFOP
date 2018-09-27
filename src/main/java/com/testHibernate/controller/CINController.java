@@ -142,7 +142,7 @@ public class CINController {
         cinService.delete(Long.valueOf(id));
         //Mis en historique
 		 ActiviteRecent historique = new ActiviteRecent();
-		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le CIN "+listesSaved.getNom().toUpperCase()+" "+listesSaved.getPrenom()));
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le CIN de "+listesSaved.getNom().toUpperCase()+" "+listesSaved.getPrenom()));
 		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	//fin historique

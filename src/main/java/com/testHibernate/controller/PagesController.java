@@ -118,10 +118,11 @@ public class PagesController {
 	}
 	
 	@GetMapping("/filter")
-	public String home(@RequestParam(required=false) String champ, @RequestParam(required=false) String ordre, ModelMap modelMap) {
+	public String home(@RequestParam(required=false, defaultValue = "fi.id") String champ, @RequestParam(required=false) String ordre, ModelMap modelMap) {
 		 
 		List<FicheDemande> ret = null;
-		if(champ.equals("*") && ordre.equals("ASC")) {
+		List<ActiviteRecent> activities = activiteRecentService.getRecentActiviteByNumber(5);
+		if(champ.equals("*") && ordre.equals("ASC") || champ==null) {
 			ret = ficheDemandeService.listAll();
 		}
 		else if(!champ.equals("*") && ordre.equals("ASC")) {
@@ -135,6 +136,8 @@ public class PagesController {
 		if(session.getAttribute("isConnected")!=null) {
 			String pseudo = ""+session.getAttribute("isConnected");
 			modelMap.put("pseudo", pseudo);	
+			modelMap.put("activities", activities);
+			
 			modelMap.put("champs", champs);
 			//modelMap.put("iteration", iteration);
 			modelMap.put("listeDemande", ret);

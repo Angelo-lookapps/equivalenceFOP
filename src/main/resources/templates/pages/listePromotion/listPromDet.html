@@ -178,20 +178,20 @@
 	                                        <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
 	                                            <thead>
 	                                                <tr>
-	                                                    <th>#</th>
-	                                                    <th>N° d'Enregistrement</th>
-	                                                    <th>Nom et pr&egrave;nom</th>
-	                                                    <th>Date et lieu de naissance</th> 
-	                                                    <th>Mention</th>
+	                                                    <th class="text-center">#</th>
+	                                                    <th class="text-center">N° d'Enregistrement</th>
+	                                                    <th class="text-center">Nom et pr&egrave;nom</th>
+	                                                    <th class="text-center">Date et lieu de naissance</th> 
+	                                                    <th class="text-center">Mention</th>
 	                                                </tr>
 	                                            </thead>
 	                                            <tbody>
                                      				<tr th:each="promo : ${listePromotionDetails}">
-	                                                    <td th:text="${promo.id}"></td>
-	                                                    <td><a th:href="'#'" th:text="${promo.numeroMatricule}"></a></td>
-	                                                    <td><a th:href="'#'" th:text="${promo.nomComplet}"></</a></td>
-	                                                    <td><a th:href="'#'" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></</a></td>
-	                                                	<td><a th:href="'#'" th:text="${promo.mention}"></</a></td>
+	                                                    <td class="text-center" th:text="${promo.id}"></td>
+	                                                    <td class="text-center"><a th:href="'#'" th:text="${promo.numeroMatricule}"></a></td>
+	                                                    <td class="text-center"><a th:href="'#'" th:text="${promo.nomComplet}"></</a></td>
+	                                                    <td class="text-center"><a th:href="'#'" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></</a></td>
+	                                                	<td class="text-center"><a th:href="'#'" th:text="${promo.mention}"></</a></td>
 	                                                </tr> 
 	                                            </tbody>
 	                                        </table>

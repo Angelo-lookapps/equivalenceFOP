@@ -123,11 +123,11 @@
 	                                        <table id="example1" class="footable table table-bordered toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
 	                                            <thead>
 	                                               <tr>
-		                                               <th>Num&eacute;ro /anne&eacute; </th>
-		                                               <th>Carte d'identit&eacute; </th>
-		                                               <th>Date de retrait </th>
-		                                               <th>Status d'enregistrement</th>
-		                                               <th>Action</th>
+		                                               <th class="text-center">Num&eacute;ro /anne&eacute; </th>
+		                                               <th class="text-center">Carte d'identit&eacute; </th>
+		                                               <th class="text-center">Date de retrait </th>
+		                                               <th class="text-center">Status d'enregistrement</th>
+		                                               <th class="text-center">Action</th>
 		                                               
 	                                                   <th data-hide="all">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
 		                                               <th data-hide="all">T&eacute;l&eacute;phone :</th>
@@ -137,11 +137,11 @@
 	                                            </thead>
 	                                            <tbody>
 	                                                <tr th:each="demande : ${listeDemande}">
-	                                               	   <td th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()+1900}"></td>
-	                                               	   <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
-		                                               <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
-		                                               <td><a th:class="${demande.statusEnregistrement} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'" th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'confirmé' : 'non-confirmé'"></a></td>
-		                                               <td>
+	                                               	   <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()+1900}"></td>
+	                                               	   <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
+		                                               <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+		                                               <td class="text-center"><a th:class="${demande.statusEnregistrement} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'" th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'confirmé' : 'non-confirmé'"></a></td>
+		                                               <td  class="text-center">
 		                                               	   <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
 	                                                  	   <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${demande.id}')|" ><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 			                                              

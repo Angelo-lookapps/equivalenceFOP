@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +63,37 @@ public class ActiviteRecentServiceImpl implements ActiviteRecentService {
 
 	@Override
 	public int deleteTheLatest(String dateCompare) {
-		int ret = em.createNamedQuery("ActiviteRecent.deleteTheLatest", ActiviteRecent.class)
-				.setParameter("dateCompare", dateCompare)
-				.executeUpdate();
+		int ret = 0;
+		try {
+			ret = em.createNamedQuery("ActiviteRecent.deleteTheLatest", ActiviteRecent.class)
+						  .setParameter("dateCompare", dateCompare).executeUpdate();
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return ret;
+	}
+
+	@Override
+	public int deleteAllLast() {
+		List<ActiviteRecent> toDelete = this.findASC();
+		int ret = 0;
+		int intervalle = toDelete.size()-10;  //ex: 12-10 = 2 -> 10
+		
+		if(toDelete.size() != 0 && intervalle > 0) {
+			for(int i=0 ; i < intervalle+5 ; i++) {
+				this.activiteRecentRepository.deleteById(toDelete.get(i).getId());
+			}
+			ret = intervalle+5;
+		}
+		
+		return ret;
+	}
+
+	@Override
+	public List<ActiviteRecent> findASC() {
+		TypedQuery<ActiviteRecent> query = em.createNamedQuery("ActiviteRecent.findASC", ActiviteRecent.class);
+		List<ActiviteRecent> ret = query.getResultList();
 		
 		return ret;
 	}

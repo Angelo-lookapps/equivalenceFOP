@@ -178,7 +178,7 @@ public class FicheDemandeController {
 		 
 		 //Mis en historique
 		 ActiviteRecent historique = new ActiviteRecent(); 
-		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Une demande au NOM de \""+ficheSaved.getCin().getNom().toUpperCase()+" "+ficheSaved.getCin().getPrenom()+"\""));
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Une demande au nom de \""+ficheSaved.getCin().getNom().toUpperCase()+" "+ficheSaved.getCin().getPrenom()+"\""));
 		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	 //fin historique	

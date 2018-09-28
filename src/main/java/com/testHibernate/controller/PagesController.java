@@ -95,10 +95,9 @@ public class PagesController {
 	public String home(@RequestParam(required=false) String name, ModelMap modelMap) {
 		List<FicheDemande> ret = ficheDemandeService.listAll();
 		List<ActiviteRecent> activities = activiteRecentService.getRecentActiviteByNumber(5);
+		
+		int testDelete = activiteRecentService.deleteAllLast();
 		 
-		if(activities.size()==5) {
-			//activiteRecentService.deleteTheLatest(activities.get(activities.size()-1).getDateAjout());
-		}
 		
 		HashMap<String, String> champs = GlobalHelper.getChampDemande();
 		if(session.getAttribute("isConnected")!=null) {
@@ -109,6 +108,7 @@ public class PagesController {
 			modelMap.put("champs", champs); 
 			modelMap.put("listeDemande", ret);
 			modelMap.put("name", name);	
+			modelMap.put("testDelete", testDelete);
 			modelMap.put("pathSource", "src/main/ressources/static/");
 			
 			return "pages/home";

@@ -177,7 +177,12 @@
 	                                </div>
 	                                <div class="panel-body">
 	                                    <ul class="activity-list list-unstyled">
-	                                        
+	                                        <div th:if="${testDelete>0}"> 
+			                             		<div class="alert alert-sm alert-success alert-dismissible" role="alert">
+				                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				                                  	<i class="fa fa-exclamation-circle"></i><strong>Information!</strong><span class="text-success" th:text="${testDelete}"></span> ligne(s) ont &eacute;t&eacute; lib&eacute;r&eacute; de l'historique !
+				                              	</div> 
+			                               	</div>
 	                                        <li th:each="activity : ${activities}" class="activity-purple">
 	                                            <small class="text-muted" th:text="'il y a, '+${activity.dateAjout}"></small>
                                             	<p th:text="${activity.definition}"></p> 
@@ -185,9 +190,7 @@
 	                                      
 	                                    </ul>
 	                                </div>
-	                            </div>
-	                            
-	                           
+	                            </div> 
 	                        </div>
                         
                        

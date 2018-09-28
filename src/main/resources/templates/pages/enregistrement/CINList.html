@@ -66,8 +66,17 @@
 	                           </div>
 	                           <div class="panel-body">
 	                           	<div th:if="${not #lists.isEmpty(listCIN)}">
+	                           		<div th:switch="${deleteError}">
+		                            	<div th:case="'1'">
+		                             		<div class="alert alert-sm alert-danger alert-dismissible" role="alert">
+			                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			                                  	<i class="fa fa-exclamation-circle"></i><strong>Attention!</strong> Ce CIN est associ&eacute; &agrave; une demande!
+			                              	</div>
+		                               	</div> 
+	                               	</div>
 	                               <div class="table-responsive">
 	                                   <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+                                        
                                        <table id="example1" class="footable table table-bordered table-hover toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
 	                                       <thead>
 	                                           <tr>

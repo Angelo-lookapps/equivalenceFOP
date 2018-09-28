@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -70,13 +71,18 @@ public class CINController {
 		 return "pages/enregistrement/showCIN";
 	 }
 	 
-	 @GetMapping({"/CINList", "/CIN"})
-	 public String listCIN(Model model){
-        model.addAttribute("listCIN", cinService.listAll());
+	 @GetMapping(value={"/CINList", "/CINList/{deleteError}"})
+	 public String listCIN(Model model, @PathVariable(required=false) Optional<String> deleteError){
+       
+		 model.addAttribute("listCIN", cinService.listAll());
         
         if(session.getAttribute("isConnected")!=null) {
+        	if(deleteError.isPresent()) {
+        		model.addAttribute("deleteError", deleteError.get());
+            }
         	return "pages/enregistrement/CINList";
         }
+    	
     	model.addAttribute("errorlogin", "4");
 		return "pages/login";
 	 }	
@@ -118,7 +124,7 @@ public class CINController {
 		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un CIN "+savedCIN.getNom().toUpperCase()+" "+savedCIN.getPrenom()));
 		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
 		 	activiteRecentService.saveOrUpdate(historique);
-	 	 //fin historique
+	 	 //fin historique0
 		 	
 		 return "redirect:cin/show/" + savedCIN.getId();
 	 }
@@ -137,15 +143,22 @@ public class CINController {
 	 }
 	 
 	 @GetMapping("/cin/delete/{id}")
-	 public String delete(@PathVariable String id){
+	 public String delete(@PathVariable String id, Model model){
 		CIN listesSaved = cinService.getById(Long.valueOf(id));
-        cinService.delete(Long.valueOf(id));
+        String deleteError = "";
+		try {
+        	cinService.delete(Long.valueOf(id));
+        }catch(Exception e) {
+        	deleteError = "1";
+        }
+		
+        
         //Mis en historique
-		 ActiviteRecent historique = new ActiviteRecent();
+		ActiviteRecent historique = new ActiviteRecent();
 		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le CIN de "+listesSaved.getNom().toUpperCase()+" "+listesSaved.getPrenom()));
 		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	//fin historique
-        return "redirect:/CINList";
+        return "redirect:/CINList/" + deleteError;
 	 }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.helpers.TempActivite;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.cin.CINService;
@@ -26,11 +27,11 @@ import com.testHibernate.service.historique.ActiviteRecentService;
 public class PagesController {
 	 ///SERVICES
 	 private FicheDemandeService ficheDemandeService;
-	 private CINService cinService;
-	 private ListesDiplomeService listesDiplomeService;
 	 private HttpSession session;
 	 private ActiviteRecentService activiteRecentService;
+	 private GlobalHelper global = new GlobalHelper();
 	 
+	  
 	 @Autowired
 	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
 		this.activiteRecentService = activiteRecentService;
@@ -41,26 +42,20 @@ public class PagesController {
 		this.session = session;
 	 }
 	 
-	 ///CONVERTS
-	 private DemandeToDemandeForm demandeToDemandeForm;
-	 
 	 @Autowired
 	 public void setNiveauDiplomeService(NiveauDiplomeService niveauDiplomeService) {
 	 }
 	 
 	 @Autowired
 	 public void setDemandeToDemandeForm(DemandeToDemandeForm demandeToDemandeForm) {
-		this.demandeToDemandeForm = demandeToDemandeForm;
 	 }
 	 
 	 @Autowired
 	 public void setCINService(CINService cinService) {
-		this.cinService = cinService;
 	 }
 	 
 	 @Autowired
 	 public void setListesDiplomeService(ListesDiplomeService listesDiplomeService) {
-		this.listesDiplomeService = listesDiplomeService;
 	 }
 	 
 	 @Autowired
@@ -89,6 +84,24 @@ public class PagesController {
 	@GetMapping("/signup")
 	public String signUpPage() {
 		return "pages/signup";		
+	}
+	@GetMapping("/timeline")
+	public String historique(ModelMap modelMap) {
+		List<ActiviteRecent> activities = activiteRecentService.getRecentActiviteByNumber(5);
+		List<TempActivite> tempActivities = null;
+		try {
+			
+			tempActivities = global.splitActivityTime(activities);  
+			System.out.println("\n\n\n\n TEST : \n ");
+			System.out.println("SIZE : "+tempActivities.size());
+			System.out.println("info : "+tempActivities.get(1).getActiviteRecent().getDateAjout());
+		} catch (Exception e) { 
+			e.printStackTrace();
+		}
+		modelMap.put("activities", activities);
+		modelMap.put("tempActivities", tempActivities);  
+		
+		return "pages/timeline/timeline";		
 	}
 
 	@GetMapping("/home")

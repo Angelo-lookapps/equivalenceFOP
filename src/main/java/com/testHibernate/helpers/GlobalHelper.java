@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.testHibernate.model.historique.ActiviteRecent;
+
 public class GlobalHelper {
 	 
 	
@@ -47,4 +49,48 @@ public class GlobalHelper {
 		java.util.Date date = new java.util.Date();
 		return  dateFormat.format(date);
 	} 
+	@SuppressWarnings("null")
+	public List<TempActivite> splitActivityTime(List<ActiviteRecent> list) throws Exception {
+		List<TempActivite> ret = new ArrayList<TempActivite>();
+		String[] tab1 = null, tab2 = null;
+		if(list.size()!=0) {
+			String[] subs = {"", ""};
+			
+			for(ActiviteRecent act : list) { 
+			TempActivite temp = new TempActivite();
+				
+				if(act.getDateAjout().split(" ").length!=0) { 
+					tab1 =  act.getDateAjout().split(" "); 
+				}
+				else {
+					subs[1] = act.getDateAjout();
+					tab1 = subs;
+				}
+				temp.setDateAjout1(tab1[0]);
+				temp.setDateAjout2(tab1[1]);
+				
+				if(act.getDefinition().split(" ").length != 0) {
+					tab2 = act.getDefinition().split(":"); 
+				}
+				else {
+					subs[1] = act.getDefinition();
+					tab2 = subs;
+				}
+				temp.setDefinition1(tab2[0]);
+				temp.setDefinition2(tab2[1]);
+						 
+				temp.setActiviteRecent(act); 
+				ret.add(temp);
+				
+			System.out.println("\n\n act = "+temp.getActiviteRecent().getDateAjout());
+			System.out.println("\n\n definitions = " + temp.getActiviteRecent().getDefinition());
+			}
+		}
+		else {
+			throw new Exception("ERREUR dans la méthode splitActivityTime : taille List invalide!");
+		}
+		
+		return ret;
+	} 
+	 
 }

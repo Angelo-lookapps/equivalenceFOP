@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+ <meta charset="utf-8">
+  <base href="http://localhost:8080/timeline" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Historique - Administration Equivalence FOP(67Ha)</title>
+        <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
+        <script src="assets/js/webfont.js"></script>
+    
+        <script>
+            WebFont.load({
+                google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
+                active: function () {
+                    sessionStorage.fonts = true;
+                }
+            });
+        </script>
+        <!-- START GLOBAL MANDATORY STYLE -->
+        <link href="assets/dist/css/base.css"rel="stylesheet" type="text/css">
+        
+        	<!-- START PAGE LABEL PLUGINS --> 
+        <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css"/>
+        
+        <!-- START PAGE LABEL PLUGINS --> 
+        <link href="assets/plugins/modals/modal-component.css" rel="stylesheet" type="text/css"/>
+        
+        <!-- START PAGE LABEL PLUGINS -->
+        <link href="assets/plugins/horizontal-timeline/horizontal-timeline.css" rel="stylesheet" type="text/css">
+        <!-- START THEME LAYOUT STYLE -->
+        <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
+       
+<title>Historique des activit&eacute;s</title>
+</head>
+<body class="hold-transition fixed sidebar-mini">
+        
+        <!-- Preloader -->
+        <div class="preloader"></div>
+        
+        <!-- Site wrapper -->
+        <!-- Content Wrapper. Contains page content -->
+        <div th:replace="fragments/header :: header">Static header</div>   
+        	<div class="content-wrapper">
+        		<div class="content">
+	        		<div class="content-header">
+	                    <div class="header-icon"><i class="pe-7s-timer"></i></div>
+	                    <div class="header-title">
+	                        <h1>Historique activit&eacute; r&eacute;cent</h1>
+	                        <small></small>
+	                        <ol class="breadcrumb">
+	                            <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+	                            <li ><a href="/homePage">Tableau de bord</a></li>
+	                            <li class="active">Liste des activit&eacute;s r&eacute;cents</li>
+	                        </ol>
+	                    </div>
+	                </div> <!-- /. Content Header (Page header) -->
+	              	<div class="row"> 
+	              		<div class="col-sm-12">
+                            <div class="main">
+                                <ul class="cbp_tmtimeline">
+                                    <li th:each="temp : ${tempActivities}">
+                                        <time class="cbp_tmtime" th:datetime="${temp.activiteRecent.dateAjout}"><span th:text="${temp.dateAjout1}"></span> <span th:text="${temp.dateAjout2}"></span></time>
+                                        <i class="fa fa-mobile"></i>
+                                        <div class="cbp_tmlabel">
+                                            <h2 th:text="${temp.definition1}"></h2>
+                                            <p th:text="${temp.definition2}"></p> 
+                                        </div>
+                                    </li> 
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+           		</div>
+           	</div>
+       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+      
+        <!-- ./²wrapper -->
+        <!-- START CORE PLUGINS -->
+        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+        <!-- horizontal-timeline Js -->
+        <script src="assets/plugins/horizontal-timeline/main.js"></script>
+        <!-- START THEME LABEL SCRIPT -->
+        <script src="assets/dist/js/theme.js"></script>
+	</body>
+	
+</html>

@@ -116,19 +116,19 @@
 	                                            
 	                                            <!-- En-tête -->
 	                                            <div class="tab-pane fade in active" id="tab1">
-				                                    <form  th:action="@{/saveContent}+ '/' + ${arreteEqRefForm.id}" method="POST" enctype="multipart/form-data" class="formContent">
+				                                    <form th:action="@{/saveContent}+ '/' + ${arreteEqRefForm.id}" method="POST"   class="formContent">
 			                       
 					                                    <div class="panel-body">
 					                                        <p><strong>En-t&ecirc;te arr&ecirc;t&eacute; : </strong></p>
 				                                        	<h4>Veuillez ajouter un logo : </h4>               	 
 																<div class="form-group row">
-																	<textarea type="text"  name="contenu" id="editor1" ></textarea>
+																	<textarea type="text"  th:name="'contenu'" id="editor1" ></textarea>
 																</div>  
 																
 																<div id="postResultDiv"></div>
 																
 															<div class="btn-group pull-right">
-																<button type="submit" class="btn btn-base" onclick="getAlert()">Sauvegarder</button>
+																<button type="submit" class="btn btn-base"  >Sauvegarder</button>
 															</div>
 														</div> 
 				                                	</form>
@@ -417,8 +417,9 @@
 				//console.log(CKEDITOR.instances.editor1.getData());
 			//	$('#editor1').val = CKEDITOR.instances.editor1.getData();	
 			//	$('#editor2').val = CKEDITOR.instances.editor2.getData();
-				$('.formContent').submit();
-				alert("content = "+CKEDITOR.instances.editor1.getData());
+				event.preventDefault(); 
+				ajaxPost();
+				//alert("content = "+CKEDITOR.instances.editor1.getData());
 			}
 			
 			$(document).ready(function() {
@@ -435,41 +436,28 @@
 			
 			function ajaxPost() {
 				// PREPARE FORM DATA
-				var formData1 = CKEDITOR.instances.editor1.getData();
-				var formData2 = CKEDITOR.instances.editor2.getData();
-				var image = $("input[type='file']").val();
-				var f = $("input[type='file']")[0].files[0]; 
-				
-				//var formData = new FormData();
-				//formData.append('logo', $("input[type='file']")[0].files[0]);
-					if (f) {
-					    var reader = new FileReader();
-					    reader.readAsDataURL(f);
-					    reader.onload = function(e) {
-					    	var image = e.target.result;
-					    	var $data = { 'titreGauche': formData1, 'titreDroite': formData2, 'logo': image };
-					    	
-						$.ajax({
-							type : "POST",
-							contentType : "text/html",
-							url : $(".formEntete").attr("action"),
-							data : $data,
-							dataType : 'text',
-							success : function(result) {
-								$("#postResultDiv")
-									.html("<div class=\"alert alert-sm alert-info alert-dismissible\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><i class=\"fa fa-exclamation-circle\"></i><strong>INFO :</strong> Sauvegarde reussie!</div> ");
-							 
-								console.log("SUCCESS!!!");
-								//window.location.replace($(".formEntete").attr("action"));
-							},
-							error : function(e) {
-								alert("Error!")
-								console.log("ERROR: ", e);
-							}
-						});
-					        alert(e.target.result);
-					    };
+				var contenu = CKEDITOR.instances.editor1.getData();
+		
+				$.ajax({
+					type : "POST",
+					contentType : "text/html",
+					url : $(".formContent").attr("action"),
+					data : contenu,
+					dataType : 'text',
+					success : function(result) {
+						
+						$("#postResultDiv")
+							.html("<div class=\"alert alert-sm alert-info alert-dismissible\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><i class=\"fa fa-exclamation-circle\"></i><strong>INFO :</strong> Sauvegarde reussie!</div> ");
+					 	
+						console.log("SUCCESS!!! \n result = "+contenu);
+						//window.location.replace($(".formEntete").attr("action"));
+					},
+					error : function(e) {
+						alert("Error!")
+						console.log("ERROR: ", e);
 					}
+				});
+					
 				}
 		</script>
 		

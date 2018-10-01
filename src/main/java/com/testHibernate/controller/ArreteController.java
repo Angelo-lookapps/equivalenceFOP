@@ -97,7 +97,7 @@ public class ArreteController {
 		try { 
 			 
 			ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
-			System.out.println("\n\n\n id == "+id);
+		 
 			if(listesSaved==null) {
 				return "redirect:/error404/listArrete";	
 			}
@@ -166,22 +166,22 @@ public class ArreteController {
 	@PostMapping("/saveContent/{id}")
 	public String articleLoiArrete(@PathVariable String id, @RequestParam(required=false, defaultValue = "Veuillez ecrire ici l'arrêté d'équivalence, svp!!! ") String contenu, Model model) {
 		ContentArrete listesSaved = null;
-		ContentArreteForm contentArreteForm = new ContentArreteForm();
-			System.out.println("\n\n\n ************** TEST ***********\n");
-			System.out.println(" = " + contenu );
+		ContentArreteForm contentArreteForm = new ContentArreteForm(); 
+		System.out.println("\n\n\n contenu = "+contenu);
 			ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
 			contentArreteForm.setArreteEqRef(temp);
 			contentArreteForm.setContenu(contenu);
 			contentArreteForm.setDateAjout(GlobalHelper.getCurrentDate());
 		 
 	try {
+			
 			listesSaved = contentArreteService.saveOrUpdateContentArreteForm(contentArreteForm);
 						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 			
-		return "redirect:/newArrete/" + listesSaved.getId();		
+		return "redirect:/newArrete/" + temp.getId();		
 	}
 	
 

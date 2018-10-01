@@ -1,5 +1,6 @@
 package com.testHibernate.model.equivalence;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,7 +39,8 @@ public class ContentArrete {
 	@ManyToOne
 	private ArreteEqRef arreteEqRef;
 	
-	@Lob
+	//@Lob
+	@Column(length= 100000)
 	private String contenu;
 	
 	private String dateAjout;

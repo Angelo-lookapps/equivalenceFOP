@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm; 
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper; 
@@ -34,10 +35,16 @@ public class ArreteController {
 	
 	 private ArreteEqRefService arreteEqRefService;
 	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm; 
+	 private ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef;
 	 
 	 private ListesDiplomeService listesDiplomeService;
 	 
 	 private ContentArreteService contentArreteService;
+	 
+	 @Autowired
+	 public void setArreteEqRefFormToArreteEqRef(ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef) {
+		this.arreteEqRefFormToArreteEqRef = arreteEqRefFormToArreteEqRef;
+	 }
 	 
 	 @Autowired
 	 public void setContentArreteService(ContentArreteService contentArreteService) {
@@ -71,6 +78,12 @@ public class ArreteController {
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
 		}
+		//initialisation ContentArrete
+		ContentArrete content = new ContentArrete();
+		content.setArreteEqRef(arreteEqRefFormToArreteEqRef.convert(arreteEqRefForm));
+		content.setDateAjout(GlobalHelper.getCurrentDate());
+		this.contentArreteService.saveOrUpdate(content);
+		
 		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
 		listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
 			
@@ -97,7 +110,9 @@ public class ArreteController {
 		try { 
 			 
 			ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
-		 
+			ContentArrete contentArrete = contentArreteService.getContentByArrete(Long.valueOf(id))!=null ? contentArreteService.getContentByArrete(Long.valueOf(id)) : null;
+			System.out.println("\n\n\n contentArrete = "+contentArrete.getContenu());
+			
 			if(listesSaved==null) {
 				return "redirect:/error404/listArrete";	
 			}
@@ -106,7 +121,8 @@ public class ArreteController {
 			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 			List<String> listEcole = listesDiplomeService.getAllEcole();
 			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
-		
+			String contentArticle = GlobalHelper._ArticleContent;
+			
 			model.addAttribute("arreteEqRef", listesSaved);
 			model.addAttribute("annees", annee);
 			model.addAttribute("listEcole", listEcole);
@@ -114,7 +130,8 @@ public class ArreteController {
 			model.addAttribute("arreteEqRefForm", arreteEqRefForm);
 			model.addAttribute("idArrete", arreteEqRefForm!=null ? arreteEqRefForm.getId().toString() : "");
 			 
-
+			model.addAttribute("contentArticle", contentArticle);
+			model.addAttribute("contentArrete",  contentArrete);
 			model.addAttribute("champArreteEqForm", new ChampArreteEqForm());
 			model.addAttribute("contentArreteForm", new ContentArreteForm());
 			
@@ -149,8 +166,7 @@ public class ArreteController {
 				model.addAttribute("listEcole", listEcole);
 				model.addAttribute("listeDiploma", listeDiploma);
 				model.addAttribute("arreteList", arreteList);
-			
-			
+		
 			 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -164,24 +180,29 @@ public class ArreteController {
 	}
 	 
 	@PostMapping("/saveContent/{id}")
-	public String articleLoiArrete(@PathVariable String id, @RequestParam(required=false, defaultValue = "Veuillez ecrire ici l'arrêté d'équivalence, svp!!! ") String contenu, Model model) {
+	public String articleLoiArrete(@PathVariable String id, @Valid @ModelAttribute ContentArreteForm contentArreteForm, Model model, BindingResult bindingResult) {
+		
 		ContentArrete listesSaved = null;
-		ContentArreteForm contentArreteForm = new ContentArreteForm(); 
-		System.out.println("\n\n\n contenu = "+contenu);
+		ContentArreteForm content = contentArreteForm; 
+	/*	System.out.println("\n\n\n contenu = "+contenu);
 			ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
 			contentArreteForm.setArreteEqRef(temp);
-			contentArreteForm.setContenu(contenu);
-			contentArreteForm.setDateAjout(GlobalHelper.getCurrentDate());
-		 
+			contentArreteForm.setContenu(contenu);*/
+		ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
+		content.setArreteEqRef(temp);
+		content.setDateAjout(GlobalHelper.getCurrentDate());
+		if(bindingResult.hasErrors()){
+			 return "redirect:/error505"; 
+		 }
 	try {
 			
-			listesSaved = contentArreteService.saveOrUpdateContentArreteForm(contentArreteForm);
+			listesSaved = contentArreteService.saveOrUpdateContentArreteForm(content);
 						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 			
-		return "redirect:/newArrete/" + temp.getId();		
+		return "redirect:/newArrete/" + id ;		
 	}
 	
 

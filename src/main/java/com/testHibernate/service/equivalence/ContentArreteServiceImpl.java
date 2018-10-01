@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.equivalence.ContentArreteFormToContentArrete;
+import com.testHibernate.model.equivalence.ChampArreteEq;
 import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.model.equivalence.ContentArreteForm;
 import com.testHibernate.repo.equivalence.ContentArreteRepository;
@@ -70,11 +71,22 @@ public class ContentArreteServiceImpl implements ContentArreteService {
 
 
 	@Override
-	public List<ContentArrete> getContentByArrete(String idArrete) {
-		TypedQuery<ContentArrete> list = em.createNamedQuery("ContentArrete.findContentByArrete", ContentArrete.class).setParameter("idArrete", idArrete);
-		List<ContentArrete> ret = list.getResultList();
+	public ContentArrete getContentByArrete(Long idArrete) {
+		ContentArrete sortie = null;
+		try{
+			TypedQuery<ContentArrete> list = em.createNamedQuery("ContentArrete.findContentByArrete", ContentArrete.class).setParameter("idArrete", idArrete);
 		
-		return ret;
+			List<ContentArrete> ret = list.getResultList();
+			//System.out.println("\n\n\n RET = "+ret.size());
+			if(ret.size()!=0) {
+				sortie = ret.get(0);
+			} else {
+				sortie = null;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return sortie;
 	}
 
 	 

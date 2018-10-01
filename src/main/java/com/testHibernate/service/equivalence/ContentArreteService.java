@@ -13,7 +13,7 @@ public interface ContentArreteService {
 
     ContentArrete getById(Long id);
     
-    List<ContentArrete>  getContentByArrete(@Param(value = "idArrete") String idArrete);
+    ContentArrete  getContentByArrete(@Param(value = "idArrete") Long idArrete);
 
     ContentArrete saveOrUpdate(ContentArrete contentArrete);
  

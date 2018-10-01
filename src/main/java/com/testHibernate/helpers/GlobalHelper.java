@@ -10,7 +10,7 @@ import com.testHibernate.model.historique.ActiviteRecent;
 
 public class GlobalHelper {
 	 
-	
+	public static final String _ArticleContent = "";
 	public static List<String> getMentionList(){
 		List<String> ret = new ArrayList<String>();
 		ret.add("Passable");

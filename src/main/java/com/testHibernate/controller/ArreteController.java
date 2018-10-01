@@ -78,30 +78,37 @@ public class ArreteController {
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
 		}
+		try {
+			
+		
 		//initialisation ContentArrete
 		ContentArrete content = new ContentArrete();
+		System.out.println("\n\n\n IS WORKING ??????????????");
+		System.out.println(" arreteEqRefForm === "+arreteEqRefForm.getTitre());
 		content.setArreteEqRef(arreteEqRefFormToArreteEqRef.convert(arreteEqRefForm));
 		content.setDateAjout(GlobalHelper.getCurrentDate());
-		this.contentArreteService.saveOrUpdate(content);
-		
+		ContentArrete temp = this.contentArreteService.saveOrUpdate(content);
+		System.out.println("\n\n\n IS WORKING ??????????????");
 		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
 		listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
-			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return "redirect:/newArrete/" + listesSaved.getId();		
 	}
 	//Equivalence
 	@PutMapping("/updateArrete/{id}")
 	public String updateArrete(@Valid @ModelAttribute ArreteEqRefForm arreteEqRefForm , @PathVariable String id, BindingResult bindingResult, Model model) {
+		ArreteEqRef updateEntity = null;
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
 		}
-		/*ArreteEqRef newEntity = arreteEqRefFormToArreteEqRef.convert(arreteEqRefForm);
-		ArreteEqRef updateEntity = arreteEqRefService.getById(Long.valueOf(id));
-		updateEntity.setListesDiplome(newEntity.getListesDiplome());
-		updateEntity.setTitre(newEntity.getTitre());
-		updateEntity.setAnneeSortie(newEntity.getAnneeSortie());*/
-		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate()); 
-		ArreteEqRef updateEntity = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
+		try{ 
+			arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate()); 
+			updateEntity= arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		return "redirect:/newArrete/" + updateEntity.getId();		
 	}
 	

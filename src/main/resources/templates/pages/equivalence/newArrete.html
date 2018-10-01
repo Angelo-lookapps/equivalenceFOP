@@ -33,6 +33,8 @@
         <!-- START THEME JS -->
     	<script src="https://cdn.ckeditor.com/4.10.0/full-all/ckeditor.js"></script>
     	
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+     	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
        	<script src="assets/plugins/inputs/js/plugins/sortable.js" type="text/javascript"></script>
 	    <script src="assets/plugins/inputs/js/fileinput.js" type="text/javascript"></script>
 	    <script src="assets/plugins/inputs/js/locales/fr.js" type="text/javascript"></script>
@@ -88,10 +90,10 @@
 		                                                    <h6>Arr&ecirc;t&eacute; detail</h6>	
 		                                                    	<li><a href="#arreteDetail" data-toggle="tab" ><i class="fa fa-check-square-o"></i>Voir arret&eacute; detail</a></li>
 	                                                 		<br/>
-	                                                 		<h6>En-t&ecirc;te</h6>
-		                                                    	<li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-picture-o"></i>Logo-dgfop</a></li>
+	                                                 		<h6>Contenu ;</h6>
+		                                                    	<li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-picture-o"></i>Contenu global de l'arr&ecirc;t&eacute</a></li>
 		                                    				<br/>
-		                                             		<h6>Loi constitutionnel</h6>
+		                                             		<!-- <h6>Loi constitutionnel</h6>
 		                                                    
 		                                                    	<li><a href="#tab3" data-toggle="tab"><i class="fa fa-reorder"></i>LOI + DECRET</a></li>
 		                                					 <br/>
@@ -101,7 +103,7 @@
 		                                    			     <br/>
 		                                             		<h6>Articles + lois </h6>
 		                                                    	<li><a href="#tab5" data-toggle="tab"><i class="fa fa-umbrella"></i>Article(s) + Signature + MINISTRE</a></li>
-	      	                                             	
+	      	                                             	 -->
 	      	                                             	<hr/>
 		      	                                              	<a class="btn btn-default" data-toggle="modal" data-target="#champArrete"><i class="fa fa-address-card-o"></i>  Voir extrait champ d'arr&ecirc;t&eacute;</a>
                                                 		
@@ -114,58 +116,24 @@
 	                                            
 	                                            <!-- En-tête -->
 	                                            <div class="tab-pane fade in active" id="tab1">
-				                                    <form th:object="${enteteArreteForm}" th:action="@{/saveEntete}+ '/' + ${arreteEqRefForm.id}" method="POST" enctype="multipart/form-data" class="formEntete">
-				                                      	
-				                                      	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
-						                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
-						                              	</div>
-						                              	        
+				                                    <form  th:action="@{/saveContent}+ '/' + ${arreteEqRefForm.id}" method="POST" enctype="multipart/form-data" class="formContent">
+			                       
 					                                    <div class="panel-body">
 					                                        <p><strong>En-t&ecirc;te arr&ecirc;t&eacute; : </strong></p>
-				                                        	<h4>Veuillez ajouter un logo : </h4>
-				                                        	<div class="form-group">
-				                                                <div class="input-group">
-				                                                    <input type="file" class="form-control logo" th:field="*{logo}" name="logo"  >
-				                                                    <span class="input-group-addon" id="basic-addon2">LOGO</span>
-				                                                </div><!-- /input-group -->
-				                                            </div>
-				                                        	
-															<div class="panel-body">
-																<ul class="nav nav-tabs">
-																<h4>Titre sur en-t&ecirc;te: </h4>
-																	<li><a href="#titre1" data-toggle="tab">Titre gauche</a></li>
-		                                                   			<li><a href="#titre2" data-toggle="tab">Titre droite</a></li>
-		                                                   		</ul>
-	                                                   		
-																<div class="tab-content" >
-																	<div class="tab-pane fade in active" id="titre1">
-						                                    			
-																		<div class="form-group row">
-																			<textarea type="text"  th:field="*{titreGauche}" id="editor1" ></textarea>
-																		</div>
-																		
-																	</div>
-																	<div class="tab-pane fade" id="titre2">
-						                                    			
-																		<div class="form-group row">
-																			<textarea type="text"  th:field="*{titreDroite}" id="editor2" ></textarea>
-																		</div>
-																		
-																	</div>
-																	
-																</div>
+				                                        	<h4>Veuillez ajouter un logo : </h4>               	 
+																<div class="form-group row">
+																	<textarea type="text"  name="contenu" id="editor1" ></textarea>
+																</div>  
 																
 																<div id="postResultDiv"></div>
 																
-																<div class="btn-group pull-right">
-																	<button type="submit" class="btn btn-base" onclick="getAlert()">Sauvegarder</button>
-																</div>
+															<div class="btn-group pull-right">
+																<button type="submit" class="btn btn-base" onclick="getAlert()">Sauvegarder</button>
 															</div>
-					                                	</div>
+														</div> 
 				                                	</form>
 			                                 	</div>
-				                                <div class="tab-pane fade" id="tab3">
+				                                <!-- <div class="tab-pane fade" id="tab3">
 				                                    <form th:object="${loiDecretArreteForm}" th:action="@{/saveLoiDecret}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
 				                                      	
 				                                        <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
@@ -201,9 +169,9 @@
 															</div>
 				                                    	</div>
 			                                    	</form>
-				                                </div>
+				                                </div> -->
 
-				                                <!-- Tableau categorie -->
+				                                <!-- Tableau categorie 
 				                                <div class="tab-pane fade" id="tab5">
 				                                    <form  th:object="${articleLoiArreteForm}" th:action="@{/saveArticleLoiArrete}+ '/' + ${arreteEqRefForm.id}" method="POST" class="formEntete">
 					                                  	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
@@ -240,44 +208,77 @@
 															</div>
 														</div>
 			                                    	</form>
-				                                </div>
+				                                </div>-->
 				                                
 				                                <!-- Detail Arrete -->
 				                                <div class="tab-pane fade" id="arreteDetail">
 				                                  	<div class="panel-body">
 					                                  	<div class="inbox-mail-details p-20">
-			                                                <p><strong>Hi Tanzil,</strong></p>
-			                                                <p><span>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that</span></p>
-			                                                <p><span>Maecenas sed enim ut sem viverra aliquet. Consectetur adipiscing elit ut aliquam purus sit amet luctus.</span><span>Bibendum est ultricies integer quis :</span></p>
-			                                                <div>
-			                                                    <ul class="ml-20">
-			                                                        <li><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></li>
-			                                                        <li><span>Quisque dictum lorem id tempus lacinia.</span></li>
-			                                                        <li><span>Aenean placerat metus eget dignissim sodales.</span></li>
-			                                                        <li><span>Vivamus pretium risus vitae nibh maximus bibendum.</span></li>
-			                                                        <li><span>Curabitur maximus neque eget elit fermentum, at sagittis elit gravida.</span></li>
-			                                                    </ul>
-			                                                    <blockquote><small><strong>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</strong></small></blockquote>
+			                                                <div id="pdf">
+			                                                	<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.5pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><u><span style="font-size:8.5pt">Article 2</span></u><span style="font-size:8.5pt">&nbsp;: La pr&eacute;sente &eacute;quivalence administrative ne peut &ecirc;tre consid&eacute;r&eacute;e comme une &eacute;quivalence acad&eacute;mique.</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.5pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><u><span style="font-size:8.5pt">Article 3</span></u><span style="font-size:8.5pt">&nbsp;: Toutes dispositions contraires au pr&eacute;sent arr&ecirc;t&eacute; sont et demeurent abrog&eacute;es.</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm; text-align:justify"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.5pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><u><span style="font-size:8.5pt">Article 4</span></u><span style="font-size:8.5pt">&nbsp;: Le pr&eacute;sent arr&ecirc;t&eacute; sera enregistr&eacute; et publi&eacute; au journal officiel de la R&eacute;publique.</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.5pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Antananarivo le 23 Juin 2015</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:7.0pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;P. LE PREMIER MINISTRE, CHEF DU</span><span style="font-size:8.5pt"> GOUVERNEMENT</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.5pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Et par d&eacute;l&eacute;gation</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.5pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LE MINISTRE DE LA FONCTION PUBLIQUE,</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.5pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;DU TRAVAIL ET DES LOIS SOCIALES</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong>MAHARANTE Jean de Dieu&nbsp; </strong></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><em><span style="font-size:10.0pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-----------------------------------------------------------------------------------------------------------------------------------</span></em></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;MINISTERE DE LA FONCTION PUBLIQUE,</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;DE LA REFORME DE L&rsquo;ADMINISTRATION,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DU TRAVAIL, DE L&rsquo;EMPLOI ET DES LOIS SOCIALES&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&laquo;&nbsp;POUR COPIE CONFORME&nbsp;&raquo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; -----------------&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Antananarivo, le</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;SECRETARIAT GENERAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;---------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;DIRECTION GENERALE</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DE LA FONCTION PUBLIQUE</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;---------------</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;DIRECTION DE LA FORMATION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ET DU PERFECTIONNEMENT </span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;DES AGENTS DE L&rsquo;ETAT</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><span style="font-size:8.0pt"><span style="color:#333333">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; --------------</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><strong><span style="font-size:9.0pt"><span style="color:#333333">N&deg; 17948 /18 - MFPRATELS/SG/DGFOP/DFPAE</span></span></strong></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><strong><span style="font-size:9.0pt"><span style="color:#333333">D&eacute;livr&eacute; &agrave; M/Mr&nbsp;:&nbsp; RAMAROSON&nbsp; ANDRIANINA&nbsp; MIHAJARIVONY &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></strong></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><strong><span style="font-size:9.0pt"><span style="color:#333333">Titulaire de :&nbsp; MASTER I EN&nbsp; DROIT&nbsp; ET&nbsp; SCIENCES&nbsp; POLITIQUES </span></span></strong></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt"><strong><span style="font-size:9.0pt"><span style="color:#333333">Sp&eacute;cialit&eacute;&nbsp;:&nbsp; DROIT&nbsp; PRIVE</span></span></strong></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm">&nbsp;</p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Times New Roman,Times,serif"><span style="font-size:12pt">www.dgfop.gov.mg</span></span></p>
+			                                                	
 			                                                </div>
-			                                                <p><span>Ac tincidunt vitae semper quis lectus nulla at volutpat diam. Pellentesque massa placerat duis ultricies.</span></p>
-			                                                <div><strong>Regards,</strong></div>
-			                                                <div><strong>Tanjil Ahmed</strong></div>
 			                                                <hr>
-			                                                <h4> <i class="fa fa-paperclip"></i> Attachments <span>(3)</span> </h4>
-			                                                <div class="row">
-			                                                    <div class="col-sm-2 col-xs-4">
-			                                                        <a href="#"><img class="img-thumbnail img-responsive" alt="attachment" src="assets/dist/img/Zipper-icon.jpg"> </a>
-			                                                    </div>
-			                                                    <div class="col-sm-2 col-xs-4">
-			                                                        <a href="#"><img class="img-thumbnail img-responsive" alt="attachment" src="assets/dist/img/Zipper-icon.jpg"> </a>
-			                                                    </div>
-			                                                    <div class="col-sm-2 col-xs-4">
-			                                                        <a href="#"><img class="img-thumbnail img-responsive" alt="attachment" src="assets/dist/img/Zipper-icon.jpg"> </a>
-			                                                    </div>
-			                                                </div>
-			                                                <div class="m-t-20 border-all p-20">
-			                                                    <p class="p-b-20">click here to <a href="#">Reply</a> or <a href="compose.html">Forward</a></p>
-			                                                </div> 
+			                                                
+			                                               <div class="btn-group pull-right">
+																<button class="btn btn-base" onclick="printPDF()">Exporter en PDF</button>
+															</div>
 			                                            </div>
 		                                            </div>
 				                                </div>
@@ -410,26 +411,14 @@
        	<script>
        		//entete
 			CKEDITOR.replace( 'editor1' );
-			CKEDITOR.replace( 'editor2' );
-			
-			//Loi+decret
-			CKEDITOR.replace( 'editor3' );
-			
-			//Tableau
-			CKEDITOR.replace( 'editor4' );
-			
-			//article + signature
-			CKEDITOR.replace( 'editor5' );
-			CKEDITOR.replace( 'editor6' );
 		</script>
 	  	<script>
 			function getAlert(){
 				//console.log(CKEDITOR.instances.editor1.getData());
-				console.log("\n "+CKEDITOR.instances.editor2.getData());
 			//	$('#editor1').val = CKEDITOR.instances.editor1.getData();	
 			//	$('#editor2').val = CKEDITOR.instances.editor2.getData();
-				$('.formEntete').submit();
-				console.log("Hello world!!!!!!!!!!!!!!!!!");
+				$('.formContent').submit();
+				alert("content = "+CKEDITOR.instances.editor1.getData());
 			}
 			
 			$(document).ready(function() {
@@ -486,8 +475,48 @@
 		
         <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
         <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        
-      
+        <script>
+        function printPDF() {
+            var pdf = new jsPDF('p', 'pt', 'a4');
+            // source can be HTML-formatted string, or a reference
+            // to an actual DOM element from which the text will be scraped.
+            source = $('#pdf')[0];
+
+            // we support special element handlers. Register them with jQuery-style 
+            // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+            // There is no support for any other type of selectors 
+            // (class, of compound) at this time.
+            specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector
+                '#bypassme': function (element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"
+                    return true
+                }
+            };
+            margins = {
+                top: 80,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+            // all coords and widths are in jsPDF instance's declared units
+            // 'inches' in this case
+            pdf.fromHTML(
+                source, // HTML string or DOM elem ref.
+                margins.left, // x coord
+                margins.top, { // y coord
+                    'width': margins.width, // max width of content on PDF
+                    'elementHandlers': specialElementHandlers
+                },
+
+                function (dispose) {
+                    // dispose: object with X, Y of the last line add to the PDF 
+                    //          this allow the insertion of new lines after html
+                    pdf.save('Test.pdf');
+                }, margins
+            );
+        }
+        </script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <script src="assets/plugins/fastclick/fastclick.min.js"></script>

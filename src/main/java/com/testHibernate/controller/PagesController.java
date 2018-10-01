@@ -85,6 +85,7 @@ public class PagesController {
 	public String signUpPage() {
 		return "pages/signup";		
 	}
+	
 	@GetMapping("/timeline")
 	public String historique(ModelMap modelMap) {
 		List<ActiviteRecent> activities = activiteRecentService.getRecentActiviteByNumber(5);

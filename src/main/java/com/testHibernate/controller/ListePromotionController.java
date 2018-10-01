@@ -145,7 +145,7 @@ public class ListePromotionController {
 		
 		//Mis en historique
 		 ActiviteRecent historique = new ActiviteRecent(); 
-		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à "+listesSaved.getListePromotion().getNomPromotion() + " en " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
 		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	 //fin historique

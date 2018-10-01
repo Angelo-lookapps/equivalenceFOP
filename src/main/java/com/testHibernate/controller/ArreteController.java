@@ -79,18 +79,15 @@ public class ArreteController {
 			return "pages/equivalence/listArrete";
 		}
 		try {
-			
-		
+			 
+		listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
 		//initialisation ContentArrete
-		ContentArrete content = new ContentArrete();
-		System.out.println("\n\n\n IS WORKING ??????????????");
-		System.out.println(" arreteEqRefForm === "+arreteEqRefForm.getTitre());
-		content.setArreteEqRef(arreteEqRefFormToArreteEqRef.convert(arreteEqRefForm));
+		ContentArrete content = new ContentArrete(); 
+		content.setArreteEqRef(listesSaved);
 		content.setDateAjout(GlobalHelper.getCurrentDate());
 		ContentArrete temp = this.contentArreteService.saveOrUpdate(content);
 		System.out.println("\n\n\n IS WORKING ??????????????");
 		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
-		listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

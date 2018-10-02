@@ -99,4 +99,12 @@ public class ListesDiplomeServiceImpl implements ListesDiplomeService {
 		return ret;
 	}
 
+	@Override
+	public List<ListesDiplome> findDiplomeByEcole(String ecole) {
+		TypedQuery<ListesDiplome> query = em.createNamedQuery("ListesDiplome.findDiplomeByEcole", ListesDiplome.class).setParameter("ecole", ecole);
+		List<ListesDiplome> ret = query.getResultList();
+		return ret;
+		//return null;
+	}
+
 }

@@ -34,7 +34,7 @@ public class ListePromotionController {
 	 ///SERVICES
 	 private ListePromotionService listePromotionService;
 	 private ListePromotionDetailService listePromotionDetailService;
-	 
+	 private ListePromotionToListePromotionForm listePromotionToListePromotionForm;
 	 private ListesDiplomeService listesDiplomeService;
 	 
 	 private HttpSession session;
@@ -42,6 +42,11 @@ public class ListePromotionController {
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
+	 }
+	 
+	 @Autowired
+	 public void setListePromotionToListePromotionForm(ListePromotionToListePromotionForm listePromotionToListePromotionForm) {
+		this.listePromotionToListePromotionForm = listePromotionToListePromotionForm;
 	 }
 	 
 	 private ActiviteRecentService activiteRecentService;
@@ -152,7 +157,8 @@ public class ListePromotionController {
 		return "redirect:/showPromoDetail/"+listePromotion1.getId();		
 	}
 	@GetMapping("/showPromoDetail/{id}")
-	public String ajoutPromo(@PathVariable String id, Model model) {
+	public String ajoutPromo( @PathVariable String id, Model model) {
+		
 		List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(Long.valueOf(id));
 		ListePromotion listePromotion = listePromotionService.getById(Long.valueOf(id));
 		List<String> mentions = GlobalHelper.getMentionList();
@@ -160,13 +166,26 @@ public class ListePromotionController {
 		if(listePromotion==null) {
 			return "redirect:/error404/listProm";	
 		}
-		
+		//List<String> listEcole = listesDiplomeService.getAllEcole();
+		String ecole = listePromotion.getListesDiplome().getEcole();
+		try {
+		List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
+		List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
+ 
+		model.addAttribute("listeDiploma", listeDiploma);
+		model.addAttribute("annees", annee);
+		model.addAttribute("ecole", ecole);
 		model.addAttribute("mentions", mentions);
 		model.addAttribute("listePromotion", listePromotion);
 		model.addAttribute("listePromotionDetails", listePromotionDetails);
 		model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
+		model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
+		} catch (Exception e) { 
+			e.printStackTrace();
+		}
 		return "pages/listePromotion/listPromDet";		
 	}
+	
 	@GetMapping("/promotion/delete/{id}")
 	 public String deletePromo(@PathVariable String id){
 		ListePromotion listesSaved = listePromotionService.getById(Long.valueOf(id));
@@ -180,4 +199,22 @@ public class ListePromotionController {
        return "redirect:/diplomaList";
 	 }
 
+	 @GetMapping("/showAdmis/{id}")
+	 public String showAdmis(@PathVariable String id, Model model){
+		 ListePromotionDetail list = listePromotionDetailService.getById(Long.valueOf(id));
+		 try{
+			 
+	 
+			 model.addAttribute("diplomaDetail", list);
+			 System.out.println("\n\n\n****************************************************************\n");
+			 System.out.println("list = "+list.getNomComplet());
+			
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 if(list==null) {
+			return "redirect:/error404/listProm";	
+		 } 
+		 return "pages/listePromotion/showAdmis";
+	 }
 }

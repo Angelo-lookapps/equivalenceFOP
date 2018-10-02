@@ -71,10 +71,10 @@
 	                                        </div>
 	                                        <div class="col-xs-8">
 	                                            <div class="inbox-toolbar btn-toolbar">
-	                                                <div class="btn-group">
-	                                                 	<input type="submit" class="btn btn-default  w-md m-rb-5" value="Sauvegarder"></a>
+	                                                <div class="btn-group">  
+	                                                 	<input type="submit" class="btn btn-default  w-md m-rb-5"  data-toggle="modal" data-target="#example" value="Voir l'arr&ecirc;t&eacute;"></a>
 	                                                    <a class="btn btn-primary w-md m-rb-5" data-toggle="modal" data-target="#myModal">Renommer ce titre</a>
-	                                                    <a href="/listArrete" class="hidden-xs hidden-sm btn btn-default"><span class="fa fa-reply-all"></span></a>
+	                                                    <a href="/listArrete" class="hidden-xs hidden-sm btn btn-default"><span class="fa fa-reply"></span></a>
 	                                                </div>
 	                                            </div>
 	                                        </div>
@@ -95,7 +95,7 @@
 		                                    				<br/>
 		                                             		<hr/>
 		      	                                              	<a class="btn btn-default" data-toggle="modal" data-target="#champArrete"><i class="fa fa-address-card-o"></i>  Voir extrait champ d'arr&ecirc;t&eacute;</a>
-                                                		
+                                                			
                                                 		</ul>
 	                                                </div>
 	                                            </div>
@@ -132,7 +132,7 @@
 				                                  	<div class="panel-body">
 					                                  	<div class="inbox-mail-details p-20">
 			                                                <div id="pdf">
-			                                                	<div th:if="${contentArrete!=null}">
+			                                                	<div th:if="${contentArrete!=null}" th:title="${contentArrete.arreteEqRef.titre}">
 			                                                		<div th:utext="${contentArrete.contenu}"></div>
 			                                                		
 			                                                		<div th:utext="${contentArticle}"></div>
@@ -152,7 +152,7 @@
 			                                                <hr>
 			                                                
 			                                               <div class="btn-group pull-right">
-																<button class="btn btn-base" onclick="printPDF()">Exporter en PDF</button>
+																<button class="btn btn-base" th:onclick="|printPDF('${contentArrete.arreteEqRef.titre}')|">Exporter en PDF</button>
 															</div>
 			                                            </div>
 		                                            </div>
@@ -163,6 +163,42 @@
 	                            </div> 
                         	
                         </div>
+                        	<!-- MODALS DIALOG -->
+	             		 	<div class="modal fade" id="example" tabindex="-1" role="dialog">
+	                           	<div class="modal-dialog modal-lg" role="document">
+	                               <div class="modal-content">
+	                                   	 <div class="modal-header" th:object="${arreteEqRefForm}">
+	                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                                         <h1 class="modal-title"><div>TITRE: <small th:text="*{titre}+' anneé: '+*{anneeSortie}"></small></div></h1>
+	                                     </div> 
+		                                       
+	                                     <div class="modal-body">
+	                                     	<div class="panel-body" >
+		                                      	<div th:if="${contentArrete!=null}"  th:title="${contentArrete.arreteEqRef.titre}">
+	                                           		<div th:utext="${contentArrete.contenu}"></div>
+	                                           		
+	                                           		<div th:utext="${contentArticle}"></div>
+	                                           		
+	                                           		<p style="margin-left:0cm; margin-right:0cm">---------------------------------------------------</p>
+	
+													<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:9pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:9.0pt"><span style="color:#333333">N&deg; <span th:text="'####'" ></span> /<span th:text="'##'" ></span> - MFPRATELS/SG/DGFOP/DFPAE</span></span></strong></span></span></p>
+													
+													<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:9pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:9.0pt"><span style="color:#333333">D&eacute;livr&eacute; &agrave; M/Mr&nbsp;: <span th:text="'...'" ></span> &nbsp;&nbsp;&nbsp;&nbsp;</span></span></strong></span></span></p>
+													
+													<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:9pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:9.0pt"><span style="color:#333333">Titulaire de : <span th:text="'...'" ></span> </span></span></strong></span></span></p>
+													
+													<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:9pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:9.0pt"><span style="color:#333333">Sp&eacute;cialit&eacute;&nbsp;: <span th:text="'...'" ></span></span></span></strong></span></span></p>
+													                                                		
+	                                           	</div>
+                                           	</div>
+	                                     </div>
+	                                     <div class="modal-footer">
+                                     		 <button type="submit" class="btn btn-base" th:onclick="|printPDF('${contentArrete.arreteEqRef.titre}')|"><i class="fa fa-print"></i></button>
+                                             <button type="button" class="btn btn-base" data-dismiss="modal">OK</button>
+	                                     </div>
+	                                 </div><!-- /.modal-content -->
+	                             </div><!-- /.modal-dialog -->
+	                         </div><!-- /.modal --> 
                         	<!-- MODALS DIALOG -->
 	             		 	<div class="modal fade" id="champArrete" tabindex="-1" role="dialog">
 	                           	<div class="modal-dialog" role="document">
@@ -324,7 +360,7 @@
         <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
         <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
         <script>
-        function printPDF() {
+        function printPDF(titre) {
             var pdf = new jsPDF('p', 'pt', 'a4');
             // source can be HTML-formatted string, or a reference
             // to an actual DOM element from which the text will be scraped.
@@ -360,7 +396,7 @@
                 function (dispose) {
                     // dispose: object with X, Y of the last line add to the PDF 
                     //          this allow the insertion of new lines after html
-                    pdf.save('Test.pdf');
+                    pdf.save(titre+'.pdf');
                 }, margins
             );
         }

@@ -230,15 +230,7 @@
         
         <!-- ./²wrapper -->
         <!-- START CORE PLUGINS -->
-        <script>
-		    function goToDelete(id) {
-		        var txt;
-		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
-		        if (r == true) {
-		        	window.locat+$ion.href = "/promo/delete/"+id;		            
-		        } 
-		    }	
-		</script>
+    
         <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
         <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
@@ -246,6 +238,17 @@
         <script src="assets/plugins/fastclick/fastclick.min.js"></script>
         <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
         <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+        <script>
+		    function goToDelete(id) {
+		        console.log("Hello goToDelete");
+		    	var txt;
+		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
+		        if (r == true) {
+		        	window.locat+$ion.href = "/promotion/delete/"+id;		            
+		        } 
+		    }	
+		</script>
+        
         <!-- DataTable Js -->
         <script src="assets/plugins/datatables/dataTables.min.js"></script>
         <script src="assets/plugins/datatables/dataTables-active.js"></script>

@@ -89,9 +89,8 @@
 	                                               	   <td class="text-center" th:text="${arrete.id}"></td>
 	                                               	   <td class="text-center"><a  th:text="${arrete.titre}"></a></td>
 		                                               <td class="text-center"><a  th:text="${arrete.anneeSortie}"></a></td>
-	                                                   <td class="text-center">
-	                                                   	   <a th:href="'/newArrete/'+${arrete.id}"><button class="btn btn-primary btn-sm">Voir</button></a>
-	                                                	   <a th:href="'/editArrete/'+${arrete.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+	                                                   <td class="text-center"> 
+	                                                	   <a th:href="'/newArrete/'+${arrete.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Editer"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
 	                                                   </td>
 	                                               	</tr>
 	                                            </tbody>

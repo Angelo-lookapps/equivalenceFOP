@@ -10,7 +10,37 @@ import com.testHibernate.model.historique.ActiviteRecent;
 
 public class GlobalHelper {
 	 
-	public static final String _ArticleContent = "";
+	public static String _ArticleContent = "<hr />\r\n" +
+			"<p style=\"margin-left:40px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;MINISTERE DE LA FONCTION PUBLIQUE,</span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:40px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DE LA REFORME DE L&rsquo;ADMINISTRATION,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:40px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp;&nbsp; DU TRAVAIL, DE L&rsquo;EMPLOI ET DES LOIS SOCIALES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:600px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&laquo;&nbsp;POUR COPIE CONFORME&nbsp;&raquo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:80px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp; &nbsp;-----------------------------&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Antananarivo, le&nbsp;</span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:80px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">SECRETARIAT GENERAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:80px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp; &nbsp; -----------------------------&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:80px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\">&nbsp;DIRECTION GENERALE</span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:80px; margin-right:0cm; text-align:justify\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\">DE LA FONCTION PUBLIQUE</span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:80px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp; &nbsp;-----------------------------&nbsp; </span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:80px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp;&nbsp;DIRECTION DE LA FORMATION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:80px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp; ET DU PERFECTIONNEMENT </span></span></span></p>\r\n" + 
+			"\r\n" + 
+			"<p style=\"margin-left:80px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;DES AGENTS DE L&rsquo;ETAT</span></span></span></p>\r\n" + 
+			"<hr />\r\n" + 
+			"<p>&nbsp;</p>\r\n" + 
+			"";
+	
+	
 	public static List<String> getMentionList(){
 		List<String> ret = new ArrayList<String>();
 		ret.add("Passable");

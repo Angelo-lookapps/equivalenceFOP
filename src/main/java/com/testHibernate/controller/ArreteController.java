@@ -25,10 +25,12 @@ import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm; 
 import com.testHibernate.model.equivalence.ChampArreteEqForm;
 import com.testHibernate.model.equivalence.ContentArrete;
-import com.testHibernate.model.equivalence.ContentArreteForm; 
+import com.testHibernate.model.equivalence.ContentArreteForm;
+import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.equivalence.ArreteEqRefService; 
-import com.testHibernate.service.equivalence.ContentArreteService; 
+import com.testHibernate.service.equivalence.ContentArreteService;
+import com.testHibernate.service.historique.ActiviteRecentService; 
 
 @Controller
 public class ArreteController {
@@ -39,6 +41,12 @@ public class ArreteController {
 	 
 	 private ListesDiplomeService listesDiplomeService;
 	 
+	 private ActiviteRecentService activiteRecentService;
+	 
+	 @Autowired
+	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
+		this.activiteRecentService = activiteRecentService;
+	 }
 	 private ContentArreteService contentArreteService;
 	 
 	 @Autowired
@@ -81,12 +89,19 @@ public class ArreteController {
 		try {
 			 
 		listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
+		//Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "une nouvelle arrêté avec comme titre : \""+listesSaved.getTitre()+" année sortie: "+listesSaved.getAnneeSortie()+"\""));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique
+		 	
 		//initialisation ContentArrete
 		ContentArrete content = new ContentArrete(); 
 		content.setArreteEqRef(listesSaved);
 		content.setDateAjout(GlobalHelper.getCurrentDate());
 		ContentArrete temp = this.contentArreteService.saveOrUpdate(content);
-		System.out.println("\n\n\n IS WORKING ??????????????");
+		//System.out.println("\n\n\n IS WORKING ??????????????");
 		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -115,7 +130,7 @@ public class ArreteController {
 			 
 			ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
 			ContentArrete contentArrete = contentArreteService.getContentByArrete(Long.valueOf(id))!=null ? contentArreteService.getContentByArrete(Long.valueOf(id)) : null;
-			System.out.println("\n\n\n contentArrete = "+contentArrete.getContenu());
+			//System.out.println("\n\n\n contentArrete = "+contentArrete.getContenu());
 			
 			if(listesSaved==null) {
 				return "redirect:/error404/listArrete";	
@@ -178,7 +193,7 @@ public class ArreteController {
 
 		if(session.getAttribute("isConnected")!=null) { 
 			return "pages/equivalence/listArrete";	
-		}	
+		}
 		model.addAttribute("errorlogin", "4");
 		return "pages/login";
 	}
@@ -201,6 +216,12 @@ public class ArreteController {
 	try {
 			
 			listesSaved = contentArreteService.saveOrUpdateContentArreteForm(content);
+			//Mis en historique
+			 ActiviteRecent historique = new ActiviteRecent(); 
+			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "un contenue à l'arrêté \""+listesSaved.getArreteEqRef().getTitre()+" année sortie: "+listesSaved.getArreteEqRef().getAnneeSortie()+"\""));
+			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+			 	activiteRecentService.saveOrUpdate(historique);
+		 	 //fin historique
 						
 		} catch (Exception e) {
 			e.printStackTrace();

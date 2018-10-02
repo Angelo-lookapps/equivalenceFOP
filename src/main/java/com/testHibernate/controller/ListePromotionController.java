@@ -1,8 +1,6 @@
 package com.testHibernate.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -169,6 +167,17 @@ public class ListePromotionController {
 		model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
 		return "pages/listePromotion/listPromDet";		
 	}
-	
+	@GetMapping("/promotion/delete/{id}")
+	 public String deletePromo(@PathVariable String id){
+		ListePromotion listesSaved = listePromotionService.getById(Long.valueOf(id));
+		listePromotionService.delete(Long.valueOf(id));
+		//Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le promotion du nom \""+listesSaved.getNomPromotion()+" session: "+listesSaved.getSessionSortie()+"\""));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique
+       return "redirect:/diplomaList";
+	 }
 
 }

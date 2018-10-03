@@ -1,127 +1,131 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
- <meta charset="utf-8">
- <base href="http://localhost:8080/showDiploma" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Diplome - Administration Equivalence FOP(67Ha)</title>
-        <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
-    	<script src="assets/js/webfont.js"></script>
-        <script>
-            WebFont.load({
+    <meta charset="utf-8">
+    <base href="http://localhost:8080/showDiploma" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Diplome - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
+    <script src="assets/js/webfont.js"></script>
+    <script>
+        WebFont.load({
                 google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
                 active: function () {
                     sessionStorage.fonts = true;
                 }
             });
         </script>
-        <!-- START GLOBAL MANDATORY STYLE -->
-        <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
-        <!-- START PAGE LABEL PLUGINS --> 
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+    <!-- START PAGE LABEL PLUGINS -->
 
-        <!-- START THEME LAYOUT STYLE -->
-        <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css"/>
-       
-<title>Diplome CIN</title>
+    <!-- START THEME LAYOUT STYLE -->
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+
+    <title>Diplome CIN</title>
 </head>
+
 <body class="hold-transition fixed sidebar-mini">
-        
-        
-        <!-- Site wrapper -->
-        <!-- Content Wrapper. Contains page content -->
-        <div th:replace="fragments/header :: header">Enregistrement</div>   
-        	<div class="content-wrapper">
-                <!-- Main content -->
-                <div class="content">
-                    <div class="content-header">
-                        <div class="header-icon">
-                            <i class="pe-7s-note2"></i>
+
+
+    <!-- Site wrapper -->
+    <!-- Content Wrapper. Contains page content -->
+    <div th:replace="fragments/header :: header">Enregistrement</div>
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <div class="content">
+            <div class="content-header">
+                <div class="header-icon">
+                    <i class="pe-7s-note2"></i>
+                </div>
+                <div class="header-title">
+                    <h1>Fiche Carte d'identit&eacute;</h1>
+                    <small></small>
+                    <ol class="breadcrumb">
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                        <li><a href="#">Enregistrement</a></li>
+                        <li><a href="/CINList">Liste Diplome</a></li>
+                        <li><a href="/newCIN">Nouveau Diplome</a></li>
+                        <li class="active">Fiche Diplome</li>
+                    </ol>
+                </div>
+            </div> <!-- /. Content Header (Page header) -->
+
+            <div class="row">
+                <!-- Textual inputs -->
+                <div class="col-sm-8">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Informations sur le diplome</h4>
+                            </div>
                         </div>
-                        <div class="header-title">
-                            <h1>Fiche Carte d'identit&eacute;</h1>
-                            <small></small>
-                            <ol class="breadcrumb">
-                                <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
-                                <li><a href="#">Enregistrement</a></li>
-                                <li><a href="/CINList">Liste Diplome</a></li>
-                                <li><a href="/newCIN">Nouveau Diplome</a></li>
-                                <li class="active">Fiche Diplome</li>
-                            </ol>
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Informations sur le diplome :</th>
+                                            <th> </th>
+                                            <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Ecole </th>
+                                            <td th:text="${diploma.ecole}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fili&egrave;re </th>
+                                            <td th:text="*{diploma.filiere}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Option </th>
+                                            <td th:text="*{diploma.option}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Niveau + categorie </th>
+                                            <td th:text="*{diploma.niveauDiplome.niveau} + ' | Categorie : ' + *{diploma.niveauDiplome.categorie}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div> <!-- /. Content Header (Page header) -->
-                 
-                    <div class="row">
-                    <!-- Textual inputs -->
-                    <div class="col-sm-8">
-	                        <div class="panel panel-bd lobidrag">
-	                            <div class="panel-heading">
-	                                <div class="panel-title">
-	                                    <h4>Informations sur le diplome</h4>
-	                                </div>
-	                            </div>
-	                                                      	
-                           		<div class="panel-body">
-                                   	<div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Informations sur le diplome :</th>
-                                                    <th> </th>
-                                                   	<th> </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            	<tr>
-				                                    <th>Ecole  </th>
-				                                    <td th:text="${diploma.ecole}"></td>
-				                                </tr>
-				                                <tr>
-				                                    <th>Fili&egrave;re  </th>
-				                                    <td th:text="*{diploma.filiere}"></td>
-					                             </tr>
-					                             <tr>
-				                                    <th>Option  </th>
-				                                    <td th:text="*{diploma.option}"></td>
-					                             </tr>
-					                             <tr>
-				                                    <th>Niveau + categorie </th>
-				                                    <td th:text="*{diploma.niveauDiplome.niveau} + ' | Categorie : ' + *{diploma.niveauDiplome.categorie}" ></td>
-					                             </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>    
-	                        </div>
-	                     </div>
-	                     <div class="col-sm-2">
-	                  		<a href="/diplomaList"><button type="button" class="btn btn-primary w-md m-rb-5"><i class="fa fa-reply"> </i> Revenir</button></a>
-	               		 	<a th:href="'/editDiploma/'+${diploma.id}"><button type="button" class="btn btn-base w-md m-rb-5"><i class="fa fa-check-square-o"> </i> Mettre &agrave; jour</button></a>
-	               		 </div>
                     </div>
                 </div>
+                <div class="col-sm-2">
+                    <a href="/diplomaList"><button type="button" class="btn btn-primary w-md m-rb-5"><i class="fa fa-reply">
+                            </i> Revenir</button></a>
+                    <a th:href="'/editDiploma/'+${diploma.id}"><button type="button" class="btn btn-base w-md m-rb-5"><i
+                                class="fa fa-check-square-o"> </i> Mettre &agrave; jour</button></a>
                 </div>
             </div>
-       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-        
-        <!-- ./²wrapper -->
-        <!-- START CORE PLUGINS -->
-        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
-        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
-        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
-        <!-- BootStrap WiZarD -->
-        <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
-        <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
-        <!-- Footable Js -->
-        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
-        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
-        <!-- START THEME LABEL SCRIPT -->
-        <script src="assets/dist/js/theme.js"></script>
-	</body>
-	
+        </div>
+    </div>
+    </div>
+    <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+    <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+    <!-- BootStrap WiZarD -->
+    <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
+    <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
+    <!-- Footable Js -->
+    <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+    <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+    <!-- START THEME LABEL SCRIPT -->
+    <script src="assets/dist/js/theme.js"></script>
+</body>
+
 </html>

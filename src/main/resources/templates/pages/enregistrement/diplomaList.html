@@ -1,186 +1,198 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
- <meta charset="utf-8">
- <base href="http://localhost:8080/diplomaList" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Diplome - Administration Equivalence FOP(67Ha)</title>
-        <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
-    	<script src="assets/js/webfont.js"></script>
-        <script>
-            WebFont.load({
+    <meta charset="utf-8">
+    <base href="http://localhost:8080/diplomaList" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Diplome - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
+    <script src="assets/js/webfont.js"></script>
+    <script>
+        WebFont.load({
                 google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
                 active: function () {
                     sessionStorage.fonts = true;
                 }
             });
         </script>
-        <!-- START GLOBAL MANDATORY STYLE -->
-        <link href="assets/dist/css/base.css"rel="stylesheet" type="text/css">
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
 
-		<!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css"/>
-        
-        <!-- START THEME LAYOUT STYLE -->
-       
-        <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
-        
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- START THEME LAYOUT STYLE -->
+
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-<title>Listes des dipl&ocirc;mes</title>
+    <title>Listes des dipl&ocirc;mes</title>
 </head>
+
 <body class="hold-transition fixed sidebar-mini">
-        
-        <!-- Preloader -->
-        <div class="preloader"></div>
-        
-        <!-- Site wrapper -->
-        <!-- Content Wrapper. Contains page content -->
-        <div th:replace="fragments/header :: header">Static header</div>   
-       	<div class="content-wrapper">
-            <!-- Main content -->
-            <div class="content">
-                <div class="content-header">
-                    <div class="header-icon">
-                        <i class="pe-7s-note2"></i>
-                    </div>
-                    <div class="header-title">
-                        <h1>Tous les dipl&ocirc;mes</h1>
-                        <small></small>
-                        <ol class="breadcrumb">
-                            <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
-                            <li ><a href="#">Enregistrement</a></li>
-                            <li class="active">Liste des dipl&ocirc;me</li>
-                        </ol>
-                    </div>
-                </div> <!-- /. Content Header (Page header) -->
-               
-                <div class="row">
-                    <div class="col-sm-8">
-	                       <div class="panel panel-bd lobidrag">
-	                           <div class="panel-heading">
-	                               <div class="panel-title">
-	                                   <h4>Liste des Dipl&ocirc;mes</h4>
-	                               </div>
-	                           </div>
-	                           <div class="panel-body">	                                 
-	                               <div th:if="${not #lists.isEmpty(listesDiplome)}">
-		                               <div class="table-responsive">
-		                                   <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
-	                                    	
-	                                       <table id="example1" class="footable table table-bordered table-hover toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
-		                                       <thead>
-		                                           <tr>
-		                                               <th class="text-center">ID </th>
-		                                               <th class="text-center">Ecole </th>
-		                                               <th class="text-center">Fili&egrave;re </th>
-		                                               <th class="text-center">Option</th>		                                               
-		                                               <th class="text-center">Mise &agrave; jour </th>
-		                                               
-		                                               <th data-hide="all">Niveau du dipl&ocirc;me</th>
-		                                               <th data-hide="all">Categorie </th>
-		                                           </tr>
-		                                       </thead>
-		                                       <tbody>
-		                                           <tr th:each="diploma : ${listesDiplome}">		                                           	
-		                                               <td class="text-center" th:text="${diploma.id}"></td>
-		                                               <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}" th:text="${diploma.filiere}"></a></td>
-		                                               <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}" th:text="${diploma.option}"></a></td>
-		                                               <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}" th:text="${diploma.ecole}"></a></td>
-		                                                                              	                   
-                                 	                   <td class="text-center"> 
-		                                               		<a th:href="'/editDiploma/'+${diploma.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
-      														<button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${diploma.id}')|" ><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-		                                               </td>
-		                                                
-	                                                  <td class="text-center"><b><a th:href="'/showDiploma/'+${diploma.id}" th:text="*{diploma.niveauDiplome.niveau}"></a></b></td>
-	                                                  <td class="text-center"><b><a th:href="'/showDiploma/'+${diploma.id}" th:text="*{diploma.niveauDiplome.categorie}"></a></b></td> 
-		                                             
-		                                           </tr>
-		                                          
-		                                       </tbody>
-		                                   </table>
-		                               </div>
-		                           
-	                               	</div>
-	                           </div>
-	                       </div>
-	                   	</div>
-                       	<div class="col-sm-2">
-	                   		<a href="/newDiploma"><button type="button" class="btn btn-primary w-md m-rb-5">Nouveau</button></a>
-                 		</div>
-               			<div class="col-sm-3">
-                            <div class="panel panel-bd lobidisable">
-                                <div class="panel-heading">
-                                    <div class="panel-title">
-                                        <h4>Tous les niveaux </h4>
-                                    </div>
+
+    <!-- Preloader -->
+    <div class="preloader"></div>
+
+    <!-- Site wrapper -->
+    <!-- Content Wrapper. Contains page content -->
+    <div th:replace="fragments/header :: header">Static header</div>
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <div class="content">
+            <div class="content-header">
+                <div class="header-icon">
+                    <i class="pe-7s-note2"></i>
+                </div>
+                <div class="header-title">
+                    <h1>Tous les dipl&ocirc;mes</h1>
+                    <small></small>
+                    <ol class="breadcrumb">
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                        <li><a href="#">Enregistrement</a></li>
+                        <li class="active">Liste des dipl&ocirc;me</li>
+                    </ol>
+                </div>
+            </div> <!-- /. Content Header (Page header) -->
+
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Liste des Dipl&ocirc;mes</h4>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div th:if="${not #lists.isEmpty(listesDiplome)}">
+                                <div class="table-responsive">
+                                    <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+
+                                    <table id="example1" class="footable table table-bordered table-hover toggle-arrow-tiny"
+                                        data-page-size="8" data-filter=#filter>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">ID </th>
+                                                <th class="text-center">Ecole </th>
+                                                <th class="text-center">Fili&egrave;re </th>
+                                                <th class="text-center">Option</th>
+                                                <th class="text-center">Mise &agrave; jour </th>
+
+                                                <th data-hide="all">Niveau du dipl&ocirc;me</th>
+                                                <th data-hide="all">Categorie </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="diploma : ${listesDiplome}">
+                                                <td class="text-center" th:text="${diploma.id}"></td>
+                                                <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}"
+                                                        th:text="${diploma.filiere}"></a></td>
+                                                <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}"
+                                                        th:text="${diploma.option}"></a></td>
+                                                <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}"
+                                                        th:text="${diploma.ecole}"></a></td>
+
+                                                <td class="text-center">
+                                                    <a th:href="'/editDiploma/'+${diploma.id}"><button class="btn btn-base btn-sm"
+                                                            data-toggle="tooltip" data-placement="top" title="Update"><i
+                                                                class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                                        data-placement="top" title="Delete " th:onclick="|goToDelete('${diploma.id}')|"><i
+                                                            class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+
+                                                <td class="text-center"><b><a th:href="'/showDiploma/'+${diploma.id}"
+                                                            th:text="*{diploma.niveauDiplome.niveau}"></a></b></td>
+                                                <td class="text-center"><b><a th:href="'/showDiploma/'+${diploma.id}"
+                                                            th:text="*{diploma.niveauDiplome.categorie}"></a></b></td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="panel-body">
-                                    <div th:if="${not #lists.isEmpty(niveaux)}">
-	                                    <div class="table-responsive">
-	                                        <table class="table table-striped table-hover">
-	                                            <thead>
-	                                                <tr>
-	                                                    <th class="text-center">#</th>
-	                                                    <th class="text-center">Niveaux</th>
-	                                                    <th class="text-center">Categorie</th>
-	                                                </tr>
-	                                            </thead>
-	                                            <tbody>
-	                                                <tr th:each="niv : ${niveaux}">
-	                                                    <th class="text-center" scope="row" th:text="${niv.id}"></th>
-	                                                    <td class="text-center" th:text="${niv.niveau}"></td>
-	                                                    <td class="text-center" th:text="${niv.categorie}"></td>
-	                                                </tr>
-	                                            </tbody>
-	                                        </table>
-	                                    </div>
-                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <a href="/newDiploma"><button type="button" class="btn btn-primary w-md m-rb-5">Nouveau</button></a>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel panel-bd lobidisable">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Tous les niveaux </h4>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div th:if="${not #lists.isEmpty(niveaux)}">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">#</th>
+                                                <th class="text-center">Niveaux</th>
+                                                <th class="text-center">Categorie</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="niv : ${niveaux}">
+                                                <th class="text-center" scope="row" th:text="${niv.id}"></th>
+                                                <td class="text-center" th:text="${niv.niveau}"></td>
+                                                <td class="text-center" th:text="${niv.categorie}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-        
-        <!-- ./²wrapper -->
-        <!-- START CORE PLUGINS -->
-        
-       	<script>
-		    function goToDelete(id) {
-		        var txt;
-		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
-		        if (r == true) {
-		        	window.location.href = "/diploma/delete/"+id;		            
-		        } 
-		       
-		    }	
-		</script>
-        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
-        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
-        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
-        <!-- Sumoselect Js -->
-        <script src="assets/plugins/jquery.sumoselect/jquery.sumoselect.min.js"></script>
-        <script src="assets/plugins/jquery.sumoselect/sumoselect-active.js"></script>
-      
-        <!-- Footable Js -->
-        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
-        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
-        <!-- START THEME LABEL SCRIPT -->
-        <script src="assets/dist/js/theme.js"></script>
-	</body>
-	
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+
+    <script>
+        function goToDelete(id) {
+            var txt;
+            var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
+            if (r == true) {
+                window.location.href = "/diploma/delete/" + id;
+            }
+
+        }
+    </script>
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+    <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+    <!-- Sumoselect Js -->
+    <script src="assets/plugins/jquery.sumoselect/jquery.sumoselect.min.js"></script>
+    <script src="assets/plugins/jquery.sumoselect/sumoselect-active.js"></script>
+
+    <!-- Footable Js -->
+    <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+    <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+    <!-- START THEME LABEL SCRIPT -->
+    <script src="assets/dist/js/theme.js"></script>
+</body>
+
 </html>

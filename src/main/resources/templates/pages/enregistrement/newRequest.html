@@ -1,241 +1,259 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
- <meta charset="utf-8">
-  <base href="http://localhost:8080/newRequest" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Demande d'&eacute;quivalence - Administration Equivalence FOP(67Ha)</title>
-        <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
-    	<script src="assets/js/webfont.js"></script>
-        <script>
-            WebFont.load({
+    <meta charset="utf-8">
+    <base href="http://localhost:8080/newRequest" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Demande d'&eacute;quivalence - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
+    <script src="assets/js/webfont.js"></script>
+    <script>
+        WebFont.load({
                 google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
                 active: function () {
                     sessionStorage.fonts = true;
                 }
             });
         </script>
-        <!-- START GLOBAL MANDATORY STYLE -->
-        <link href="assets/dist/css/base.css"rel="stylesheet" type="text/css">
-        <!-- START PAGE LABEL PLUGINS --> 
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+    <!-- START PAGE LABEL PLUGINS -->
 
-       	<!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css"/>
-        <!-- START THEME LAYOUT STYLE -->
-        <link href="assets/dist/css/component_ui.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
-        <!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
-        <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
-     
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <!-- START THEME LAYOUT STYLE -->
+    <link href="assets/dist/css/component_ui.css" rel="stylesheet" type="text/css" />
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
+    <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-<title>Nouvelle demande</title>
+    <title>Nouvelle demande</title>
 </head>
+
 <body class="hold-transition fixed sidebar-mini">
-        
-        <!-- Preloader -->
-        <div class="preloader"></div>
-        
-        <!-- Site wrapper -->
-        <!-- Content Wrapper. Contains page content -->
-        <div th:replace="fragments/header :: header">Static header</div>   
-       <div class="content-wrapper">
-            <!-- Main content -->
-            <div class="content">
-                <div class="content-header">
-                    <div class="header-icon">
-                        <i class="pe-7s-note2"></i>
-                    </div>
-                    <div class="header-title">
-                        <h1>Enregistrement d'une demande d'&eacute;quivalence</h1>
-                        <small></small>
-                        <ol class="breadcrumb">
-                            <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
-                            <li ><a href="#">Enregistrement</a></li>
-	                        <li ><a href="/requestList">Liste des demandes</a></li>
-	                        <li class="active">Ajout demande</li>
-                        </ol>
-                    </div>
-                </div> <!-- /. Content Header (Page header) -->
-                <div class="row">
-                    <!-- Textual inputs -->
-                    <div class="col-sm-7">
-                        <div class="panel panel-bd lobidrag">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    <h4>Formulaire demande d'&eacute;quivalence</h4>
-                                </div>
-                            </div>
-                            
-                            <div class="panel-body"> 
-                                <form th:object="${ficheDemandeForm}" th:action="${isEdit == 1} ? @{/udpateRequest} : @{/saveRequest}" th:method="${isEdit == 1} ? 'PUT' : 'POST'" class="f1">
-                               
-                              	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
-			                    	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			                    	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
-			                	</div>
-                                
-	                                <div class="form-group row">
-	                                	<div th:if="${not #lists.isEmpty(listCIN)}">
-	                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un CIN</label>
-	                                        <div class="col-lg-6 col-md-9 col-sm-12">
-	                                            <select class="form-control basic-single" th:field="*{cin}">
-	                                            	<div th:each="lieu : ${listLieuDelivrance}">
-	                                            		<optgroup th:label="'Délivrance à '+${lieu} + ' : '">
-	                                            			<div th:each="cins : ${listCIN}">
-	                                            				<div th:if="${lieu == cins.lieuDelivrance}">
-			                                           				<option th:value="${cins.id}" th:text="${cins.nom} + ' ' + ${cins.prenom} "></option>
-			                                           			</div>
-			                                           		</div>
-			                                           	</optgroup>
-	                                            	</div>
-	                                            </select>
-	                                        </div>
-	                                    </div>
-										<div class="col-sm-1 col-form-label"><a href="/newCIN" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle CIN"><i class="glyphicon glyphicon-plus"></i></a></div>
-	                                </div>
-	                                <div class="form-group row">
-	                                	<div th:if="${not #lists.isEmpty(listesDiplome)}">
-	                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me </label>
-	                                        <div class="col-lg-6 col-md-9 col-sm-12">
-	                                            <select class="form-control basic-single" th:field="*{listesDiplome}">
-	                                            	<div th:each="ecole : ${listEcole}">
-	                                            		<optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
-	                                            			<div th:each="diplome : ${listesDiplome}">
-	                                            				<div th:if="${ecole == diplome.ecole}">
-			                                           				<option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
-			                                           			</div>
-			                                           		</div>
-			                                           	</optgroup>
-	                                            	</div>
-	                                            </select>
-	                                        </div>
-	                                    </div>
-										<div class="col-sm-1 col-form-label"><a href="/newDiplome" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle Diplome"><i class="glyphicon glyphicon-plus"></i></a></div>
-	                                </div>
-	                                <div class="form-group row">
-	                                    <label for="telephone" class="col-sm-3 col-form-label">T&eacute;l&eacute;phone</label>
-	                                    <div class="col-lg-6 col-md-9 col-sm-12">
-	                                        <input class="form-control" type="tel"  th:field="*{telephone}" placeholder="+261(32|33|34|39) ### ##" id="telephone" >
-	                                    </div>
-	                                </div>
-	                                <div class="form-group row">
-	                                    <label for="diplome" class="col-sm-3 col-form-label">D&eacute;signation dip&ocirc;me</label>
-	                                    <div class="col-lg-6 col-md-9 col-sm-12">
-	                                        <input class="form-control" type="text"  th:field="*{diplome}" placeholder="Diplôme evoqué..." id="diplome" required>
-	                                    </div>
-	                                </div>
-	                                <div class="form-group row">
-	                                    <label for="utilisation" class="col-sm-3 col-form-label">Utilisation</label>
-	                                    <div class="col-lg-6 col-md-9 col-sm-12">
-	                                        <input class="form-control" type="text"  th:field="*{utilisation}" placeholder="Utilisation de l'équivalence..." id="utilisation" required>
-	                                    </div>
-	                                </div>
-	                                <div class="form-group row">
-	                                    <label for="dateRetrait" class="col-sm-3 col-form-label">Date de retrait</label>
-	                                    <div class="col-lg-6 col-md-9 col-sm-12">
-	                                        <input class="form-control" type="date" th:field="*{dateRetrait}" placeholder="Date de retrait" id="dateRetrait">
-	                                    </div>
-	                                </div>
-		                                <div class="form-group row">
-		                                    <label for="statusEnregistrement" class="col-sm-3 col-form-label">Status d'enregistrement</label>
-		                                    <div class="col-lg-6 col-md-9 col-sm-12">
-		                                        <input type="checkbox" th:field="*{statusEnregistrement}" data-toggle="toggle" data-on="confirmé" data-off="non-confirmé" data-onstyle="base" data-offstyle="danger" data-size="small" >
-	                                        </div>
-		                                </div>
-	                               
-                               		<button type="submit" class="btn btn-base pull-right">Valider</button>
-                            	</form>
+
+    <!-- Preloader -->
+    <div class="preloader"></div>
+
+    <!-- Site wrapper -->
+    <!-- Content Wrapper. Contains page content -->
+    <div th:replace="fragments/header :: header">Static header</div>
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <div class="content">
+            <div class="content-header">
+                <div class="header-icon">
+                    <i class="pe-7s-note2"></i>
+                </div>
+                <div class="header-title">
+                    <h1>Enregistrement d'une demande d'&eacute;quivalence</h1>
+                    <small></small>
+                    <ol class="breadcrumb">
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                        <li><a href="#">Enregistrement</a></li>
+                        <li><a href="/requestList">Liste des demandes</a></li>
+                        <li class="active">Ajout demande</li>
+                    </ol>
+                </div>
+            </div> <!-- /. Content Header (Page header) -->
+            <div class="row">
+                <!-- Textual inputs -->
+                <div class="col-sm-7">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Formulaire demande d'&eacute;quivalence</h4>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-5">
-                            <div class="panel panel-bd lobidrag">
-                                <div class="panel-heading">
-                                    <div class="panel-title">
-                                        <h4>Tous les CIN enregist&eacute;s</h4>
+
+                        <div class="panel-body">
+                            <form th:object="${ficheDemandeForm}" th:action="${isEdit == 1} ? @{/udpateRequest} : @{/saveRequest}"
+                                th:method="${isEdit == 1} ? 'PUT' : 'POST'" class="f1">
+
+                                <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible"
+                                    role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error
+                                        Message!!!</strong>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div th:if="${not #lists.isEmpty(listCIN)}">
+                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un CIN</label>
+                                        <div class="col-lg-6 col-md-9 col-sm-12">
+                                            <select class="form-control basic-single" th:field="*{cin}">
+                                                <div th:each="lieu : ${listLieuDelivrance}">
+                                                    <optgroup th:label="'Délivrance à '+${lieu} + ' : '">
+                                                        <div th:each="cins : ${listCIN}">
+                                                            <div th:if="${lieu == cins.lieuDelivrance}">
+                                                                <option th:value="${cins.id}" th:text="${cins.nom} + ' ' + ${cins.prenom} "></option>
+                                                            </div>
+                                                        </div>
+                                                    </optgroup>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1 col-form-label"><a href="/newCIN" data-toggle="tooltip"
+                                            data-placement="right" title="Ajouter une nouvelle CIN"><i class="glyphicon glyphicon-plus"></i></a></div>
+                                </div>
+                                <div class="form-group row">
+                                    <div th:if="${not #lists.isEmpty(listesDiplome)}">
+                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me
+                                        </label>
+                                        <div class="col-lg-6 col-md-9 col-sm-12">
+                                            <select class="form-control basic-single" th:field="*{listesDiplome}">
+                                                <div th:each="ecole : ${listEcole}">
+                                                    <optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
+                                                        <div th:each="diplome : ${listesDiplome}">
+                                                            <div th:if="${ecole == diplome.ecole}">
+                                                                <option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
+                                                            </div>
+                                                        </div>
+                                                    </optgroup>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1 col-form-label"><a href="/newDiplome" data-toggle="tooltip"
+                                            data-placement="right" title="Ajouter une nouvelle Diplome"><i class="glyphicon glyphicon-plus"></i></a></div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="telephone" class="col-sm-3 col-form-label">T&eacute;l&eacute;phone</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" type="tel" th:field="*{telephone}" placeholder="+261(32|33|34|39) ### ##"
+                                            id="telephone">
                                     </div>
                                 </div>
-                                <div class="panel-body">
-                                	<div th:if="${not #lists.isEmpty(listeDemande)}">
-	                            
-                                    <div class="table-responsive">
-                                        <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
-                                        <table id="example1" class="footable table table-bordered toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
-                                            <thead>
-                                               <tr>
-	                                               <th>Num&eacute;ro /anne&eacute; </th>
-	                                               <th>Carte d'identit&eacute; </th>
-	                                               <th>Date de retrait </th>
-	                                               <th>Status d'enregistrement </th>
-	                                               
-                                                   <th data-hide="all">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
-	                                               <th data-hide="all">T&eacute;l&eacute;phone :</th>
-	                                               <th data-hide="all">Dipl&ocirc;me evoqu&eacute; :</th>
-	                                               <th data-hide="all">Utilisation :</th>
-	                                           </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr th:each="demande : ${listeDemande}">
-                                               	   <td th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()}"></td>
-                                               	   <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
-	                                               <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
-	                                               <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
-	                                              
-	                                               <!-- DATA HIDE -->
-	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
-	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.telephone}"></a></b></td>
-	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.diplome}"></a></b></td>
-	                                               <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.utilisation}"></a></b></td>
-	                                             </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="6">
-                                                        <ul class="pagination pull-right"></ul>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                   	</div>
-                                   </div>
+                                <div class="form-group row">
+                                    <label for="diplome" class="col-sm-3 col-form-label">D&eacute;signation
+                                        dip&ocirc;me</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" type="text" th:field="*{diplome}" placeholder="Diplôme evoqué..."
+                                            id="diplome" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="utilisation" class="col-sm-3 col-form-label">Utilisation</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" type="text" th:field="*{utilisation}" placeholder="Utilisation de l'équivalence..."
+                                            id="utilisation" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="dateRetrait" class="col-sm-3 col-form-label">Date de retrait</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" type="date" th:field="*{dateRetrait}" placeholder="Date de retrait"
+                                            id="dateRetrait">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="statusEnregistrement" class="col-sm-3 col-form-label">Status
+                                        d'enregistrement</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input type="checkbox" th:field="*{statusEnregistrement}" data-toggle="toggle"
+                                            data-on="confirmé" data-off="non-confirmé" data-onstyle="base"
+                                            data-offstyle="danger" data-size="small">
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-base pull-right">Valider</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Tous les CIN enregist&eacute;s</h4>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div th:if="${not #lists.isEmpty(listeDemande)}">
+
+                                <div class="table-responsive">
+                                    <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+                                    <table id="example1" class="footable table table-bordered toggle-arrow-tiny"
+                                        data-page-size="8" data-filter=#filter>
+                                        <thead>
+                                            <tr>
+                                                <th>Num&eacute;ro /anne&eacute; </th>
+                                                <th>Carte d'identit&eacute; </th>
+                                                <th>Date de retrait </th>
+                                                <th>Status d'enregistrement </th>
+
+                                                <th data-hide="all">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
+                                                <th data-hide="all">T&eacute;l&eacute;phone :</th>
+                                                <th data-hide="all">Dipl&ocirc;me evoqu&eacute; :</th>
+                                                <th data-hide="all">Utilisation :</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="demande : ${listeDemande}">
+                                                <td th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()}"></td>
+                                                <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
+                                                <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+                                                <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+
+                                                <!-- DATA HIDE -->
+                                                <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
+                                                <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.telephone}"></a></b></td>
+                                                <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.diplome}"></a></b></td>
+                                                <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.utilisation}"></a></b></td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="6">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
-       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-        
-        <!-- ./²wrapper -->
-        <!-- START CORE PLUGINS -->
-        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
-        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
-        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
-        <!-- Select2 Js -->
-        <script src="assets/plugins/select2/select2.min.js"></script>
-        <script src="assets/plugins/select2/select2-active.js"></script>
-        <!-- icheck Js -->
-        <script src="assets/plugins/icheck/icheck.min.js"></script>
-        <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-        <script src="assets/plugins/icheck/icheck-active.js"></script>
-        <!-- Footable Js -->
-        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
-        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
-        <!-- START THEME LABEL SCRIPT -->
-        <script src="assets/dist/js/theme.js"></script>
-	</body>
-	
+    </div>
+    <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+    <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+    <!-- Select2 Js -->
+    <script src="assets/plugins/select2/select2.min.js"></script>
+    <script src="assets/plugins/select2/select2-active.js"></script>
+    <!-- icheck Js -->
+    <script src="assets/plugins/icheck/icheck.min.js"></script>
+    <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+    <script src="assets/plugins/icheck/icheck-active.js"></script>
+    <!-- Footable Js -->
+    <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+    <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+    <!-- START THEME LABEL SCRIPT -->
+    <script src="assets/dist/js/theme.js"></script>
+</body>
+
 </html>

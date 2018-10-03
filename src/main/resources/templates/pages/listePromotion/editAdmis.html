@@ -1,138 +1,150 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
- <meta charset="utf-8">
- <base href="http://localhost:8080/editAdmis" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Promotion-detaill&eacute; - Administration Equivalence FOP(67Ha)</title>
-        <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
-    	<script src="assets/js/webfont.js"></script>
-        <script>
-            WebFont.load({
+    <meta charset="utf-8">
+    <base href="http://localhost:8080/editAdmis" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Promotion-detaill&eacute; - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
+    <script src="assets/js/webfont.js"></script>
+    <script>
+        WebFont.load({
                 google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
                 active: function () {
                     sessionStorage.fonts = true;
                 }
             });
         </script>
-        <!-- START GLOBAL MANDATORY STYLE -->
-        <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
-        <!-- START PAGE LABEL PLUGINS --> 
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+    <!-- START PAGE LABEL PLUGINS -->
 
-        <!-- START THEME LAYOUT STYLE -->
-        <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css"/>
-       
-<title>Edition &eacute;tudiants</title>
+    <!-- START THEME LAYOUT STYLE -->
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+
+    <title>Edition &eacute;tudiants</title>
 </head>
+
 <body class="hold-transition fixed sidebar-mini">
-      
-        <!-- Site wrapper -->
-        <!-- Content Wrapper. Contains page content -->
-        <div th:replace="fragments/header :: header">Enregistrement</div>   
-        	<div class="content-wrapper">
-                <!-- Main content -->
-                <div class="content">
-                    <div class="content-header">
-                        <div class="header-icon">
-                            <i class="pe-7s-note2"></i>
+
+    <!-- Site wrapper -->
+    <!-- Content Wrapper. Contains page content -->
+    <div th:replace="fragments/header :: header">Enregistrement</div>
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <div class="content">
+            <div class="content-header">
+                <div class="header-icon">
+                    <i class="pe-7s-note2"></i>
+                </div>
+                <div class="header-title">
+                    <h1>Fiche de l'admis</h1>
+                    <small></small>
+                    <ol class="breadcrumb">
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                        <li><a href="/listProm">liste Promotion</a></li>
+                        <li class="active">Fiche admis</li>
+                    </ol>
+                </div>
+            </div> <!-- /. Content Header (Page header) -->
+
+            <div class="row">
+                <!-- Textual inputs -->
+                <div class="col-sm-8">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Informations sur l'&eacute;l&egrave;ve</h4>
+                            </div>
                         </div>
-                        <div class="header-title">
-                            <h1>Fiche de l'admis</h1>
-                            <small></small>
-                            <ol class="breadcrumb">
-                                <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
-                                <li><a href="/listProm">liste Promotion</a></li> 
-                                <li class="active">Fiche admis</li>
-                            </ol>
+
+                        <div class="panel-body">
+                            <form th:object="${listePromotionDetailForm}" th:action="'/saveAdmis/' + ${listePromotion.id}"
+                                method="POST" class="f1">
+
+                                <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible"
+                                    role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}"
+                                        required>Error Message!!!</strong>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="numeroMatricule" class="col-sm-3 col-form-label">N° Matricule</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" th:field="*{numeroMatricule}" type="text"
+                                            placeholder="Numéro d'Enregistrement . . ." id="numeroMatricule" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="nomComplet" class="col-sm-3 col-form-label">Nom et pr&egrave;nom</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" th:field="*{nomComplet}" type="text" placeholder="Nom complet . . ."
+                                            id="nomComplet" required>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label for="dateNaissance" class="col-sm-3 col-form-label">Date et lieu de
+                                        naissance</label>
+                                    <div class="col-lg-3  ">
+                                        <input class="form-control" th:field="*{dateNaissance}" type="date" placeholder="date naissance . . ."
+                                            id="dateNaissance" required>
+                                    </div>
+                                    <div class="col-sm-1 ">
+                                        <label for="lieuNaissance" class="col-form-label"> &agrave; </label>
+                                    </div>
+                                    <div class="col-lg-3  ">
+                                        <input class="form-control" th:field="*{lieuNaissance}" type="text" placeholder="lieu Naissance . . ."
+                                            id="lieuNaissance" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Mention</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <select class="form-control " th:field="*{mention}">
+                                            <div th:each="mention : ${mentions}">
+                                                <option th:value="${mention}" th:text="${mention}"></option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-base pull-right">Valider</button>
+                            </form>
                         </div>
-                    </div> <!-- /. Content Header (Page header) -->
-                 
-                    <div class="row">
-                    <!-- Textual inputs -->
-                    <div class="col-sm-8">
-	                        <div class="panel panel-bd lobidrag">
-	                            <div class="panel-heading">
-	                                <div class="panel-title">
-	                                    <h4>Informations sur l'&eacute;l&egrave;ve</h4>
-	                                </div>
-	                            </div>
-	                                                      	
-                           		<div class="panel-body">
-                                   	<form th:object="${listePromotionDetailForm}" th:action="'/saveAdmis/' + ${listePromotion.id}" method="POST" class="f1">
-				                	   	
-				                	   	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
-		                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" required>Error Message!!!</strong> 
-		                              	</div>
-				                	   	<div class="form-group row">
-		                                    <label for="numeroMatricule" class="col-sm-3 col-form-label">N° Matricule</label>
-		                                    <div class="col-lg-6 col-md-9 col-sm-12">
-		                                        <input class="form-control" th:field="*{numeroMatricule}" type="text" placeholder="Numéro d'Enregistrement . . ." id="numeroMatricule" required>
-		                                    </div>
-		                                </div> 
-		                                <div class="form-group row">
-		                                    <label for="nomComplet" class="col-sm-3 col-form-label">Nom et pr&egrave;nom</label>
-		                                    <div class="col-lg-6 col-md-9 col-sm-12">
-		                                        <input class="form-control" th:field="*{nomComplet}" type="text" placeholder="Nom complet . . ." id="nomComplet" required>
-		                                    </div>
-		                                </div>
-		                                
-		                                
-		                                <div class="form-group row">
-		                                    <label for="dateNaissance" class="col-sm-3 col-form-label">Date et lieu de naissance</label>
-		                                    <div class="col-lg-3  ">
-		                                        <input class="form-control" th:field="*{dateNaissance}" type="date" placeholder="date naissance . . ." id="dateNaissance" required>
-		                                    </div>
-		                                    <div class="col-sm-1 ">
-		                                    	<label for="lieuNaissance" class="col-form-label">   &agrave; </label>
-	                                    	 </div>
-		                                    <div class="col-lg-3  ">
-		                                        <input class="form-control" th:field="*{lieuNaissance}" type="text" placeholder="lieu Naissance . . ." id="lieuNaissance" required>
-		                                    </div>
-		                                </div>   
-		                                <div class="form-group row">
-	                                        <label class="col-sm-3 col-form-label">Mention</label>
-	                                        <div class="col-lg-6 col-md-9 col-sm-12">
-	                                            <select class="form-control " th:field="*{mention}">
-	                                            	<div th:each="mention : ${mentions}">
-	                                            		<option th:value="${mention}" th:text="${mention}"></option>
-			                                        </div>
-	                                            </select>
-	                                        </div>
-		                                </div>
-	                                	
-	                                	<button type="submit" class="btn btn-base pull-right">Valider</button>
-	                                </form>
-                                </div>    
-	                        </div>
-	                     </div>
-	                     <div class="col-sm-2">
-	                  		<a th:href="'/showAdmis/' + ${diplomaDetail.id}"><button type="button" class="btn btn-primary w-md m-rb-5"><i class="fa fa-reply"></i> <span> Revenir</span></button></a>
-	               		 </div>
                     </div>
-                </div >
+                </div>
+                <div class="col-sm-2">
+                    <a th:href="'/showAdmis/' + ${diplomaDetail.id}"><button type="button" class="btn btn-primary w-md m-rb-5"><i
+                                class="fa fa-reply"></i> <span> Revenir</span></button></a>
+                </div>
             </div>
-       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-        
-        <!-- ./²wrapper -->
-        <!-- START CORE PLUGINS -->
-        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
-        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
-        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
-        <!-- BootStrap WiZarD -->
-        <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
-        <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
-        <!-- Footable Js -->
-        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
-        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
-        <!-- START THEME LABEL SCRIPT -->
-        <script src="assets/dist/js/theme.js"></script>
-	</body>
-	
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+    <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+    <!-- BootStrap WiZarD -->
+    <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
+    <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
+    <!-- Footable Js -->
+    <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+    <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+    <!-- START THEME LABEL SCRIPT -->
+    <script src="assets/dist/js/theme.js"></script>
+</body>
+
 </html>

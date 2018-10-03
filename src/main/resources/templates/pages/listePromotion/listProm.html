@@ -1,216 +1,231 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
- <meta charset="utf-8">
- <base href="http://localhost:8080/listProm" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Liste promotion - Administration Equivalence FOP(67Ha)</title>
-        <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
-    
-        <script>
-            WebFont.load({
+    <meta charset="utf-8">
+    <base href="http://localhost:8080/listProm" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Liste promotion - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
+
+    <script>
+        WebFont.load({
                 google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
                 active: function () {
                     sessionStorage.fonts = true;
                 }
             });
         </script>
-        <!-- START GLOBAL MANDATORY STYLE -->
-        <link href="assets/dist/css/base.css"rel="stylesheet" type="text/css">
-    
-        <!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
-      	
-       	<!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css"/>
-         
-		<!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/modals/modal-component.css" rel="stylesheet" type="text/css"/>
-          
-        <!-- START THEME LAYOUT STYLE -->
-        <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
-<title>Liste des promotions</title>
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
+
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/modals/modal-component.css" rel="stylesheet" type="text/css" />
+
+    <!-- START THEME LAYOUT STYLE -->
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+    <title>Liste des promotions</title>
 </head>
+
 <body class="hold-transition fixed sidebar-mini">
-        
-        <!-- Preloader -->
-        <div class="preloader"></div>
-        
-        <!-- Site wrapper -->
-        <!-- Content Wrapper. Contains page content -->
-        <div th:replace="fragments/header :: header">Static header</div>   
-        <div class="content-wrapper">
-                <div class="content">
-                    <!-- Content Header (Page header) -->
-                    <div class="content-header">
-                        <div class="header-icon">
-                            <i class="pe-7s-box1"></i>
-                        </div>
-                        <div class="header-title">
-                            <h1>Liste des promotions de chaque &eacute;cole par session</h1>
-	                        <small></small>
-	                        <ol class="breadcrumb">
-	                            <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
-	                            <li ><a href="/listProm">ListePromotion</a></li>
-	                            <li class="active">Recherche promotion</li>
-	                        </ol>
-                        </div>
-                    </div> <!-- /. Content Header (Page header) -->
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <div class="panel panel-bd lobidrag">
-                                <div class="panel-heading">
-                                    <div class="panel-title">
-                                        <h4>Tableau des promotions par &eacute;tablissement(par session)</h4>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <div th:if="${not #lists.isEmpty(promos)}">
-	                                    <div class="table-responsive">
-	                                        <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
-	                                            <thead>
-	                                                <tr>
-	                                                    <th class="text-center">#</th>
-	                                                    <th class="text-center">Nom de l'&eacute;cole</th>
-	                                                    <th class="text-center">Session</th>
-	                                                    <th class="text-center">Nom de la promotion</th> 
-	                                                    <th class="text-center">Action</th>
-	                                                </tr>
-	                                            </thead>
-	                                            <tbody>
-                                     				<tr th:each="promo : ${promos}">
-	                                                    <td class="text-center" th:text="${promo.id}"></td>
-	                                                    <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.id}" th:text="${promo.listesDiplome.ecole} + ' | ' + ${promo.listesDiplome.filiere}+ ' | option: ' + ${promo.listesDiplome.option} "></a></td>
-	                                                    <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.id}" th:text="${promo.sessionSortie}"></</a></td>
-	                                                    <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.id}" th:text="${promo.nomPromotion}"></</a></td>
-	                                                	<td class="text-center">
-	                                                   	  <a  th:href="'/showPromoDetail/' + ${promo.id}" class="btn btn-base btn-sm">Modifier</a>
-	                                                	  <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer"><i class="fa fa-trash" aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"></i></button>
-	                                                   	</td>
-	                                                </tr> 
-	                                            </tbody>
-	                                        </table>
-	                                    </div>
-                                    </div>
-                                </div>
-                                
-                       
+
+    <!-- Preloader -->
+    <div class="preloader"></div>
+
+    <!-- Site wrapper -->
+    <!-- Content Wrapper. Contains page content -->
+    <div th:replace="fragments/header :: header">Static header</div>
+    <div class="content-wrapper">
+        <div class="content">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="header-icon">
+                    <i class="pe-7s-box1"></i>
+                </div>
+                <div class="header-title">
+                    <h1>Liste des promotions de chaque &eacute;cole par session</h1>
+                    <small></small>
+                    <ol class="breadcrumb">
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                        <li><a href="/listProm">ListePromotion</a></li>
+                        <li class="active">Recherche promotion</li>
+                    </ol>
+                </div>
+            </div> <!-- /. Content Header (Page header) -->
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Tableau des promotions par &eacute;tablissement(par session)</h4>
                             </div>
                         </div>
-                        
-                        <div class="col-sm-2">
-	                   	 	<button type="button" class="btn btn-primary w-md m-rb-5" data-toggle="modal" data-target="#myModal">Ajouter une nouvelle promotion</button>
-	                   	</div>
-	                   	
+                        <div class="panel-body">
+                            <div th:if="${not #lists.isEmpty(promos)}">
+                                <div class="table-responsive">
+                                    <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">#</th>
+                                                <th class="text-center">Nom de l'&eacute;cole</th>
+                                                <th class="text-center">Session</th>
+                                                <th class="text-center">Nom de la promotion</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="promo : ${promos}">
+                                                <td class="text-center" th:text="${promo.id}"></td>
+                                                <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.id}"
+                                                        th:text="${promo.listesDiplome.ecole} + ' | ' + ${promo.listesDiplome.filiere}+ ' | option: ' + ${promo.listesDiplome.option} "></a></td>
+                                                <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.id}"
+                                                        th:text="${promo.sessionSortie}"></</a> </td> <td class="text-center"><a
+                                                            th:href="'/showPromoDetail/' + ${promo.id}" th:text="${promo.nomPromotion}"></</a>
+                                                                </td> <td class="text-center">
+                                                            <a th:href="'/showPromoDetail/' + ${promo.id}" class="btn btn-base btn-sm">Modifier</a>
+                                                            <button class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                                                data-placement="top" title="Supprimer"><i class="fa fa-trash"
+                                                                    aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
-                    	<!-- MODALS DIALOG -->
-             		 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-                           	 
-                           	
-                           	<div class="modal-dialog" role="document">
-                               <div class="modal-content">
-                                   	 <div class="modal-header">
-                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                         <h1 class="modal-title">Ajout d'une promotion </h1>
-                                     </div>
-                                     <form th:object="${listPromotionForm}" th:action="@{/savePromo}"  method="POST"> 
-                                     	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
-		                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
-		                              	</div>
-	                                     <div class="modal-body">
-			                              	<div class="form-group row">
-			                                	<div th:if="${not #lists.isEmpty(listeDiploma)}">
-			                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me </label>
-			                                        <div class="col-sm-7">
-			                                            <select class="form-control basic-single" th:field="*{listesDiplome}">
-			                                            	<div th:each="ecole : ${listEcole}">
-			                                            		<optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
-			                                            			<div th:each="diplome : ${listeDiploma}">
-			                                            				<div th:if="${ecole == diplome.ecole}">
-					                                           				<option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
-					                                           			</div>
-					                                           		</div>
-					                                           	</optgroup>
-			                                            	</div>
-			                                            </select>
-			                                        </div>
-			                                    </div>
-												<div class="col-sm-1 col-form-label"><b><a href="/newDiploma" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle Diplome" th:text="'Nouveau!!!'"></a></b></div>
-			                                </div>
-		                                    <div class="form-group row">
-		                                        <label class="col-sm-3 col-form-label">Session </label>
-		                                        <div class="col-sm-7">
-		                                            <select class="form-control  basic-single" th:field="*{sessionSortie}">
-		                                                <option disabled="disabled" selected="selected" th:value="${#calendars.format(#calendars.createNow(), 'yyyy')}" th:text="'Session le'"></option>
-		                                                <!--placeholder-->
-		                                                <div th:each="annee : ${annees}">
-		                                                	<option th:value="${annee}" th:text="${annee}"></option>
-		                                                </div>
-		                                            </select>
-		                                        </div>
-		                                    </div>
-		                                    <div class="form-group row">
-		                                        <label for="example-text-input" class="col-sm-3 col-form-label">Nom de la promotion :</label>
-		                                        <div class="col-sm-9">
-		                                            <input class="form-control" type="text" th:field="*{nomPromotion}" required>
-		                                        </div>
-		                                    </div>
-	                                     </div>
-	                                     <div class="modal-footer">
-	                                         <button type="submit" class="btn btn-base">Ok</button>
-                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-	                                     </div>
-                                     </form>
-                                 </div><!-- /.modal-content -->
-                             </div><!-- /.modal-dialog -->
-                         </div><!-- /.modal --> 
-                    
-                </div> <!-- /.main content -->
+                </div>
+
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-primary w-md m-rb-5" data-toggle="modal" data-target="#myModal">Ajouter
+                        une nouvelle promotion</button>
+                </div>
+
             </div>
-       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-        
-        <!-- ./²wrapper -->
-        <!-- START CORE PLUGINS -->
-    
-        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
-        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
-        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
-        <script>
-		    function goToDelete(id) {
-		        console.log("Hello goToDelete");
-		    	var txt;
-		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
-		        if (r == true) {
-		        	window.location.href = "/promotion/delete/"+id;		            
-		        } 
-		    }	
-		</script>
-        
-        <!-- DataTable Js -->
-        <script src="assets/plugins/datatables/dataTables.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables-active.js"></script>
-          <!-- Footable Js -->
-        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
-        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
-      
-        <!-- Select2 Js -->
-        <script src="assets/plugins/select2/select2.min.js"></script>
-        <script src="assets/plugins/select2/select2-active.js"></script>
-     	
-    	<!-- modals js -->
-        <script src="assets/plugins/modals/classie.js"></script>
-        <script src="assets/plugins/modals/modalEffects.js"></script>
-        
-        <!-- START THEME LABEL SCRIPT -->
-        <script src="assets/dist/js/theme.js"></script>
-	</body>
-	
+            <!-- MODALS DIALOG -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+
+
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h1 class="modal-title">Ajout d'une promotion </h1>
+                        </div>
+                        <form th:object="${listPromotionForm}" th:action="@{/savePromo}" method="POST">
+                            <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible"
+                                role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error
+                                    Message!!!</strong>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <div th:if="${not #lists.isEmpty(listeDiploma)}">
+                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me
+                                        </label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control basic-single" th:field="*{listesDiplome}">
+                                                <div th:each="ecole : ${listEcole}">
+                                                    <optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
+                                                        <div th:each="diplome : ${listeDiploma}">
+                                                            <div th:if="${ecole == diplome.ecole}">
+                                                                <option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
+                                                            </div>
+                                                        </div>
+                                                    </optgroup>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1 col-form-label"><b><a href="/newDiploma" data-toggle="tooltip"
+                                                data-placement="right" title="Ajouter une nouvelle Diplome" th:text="'Nouveau!!!'"></a></b></div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Session </label>
+                                    <div class="col-sm-7">
+                                        <select class="form-control  basic-single" th:field="*{sessionSortie}">
+                                            <option disabled="disabled" selected="selected" th:value="${#calendars.format(#calendars.createNow(), 'yyyy')}"
+                                                th:text="'Session le'"></option>
+                                            <!--placeholder-->
+                                            <div th:each="annee : ${annees}">
+                                                <option th:value="${annee}" th:text="${annee}"></option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-sm-3 col-form-label">Nom de la promotion
+                                        :</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" th:field="*{nomPromotion}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-base">Ok</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                            </div>
+                        </form>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+        </div> <!-- /.main content -->
+    </div>
+    <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+    <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+    <script>
+        function goToDelete(id) {
+            console.log("Hello goToDelete");
+            var txt;
+            var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
+            if (r == true) {
+                window.location.href = "/promotion/delete/" + id;
+            }
+        }
+    </script>
+
+    <!-- DataTable Js -->
+    <script src="assets/plugins/datatables/dataTables.min.js"></script>
+    <script src="assets/plugins/datatables/dataTables-active.js"></script>
+    <!-- Footable Js -->
+    <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+    <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+
+    <!-- Select2 Js -->
+    <script src="assets/plugins/select2/select2.min.js"></script>
+    <script src="assets/plugins/select2/select2-active.js"></script>
+
+    <!-- modals js -->
+    <script src="assets/plugins/modals/classie.js"></script>
+    <script src="assets/plugins/modals/modalEffects.js"></script>
+
+    <!-- START THEME LABEL SCRIPT -->
+    <script src="assets/dist/js/theme.js"></script>
+</body>
+
 </html>

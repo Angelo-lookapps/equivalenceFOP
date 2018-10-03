@@ -1,105 +1,114 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-    
+
 <!-- Mirrored from adminpix.thememinister.com/adminpix-v-2.0/theme/adminpix/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 18 Aug 2018 14:54:36 GMT -->
+
 <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Login - Administration Equivalence FOP(67Ha)</title>
-        <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
-        <script>
-            WebFont.load({
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Login - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
+    <script>
+        WebFont.load({
                 google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
                 active: function () {
                     sessionStorage.fonts = true;
                 }
             });
         </script>
-        <!-- START GLOBAL MANDATORY STYLE -->
-        <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
-        <!-- START THEME LAYOUT STYLE -->
-        <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css"/>
-      
-    </head>
-    <body class="hold-transition fixed sidebar-mini">
-        
-        <!-- Content Wrapper -->
-        <div class="login-wrapper">
-            <div class="container-center">
-                <div class="panel panel-bd">
-                    <div class="panel-heading">
-                        <div class="view-header">
-                            <div class="header-icon">
-                                <i class="pe-7s-unlock"></i>
-                            </div>
-                            <div class="header-title">
-                                <h3>Se connecter</h3>
-                                <small><strong>Veuillez saisir vos identifiants pour vous connecter.</strong></small>
-                            </div>
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+    <!-- START THEME LAYOUT STYLE -->
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="hold-transition fixed sidebar-mini">
+
+    <!-- Content Wrapper -->
+    <div class="login-wrapper">
+        <div class="container-center">
+            <div class="panel panel-bd">
+                <div class="panel-heading">
+                    <div class="view-header">
+                        <div class="header-icon">
+                            <i class="pe-7s-unlock"></i>
+                        </div>
+                        <div class="header-title">
+                            <h3>Se connecter</h3>
+                            <small><strong>Veuillez saisir vos identifiants pour vous connecter.</strong></small>
                         </div>
                     </div>
-                    <div class="panel-body">
-                        <form action="/login" id="loginForm" method="POST" novalidate>
-                            <div class="form-group">
-                                <label class="control-label">Pseudo</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input id="username" type="text" class="form-control" name="pseudo" placeholder="Pseudo">
-                                </div>
-                                <span class="help-block small">Votre nom d'utilisateur unique pour l'application</span>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Mot de passe</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                    <input id="pass" type="password" class="form-control" name="mdp" placeholder="mot de passe: ****">
-                                </div>
-                                <span class="help-block small">Votre nom d'utilisateur unique pour l'application</span>
-                            </div>
-                            <div>
-	                            <div th:switch="${errorlogin}">
-	                            	<div th:case="'1'">
-	                             		<div class="alert alert-sm alert-danger alert-dismissible" role="alert">
-		                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		                                  	<i class="fa fa-exclamation-circle"></i><strong>ERREUR : :</strong> Utilisateur introuvable! Veuillez recommencer svp!
-		                              	</div>
-	                               </div>
-	                               <div th:case="'2'">
-	                             		<div class="alert alert-sm alert-warning alert-dismissible" role="alert">
-		                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		                                  	<i class="fa fa-exclamation-circle"></i><strong>ERREUR :</strong> Votre mot de passe est incorrect
-		                              	</div>
-	                               </div>
-	                               <div th:case="'4'">
-	                             		<div class="alert alert-sm alert-warning alert-dismissible" role="alert">
-		                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		                                  	<i class="fa fa-exclamation-circle"></i><strong>AVERTISSEMENT :</strong> Veuillez vous connecter, svp!!!
-		                              	</div>
-	                               </div>
-                               </div>
-                              
-                                <button class="btn btn-base pull-right">Se connecter</button>
-                                <div class="checkbox checkbox-success">
-                                    <input id="checkbox3" type="checkbox">
-                                    <label for="checkbox3">Gardez-moi connect&eacute;</label>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                 </div>
-                <div id="bottom_text">
-                    Vous n'avez pas de compte? <a href="/signup">S'inscrire</a><br>
-                    Rappeler <a href="forget_password.html">Mot de passe</a>
-                </div>
+                <div class="panel-body">
+                    <form action="/login" id="loginForm" method="POST" novalidate>
+                        <div class="form-group">
+                            <label class="control-label">Pseudo</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input id="username" type="text" class="form-control" name="pseudo" placeholder="Pseudo">
+                            </div>
+                            <span class="help-block small">Votre nom d'utilisateur unique pour l'application</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Mot de passe</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                <input id="pass" type="password" class="form-control" name="mdp" placeholder="mot de passe: ****">
+                            </div>
+                            <span class="help-block small">Votre nom d'utilisateur unique pour l'application</span>
+                        </div>
+                        <div>
+                            <div th:switch="${errorlogin}">
+                                <div th:case="'1'">
+                                    <div class="alert alert-sm alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                        <i class="fa fa-exclamation-circle"></i><strong>ERREUR : :</strong> Utilisateur
+                                        introuvable! Veuillez recommencer svp!
+                                    </div>
+                                </div>
+                                <div th:case="'2'">
+                                    <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                        <i class="fa fa-exclamation-circle"></i><strong>ERREUR :</strong> Votre mot de
+                                        passe est incorrect
+                                    </div>
+                                </div>
+                                <div th:case="'4'">
+                                    <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                        <i class="fa fa-exclamation-circle"></i><strong>AVERTISSEMENT :</strong>
+                                        Veuillez vous connecter, svp!!!
+                                    </div>
+                                </div>
+                            </div>
 
+                            <button class="btn btn-base pull-right">Se connecter</button>
+                            <div class="checkbox checkbox-success">
+                                <input id="checkbox3" type="checkbox">
+                                <label for="checkbox3">Gardez-moi connect&eacute;</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>  <!-- /.content-wrapper -->
+            <div id="bottom_text">
+                Vous n'avez pas de compte? <a href="/signup">S'inscrire</a><br>
+                Rappeler <a href="forget_password.html">Mot de passe</a>
+            </div>
 
-        
-        <!-- START CORE PLUGINS -->
-        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    </body>
+        </div>
+    </div> <!-- /.content-wrapper -->
+
+
+    <!-- START CORE PLUGINS -->
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
 </html>

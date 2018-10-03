@@ -1,360 +1,375 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
- <meta charset="utf-8">
- <base href="http://localhost:8080/listPromDet" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Liste promotion - Administration Equivalence FOP(67Ha)</title>
-        <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
-    
-        <script>
-            WebFont.load({
+    <meta charset="utf-8">
+    <base href="http://localhost:8080/listPromDet" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Liste promotion - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
+
+    <script>
+        WebFont.load({
                 google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
                 active: function () {
                     sessionStorage.fonts = true;
                 }
             });
-        </script>
-        <!-- START GLOBAL MANDATORY STYLE -->
-        <link href="assets/dist/css/base.css"rel="stylesheet" type="text/css">
-    
-        <!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
-      	
-       	<!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css"/>
-         
-		<!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/modals/modal-component.css" rel="stylesheet" type="text/css"/>
-          
-        <!-- START THEME LAYOUT STYLE -->
-        <link href="assets/dist/css/style.css"rel="stylesheet" type="text/css"/>
-<title>Liste des promotions</title>
+    </script>
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/datatables/dataTables.min.css" rel="stylesheet" type="text/css">
+
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/modals/modal-component.css" rel="stylesheet" type="text/css" />
+
+    <!-- START THEME LAYOUT STYLE -->
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+    <title>Liste des promotions</title>
 </head>
+
 <body class="hold-transition fixed sidebar-mini">
-        
-        <!-- Preloader -->
-        <div class="preloader"></div>
-        
-        <!-- Site wrapper -->
-        <!-- Content Wrapper. Contains page content -->
-        <div th:replace="fragments/header :: header">Static header</div>   
-        <div class="content-wrapper">
-                <div class="content">
-                    <!-- Content Header (Page header) -->
-                    <div class="content-header">
-                        <div class="header-icon">
-                            <i class="pe-7s-box1"></i>
-                        </div>
-                        <div class="header-title">
-                            <h1>Liste des promotions de chaque &eacute;cole par session</h1>
-	                        <small></small>
-	                        <ol class="breadcrumb">
-	                            <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
-	                            <li ><a href="/listProm">ListePromotion</a></li>
-	                            <li class="active">liste des admis</li>
-	                        </ol>
-                        </div>
-                    </div> <!-- /. Content Header (Page header) -->
-                    <div class="row">
-                    	<div class="col-sm-7">
-                    		<div class="panel panel-bd lobidrag">
-	                            <div class="panel-heading">
-	                                <div class="panel-title">
-	                                    <h4>Formulaire d'insertion d'un &eacute;tudiant :</h4>
-	                                </div>
-	                            </div>
-	                            <div class="panel-body"> 
-	                               <form th:action="'/importExcel/' + ${listePromotion.id}" th:method="GET" id="fileForm" class="fileForm">
-									  <div class="row">
-										  <div class="col-sm-6">
-											  <div class="form-group">
-											    <label for="filename">Importer une liste admis (<span class="text-success">format Excel</span>)</label>
-											    <input type="file" class="form-control-file" id="filename" th:name="'filename'" th:onchange="|validImport()|">
-											  </div>
-										  </div>
-										  <div class="col-sm-6">
-											  <div th:if="${errorImport!=null}"> 
-	                       							<div class="alert alert-sm alert-danger alert-dismissible" role="alert"><i class="fa fa-warning"></i><span th:text="${errorImport}"></span></div>
-									  	  	  </div>
-									  	  	  <div th:if="${successImport!=null}"> 
-	                       							<div class="alert alert-sm alert-success alert-dismissible" role="alert"><i class="fa fa-check-circle"></i><span th:text="${successImport}"></span></div>
-									  	  	  </div>	
-										  	  <label class="text-purple" id="output"></label>
-									   	  </div>
-									  </div>
-									</form>
-	                               <hr/>
-	                               <form th:object="${listePromotionDetailForm}" th:action="'/saveAdmis/' + ${listePromotion.id}" method="POST" class="f1">
-				                	   	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
-		                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
-		                              	</div>
-				                	   	<div class="form-group row">
-		                                    <label for="numeroMatricule" class="col-sm-3 col-form-label">N° Matricule</label>
-		                                    <div class="col-lg-6 col-md-9 col-sm-12">
-		                                        <input class="form-control" th:field="*{numeroMatricule}" type="text" placeholder="Numéro d'Enregistrement . . ." id="numeroMatricule" required>
-		                                    </div>
-		                                </div> 
-		                                <div class="form-group row">
-		                                    <label for="nomComplet" class="col-sm-3 col-form-label">Nom et pr&egrave;nom</label>
-		                                    <div class="col-lg-6 col-md-9 col-sm-12">
-		                                        <input class="form-control" th:field="*{nomComplet}" type="text" placeholder="Nom complet . . ." id="nomComplet" required>
-		                                    </div>
-		                                </div>
-		                                
-		                                
-		                                <div class="form-group row">
-		                                    <label for="dateNaissance" class="col-sm-3 col-form-label">Date et lieu de naissance</label>
-		                                    <div class="col-lg-3  ">
-		                                        <input class="form-control" th:field="*{dateNaissance}" type="date" placeholder="date naissance . . ." id="dateNaissance" required>
-		                                    </div>
-		                                    <div class="col-sm-1 ">
-		                                    	<label for="lieuNaissance" class="col-form-label">   &agrave; </label>
-	                                    	 </div>
-		                                    <div class="col-lg-3  ">
-		                                        <input class="form-control" th:field="*{lieuNaissance}" type="text" placeholder="lieu Naissance . . ." id="lieuNaissance" required>
-		                                    </div>
-		                                </div>   
-		                                <div class="form-group row">
-	                                        <label class="col-sm-3 col-form-label">Mention</label>
-	                                        <div class="col-lg-6 col-md-9 col-sm-12">
-	                                            <select class="form-control " th:field="*{mention}">
-	                                            	<div th:each="mention : ${mentions}">
-	                                            		<option th:value="${mention}" th:text="${mention}"></option>
-			                                        </div>
-	                                            </select>
-	                                        </div>
-		                                </div>
-	                                	
-	                                	<button type="submit" class="btn btn-base pull-right">Valider</button>
-	                                </form>
-	                            </div>
-	                        </div>
-                    	</div>
-                    
-                    	<div class="col-sm-4">
-                    		<div class="panel panel-bd lobidrag">
-	                            <div class="panel-heading">
-	                                <div class="panel-title">
-	                                    <h4></h4>
-	                                </div>
-	                            </div>
-	                            <div class="panel-body"> 
-		                    		<div class="table-responsive">
-		                                <table class="table table-striped">
-		                                    <thead>
-		                                        <tr>
-		                                            <th> </th>
-		                                            <th> </th>
-		                                        </tr>
-		                                    </thead>
-		                                    <tbody>
-		                                    	<tr>
-					                                <th>ETABLISSEMENT :</th>
-					                                <td th:text="${listePromotion.listesDiplome.ecole}"></td>
-					                            </tr>
-					                            <tr>
-					                                <th>Fili&egrave;re : </th>
-					                                <td th:text="${listePromotion.listesDiplome.filiere}"></td>
-					                          	</tr>
-					                          	<tr>
-					                                <th>Option : </th>
-					                                <td th:text="${listePromotion.listesDiplome.option}"></td>
-					                          	</tr>
-					                          	<tr>
-					                                <th>Niveaux : </th>
-					                                <td th:text="${listePromotion.listesDiplome.niveauDiplome.niveau}"></td>
-					                          	</tr>
-			                          			<tr>
-					                                <th>Nom promotion : </th>
-					                                <td th:text="${listePromotion.nomPromotion}"></td>
-					                         	</tr>
-					                         	<tr>
-					                                <th>Session : </th>
-					                                <td th:text="${listePromotion.sessionSortie}"></td>
-					                         	</tr>
-		                                    </tbody>
-		                                </table>
-		                            </div>
-	                            </div>
-                             </div>
-                    	</div>
-                    	<div class="col-sm-1">
-                    		<button class="btn btn-base btn-sm" data-toggle="modal" data-target="#modifierPromo" >Modifier</button>
-                    	</div>
-                    	
-                    
-                        <div class="col-sm-9">
-                            <div class="panel panel-bd lobidrag">
-                                <div class="panel-heading">
-                                    <div class="panel-title">
-                                        <h4>Liste des ADMIS en <span class="text-primary" th:text="${listePromotion.listesDiplome.filiere}"></span></h4>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <div th:if="${not #lists.isEmpty(listePromotionDetails)}">
-	                                    <div class="table-responsive">
-	                                        <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
-	                                            <thead>
-	                                                <tr>
-	                                                    <th class="text-center">#</th>
-	                                                    <th class="text-center">N° d'Enregistrement</th>
-	                                                    <th class="text-center">Nom et pr&egrave;nom</th>
-	                                                    <th class="text-center">Date et lieu de naissance</th> 
-	                                                    <th class="text-center">Mention</th>
-	                                                    <th class="text-center text-white" style="background-color:red;">Action</th>
-	                                                </tr>
-	                                            </thead>
-	                                            <tbody>
-                                     				<tr th:each="promo : ${listePromotionDetails}">
-	                                                    <td class="text-center" th:text="${promo.id}"></td>
-	                                                    <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.numeroMatricule}"></a></td>
-	                                                    <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.nomComplet}"></</a></td>
-	                                                    <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></</a></td>
-	                                                	<td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.mention}"></</a></td>
-	                                               		
-	                                               		<button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer"><i class="fa fa-trash" aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"></i></button>
-	                                                   
-	                                                </tr> 
-	                                            </tbody>
-	                                        </table>
-	                                    </div>
-                                    </div>
-                                </div>
-	                        <!-- MODALS DIALOG -->
-	             		 	<div class="modal fade" id="modifierPromo" tabindex="-1" role="dialog">                           	
-	                           	<div class="modal-dialog" role="document">
-	                               <div class="modal-content">
-	                                   	 <div class="modal-header">
-	                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                                         <h1 class="modal-title">Modification d'une promotion </h1>
-	                                     </div>
-	                                     <form th:object="${listePromotionForm}" th:action="@{/savePromo}"  method="POST"> 
-	                                     	
-	                                     	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
-			                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" >Error Message!!!</strong> 
-			                              	</div>
-			                              	
-		                                     <div class="modal-body">
-		                                     	<div class="form-group row">
-			                                        <label for="example-text-input" class="col-sm-3 col-form-label">ID :</label>
-			                                        <div class="col-sm-9">
-			                                            <input class="form-control" type="text" th:field="*{id}"  disabled>
-			                                        </div>
-			                                    </div>
-				                              	<div class="form-group row">
-				                                	<div th:if="${not #lists.isEmpty(listeDiploma)}">
-				                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me </label>
-				                                        <div class="col-sm-7">
-				                                            <select class="form-control basic-single" th:field="*{listesDiplome}"> 
-				                                            		<optgroup th:label="'Ecole délivreur ' + ${ecole} + ' : '">
-				                                            			<div th:each="diplome : ${listeDiploma}">
-				                                            				<div th:if="${ecole == diplome.ecole}">
-						                                           				<option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
-						                                           			</div>
-						                                           		</div>
-						                                           	</optgroup>
-				                                            	</div>
-				                                            </select>
-				                                        </div>
-				                                    </div>
-													<div class="col-sm-1 col-form-label"><b><a href="/newDiploma" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle Diplome" th:text="'Nouveau!!!'"></a></b></div>
-				                                </div>
-			                                    <div class="form-group row">
-			                                        <label class="col-sm-3 col-form-label">Session </label>
-			                                        <div class="col-sm-7">
-			                                            <select class="form-control  basic-single" th:field="*{sessionSortie}">
-			                                                <option disabled="disabled" selected="selected" th:value="${#calendars.format(#calendars.createNow(), 'yyyy')}" th:text="'Session le'"></option>
-			                                                <!--placeholder-->
-			                                                <div th:each="annee : ${annees}">
-			                                                	<option th:value="${annee}" th:text="${annee}"></option>
-			                                                </div>
-			                                            </select>
-			                                        </div>
-			                                    </div>
-			                                    <div class="form-group row">
-			                                        <label for="example-text-input" class="col-sm-3 col-form-label">Nom de la promotion :</label>
-			                                        <div class="col-sm-9">
-			                                            <input class="form-control" type="text" th:field="*{nomPromotion}" required>
-			                                        </div>
-			                                    </div>
-		                                     </div>
-		                                     <div class="modal-footer">
-		                                         <button type="submit" class="btn btn-base">Ok</button>
-	                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-		                                     </div>
-	                                     </form>
-	                                 </div><!-- /.modal-content -->
-	                             </div><!-- /.modal-dialog -->
-	                         </div><!-- /.modal -->  
+
+    <!-- Preloader -->
+    <div class="preloader"></div>
+
+    <!-- Site wrapper -->
+    <!-- Content Wrapper. Contains page content -->
+    <div th:replace="fragments/header :: header">Static header</div>
+    <div class="content-wrapper">
+        <div class="content">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="header-icon">
+                    <i class="pe-7s-box1"></i>
+                </div>
+                <div class="header-title">
+                    <h1>Liste des promotions de chaque &eacute;cole par session</h1>
+                    <small></small>
+                    <ol class="breadcrumb">
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                        <li><a href="/listProm">ListePromotion</a></li>
+                        <li class="active">liste des admis</li>
+                    </ol>
+                </div>
+            </div> <!-- /. Content Header (Page header) -->
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Formulaire d'insertion d'un &eacute;tudiant :</h4>
                             </div>
                         </div>
-                        
-                        <div class="col-sm-2">
-	                   	 	 <a href="/listProm" class="btn btn-labeled btn-primary w-md m-rb-5">
-                                 <span class="btn-label"><i class="fa fa-reply"></i></span>Revenir
-                             </a>
-	                   	</div>
+                        <div class="panel-body">
+                            <form th:action="'/importExcel/' + ${listePromotion.id}" th:method="GET" id="fileForm"
+                                class="fileForm">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="filename">Importer une liste admis (<span class="text-success">format
+                                                    Excel</span>)</label>
+                                            <input type="file" class="form-control-file" id="filename" th:name="'filename'"
+                                                th:onchange="|validImport()|">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div th:if="${errorImport!=null}">
+                                            <div class="alert alert-sm alert-danger alert-dismissible" role="alert"><i
+                                                    class="fa fa-warning"></i><span th:text="${errorImport}"></span></div>
+                                        </div>
+                                        <div th:if="${successImport!=null}">
+                                            <div class="alert alert-sm alert-success alert-dismissible" role="alert"><i
+                                                    class="fa fa-check-circle"></i><span th:text="${successImport}"></span></div>
+                                        </div>
+                                        <label class="text-purple" id="output"></label>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr />
+                            <form th:object="${listePromotionDetailForm}" th:action="'/saveAdmis/' + ${listePromotion.id}"
+                                method="POST" class="f1">
+                                <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible"
+                                    role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error
+                                        Message!!!</strong>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="numeroMatricule" class="col-sm-3 col-form-label">N° Matricule</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" th:field="*{numeroMatricule}" type="text"
+                                            placeholder="Numéro d'Enregistrement . . ." id="numeroMatricule" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="nomComplet" class="col-sm-3 col-form-label">Nom et pr&egrave;nom</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <input class="form-control" th:field="*{nomComplet}" type="text" placeholder="Nom complet . . ."
+                                            id="nomComplet" required>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label for="dateNaissance" class="col-sm-3 col-form-label">Date et lieu de
+                                        naissance</label>
+                                    <div class="col-lg-3  ">
+                                        <input class="form-control" th:field="*{dateNaissance}" type="date" placeholder="date naissance . . ."
+                                            id="dateNaissance" required>
+                                    </div>
+                                    <div class="col-sm-1 ">
+                                        <label for="lieuNaissance" class="col-form-label"> &agrave; </label>
+                                    </div>
+                                    <div class="col-lg-3  ">
+                                        <input class="form-control" th:field="*{lieuNaissance}" type="text" placeholder="lieu Naissance . . ."
+                                            id="lieuNaissance" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Mention</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12">
+                                        <select class="form-control " th:field="*{mention}">
+                                            <div th:each="mention : ${mentions}">
+                                                <option th:value="${mention}" th:text="${mention}"></option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-base pull-right">Valider</button>
+                            </form>
+                        </div>
                     </div>
-                    
-                </div> <!-- /.main content -->
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4></h4>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th> </th>
+                                            <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>ETABLISSEMENT :</th>
+                                            <td th:text="${listePromotion.listesDiplome.ecole}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fili&egrave;re : </th>
+                                            <td th:text="${listePromotion.listesDiplome.filiere}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Option : </th>
+                                            <td th:text="${listePromotion.listesDiplome.option}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Niveaux : </th>
+                                            <td th:text="${listePromotion.listesDiplome.niveauDiplome.niveau}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nom promotion : </th>
+                                            <td th:text="${listePromotion.nomPromotion}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Session : </th>
+                                            <td th:text="${listePromotion.sessionSortie}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-sm-1">
+                    <button class="btn btn-base btn-sm" data-toggle="modal" data-target="#modifierPromo">Modifier</button>
+                </div>
+
+                <div class="col-sm-9">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Liste des ADMIS en <span class="text-primary" th:text="${listePromotion.listesDiplome.filiere}"></span></h4>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div th:if="${not #lists.isEmpty(listePromotionDetails)}">
+                                <div class="table-responsive">
+                                    <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">#</th>
+                                                <th class="text-center">N° d'Enregistrement</th>
+                                                <th class="text-center">Nom et pr&egrave;nom</th>
+                                                <th class="text-center">Date et lieu de naissance</th>
+                                                <th class="text-center">Mention</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="promo : ${listePromotionDetails}">
+                                                <td class="text-center" th:text="${promo.id}"></td>
+                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.numeroMatricule}"></a></td>
+                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.nomComplet}"></a></td> 
+                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></a></td>
+                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.mention}"></a></td>
+                                                <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer" aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"><i class="fa fa-trash" ></i></button>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+              	<div class="col-sm-2">
+	                <a href="/listProm" class="btn btn-labeled btn-primary w-md m-rb-5">
+	                    <span class="btn-label"><i class="fa fa-reply"></i></span>Revenir
+	                </a>
+	            </div>
             </div>
-       	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+       	 </div>
         
-        <!-- ./²wrapper -->
-        <!-- START CORE PLUGINS -->
-        <script>
-        
-        	//My Methods
-		    function goToDelete(id) {
-		        var txt;
-		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr vouloir supprimer l'étudiant N° "+id+" ?");
-		        if (r == true) {
-		        	window.location.href = "/admis/delete/"+id;		            
-		        } 
-		    }
-		    function validImport() {
-		    	var filename = $("#filename").val();
-		    	var action = $("#fileForm").attr("action");
-		    	
-		    	if($("#filename").val()!=null){
-		    		$("#output").text( "En cours d'exportion !!!" ).show();
-		    		$("#output").fadeOut( 2000 ); 
-	    		 	setTimeout(function() {
-    					$("#fileForm").submit();
-			     	}, 2000);
-		    	}
-		    }
-		</script>
-        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
-        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
-        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
-        <!-- DataTable Js -->
-        <script src="assets/plugins/datatables/dataTables.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables-active.js"></script>
-          <!-- Footable Js -->
-        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
-        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
-      
-        <!-- Select2 Js -->
-        <script src="assets/plugins/select2/select2.min.js"></script>
-        <script src="assets/plugins/select2/select2-active.js"></script>
-     	
-    	<!-- modals js -->
-        <script src="assets/plugins/modals/classie.js"></script>
-        <script src="assets/plugins/modals/modalEffects.js"></script>
-        
-        <!-- START THEME LABEL SCRIPT -->
-        <script src="assets/dist/js/theme.js"></script>
-	</body>
-	
+         <!-- MODALS DIALOG -->
+         <div class="modal fade" id="modifierPromo" tabindex="-1" role="dialog">
+             <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                     <form th:object="${listePromotionForm}" th:action="@{/savePromo}" method="POST">
+                      
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h1 class="modal-title">Modification d'une promotion </h1>
+                      </div>
+
+                         <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                             <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error Message!!!</strong>
+                         </div>
+
+                       <div class="modal-body">
+                           <div class="form-group row">
+                               <label for="example-text-input" class="col-sm-3 col-form-label">ID :</label>
+                               <div class="col-sm-9">
+                                   <input class="form-control" type="text" th:field="*{id}" disabled>
+                               </div>
+                           </div>
+                           <div class="form-group row">
+                               <div th:if="${not #lists.isEmpty(listeDiploma)}">
+                                   <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me </label>
+                                   <div class="col-sm-7">
+                                       <select class="form-control basic-single" th:field="*{listesDiplome}">
+                                           <optgroup th:label="'Ecole délivreur ' + ${ecole} + ' : '">
+                                               <div th:each="diplome : ${listeDiploma}">
+                                                   <div th:if="${ecole == diplome.ecole}">
+                                                       <option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
+                                                   </div>
+                                               </div>
+                                           </optgroup>
+                                       </select>
+                                   </div> 
+                                   <div class="col-sm-1 col-form-label"><b><a href="/newDiploma" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle Diplome" th:text="'Nouveau!!!'"></a></b></div>
+                               </div>
+                           </div>
+                           
+                           <div class="form-group row">
+                             <label class="col-sm-3 col-form-label">Session </label>
+                             <div class="col-sm-7">
+                                 <select class="form-control  basic-single" th:field="*{sessionSortie}">
+                                     <option disabled="disabled" selected="selected" th:value="${#calendars.format(#calendars.createNow(), 'yyyy')}" th:text="'Session le'"></option>
+                                     <!--placeholder-->
+                                     <div th:each="annee : ${annees}">
+                                         <option th:value="${annee}" th:text="${annee}"></option>
+                                     </div>
+                                 </select>
+                             </div>
+                         </div>
+                        	 <div class="form-group row">
+	                             <label for="example-text-input" class="col-sm-3 col-form-label">Nom de la promotion :</label>
+	                             <div class="col-sm-9">
+	                                 <input class="form-control" type="text" th:field="*{nomPromotion}" required>
+	                             </div>
+                         	</div>
+                       </div>
+                  	   <div class="modal-footer">
+                       		<button type="submit" class="btn btn-base">Ok</button>
+                       		<button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                   	   </div>
+                   </form> 
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div> <!-- /.main content -->
+    <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+    <script>
+        //My Methods
+        function goToDelete(id) {
+            var txt;
+            var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr vouloir supprimer l'étudiant N° " +
+                id + " ?");
+            if (r == true) {
+                window.location.href = "/admis/delete/" + id;
+            }
+        }
+
+        function validImport() {
+            var filename = $("#filename").val();
+            var action = $("#fileForm").attr("action");
+
+            if ($("#filename").val() != null) {
+                $("#output").text("En cours d'exportion !!!").show();
+                $("#output").fadeOut(2000);
+                setTimeout(function () {
+                    $("#fileForm").submit();
+                }, 2000);
+            }
+        }
+    </script>
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+    <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+    <!-- DataTable Js -->
+    <script src="assets/plugins/datatables/dataTables.min.js"></script>
+    <script src="assets/plugins/datatables/dataTables-active.js"></script>
+    <!-- Footable Js -->
+    <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+    <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+
+    <!-- Select2 Js -->
+    <script src="assets/plugins/select2/select2.min.js"></script>
+    <script src="assets/plugins/select2/select2-active.js"></script>
+
+    <!-- modals js -->
+    <script src="assets/plugins/modals/classie.js"></script>
+    <script src="assets/plugins/modals/modalEffects.js"></script>
+
+    <!-- START THEME LABEL SCRIPT -->
+    <script src="assets/dist/js/theme.js"></script>
+</body>
+
 </html>

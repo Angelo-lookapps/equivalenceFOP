@@ -1,221 +1,225 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
- <meta charset="utf-8">
- <base href="http://localhost:8080/showCIN" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>CIN - Administration Equivalence FOP(67Ha)</title>
-        <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
-    	<script src="assets/js/webfont.js"></script>
-        <script>
-            WebFont.load({
+    <meta charset="utf-8">
+    <base href="http://localhost:8080/showCIN" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>CIN - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png" type="image/x-icon">
+    <script src="assets/js/webfont.js"></script>
+    <script>
+        WebFont.load({
                 google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
                 active: function () {
                     sessionStorage.fonts = true;
                 }
             });
         </script>
-        <!-- START GLOBAL MANDATORY STYLE -->
-        <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
-        <!-- START PAGE LABEL PLUGINS --> 
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+    <!-- START PAGE LABEL PLUGINS -->
 
-        <!-- START THEME LAYOUT STYLE -->
-        <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css"/>
-       
-<title>Fiche CIN</title>
+    <!-- START THEME LAYOUT STYLE -->
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+
+    <title>Fiche CIN</title>
 </head>
+
 <body class="hold-transition fixed sidebar-mini">
-        
-        
-        <!-- Site wrapper -->
-        <!-- Content Wrapper. Contains page content -->
-        <div th:replace="fragments/header :: header">Enregistrement</div>   
-        	<div class="content-wrapper">
-                <!-- Main content -->
-                <div class="content">
-                    <div class="content-header">
-                        <div class="header-icon">
-                            <i class="pe-7s-note2"></i>
+
+
+    <!-- Site wrapper -->
+    <!-- Content Wrapper. Contains page content -->
+    <div th:replace="fragments/header :: header">Enregistrement</div>
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <div class="content">
+            <div class="content-header">
+                <div class="header-icon">
+                    <i class="pe-7s-note2"></i>
+                </div>
+                <div class="header-title">
+                    <h1>Fiche Carte d'identit&eacute;</h1>
+                    <small></small>
+                    <ol class="breadcrumb">
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
+                        <li><a href="#">Enregistrement</a></li>
+                        <li><a href="/CINList">Liste CIN</a></li>
+                        <li><a href="/newCIN">Nouveau CIN</a></li>
+                        <li class="active">Fiche CIN</li>
+                    </ol>
+                </div>
+            </div> <!-- /. Content Header (Page header) -->
+
+            <div class="row">
+                <!-- Textual inputs -->
+                <div class="col-sm-8">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Informations personnels</h4>
+                            </div>
                         </div>
-                        <div class="header-title">
-                            <h1>Fiche Carte d'identit&eacute;</h1>
-                            <small></small>
-                            <ol class="breadcrumb">
-                                <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
-                                <li><a href="#">Enregistrement</a></li>
-                                <li><a href="/CINList">Liste CIN</a></li>
-                                <li><a href="/newCIN">Nouveau CIN</a></li>
-                                <li class="active">Fiche CIN</li>
-                            </ol>
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Informations personnels :</th>
+                                            <th> </th>
+                                            <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <th>Nom </th>
+                                            <td th:text="${cin.nom}"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>Pr&eacute;nom </th>
+                                            <td th:text="*{cin.prenom}"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>Photo r&eacute;f </th>
+                                            <td th:text="*{cin.photo}"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>Date de naissance </th>
+                                            <td th:text="*{cin.dateNaissance}"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>Lieu de naissance </th>
+                                            <td th:text="*{cin.lieuNaissance}"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>N° CIN </th>
+                                            <td th:text="*{cin.numeroCIN}"></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div> <!-- /. Content Header (Page header) -->
-                 
-                    <div class="row">
-	                    <!-- Textual inputs -->
-	                    <div class="col-sm-8">
-	                        <div class="panel panel-bd lobidrag">
-	                            <div class="panel-heading">
-	                                <div class="panel-title">
-	                                    <h4>Informations personnels</h4>
-	                                </div>
-	                            </div>
-	                                                      	
-                           		<div class="panel-body">
-                                   	<div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Informations personnels :</th>
-                                                    <th> </th>
-                                                   	<th> </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            	<tr>	
-                                           			
-				                                    <th>Nom  </th>
-				                                    <td th:text="${cin.nom}"></td>
-				                                </tr>
-				                                <tr>
-			                                		
-				                                    <th>Pr&eacute;nom  </th>
-				                                    <td th:text="*{cin.prenom}"></td>
-					                             </tr>
-					                             <tr>
-					                             	
-				                                    <th>Photo r&eacute;f  </th>
-				                                    <td th:text="*{cin.photo}"></td>
-					                             </tr>
-					                             <tr>
-				                                    
-				                                    <th>Date de naissance </th>
-				                                    <td th:text="*{cin.dateNaissance}" ></td>
-					                             </tr>
-					                             <tr>
-				                                    
-				                                    <th>Lieu de naissance </th>
-				                                    <td th:text="*{cin.lieuNaissance}" ></td>
-					                             </tr>
-			                                     <tr>
-				                                    
-				                                    <th>N° CIN </th>
-				                                    <td th:text="*{cin.numeroCIN}" ></td>
-					                             </tr> 
-					                               
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>    
-	                        </div>
-	                     </div>
-	                     <div class="col-sm-2">
-	                  		<a href="/CINList"><button type="button" class="btn btn-primary w-md m-rb-5"><i class="fa fa-reply"> </i> Revenir</button></a>
-	               		 	<a th:href="'cin/edit/'+${cin.id}"><button type="button" class="btn btn-base w-md m-rb-5"><i class="fa fa-check-square-o"> </i> Mettre &agrave; jour</button></a>
-	               		 </div>
-	               		 
-	               		 <div class="col-sm-8">
-	                        <div class="panel panel-bd lobidrag">
-	                            <div class="panel-heading">
-	                                <div class="panel-title">
-	                                    <h4>Localisation</h4>
-	                                </div>
-	                            </div>           
-		                        	<div class="panel-body">
-	                                   	<div class="table-responsive">
-	                                        <table class="table table-striped">
-	                                            <thead>
-	                                                <tr>
-	                                                    <th>Localisation :</th>
-	                                                    <th> </th>
-	                                                   	<th> </th>
-	                                                </tr>
-	                                            </thead>
-	                                            <tbody>
-	                                            	<tr>	
-	                                           			
-					                                    <th>Adresse actuelle  </th>
-					                                    <td th:text="${cin.adresseActuelle}"></td>
-					                                </tr>
-					                                <tr>
-				                                		
-					                                    <th>Date de D&eacute;livrance  </th>
-					                                    <td th:text="*{cin.dateDelivrance}"></td>
-						                             </tr>
-						                             <tr>
-						                             	
-					                                    <th>Lieu de d&eacute;livrance  </th>
-					                                    <td th:text="*{cin.lieuDelivrance}"></td>
-						                             </tr>
-	                                            </tbody>
-	                                        </table>
-	                                    </div>
-	                                </div>
-	  	                       	 </div>
-	  	                   </div>
-	                     <div class="col-sm-8">
-	                        <div class="panel panel-bd lobidrag">
-	                            <div class="panel-heading">
-	                                <div class="panel-title">
-	                                    <h4>Information travail </h4>
-	                                </div>
-	                            </div>           
-		                        	<div class="panel-body">
-	                                   	<div class="table-responsive">
-	                                        <table class="table table-striped">
-	                                            <thead>
-	                                                <tr>
-	                                                    <th>Information travail :</th>
-	                                                    <th> </th>
-	                                                   	
-	                                                </tr>
-	                                            </thead>
-	                                            <tbody>
-	                                            	<tr>	
-	                                           			
-					                                    <th>Nationalit&eacute;  </th>
-					                                    <td th:text="${cin.nationalite}"></td>
-					                                </tr>
-					                                <tr>
-				                                		
-					                                    <th>Fonction </th>
-					                                    <td th:text="*{cin.fonction}"></td>
-						                             </tr>
-						                             <tr>
-						                             	
-					                                    <th>Lieu travail  </th>
-					                                    <td th:text="*{cin.lieuTravail}"></td>
-						                             </tr>
-	                                            </tbody>
-	                                        </table>
-	                                    </div>
-	                                </div>
-	                       	 </div>
-	                     </div>
-	                      	
-	          		 </div>
-                 </div>		<!-- CONTENT -->
-              </div>	<!-- WRAPPER -->
-      	<div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-        
-        <!-- ./²wrapper -->
-        <!-- START CORE PLUGINS -->
-        <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-        <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        <script src="assets/plugins/fastclick/fastclick.min.js"></script>
-        <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
-        <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
-        <!-- BootStrap WiZarD -->
-        <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
-        <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
-        <!-- Footable Js -->
-        <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
-        <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
-        <!-- START THEME LABEL SCRIPT -->
-        <script src="assets/dist/js/theme.js"></script>
-	</body>
-	
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <a href="/CINList"><button type="button" class="btn btn-primary w-md m-rb-5"><i class="fa fa-reply">
+                            </i> Revenir</button></a>
+                    <a th:href="'cin/edit/'+${cin.id}"><button type="button" class="btn btn-base w-md m-rb-5"><i class="fa fa-check-square-o">
+                            </i> Mettre &agrave; jour</button></a>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Localisation</h4>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Localisation :</th>
+                                            <th> </th>
+                                            <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <th>Adresse actuelle </th>
+                                            <td th:text="${cin.adresseActuelle}"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>Date de D&eacute;livrance </th>
+                                            <td th:text="*{cin.dateDelivrance}"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>Lieu de d&eacute;livrance </th>
+                                            <td th:text="*{cin.lieuDelivrance}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Information travail </h4>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Information travail :</th>
+                                            <th> </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <th>Nationalit&eacute; </th>
+                                            <td th:text="${cin.nationalite}"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>Fonction </th>
+                                            <td th:text="*{cin.fonction}"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>Lieu travail </th>
+                                            <td th:text="*{cin.lieuTravail}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- CONTENT -->
+    </div> <!-- WRAPPER -->
+    <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+    <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+    <!-- BootStrap WiZarD -->
+    <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
+    <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
+    <!-- Footable Js -->
+    <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+    <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+    <!-- START THEME LABEL SCRIPT -->
+    <script src="assets/dist/js/theme.js"></script>
+</body>
+
 </html>

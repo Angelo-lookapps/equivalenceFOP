@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.testHibernate.converts.diplome.DiplomeFormToDiplome;
 import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
 import com.testHibernate.helpers.GlobalHelper;
-import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
 import com.testHibernate.model.diplome.NiveauDiplome;
@@ -31,8 +30,7 @@ import com.testHibernate.service.historique.ActiviteRecentService;
 public class DiplomeController {
 	 private ListesDiplomeService listesDiplomeService;
 	 private NiveauDiplomeService niveauDiplomeService;
-	 private DiplomeToDiplomeForm diplomeToDiplomeForm;
-	 private DiplomeFormToDiplome diplomeFormToDiplome;
+	 private DiplomeToDiplomeForm diplomeToDiplomeForm; 
 	 
 	 private HttpSession session;
 	 
@@ -51,12 +49,7 @@ public class DiplomeController {
 	 @Autowired
 	 public void setDiplomeToDiplomeForm(DiplomeToDiplomeForm diplomeToDiplomeForm) {
 		this.diplomeToDiplomeForm = diplomeToDiplomeForm;
-	 }
-	 
-	 @Autowired
-	 public void setDiplomeFormToDiplome(DiplomeFormToDiplome diplomeFormToDiplome) {
-		this.diplomeFormToDiplome = diplomeFormToDiplome;
-	 }
+	 }  
 	 
 	 @Autowired
 	 public void setNiveauDiplomeService(NiveauDiplomeService niveauDiplomeService) {

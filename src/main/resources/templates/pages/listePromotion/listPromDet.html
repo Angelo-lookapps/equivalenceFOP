@@ -96,13 +96,13 @@
 				                	   	<div class="form-group row">
 		                                    <label for="numeroMatricule" class="col-sm-3 col-form-label">N° Matricule</label>
 		                                    <div class="col-lg-6 col-md-9 col-sm-12">
-		                                        <input class="form-control" th:field="*{numeroMatricule}" type="text" placeholder="Numéro d'Enregistrement . . ." id="numeroMatricule">
+		                                        <input class="form-control" th:field="*{numeroMatricule}" type="text" placeholder="Numéro d'Enregistrement . . ." id="numeroMatricule" required>
 		                                    </div>
 		                                </div> 
 		                                <div class="form-group row">
 		                                    <label for="nomComplet" class="col-sm-3 col-form-label">Nom et pr&egrave;nom</label>
 		                                    <div class="col-lg-6 col-md-9 col-sm-12">
-		                                        <input class="form-control" th:field="*{nomComplet}" type="text" placeholder="Nom complet . . ." id="nomComplet">
+		                                        <input class="form-control" th:field="*{nomComplet}" type="text" placeholder="Nom complet . . ." id="nomComplet" required>
 		                                    </div>
 		                                </div>
 		                                
@@ -110,13 +110,13 @@
 		                                <div class="form-group row">
 		                                    <label for="dateNaissance" class="col-sm-3 col-form-label">Date et lieu de naissance</label>
 		                                    <div class="col-lg-3  ">
-		                                        <input class="form-control" th:field="*{dateNaissance}" type="date" placeholder="date naissance . . ." id="dateNaissance">
+		                                        <input class="form-control" th:field="*{dateNaissance}" type="date" placeholder="date naissance . . ." id="dateNaissance" required>
 		                                    </div>
 		                                    <div class="col-sm-1 ">
 		                                    	<label for="lieuNaissance" class="col-form-label">   &agrave; </label>
 	                                    	 </div>
 		                                    <div class="col-lg-3  ">
-		                                        <input class="form-control" th:field="*{lieuNaissance}" type="text" placeholder="lieu Naissance . . ." id="lieuNaissance">
+		                                        <input class="form-control" th:field="*{lieuNaissance}" type="text" placeholder="lieu Naissance . . ." id="lieuNaissance" required>
 		                                    </div>
 		                                </div>   
 		                                <div class="form-group row">
@@ -206,6 +206,7 @@
 	                                                    <th class="text-center">Nom et pr&egrave;nom</th>
 	                                                    <th class="text-center">Date et lieu de naissance</th> 
 	                                                    <th class="text-center">Mention</th>
+	                                                    <th class="text-center text-white" style="background-color:red;">Action</th>
 	                                                </tr>
 	                                            </thead>
 	                                            <tbody>
@@ -215,6 +216,9 @@
 	                                                    <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.nomComplet}"></</a></td>
 	                                                    <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></</a></td>
 	                                                	<td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.mention}"></</a></td>
+	                                               		
+	                                               		<button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer"><i class="fa fa-trash" aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"></i></button>
+	                                                   
 	                                                </tr> 
 	                                            </tbody>
 	                                        </table>
@@ -309,9 +313,9 @@
         	//My Methods
 		    function goToDelete(id) {
 		        var txt;
-		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
+		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr vouloir supprimer l'étudiant N° "+id+" ?");
 		        if (r == true) {
-		        	window.location.href = "/promo/delete/"+id;		            
+		        	window.location.href = "/admis/delete/"+id;		            
 		        } 
 		    }
 		    function validImport() {

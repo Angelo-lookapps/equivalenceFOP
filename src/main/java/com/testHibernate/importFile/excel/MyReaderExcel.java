@@ -33,6 +33,7 @@ public class MyReaderExcel {
 	        for (Row row: sheet) {
 	        	ListePromotionDetailForm temp = new ListePromotionDetailForm();
 	        	System.out.println(dataFormatter.formatCellValue(row.getCell(0)) + "\t" + dataFormatter.formatCellValue(row.getCell(1)) + "\t" + dataFormatter.formatCellValue(row.getCell(2))+ "\t" + dataFormatter.formatCellValue(row.getCell(3))+ "\t" + dataFormatter.formatCellValue(row.getCell(4)));
+	        	
 	        	if(!dataFormatter.formatCellValue(row.getCell(0)).equals("") && !dataFormatter.formatCellValue(row.getCell(4)).equals("Mention")) {
 	        		temp.setListePromotion(listePromotion);
 	        		Long id = !dataFormatter.formatCellValue(row.getCell(0)).equals("#") ? Long.parseLong(dataFormatter.formatCellValue(row.getCell(0))) : 0;

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
  <meta charset="utf-8">
- <base href="http://localhost:8080/showAdmis" />
+ <base href="http://localhost:8080/editAdmis" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -24,7 +24,7 @@
         <!-- START THEME LAYOUT STYLE -->
         <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css"/>
        
-<title>Promotion detail</title>
+<title>Edition &eacute;tudiants</title>
 </head>
 <body class="hold-transition fixed sidebar-mini">
       
@@ -60,53 +60,56 @@
 	                            </div>
 	                                                      	
                            		<div class="panel-body">
-                                   	<div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Informations sur le diplome :</th>
-                                                    <th> </th>
-                                                   	<th> </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            	<tr>
-				                                    <th>&Eacute;tablissement  </th>
-				                                    <td th:text="${diplomaDetail.listePromotion.listesDiplome.ecole}"></td>
-				                                </tr>
-                                            	<tr>
-				                                    <th>Promotion  </th>
-				                                    <td th:text="${diplomaDetail.listePromotion.nomPromotion}"></td>
-				                                </tr>
-				                                <tr>
-				                                    <th>Session  </th>
-				                                    <td th:text="*{diplomaDetail.listePromotion.sessionSortie}"></td>
-					                             </tr>
-					                             <tr>
-				                                    <th>Num&eacute;ro matricule  </th>
-				                                    <td th:text="*{diplomaDetail.numeroMatricule}"></td>
-					                             </tr>
-					                             <tr>
-				                                    <th>Nom complet </th>
-				                                    <td th:text="*{diplomaDetail.nomComplet}" ></td>
-					                             </tr>
-					                             <tr>
-				                                    <th>Date et lieu de naissance </th>
-				                                    <td th:text="*{diplomaDetail.dateNaissance} + '  à  ' + *{diplomaDetail.lieuNaissance}" ></td>
-					                             </tr>
-					                             <tr>
-				                                    <th>Mention </th>
-				                                    <td><button type="button" class="btn btn-black btn-transparent w-md m-rb-5" disabled th:text="*{diplomaDetail.mention}"></button></td>
-					                             </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                   	<form th:object="${listePromotionDetailForm}" th:action="'/saveAdmis/' + ${listePromotion.id}" method="POST" class="f1">
+				                	   	
+				                	   	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+		                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		                                  	<i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}" required>Error Message!!!</strong> 
+		                              	</div>
+				                	   	<div class="form-group row">
+		                                    <label for="numeroMatricule" class="col-sm-3 col-form-label">N° Matricule</label>
+		                                    <div class="col-lg-6 col-md-9 col-sm-12">
+		                                        <input class="form-control" th:field="*{numeroMatricule}" type="text" placeholder="Numéro d'Enregistrement . . ." id="numeroMatricule" required>
+		                                    </div>
+		                                </div> 
+		                                <div class="form-group row">
+		                                    <label for="nomComplet" class="col-sm-3 col-form-label">Nom et pr&egrave;nom</label>
+		                                    <div class="col-lg-6 col-md-9 col-sm-12">
+		                                        <input class="form-control" th:field="*{nomComplet}" type="text" placeholder="Nom complet . . ." id="nomComplet" required>
+		                                    </div>
+		                                </div>
+		                                
+		                                
+		                                <div class="form-group row">
+		                                    <label for="dateNaissance" class="col-sm-3 col-form-label">Date et lieu de naissance</label>
+		                                    <div class="col-lg-3  ">
+		                                        <input class="form-control" th:field="*{dateNaissance}" type="date" placeholder="date naissance . . ." id="dateNaissance" required>
+		                                    </div>
+		                                    <div class="col-sm-1 ">
+		                                    	<label for="lieuNaissance" class="col-form-label">   &agrave; </label>
+	                                    	 </div>
+		                                    <div class="col-lg-3  ">
+		                                        <input class="form-control" th:field="*{lieuNaissance}" type="text" placeholder="lieu Naissance . . ." id="lieuNaissance" required>
+		                                    </div>
+		                                </div>   
+		                                <div class="form-group row">
+	                                        <label class="col-sm-3 col-form-label">Mention</label>
+	                                        <div class="col-lg-6 col-md-9 col-sm-12">
+	                                            <select class="form-control " th:field="*{mention}">
+	                                            	<div th:each="mention : ${mentions}">
+	                                            		<option th:value="${mention}" th:text="${mention}"></option>
+			                                        </div>
+	                                            </select>
+	                                        </div>
+		                                </div>
+	                                	
+	                                	<button type="submit" class="btn btn-base pull-right">Valider</button>
+	                                </form>
                                 </div>    
 	                        </div>
 	                     </div>
 	                     <div class="col-sm-2">
-                  			<a th:href="'/showPromoDetail/' + ${diplomaDetail.id}"><button type="button" class="btn btn-primary w-md m-rb-5"><i class="fa fa-reply"></i> <span> Revenir</span></button></a>
-	               			<a th:href="'/editAdmis/' + ${diplomaDetail.id}"><button type="button" class="btn btn-base w-md m-rb-5"><i class="fa fa-check-square-o"> </i> Mettre &agrave; jour</button></a>
+	                  		<a th:href="'/showAdmis/' + ${diplomaDetail.id}"><button type="button" class="btn btn-primary w-md m-rb-5"><i class="fa fa-reply"></i> <span> Revenir</span></button></a>
 	               		 </div>
                     </div>
                 </div >

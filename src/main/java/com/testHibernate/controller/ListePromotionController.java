@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.testHibernate.converts.listePromotion.ListePromotionDetailToListePromotionDetailForm;
 import com.testHibernate.converts.listePromotion.ListePromotionToListePromotionForm;
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper;
@@ -38,6 +39,7 @@ public class ListePromotionController {
 	 private ListePromotionDetailService listePromotionDetailService;
 	 private ListePromotionToListePromotionForm listePromotionToListePromotionForm;
 	 private ListesDiplomeService listesDiplomeService;
+	 private ListePromotionDetailToListePromotionDetailForm listePromotionDetailToListePromotionDetailForm;
 	 
 	 private HttpSession session;
 	 
@@ -49,6 +51,11 @@ public class ListePromotionController {
 	 @Autowired
 	 public void setListePromotionToListePromotionForm(ListePromotionToListePromotionForm listePromotionToListePromotionForm) {
 		this.listePromotionToListePromotionForm = listePromotionToListePromotionForm;
+	 }
+	 
+	 @Autowired
+	 public void setListePromotionDetailToListePromotionDetailForm(ListePromotionDetailToListePromotionDetailForm listePromotionDetailToListePromotionDetailForm) {
+		this.listePromotionDetailToListePromotionDetailForm = listePromotionDetailToListePromotionDetailForm;
 	 }
 	 
 	 private ActiviteRecentService activiteRecentService;
@@ -136,17 +143,20 @@ public class ListePromotionController {
 			return "redirect:/error505";
 			//return "pages/equivalence/listArrete";
 		}  
-		listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
-		listePromotionDetailForm.setListePromotion(listePromotion1);
-		listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
+		if(!listePromotionDetailForm.getNomComplet().equals("") || !listePromotionDetailForm.getLieuNaissance().equals("") ) {
+			listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
+			listePromotionDetailForm.setListePromotion(listePromotion1);
+			listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
+			
+			//Mis en historique
+			 ActiviteRecent historique = new ActiviteRecent(); 
+			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
+			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+			 	activiteRecentService.saveOrUpdate(historique);
+		 	 //fin historique
+			 	
+		}
 		
-		//Mis en historique
-		 ActiviteRecent historique = new ActiviteRecent(); 
-		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
-		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
-		 	activiteRecentService.saveOrUpdate(historique);
-	 	 //fin historique
-		 	
 		 return "redirect:/showPromoDetail/"+listePromotion1.getId();		
 	}
 	@GetMapping("/showPromoDetail/{id}")
@@ -191,7 +201,29 @@ public class ListePromotionController {
 	 	 //fin historique
        return "redirect:/diplomaList";
 	 }
-
+	 @GetMapping("/editAdmis/{id}")
+	 public String editAdmis(@PathVariable String id, Model model){
+		 ListePromotionDetail admis = listePromotionDetailService.getById(Long.valueOf(id));
+		 List<String> mentions = GlobalHelper.getMentionList();
+		 try{
+			if(admis==null) {
+				return "redirect:/error404/listPromDet";	
+			}
+			ListePromotion listePromotion = listePromotionService.getById(Long.valueOf(admis.getListePromotion().getId()));
+				
+			ListePromotionDetailForm temp = listePromotionDetailToListePromotionDetailForm.convert(admis);
+			model.addAttribute("listePromotionDetailForm", temp);
+			model.addAttribute("mentions", mentions);
+			model.addAttribute("diplomaDetail", admis);
+			model.addAttribute("listePromotion", listePromotion);
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 if(admis==null) {
+			return "redirect:/error404/listProm";	
+		 } 
+		 return "pages/listePromotion/editAdmis";
+	 }
 	 @GetMapping("/showAdmis/{id}")
 	 public String showAdmis(@PathVariable String id, Model model){
 		 ListePromotionDetail list = listePromotionDetailService.getById(Long.valueOf(id));
@@ -232,6 +264,8 @@ public class ListePromotionController {
 				temp.setDateAjout(GlobalHelper.getCurrentDate());
 				ListePromotionDetail listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(temp);
 				
+				model.addAttribute("successImport", "Félicitation, l'importation du fichier: \""+ filename +"\" est finie !!!");	
+				
 				//Mis en historique
 				 ActiviteRecent historique = new ActiviteRecent(); 
 				 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "(par import Excel) Un  étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
@@ -241,7 +275,6 @@ public class ListePromotionController {
 			}
 			
 			//Model View
-			
 			model.addAttribute("listeDiploma", listeDiploma);
 			model.addAttribute("annees", annee);
 			model.addAttribute("ecole", ecole);
@@ -256,4 +289,25 @@ public class ListePromotionController {
 		}
 		return "redirect:/showPromoDetail/" + listePromotion.getId();
 	}
+	
+	@GetMapping("/admis/delete/{id}")
+	 public String deleteAdmis(@PathVariable String id){
+		ListePromotionDetail listesSaved = listePromotionDetailService.getById(Long.valueOf(id));
+
+		listePromotionDetailService.delete(Long.valueOf(id));
+		
+		//Mis en historique
+		 ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "L'étudiant admis en \""+listesSaved.getListePromotion().getListesDiplome().getFiliere()+" "
+		 				+listesSaved.getListePromotion().getListesDiplome().getOption()
+		 				+"\", dans l'établissement : "
+		 				+listesSaved.getListePromotion().getListesDiplome().getEcole()
+		 				+", session : "+listesSaved.getListePromotion().getSessionSortie()));
+		 	
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	 //fin historique
+		 	
+       return "redirect:/showPromoDetail/" + listesSaved.getId();
+	 }
 }

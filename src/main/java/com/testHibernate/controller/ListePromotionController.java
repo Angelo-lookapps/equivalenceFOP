@@ -143,21 +143,25 @@ public class ListePromotionController {
 		if(bindingResult.hasErrors()){
 			return "redirect:/error505";
 		}  
-		
-		if(!listePromotionDetailForm.getNomComplet().equals("") || !listePromotionDetailForm.getLieuNaissance().equals("") ) {
-			listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
-			listePromotionDetailForm.setListePromotion(listePromotion1);
-			listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
-			System.out.println("\n\n\n GEGE ===== " + listesSaved.getNomComplet());
+		try {
 			
-			//Mis en historique
-			ActiviteRecent historique = new ActiviteRecent(); 
-			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
-			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
-			 	activiteRecentService.saveOrUpdate(historique);
-		 	//fin historique
+			if(!listePromotionDetailForm.getNomComplet().equals("") || !listePromotionDetailForm.getLieuNaissance().equals("") ) {
+				listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
+				listePromotionDetailForm.setListePromotion(listePromotion1);
+				listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
+				System.out.println("\n\n\n GEGE ===== " + listesSaved.getNomComplet());
+				
+				//Mis en historique
+				ActiviteRecent historique = new ActiviteRecent(); 
+				 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
+				 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+				 	activiteRecentService.saveOrUpdate(historique);
+			 	//fin historique
+			}
+
+		}catch(Exception er) {
+			er.printStackTrace();
 		}
-		
 		 return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getId();		
 	}
 	@GetMapping("/showPromoDetail/{id}")
@@ -173,17 +177,17 @@ public class ListePromotionController {
 		//List<String> listEcole = listesDiplomeService.getAllEcole();
 		String ecole = listePromotion.getListesDiplome().getEcole();
 		try {
-		List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
-		List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
- 
-		model.addAttribute("listeDiploma", listeDiploma);
-		model.addAttribute("annees", annee);
-		model.addAttribute("ecole", ecole);
-		model.addAttribute("mentions", mentions);
-		model.addAttribute("listePromotion", listePromotion);
-		model.addAttribute("listePromotionDetails", listePromotionDetails);
-		model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
-		model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
+			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
+			List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
+	 
+			model.addAttribute("listeDiploma", listeDiploma);
+			model.addAttribute("annees", annee);
+			model.addAttribute("ecole", ecole);
+			model.addAttribute("mentions", mentions);
+			model.addAttribute("listePromotion", listePromotion);
+			model.addAttribute("listePromotionDetails", listePromotionDetails);
+			model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
+			model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
 		} catch (Exception e) { 
 			e.printStackTrace();
 		}
@@ -202,7 +206,7 @@ public class ListePromotionController {
 	 	 //fin historique
        return "redirect:/listProm";
 	 }
-	/* @GetMapping("/editAdmis/{id}")
+	 @GetMapping("/editAdmis/{id}")
 	 public String editAdmis(@PathVariable String id, Model model){
 		 ListePromotionDetail admis = listePromotionDetailService.getById(Long.valueOf(id));
 		 List<String> mentions = GlobalHelper.getMentionList();
@@ -224,7 +228,7 @@ public class ListePromotionController {
 			return "redirect:/error404/listProm";	
 		 } 
 		 return "pages/listePromotion/editAdmis";
-	 }*/
+	 }
 	 @GetMapping("/showAdmis/{id}")
 	 public String showAdmis(@PathVariable String id, Model model){
 		 ListePromotionDetail list = listePromotionDetailService.getById(Long.valueOf(id));
@@ -291,7 +295,7 @@ public class ListePromotionController {
 		return "redirect:/showPromoDetail/" + listePromotion.getId();
 	}
 	
-	/*@GetMapping("/admis/delete/{id}")
+	@GetMapping("/admis/delete/{id}")
 	 public String deleteAdmis(@PathVariable String id){
 		ListePromotionDetail listesSaved = listePromotionDetailService.getById(Long.valueOf(id));
 
@@ -299,7 +303,7 @@ public class ListePromotionController {
 		
 		//Mis en historique
 		 ActiviteRecent historique = new ActiviteRecent(); 
-		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "L'étudiant admis en \""+listesSaved.getListePromotion().getListesDiplome().getFiliere()+" "
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "L'étudiant \""+listesSaved.getNomComplet()+" qui était admis en "+listesSaved.getListePromotion().getListesDiplome().getFiliere()+" "
 		 				+listesSaved.getListePromotion().getListesDiplome().getOption()
 		 				+"\", dans l'établissement : "
 		 				+listesSaved.getListePromotion().getListesDiplome().getEcole()
@@ -309,6 +313,6 @@ public class ListePromotionController {
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	 //fin historique
 		 	
-       return "redirect:/showPromoDetail/" + listesSaved.getId();
-	 }*/
+       return "redirect:/showPromoDetail/" + listesSaved.getListePromotion().getId();
+	 }
 }

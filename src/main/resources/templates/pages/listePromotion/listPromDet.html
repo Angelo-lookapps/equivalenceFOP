@@ -39,7 +39,7 @@
 <body class="hold-transition fixed sidebar-mini">
 
     <!-- Preloader -->
-    <div class="preloader"></div>
+   <!-- <div class="preloader"></div> --> 
 
     <!-- Site wrapper -->
     <!-- Content Wrapper. Contains page content -->
@@ -90,7 +90,7 @@
                                             <div class="alert alert-sm alert-success alert-dismissible" role="alert"><i
                                                     class="fa fa-check-circle"></i><span th:text="${successImport}"></span></div>
                                         </div>
-                                        <label class="text-purple" id="output"></label>
+                                        <b><label class="text-muted" id="output"></label></b>
                                     </div>
                                 </div>
                             </form>
@@ -232,7 +232,7 @@
                                                 <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.nomComplet}"></a></td> 
                                                 <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></a></td>
                                                 <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.mention}"></a></td>
-                                                <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer" aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"><i class="fa fa-trash" ></i></button>
+                                                <td class="text-center"><button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer" aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"><i class="fa fa-trash" ></i></button></td>
 											</tr>
                                         </tbody>
                                     </table>

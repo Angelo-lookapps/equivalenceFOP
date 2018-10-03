@@ -2,11 +2,11 @@ package com.testHibernate.controller;
  
 import java.util.HashMap;
 import java.util.List;  
- 
+import com.testHibernate.importFile.excel.MyReaderExcel;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Controller;import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.helpers.GlobalHelper;
-import com.testHibernate.helpers.TempActivite;
+import com.testHibernate.helpers.TempActivite; 
+import com.testHibernate.importFile.excel.MyReaderExcel;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.historique.ActiviteRecent;
+import com.testHibernate.model.listePromotion.ListePromotion;
+import com.testHibernate.model.listePromotion.ListePromotionDetail;
+import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
 import com.testHibernate.service.historique.ActiviteRecentService;
+import com.testHibernate.service.listePromotion.ListePromotionService;
 
 @Controller
 public class PagesController {
@@ -31,6 +36,12 @@ public class PagesController {
 	 private ActiviteRecentService activiteRecentService;
 	 private GlobalHelper global = new GlobalHelper();
 	 
+	 private ListePromotionService listePromotionService;
+	 
+	 @Autowired
+	 public void setListePromotionService(ListePromotionService listePromotionService) {
+		this.listePromotionService = listePromotionService;
+	 }
 	  
 	 @Autowired
 	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
@@ -184,12 +195,15 @@ public class PagesController {
 		
 		return "pages/login";	
 	}
+	
+	
 	@GetMapping(value = "/logout")
 	public String logout() {
 		session.invalidate();
 		return "pages/login";	
 	}
-
+	
+	
 	
 	
 	//espace personnel
@@ -205,7 +219,7 @@ public class PagesController {
 	public String profile() {
 		return "pages/espacePersonnel/profile";		
 	}
-
+	
 		
 	
 }

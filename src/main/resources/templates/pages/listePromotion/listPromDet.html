@@ -68,6 +68,26 @@
 	                                </div>
 	                            </div>
 	                            <div class="panel-body"> 
+	                               <form th:action="'/importExcel/' + ${listePromotion.id}" th:method="GET" id="fileForm" class="fileForm">
+									  <div class="row">
+										  <div class="col-sm-6">
+											  <div class="form-group">
+											    <label for="filename">Importer une liste admis (<span class="text-success">format Excel</span>)</label>
+											    <input type="file" class="form-control-file" id="filename" th:name="'filename'" th:onchange="|validImport()|">
+											  </div>
+										  </div>
+										  <div class="col-sm-6">
+											  <div th:if="${errorImport!=null}"> 
+	                       							<div class="alert alert-sm alert-danger alert-dismissible" role="alert"><i class="fa fa-warning"></i><span th:text="${errorImport}"></span></div>
+									  	  	  </div>
+									  	  	  <div th:if="${successImport!=null}"> 
+	                       							<div class="alert alert-sm alert-success alert-dismissible" role="alert"><i class="fa fa-check-circle"></i><span th:text="${successImport}"></span></div>
+									  	  	  </div>	
+										  	  <label class="text-purple" id="output"></label>
+									   	  </div>
+									  </div>
+									</form>
+	                               <hr/>
 	                               <form th:object="${listePromotionDetailForm}" th:action="'/saveAdmis/' + ${listePromotion.id}" method="POST" class="f1">
 				                	   	<div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
 		                                  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -285,13 +305,27 @@
         <!-- ./²wrapper -->
         <!-- START CORE PLUGINS -->
         <script>
+        
+        	//My Methods
 		    function goToDelete(id) {
 		        var txt;
 		        var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
 		        if (r == true) {
-		        	window.locat+$ion.href = "/promo/delete/"+id;		            
+		        	window.location.href = "/promo/delete/"+id;		            
 		        } 
-		    }	
+		    }
+		    function validImport() {
+		    	var filename = $("#filename").val();
+		    	var action = $("#fileForm").attr("action");
+		    	
+		    	if($("#filename").val()!=null){
+		    		$("#output").text( "En cours d'exportion !!!" ).show();
+		    		$("#output").fadeOut( 2000 ); 
+	    		 	setTimeout(function() {
+    					$("#fileForm").submit();
+			     	}, 2000);
+		    	}
+		    }
 		</script>
         <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
         <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>

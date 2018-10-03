@@ -13,11 +13,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping; 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.testHibernate.converts.listePromotion.ListePromotionToListePromotionForm;
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.importFile.excel.MyReaderExcel;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotion;
@@ -55,10 +57,7 @@ public class ListePromotionController {
 	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
 		this.activiteRecentService = activiteRecentService;
 	 }
-	 
-	 ///CONVERTS
-	 private ListePromotionToListePromotionForm tousListeDiplomeToTousListeDiplomeForm;
-	 
+	  
 	 
 	 @Autowired
 	 public void setListePromotionService(ListePromotionService tousListeDiplomeService) {
@@ -75,10 +74,6 @@ public class ListePromotionController {
 		 this.listePromotionDetailService = listesDiplomeDetailService;
 	 }
 	 
-	 @Autowired
-	 public void setTousListeDiplomeToTousListeDiplomeForm(ListePromotionToListePromotionForm tousListeDiplomeToTousListeDiplomeForm) {
-		 this.tousListeDiplomeToTousListeDiplomeForm = tousListeDiplomeToTousListeDiplomeForm;
-	 }
 
 	@GetMapping({"/listProm", "/proms"})
 	 public String listPromo(Model model){
@@ -140,9 +135,8 @@ public class ListePromotionController {
 		if(bindingResult.hasErrors()){
 			return "redirect:/error505";
 			//return "pages/equivalence/listArrete";
-		} 
-		listePromotion1.setDateAjout(GlobalHelper.getCurrentDate());
-		
+		}  
+		listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
 		listePromotionDetailForm.setListePromotion(listePromotion1);
 		listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
 		
@@ -153,8 +147,7 @@ public class ListePromotionController {
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	 //fin historique
 		 	
-		System.out.println("\n\n Hello : "+listesSaved.getNumeroMatricule());	
-		return "redirect:/showPromoDetail/"+listePromotion1.getId();		
+		 return "redirect:/showPromoDetail/"+listePromotion1.getId();		
 	}
 	@GetMapping("/showPromoDetail/{id}")
 	public String ajoutPromo( @PathVariable String id, Model model) {
@@ -204,11 +197,8 @@ public class ListePromotionController {
 		 ListePromotionDetail list = listePromotionDetailService.getById(Long.valueOf(id));
 		 try{
 			 
-	 
 			 model.addAttribute("diplomaDetail", list);
-			 System.out.println("\n\n\n****************************************************************\n");
-			 System.out.println("list = "+list.getNomComplet());
-			
+			 
 		 }catch(Exception e) {
 			 e.printStackTrace();
 		 }
@@ -217,4 +207,53 @@ public class ListePromotionController {
 		 } 
 		 return "pages/listePromotion/showAdmis";
 	 }
+		
+	@GetMapping(value="/importExcel/{id}")
+	public String testImport(@PathVariable String id, @RequestParam(required=true)String  filename, Model model) {
+		ListePromotion listePromotion = listePromotionService.getById(Long.valueOf(id));
+		 if(listePromotion == null) {
+			return "redirect:/error404/listPromDet/"+id;	
+		 } 
+		
+		MyReaderExcel testExcel = new MyReaderExcel();
+		try {
+			//INITIALISATION
+			List<ListePromotionDetailForm> list = testExcel.getPromotionByExcel(filename, listePromotion);
+			List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(Long.valueOf(id));
+			List<String> mentions = GlobalHelper.getMentionList(); 
+			String ecole = listePromotion.getListesDiplome().getEcole(); 
+			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
+			List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
+ 	
+			//Importation
+			for(ListePromotionDetailForm temp : list) {
+				//System.out.println("" + temp.getId() + " | " + temp.getListePromotion().getNomPromotion() + " | " + temp.getNumeroMatricule() + " | " + temp.getNomComplet()+ " | " + temp.getDateNaissance()+ " | " + temp.getLieuNaissance()+ " | " + temp.getMention());
+				
+				temp.setDateAjout(GlobalHelper.getCurrentDate());
+				ListePromotionDetail listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(temp);
+				
+				//Mis en historique
+				 ActiviteRecent historique = new ActiviteRecent(); 
+				 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "(par import Excel) Un  étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
+				 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+				 	activiteRecentService.saveOrUpdate(historique);
+			 	 //fin historique
+			}
+			
+			//Model View
+			
+			model.addAttribute("listeDiploma", listeDiploma);
+			model.addAttribute("annees", annee);
+			model.addAttribute("ecole", ecole);
+			model.addAttribute("mentions", mentions);
+			model.addAttribute("listePromotion", listePromotion);
+			model.addAttribute("listePromotionDetails", listePromotionDetails);
+			model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
+			model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
+			
+		} catch (Exception e) { 
+			model.addAttribute("errorImport", "Fichier incorrect (suggestion: vérifier si le fichier est bien sous l'extension .xls où .xlsx; Où s'il n'inclut pas une liste d'étudiants admis) Veuillez recommencez svp!!!");	
+		}
+		return "redirect:/showPromoDetail/" + listePromotion.getId();
+	}
 }

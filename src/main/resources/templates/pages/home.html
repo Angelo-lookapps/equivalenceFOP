@@ -193,6 +193,41 @@
 	                            </div> 
 	                        </div>
                         
+                        <div class="col-lg-2 visible-lg">
+                        	<form th:action="@{/testExcel}" th:method="GET" >
+		                       	<input type="file" th:name="'filename'">
+		                       	<input type="submit" class="btn btn-primary" value="Tester l'import Excel">
+                        	</form>
+                        </div>
+                        <div class="col-sm-8">
+                        	<div th:if="${not #lists.isEmpty(listeImport)}"> 
+                       		<div class="alert alert-sm alert-success alert-dismissible" role="alert">
+                       		 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            
+                       			<table class="table table-bordered">
+                                     <thead>
+                                         <tr>
+                                         	  <th class="text-center">#</th>
+                                              <th class="text-center">N° d'Enregistrement</th>
+                                              <th class="text-center">Nom et pr&egrave;nom</th>
+                                              <th class="text-center">Date et lieu de naissance</th> 
+                                              <th class="text-center">Mention</th>
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                         <tr th:each=" temp : ${listeImport}">
+                                             <th scope="row" th:text="${temp.id}"></th>
+                                             <td th:text="${temp.numeroMatricule}"></td>
+                                             <td th:text="${temp.nomComplet}"></td>
+                                             <td th:text="${temp.dateNaissance} + ' à ' + ${temp.lieuNaissance}"></td>
+                                             <td th:text="${temp.mention}"></td>
+                                         </tr>
+                                       
+                                     </tbody>
+                                 </table>
+                            </div> 
+                       		</div>
+                        </div>
                        
                     </div>
                 </div> <!-- /.main content -->

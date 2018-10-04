@@ -73,7 +73,7 @@
                             <div th:if="${not #lists.isEmpty(listeDemande)}">
 
                                 <div class="table-responsive">
-                                    <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+                                    <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="filtrer par: CIN/Date Retrait/Téléphone/utilisation...">
                                     <table id="example1" class="footable table table-bordered toggle-arrow-tiny"
                                         data-page-size="8" data-filter=#filter>
                                         <thead>
@@ -92,7 +92,7 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each="demande : ${listeDemande}">
-                                                <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()+1900}"></td>
+                                                <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()-100}"></td>
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}"
                                                         th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}"

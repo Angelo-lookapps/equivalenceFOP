@@ -114,7 +114,7 @@ public class CINController {
 			
 			 	
 		 cinForm.setDateAjout(GlobalHelper.getCurrentDate());
-		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm);
+		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm); 
 		 //Mis en historique
 		 ActiviteRecent historique = new ActiviteRecent(); 
 		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un CIN "+savedCIN.getNom().toUpperCase()+" "+savedCIN.getPrenom()));

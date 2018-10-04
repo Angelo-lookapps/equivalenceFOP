@@ -63,6 +63,20 @@
             </div> <!-- /. Content Header (Page header) -->
             <div class="row">
                 <div class="col-sm-9">
+                      <div th:if="${deleteWarning!=null}">
+                           <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
+                               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                       aria-hidden="true">&times;</span></button>
+                               <i class="fa fa-exclamation-circle"></i><strong>Information! </strong> Vous venez de supprimer une promotion contenant (<b th:text="${deleteWarning}" class="text-danger"></b>) étudiant(s) !!!
+                           </div>
+                       </div>
+                       <div th:if="${deleteWarning2!=null}">
+                           <div class="alert alert-sm alert-info alert-dismissible" role="alert">
+                               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                       aria-hidden="true">&times;</span></button>
+                               <i class="fa fa-exclamation-circle"></i><strong>Information! </strong> Vous venez de supprimer une promotion vide !
+                           </div>
+                       </div>
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -202,9 +216,13 @@
         function goToDelete(id) {
             console.log("Hello goToDelete");
             var txt;
-            var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
+            var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer ?");
             if (r == true) {
-                window.location.href = "/promotion/delete/" + id;
+            	var c = confirm("ETES-VOUS vraiment sûr de supprimer cette promotion ???");
+                if(c == true){
+                	window.location.href = "/promotion/delete/" + id;
+                }
+            	
             }
         }
     </script>

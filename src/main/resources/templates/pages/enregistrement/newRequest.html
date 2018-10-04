@@ -97,7 +97,7 @@
                                                     <optgroup th:label="'Délivrance à '+${lieu} + ' : '">
                                                         <div th:each="cins : ${listCIN}">
                                                             <div th:if="${lieu == cins.lieuDelivrance}">
-                                                                <option th:value="${cins.id}" th:text="${cins.nom} + ' ' + ${cins.prenom} "></option>
+                                                                <option th:value="${cins.id}" th:text="${cins.nom} + ' ' + ${cins.prenom} + ' (' + ${cins.lieuDelivrance} + ')' "></option>
                                                             </div>
                                                         </div>
                                                     </optgroup>

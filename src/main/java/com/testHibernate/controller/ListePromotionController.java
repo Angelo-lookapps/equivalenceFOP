@@ -1,7 +1,10 @@
 package com.testHibernate.controller;
 
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -83,10 +86,16 @@ public class ListePromotionController {
 	 }
 	 
 
-	@GetMapping({"/listProm", "/proms"})
-	 public String listPromo(Model model){
+	@GetMapping({"/listProm", "/listProm/warning/{id}"})
+	 public String listPromo(Model model, @PathVariable(required=false) Optional<String> id){
 		List<ListePromotion> ret = this.listePromotionService.listAll();
 		try {
+			if(id.isPresent() && !id.get().equals("0")) {
+        		model.addAttribute("deleteWarning", id.get()); 
+            }else if(id.isPresent() && id.get().equals("0")) {
+        		model.addAttribute("deleteWarning2", id.get()); 
+            }
+			
 			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 			List<String> listEcole = listesDiplomeService.getAllEcole();
 			
@@ -196,16 +205,14 @@ public class ListePromotionController {
 	}
 	
 	@GetMapping("/promotion/delete/{id}")
-	 public String deletePromo(@PathVariable String id){
-		ListePromotion listesSaved = listePromotionService.getById(Long.valueOf(id));
-		listePromotionService.delete(Long.valueOf(id));
-		//Mis en historique
-		 ActiviteRecent historique = new ActiviteRecent(); 
-		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le promotion du nom \""+listesSaved.getNomPromotion()+" session: "+listesSaved.getSessionSortie()+"\""));
-		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
-		 	activiteRecentService.saveOrUpdate(historique);
-	 	 //fin historique
-       return "redirect:/listProm";
+	 public String deletePromo(@PathVariable String id ){
+		int error = 0;
+		try {
+			error = this.deleteAllChild(id);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/listProm/warning/"+error;
 	 }
 	 @GetMapping("/editAdmis/{id}")
 	 public String editAdmis(@PathVariable String id, Model model){
@@ -316,4 +323,72 @@ public class ListePromotionController {
 		 	
        return "redirect:/showPromoDetail/" + listesSaved.getListePromotion().getId();
 	 }
+	
+	public int deleteAllChild(String id) {
+		 ListePromotion listesSaved = listePromotionService.getById(Long.valueOf(id));
+		 int ret = 0;
+		 try {
+			 
+			 if(!hasChilds(id)) {
+				 listePromotionService.delete(Long.valueOf(listesSaved.getId()));
+				 //Mis en historique
+				 	ActiviteRecent historique = new ActiviteRecent(); 
+					 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le promotion du nom \""+listesSaved.getNomPromotion()+" session: "+listesSaved.getSessionSortie()+"\""));
+					 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+					 	activiteRecentService.saveOrUpdate(historique);
+			 	 //fin historique
+			 }else {
+				 List<ListePromotionDetail> listeAdmisChild = listePromotionDetailService.getDetailByIdListePromotion(listesSaved.getId());
+				 for(ListePromotionDetail child : listeAdmisChild) {
+					 //Suppression entity mère
+					 listePromotionDetailService.delete(Long.valueOf(child.getId()));
+					 
+					 //Mis en historique
+					 ActiviteRecent historique = new ActiviteRecent(); 
+						historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "L'étudiant \""+child.getNomComplet()+" qui était admis en "+child.getListePromotion().getListesDiplome().getFiliere()+" "
+				 				+child.getListePromotion().getListesDiplome().getOption()
+				 				+"\", dans l'établissement : "
+				 				+child.getListePromotion().getListesDiplome().getEcole()
+				 				+", session : "+child.getListePromotion().getSessionSortie()));
+						historique.setDateAjout(GlobalHelper.getCurrentDate());
+					 	activiteRecentService.saveOrUpdate(historique);
+				 	 //fin historique
+				 	  
+				 }
+				 listePromotionService.delete(Long.valueOf(listesSaved.getId()));
+				 //Mis en historique
+				 	ActiviteRecent historique = new ActiviteRecent(); 
+					 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le promotion du nom \""+listesSaved.getNomPromotion()+" session: "+listesSaved.getSessionSortie()+"\""));
+					 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+					 	activiteRecentService.saveOrUpdate(historique);
+			 	 //fin historique
+				 ret = listeAdmisChild.size();
+			 }
+		 
+		 } catch (Exception e) { 
+			e.printStackTrace();
+		 } 
+		 
+		 return ret; 		
+	}
+	public boolean hasChilds(String id) throws Exception {
+		 ListePromotion listesSaved = listePromotionService.getById(Long.valueOf(id));
+		 boolean ret = false;
+		
+		try {
+			 if(listesSaved == null) {
+				throw new Exception("Error : the ListePromotion with id : "+id+" is invalid!");	
+			 } 
+			 
+			 List<ListePromotionDetail> listeAdmisChild = listePromotionDetailService.getDetailByIdListePromotion(listesSaved.getId());
+			 if(listeAdmisChild.size()!=0) {
+				 ret = true;
+			 }
+			 
+		}catch(Exception e) {
+			throw e;
+		}
+		return ret;
+	}
+	
 }

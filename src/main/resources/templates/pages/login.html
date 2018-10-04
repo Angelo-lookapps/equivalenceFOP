@@ -66,7 +66,7 @@
                                     <div class="alert alert-sm alert-danger alert-dismissible" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                                                 aria-hidden="true">&times;</span></button>
-                                        <i class="fa fa-exclamation-circle"></i><strong>ERREUR : :</strong> Utilisateur
+                                        <i class="fa fa-exclamation-circle"></i><strong>ERREUR : </strong> Utilisateur
                                         introuvable! Veuillez recommencer svp!
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                     <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                                                 aria-hidden="true">&times;</span></button>
-                                        <i class="fa fa-exclamation-circle"></i><strong>ERREUR :</strong> Votre mot de
+                                        <i class="fa fa-exclamation-circle"></i><strong>ERREUR : </strong> Votre mot de
                                         passe est incorrect
                                     </div>
                                 </div>
@@ -82,11 +82,19 @@
                                     <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                                                 aria-hidden="true">&times;</span></button>
-                                        <i class="fa fa-exclamation-circle"></i><strong>AVERTISSEMENT :</strong>
+                                        <i class="fa fa-exclamation-circle"></i><strong>AVERTISSEMENT : </strong>
                                         Veuillez vous connecter, svp!!!
                                     </div>
                                 </div>
                             </div>
+                            <div th:if="${logout}">
+                                  <div class="alert alert-sm alert-info alert-dismissible" role="alert">
+                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                             aria-hidden="true">&times;</span></button>
+                                     <i class="fa fa-exclamation-circle"></i><strong>Information : </strong>
+                                     Vous &ecirc;tes maintenant d&eacute;connecter, Merci!!!
+                                 </div>
+                             </div>
 
                             <button class="btn btn-base pull-right">Se connecter</button>
                             <div class="checkbox checkbox-success">

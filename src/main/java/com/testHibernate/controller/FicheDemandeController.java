@@ -26,6 +26,8 @@ import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.demande.FicheDemandeForm;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
+import com.testHibernate.model.listePromotion.ListePromotion;
+import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
@@ -107,7 +109,12 @@ public class FicheDemandeController {
 			 return "redirect:/error404/requestList";	
 		 }	
 		// System.out.println("GEGE");
-		 return "pages/enregistrement/showRequest";
+		
+		 if(session.getAttribute("isConnected")!=null) {
+			 return "pages/enregistrement/showRequest";	
+		 }	
+		 model.addAttribute("errorlogin", "4");
+		 return "pages/login";
 	 }
 
 	 @GetMapping("/editRequest/{id}")
@@ -134,7 +141,12 @@ public class FicheDemandeController {
 		 model.addAttribute("ficheDemandeForm", ficheDemandeForm);
 		 model.addAttribute("isEdit", "1");
        
-        return "pages/enregistrement/newRequest";
+    
+    	if(session.getAttribute("isConnected")!=null) {
+    	    return "pages/enregistrement/newRequest";
+    	}	
+    	model.addAttribute("errorlogin", "4");
+    	return "pages/login";
 	 }
 	 
 	 @GetMapping("/newRequest")
@@ -156,10 +168,12 @@ public class FicheDemandeController {
 		 model.addAttribute("listLieuDelivrance", listLieuDelivrance);
 		 model.addAttribute("ficheDemandeForm", new FicheDemandeForm());
 		 
-		 System.out.println("\n\n List TEST \n");
-		 System.out.println("\n\n List TEST \n");
-		 
-		 return "pages/enregistrement/newRequest";		
+		 if(session.getAttribute("isConnected")!=null) {
+			 return "pages/enregistrement/newRequest";
+		 }	
+		 model.addAttribute("errorlogin", "4");
+		 return "pages/login";
+		 		
 	 }
 	
 	 public List<FicheDemande> getDemandeByCIN(String idCin){
@@ -178,7 +192,7 @@ public class FicheDemandeController {
 		 }
 		 
 		 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
-		 
+		 ficheDemandeForm.setStatusEnregistrement(false);
 		 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
 		 
 		 //Mis en historique
@@ -193,11 +207,8 @@ public class FicheDemandeController {
 	 @PutMapping(value = "/updateRequest")
 	 public String updateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult){
 		 
-		 if(bindingResult.hasErrors()){ 
-			 
-			return "redirect:/error505";	
-			 
-			 //return "pages/enregistrement/newRequest";
+		 if(bindingResult.hasErrors()){  
+			return "redirect:/error505";	 
 		 }
 		 
 		 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
@@ -230,6 +241,28 @@ public class FicheDemandeController {
 		 return simulateSearchResult(tagName);
 
 	 }
+	 //My methods
+	 public boolean isEncours(String idFiche) throws Exception {
+		 
+		 FicheDemande listesSaved = ficheDemandeService.getById(Long.valueOf(idFiche));
+		 boolean ret = false;
+		
+		 /*	
+		 try {
+			 if(listesSaved == null) {
+				throw new Exception("Error : the ListePromotion with id : "+idFiche+" is invalid!");	
+			 } 
+			 
+			 List<ListePromotionDetail> listeAdmisChild = listePromotionDetailService.getDetailByIdListePromotion(listesSaved.getId());
+			 if(listeAdmisChild.size()!=0) {
+				 ret = true;
+			 }
+			 
+		}catch(Exception e) {
+			throw e;
+		}*/
+		return ret;
+	}
 	 
 	 
 	 

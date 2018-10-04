@@ -63,8 +63,12 @@ public class CINController {
 			 return "redirect:/error404/CINList";	
 		 }
 		 model.addAttribute("cin", listesSaved);
-		 
-		 return "pages/enregistrement/showCIN";
+		 if(session.getAttribute("isConnected")!=null) {
+			 return "pages/enregistrement/showCIN";
+		 }	
+		 model.addAttribute("errorlogin", "4");
+		 return "pages/login";
+		
 	 }
 	 
 	 @GetMapping(value={"/CINList", "/CINList/{deleteError}"})
@@ -94,14 +98,26 @@ public class CINController {
         model.addAttribute("listCIN", cinService.listAll());
         model.addAttribute("cinForm", cinForm);
         model.addAttribute("isEdit", "1");
-        return "pages/enregistrement/newCIN";
+        
+        if(session.getAttribute("isConnected")!=null) {
+        	return "pages/enregistrement/newCIN";
+		}	
+		model.addAttribute("errorlogin", "4");
+		return "pages/login";
+        
 	 }
 	 
 	 @GetMapping("/newCIN")
 	 public String ajouterCIN(Model model) {
 		 model.addAttribute("listCIN", cinService.listAll());
 		 model.addAttribute("cinForm", new CINForm());
-		 return "pages/enregistrement/newCIN";		
+		 
+		 if(session.getAttribute("isConnected")!=null) {
+			 return "pages/enregistrement/newCIN";	
+		 }	
+		 model.addAttribute("errorlogin", "4");
+		 return "pages/login";
+		 	
 	 }
 	
 	 @PostMapping(value = "/saveCIN")
@@ -109,9 +125,7 @@ public class CINController {
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
-			 //return "pages/enregistrement/newCIN";
-		 } 
-			
+		 } 	
 			 	
 		 cinForm.setDateAjout(GlobalHelper.getCurrentDate());
 		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm); 
@@ -130,7 +144,6 @@ public class CINController {
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
-			 //return "pages/enregistrement/newCIN";
 		 }
 	
 		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm);
@@ -147,8 +160,6 @@ public class CINController {
         }catch(Exception e) {
         	deleteError = "1";
         }
-		
-        
         //Mis en historique
 		ActiviteRecent historique = new ActiviteRecent();
 		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "Le CIN de "+listesSaved.getNom().toUpperCase()+" "+listesSaved.getPrenom()));

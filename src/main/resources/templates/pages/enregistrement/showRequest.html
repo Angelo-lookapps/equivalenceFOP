@@ -17,7 +17,8 @@
                     sessionStorage.fonts = true;
                 }
             });
-        </script>
+    </script>
+    <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">   
     <!-- START GLOBAL MANDATORY STYLE -->
     <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
     <!-- START PAGE LABEL PLUGINS -->
@@ -102,7 +103,11 @@
                                         </tr>
                                         <tr>
                                             <th>Status Enregistrement </th>
-                                            <td th:text="*{ficheDemande.statusEnregistrement}"></td>
+                                            <td> 
+		                                        <input type="checkbox" th:field="*{ficheDemande.statusEnregistrement}" data-toggle="toggle"
+		                                            data-on="confirmé" data-off="non-confirmé" data-onstyle="base" data-offstyle="danger" data-size="small" disabled>
+			                                    
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Date Retrait </th>
@@ -117,8 +122,7 @@
                 <div class="col-sm-2">
                     <a href="/requestList"><button type="button" class="btn btn-primary w-md m-rb-5"><i class="fa fa-reply">
                             </i> Revenir</button></a>
-                    <a th:href="'/editRequest/' + ${ficheDemande.id}"><button type="button" class="btn btn-base w-md m-rb-5"><i
-                                class="fa fa-check-square-o"> </i> Mettre &agrave; jour</button></a>
+                    <a th:href="'/editRequest/' + ${ficheDemande.id}"><button type="button" class="btn btn-base w-md m-rb-5"><i class="fa fa-check-square-o"> </i> Mettre &agrave; jour</button></a>
                 </div>
             </div>
         </div> <!-- CONTENT -->
@@ -137,6 +141,10 @@
     <!-- BootStrap WiZarD -->
     <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
     <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
+    <!-- icheck Js -->
+    <script src="assets/plugins/icheck/icheck.min.js"></script>
+    <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+    <script src="assets/plugins/icheck/icheck-active.js"></script>
     <!-- Footable Js -->
     <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
     <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>

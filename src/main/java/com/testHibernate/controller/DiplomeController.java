@@ -83,7 +83,12 @@ public class DiplomeController {
 			return "redirect:/error404/diplomaList";	
 		 }
 		 // System.out.println("GEGE");
-		 return "pages/enregistrement/showDiploma";
+		 
+		 if(session.getAttribute("isConnected")!=null) {
+	    	return "pages/enregistrement/showDiploma";
+		 }	
+		 model.addAttribute("errorlogin", "4");
+		 return "pages/login";
 	 }
 
 	 @GetMapping("/editDiploma/{id}")
@@ -100,7 +105,12 @@ public class DiplomeController {
         model.addAttribute("listDiploma", listeDiploma);
         model.addAttribute("listesDiplome", listesDiplome);
         model.addAttribute("isEdit", "1");
-        return "pages/enregistrement/newDiploma";
+        if(session.getAttribute("isConnected")!=null) {
+        	return "pages/enregistrement/newDiploma";
+		 }	
+		 model.addAttribute("errorlogin", "4");
+		 return "pages/login";
+        
 	 }
 	
 	 @GetMapping("/newDiploma")
@@ -116,7 +126,12 @@ public class DiplomeController {
 		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
 		 model.addAttribute("listesDiplome", new ListesDiplomeForm());
 		 
-		 return "pages/enregistrement/newDiploma";		
+		
+		 if(session.getAttribute("isConnected")!=null) {
+			 return "pages/enregistrement/newDiploma";	
+		 }	
+		 model.addAttribute("errorlogin", "4");
+		 return "pages/login";
 	 }
 	
 	

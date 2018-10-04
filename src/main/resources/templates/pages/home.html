@@ -51,15 +51,14 @@
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="header-icon">
-                    <i class="pe-7s-box1"></i>
+                    <i class="pe-7s-display2"></i>
                 </div>
                 <div class="header-title">
                     <h1>Liste des promotions de chaque &eacute;cole par session</h1>
                     <small></small>
                     <ol class="breadcrumb">
-                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>
-                        <li><a href="/listProm">ListePromotion</a></li>
-                        <li class="active">Recherche promotion</li>
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li> 
+                        <li class="active"> - </li>
                     </ol>
                 </div>
             </div> <!-- /. Content Header (Page header) -->
@@ -194,9 +193,7 @@
                                     <div class="alert alert-sm alert-success alert-dismissible" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                                                 aria-hidden="true">&times;</span></button>
-                                        <i class="fa fa-exclamation-circle"></i><strong>Information!</strong><span
-                                            class="text-success" th:text="${testDelete}"></span> ligne(s) ont
-                                        &eacute;t&eacute; lib&eacute;r&eacute; de l'historique !
+                                        <i class="fa fa-exclamation-circle"></i><strong>Information! </strong><span class="text-success" th:text="${testDelete}"></span> ligne(s) ont &eacute;t&eacute; lib&eacute;r&eacute; de l'historique !
                                     </div>
                                 </div>
                                 <li th:each="activity : ${activities}" class="activity-purple">

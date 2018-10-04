@@ -3,10 +3,11 @@ package com.testHibernate.controller;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ import com.testHibernate.service.listePromotion.ListePromotionService;
 public class PagesController {
 	 ///SERVICES
 	 private FicheDemandeService ficheDemandeService;
-	 private HttpSession session;
+	 private HttpSession session; 
 	 private ActiviteRecentService activiteRecentService;
 	 private GlobalHelper global = new GlobalHelper();
 	 
@@ -47,7 +48,7 @@ public class PagesController {
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
-	 }
+	 } 
 	 
 	 @Autowired
 	 public void setNiveauDiplomeService(NiveauDiplomeService niveauDiplomeService) {
@@ -109,7 +110,12 @@ public class PagesController {
 		modelMap.put("activities", activities);
 		modelMap.put("tempActivities", tempActivities);  
 		
-		return "pages/timeline/timeline";		
+		if(session.getAttribute("isConnected")!=null) {
+			return "pages/timeline/timeline";	
+		}	
+		modelMap.put("errorlogin", "4");
+		return "pages/login";
+			
 	}
 
 	@GetMapping("/home")
@@ -118,8 +124,7 @@ public class PagesController {
 		List<ActiviteRecent> activities = activiteRecentService.getRecentActiviteByNumber(5);
 		
 		int testDelete = activiteRecentService.deleteAllLast();
-		 
-		
+	
 		HashMap<String, String> champs = GlobalHelper.getChampDemande();
 		if(session.getAttribute("isConnected")!=null) {
 			 
@@ -176,7 +181,6 @@ public class PagesController {
 		
 		if(pseudo.toUpperCase().equals("ADMIN")) {
 			if(mdp.equals("admin")) {
-				
 				session.setAttribute("isConnected", pseudo);
 				return "redirect:/home";
 			}
@@ -194,14 +198,14 @@ public class PagesController {
 	
 	
 	@GetMapping(value = "/logout")
-	public String logout() {
+	public String logout(Model model) {
+		
 		session.invalidate();
+		model.addAttribute("logout", true);
 		return "pages/login";	
 	}
 	
-	
-	
-	
+
 	//espace personnel
 	@GetMapping("/listStaff")
 	public String listPersonnel() {

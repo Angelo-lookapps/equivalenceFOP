@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.diplome.DiplomeFormToDiplome;
-import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
 import com.testHibernate.model.diplome.NiveauDiplome;

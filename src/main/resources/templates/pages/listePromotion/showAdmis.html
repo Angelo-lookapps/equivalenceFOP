@@ -98,8 +98,10 @@
                                         </tr>
                                         <tr>
                                             <th>Mention </th>
-                                            <td><button type="button" class="btn btn-black btn-transparent w-md m-rb-5"
-                                                    disabled th:text="*{diplomaDetail.mention}"></button></td>
+                                            <td>
+                                            	<button type="button" th:if="${diplomaDetail.mention=='Passable'}" th:class="'btn btn-black btn-transparent w-md m-rb-5'" disabled th:text="*{diplomaDetail.mention}"></button>
+                                           		<button type="button" th:if="${diplomaDetail.mention!='Passable'}" th:class="'btn btn-success btn-transparent w-md m-rb-5'" disabled th:text="*{diplomaDetail.mention}"></button>
+                                           	</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -108,7 +110,7 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <a th:href="'/showPromoDetail/' + ${diplomaDetail.id}"><button type="button" class="btn btn-primary w-md m-rb-5"><i
+                    <a th:href="'/showPromoDetail/' + ${diplomaDetail.listePromotion.id}"><button type="button" class="btn btn-primary w-md m-rb-5"><i
                                 class="fa fa-reply"></i> <span> Revenir</span></button></a>
                     <a th:href="'/editAdmis/' + ${diplomaDetail.id}"><button type="button" class="btn btn-base w-md m-rb-5"><i
                                 class="fa fa-check-square-o"> </i> Mettre &agrave; jour</button></a>

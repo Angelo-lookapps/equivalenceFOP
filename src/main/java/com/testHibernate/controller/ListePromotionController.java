@@ -29,7 +29,8 @@ import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 import com.testHibernate.model.listePromotion.ListePromotionForm;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.historique.ActiviteRecentService;
-import com.testHibernate.service.listePromotion.*;
+import com.testHibernate.service.listePromotion.ListePromotionDetailService;
+import com.testHibernate.service.listePromotion.ListePromotionService;
 
 @Controller
 public class ListePromotionController {

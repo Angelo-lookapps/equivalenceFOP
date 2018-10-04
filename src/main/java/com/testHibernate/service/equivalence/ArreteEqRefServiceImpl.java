@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
- 
+
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;

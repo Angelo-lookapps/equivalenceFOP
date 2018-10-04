@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.testHibernate.model.cin.CIN;
+import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 
 public class GlobalHelper {
@@ -63,6 +65,29 @@ public class GlobalHelper {
 		}
 		return ret;
 	}
+	
+	public static List<Tag> convertDiplomeToListTag(List<ListesDiplome> listesDiplome) throws Exception{
+		List<Tag> ret = new ArrayList<Tag>();
+		if(listesDiplome.size()==0) {
+			throw new Exception("Error in convertToHashMap : size of listesDiplome is 0 !");
+		}
+		for(ListesDiplome diplome : listesDiplome) {
+			ret.add(new Tag(diplome.getId(), diplome.getEcole() + " " + diplome.getFiliere()+ " - " + diplome.getOption() + " - " + diplome.getNiveauDiplome().getNiveau()));
+		} 
+		
+		return ret;
+	} 
+	public static List<Tag> convertCINToListTag(List<CIN> cins) throws Exception{
+		List<Tag> ret = new ArrayList<Tag>();
+		if(cins.size()==0) {
+			throw new Exception("Error in convertToHashMap : size of CIN is 0 !");
+		}
+		for(CIN cin : cins) {
+			ret.add(new Tag(cin.getId(), cin.getNom() + " " + cin.getPrenom()+ " - " + cin.getNationalite() + " - " + cin.getAdresseActuelle()));
+		} 
+		
+		return ret;
+	} 
 	
 	public static HashMap<String, String> getChampDemande(){
 		HashMap<String, String> ret = new HashMap<String, String>();

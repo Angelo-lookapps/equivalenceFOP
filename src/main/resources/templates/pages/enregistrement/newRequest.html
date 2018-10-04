@@ -31,13 +31,12 @@
     <!-- START PAGE LABEL PLUGINS -->
     <link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
     <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.css" rel="stylesheet" type="text/css">
+	
+ 	<script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script> 
+   	<script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
+    
     <title>Nouvelle demande</title>
 </head>
 
@@ -119,7 +118,7 @@
                                                     <optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
                                                         <div th:each="diplome : ${listesDiplome}">
                                                             <div th:if="${ecole == diplome.ecole}">
-                                                                <option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
+                                                                <option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} + ' ('+ ${diplome.ecole} + ')'"></option>
                                                             </div>
                                                         </div>
                                                     </optgroup>
@@ -127,8 +126,12 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-1 col-form-label"><a href="/newDiplome" data-toggle="tooltip"
-                                            data-placement="right" title="Ajouter une nouvelle Diplome"><i class="glyphicon glyphicon-plus"></i></a></div>
+                                    <!-- <label class="col-sm-3 col-form-label">Veuillez renseigner le dipl&ocirc;me</label>
+                                    <div class="col-lg-6 col-md-9 col-sm-12  class="autocomplete"">
+                                        <input class="form-control" type="text" th:field="*{listesDiplome}" id="w-input-search" required>
+                                    </div> -->
+                                    <!-- <input type="text" id="w-input-search" th:field="*{listesDiplome}"> -->
+                                    <div class="col-sm-1 col-form-label"><a href="/newDiplome" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle Diplome"><i class="glyphicon glyphicon-plus"></i></a></div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="telephone" class="col-sm-3 col-form-label">T&eacute;l&eacute;phone</label>
@@ -155,8 +158,7 @@
                                 <div class="form-group row">
                                     <label for="dateRetrait" class="col-sm-3 col-form-label">Date de retrait</label>
                                     <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <input class="form-control" type="date" th:field="*{dateRetrait}" placeholder="Date de retrait"
-                                            id="dateRetrait">
+                                        <input class="form-control" type="date" th:field="*{dateRetrait}" placeholder="Date de retrait" id="dateRetrait">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -232,11 +234,143 @@
         </div>
     </div>
     <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
-
+	<script>
+	function autocomplete(inp, arr) {
+		  /*the autocomplete function takes two arguments,
+		  the text field element and an array of possible autocompleted values:*/
+		  console.log("autocomplet : "+arr);
+		  var currentFocus;
+		  /*execute a function when someone writes in the text field:*/
+		  inp.addEventListener("input", function(e) {
+		      var a, b, i, val = this.value;
+		      /*close any already open lists of autocompleted values*/
+		      closeAllLists();
+		      if (!val) { return false;}
+		      currentFocus = -1;
+		      /*create a DIV element that will contain the items (values):*/
+		      a = document.createElement("DIV");
+		      a.setAttribute("id", this.id + "autocomplete-list");
+		      a.setAttribute("class", "autocomplete-items");
+		      /*append the DIV element as a child of the autocomplete container:*/
+		      this.parentNode.appendChild(a);
+		      /*for each item in the array...*/
+		      for (i = 0; i < arr.length; i++) {
+		        /*check if the item starts with the same letters as the text field value:*/
+		        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+		          /*create a DIV element for each matching element:*/
+		          b = document.createElement("DIV");
+		          /*make the matching letters bold:*/
+		          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+		          b.innerHTML += arr[i].substr(val.length);
+		          /*insert a input field that will hold the current array item's value:*/
+		          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+		          /*execute a function when someone clicks on the item value (DIV element):*/
+		              b.addEventListener("click", function(e) {
+		              /*insert the value for the autocomplete text field:*/
+		              inp.value = this.getElementsByTagName("input")[0].value;
+		              /*close the list of autocompleted values,
+		              (or any other open lists of autocompleted values:*/
+		              closeAllLists();
+		          });
+		          a.appendChild(b);
+		        }
+		      }
+		  });
+		  /*execute a function presses a key on the keyboard:*/
+		  inp.addEventListener("keydown", function(e) {
+		      var x = document.getElementById(this.id + "autocomplete-list");
+		      if (x) x = x.getElementsByTagName("div");
+		      if (e.keyCode == 40) {
+		        /*If the arrow DOWN key is pressed,
+		        increase the currentFocus variable:*/
+		        currentFocus++;
+		        /*and and make the current item more visible:*/
+		        addActive(x);
+		      } else if (e.keyCode == 38) { //up
+		        /*If the arrow UP key is pressed,
+		        decrease the currentFocus variable:*/
+		        currentFocus--;
+		        /*and and make the current item more visible:*/
+		        addActive(x);
+		      } else if (e.keyCode == 13) {
+		        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+		        e.preventDefault();
+		        if (currentFocus > -1) {
+		          /*and simulate a click on the "active" item:*/
+		          if (x) x[currentFocus].click();
+		        }
+		      }
+		  });
+		  function addActive(x) {
+		    /*a function to classify an item as "active":*/
+		    if (!x) return false;
+		    /*start by removing the "active" class on all items:*/
+		    removeActive(x);
+		    if (currentFocus >= x.length) currentFocus = 0;
+		    if (currentFocus < 0) currentFocus = (x.length - 1);
+		    /*add class "autocomplete-active":*/
+		    x[currentFocus].classList.add("autocomplete-active");
+		  }
+		  function removeActive(x) {
+		    /*a function to remove the "active" class from all autocomplete items:*/
+		    for (var i = 0; i < x.length; i++) {
+		      x[i].classList.remove("autocomplete-active");
+		    }
+		  }
+		  function closeAllLists(elmnt) {
+		    /*close all autocomplete lists in the document,
+		    except the one passed as an argument:*/
+		    var x = document.getElementsByClassName("autocomplete-items");
+		    for (var i = 0; i < x.length; i++) {
+		      if (elmnt != x[i] && elmnt != inp) {
+		      x[i].parentNode.removeChild(x[i]);
+		    }
+		  }
+		}
+		/*execute a function when someone clicks in the document:*/
+		document.addEventListener("click", function (e) {
+		    closeAllLists(e.target);
+		});
+		}
+	</script>
     <!-- ./²wrapper -->
     <!-- START CORE PLUGINS -->
-    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script>
+    	
+		/*$(function() {
+			 $("#w-input-search").autocomplete({
+				source : function(request, response) { 
+					$.ajax({
+						type: "GET",
+						url : 'http://localhost:8080/getTags',
+						dataType : "json",
+						data : {
+							tagName : request.term
+						},
+						success : function(data) {
+							window.test = data;
+							//autocomplete(document.getElementById("w-input-search"), data);
+							// alert(data); 
+							/*console.log("window.test = " );
+							 
+							return response(data);
+							 
+						}
+					});
+					return {      	
+						  //must convert json to javascript object before process
+						  suggestions: $.map($.parseJSON(window.test), function(item) {
+						       return { value: item.tagName, data: item.id };
+						   })
+						            
+						 };  
+				},
+				minLength : 2
+				
+			});
+		});*/
+	</script>
+   
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/fastclick/fastclick.min.js"></script>

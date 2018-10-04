@@ -14,21 +14,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
-import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm; 
+import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.DateHelper;
-import com.testHibernate.helpers.GlobalHelper; 
+import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
-import com.testHibernate.model.equivalence.ArreteEqRefForm; 
+import com.testHibernate.model.equivalence.ArreteEqRefForm;
 import com.testHibernate.model.equivalence.ChampArreteEqForm;
 import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.model.equivalence.ContentArreteForm;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.diplome.ListesDiplomeService;
-import com.testHibernate.service.equivalence.ArreteEqRefService; 
+import com.testHibernate.service.equivalence.ArreteEqRefService;
 import com.testHibernate.service.equivalence.ContentArreteService;
 import com.testHibernate.service.historique.ActiviteRecentService; 
 

@@ -1,7 +1,6 @@
 package com.testHibernate.model.demande;
 
 import java.sql.Date;
- 
 
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;

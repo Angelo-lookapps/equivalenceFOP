@@ -1,8 +1,6 @@
 package com.testHibernate.controller;
  
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -17,9 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.helpers.Tag;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.demande.FicheDemandeForm;
@@ -41,6 +42,10 @@ public class FicheDemandeController {
 	 
 	 private HttpSession session;
 	 
+	 private List<Tag> data = new ArrayList<Tag>();
+	 
+	 public FicheDemandeController() {}
+	
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
@@ -217,6 +222,35 @@ public class FicheDemandeController {
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	//fin historique
         return "redirect:/"+page;
+	 }
+	 
+	 @GetMapping(value = "/getTags")
+	 public @ResponseBody List<Tag> getTags(@RequestParam(required=true) String tagName) {
+		 System.out.println("data == "+data.size());
+		 return simulateSearchResult(tagName);
+
+	 }
+	 
+	 
+	 
+	 //My methods
+	 private List<Tag> simulateSearchResult(String tagName) {
+		 List<Tag> result = new ArrayList<Tag>();
+		 try{
+			 if(data.size()==0) {
+				 data =  GlobalHelper.convertDiplomeToListTag(listesDiplomeService.listAll()); 
+			 }
+			 System.out.println("data == "+data.size());
+			// iterate a list and filter by tagName
+			 for (Tag tag : data) {
+				if (tag.getTagName().toUpperCase().contains(tagName.toUpperCase())) {
+					result.add(tag);
+				}
+			}
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 return result;
 	 }
 	
 

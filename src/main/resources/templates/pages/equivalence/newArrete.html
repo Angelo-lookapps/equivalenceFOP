@@ -116,7 +116,7 @@
 
                                     <!-- En-tête -->
                                     <div class="tab-pane fade in active" id="tab1">
-                                        <form th:object="${contentArreteForm}" th:action="@{/saveContent}+ '/' + ${arreteEqRefForm.id}"
+                                        <form data-toggle="validator" th:object="${contentArreteForm}" th:action="@{/saveContent}+ '/' + ${arreteEqRefForm.id}"
                                             method="POST" class="formContent">
                                             <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible"
                                                 role="alert">

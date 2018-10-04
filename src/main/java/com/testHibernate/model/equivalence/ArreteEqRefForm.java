@@ -1,7 +1,5 @@
 package com.testHibernate.model.equivalence;
 
-import java.sql.Date;
-
 import com.testHibernate.model.diplome.ListesDiplome;
 
 public class ArreteEqRefForm {

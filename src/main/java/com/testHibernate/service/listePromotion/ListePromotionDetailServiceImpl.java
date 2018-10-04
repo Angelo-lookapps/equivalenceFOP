@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.listePromotion.ListePromotionDetailFormToListePromotionDetail;
-import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 import com.testHibernate.repo.listePromotion.ListePromotionDetailRepository;

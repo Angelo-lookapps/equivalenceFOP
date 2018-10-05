@@ -1,7 +1,7 @@
 package com.testHibernate.service.diplome;
 
 import java.util.List;
-
+ 
 import org.springframework.data.repository.query.Param;
 
 import com.testHibernate.model.diplome.ListesDiplome;
@@ -27,5 +27,7 @@ public interface ListesDiplomeService {
     void delete(Long id);
     
     ListesDiplome saveOrUpdateListesDiplomeForm(ListesDiplomeForm listesDiplomeForm);
+
+    List<ListesDiplome> pagination(int page, int limit);
 
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.testHibernate.converts.cin.CINFormToCIN;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
+import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.repo.cin.CINRepository;
  
 @Service
@@ -88,6 +89,18 @@ public class CINServiceImpl implements CINService {
 			//System.out.println("\n ERRRRUUUUUUUURRRRRRRRRRRR   "+e.getMessage());
 		}
 		return ret;
+	}
+
+	@Override
+	public List<CIN> pagination(int page, int limit) {
+		int offset = (page-1) * limit;
+		TypedQuery<CIN> query = em.createNamedQuery("CIN.pagination", CIN.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		List<CIN> ret = query.getResultList();
+		
+		return ret; 
 	}
 
 }

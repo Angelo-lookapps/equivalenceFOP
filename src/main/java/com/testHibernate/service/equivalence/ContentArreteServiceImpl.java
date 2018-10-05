@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.equivalence.ContentArreteFormToContentArrete;
+import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.model.equivalence.ContentArreteForm;
 import com.testHibernate.repo.equivalence.ContentArreteRepository;
@@ -87,6 +88,17 @@ public class ContentArreteServiceImpl implements ContentArreteService {
 		}
 		return sortie;
 	}
-
+	
+	@Override
+	public List<ContentArrete> pagination(int page, int limit) {
+		int offset = (page-1) * limit;
+		TypedQuery<ContentArrete> query = em.createNamedQuery("ContentArrete.pagination", ContentArrete.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		List<ContentArrete> ret = query.getResultList();
+		
+		return ret; 
+	}
 	 
 }

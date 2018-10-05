@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.testHibernate.converts.demande.DemandeFormToDemande;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.demande.FicheDemandeForm;
+import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.repo.demande.FicheDemandeRepository;
  
 @Service
@@ -109,4 +110,15 @@ public class FicheDemandeServiceImpl implements FicheDemandeService {
 		return ret;
 	}
 
+	@Override
+	public List<FicheDemande> pagination(int page, int limit) {
+		int offset = (page-1) * limit;
+		TypedQuery<FicheDemande> query = em.createNamedQuery("FicheDemande.pagination", FicheDemande.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		List<FicheDemande> ret = query.getResultList();
+		
+		return ret; 
+	}
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.diplome.DiplomeFormToDiplome;
 import com.testHibernate.model.diplome.NiveauDiplome;
+import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.repo.diplome.NiveauDiplomeRepository;
  
 @Service
@@ -62,6 +63,18 @@ public class NiveauDiplomeServiceImpl implements NiveauDiplomeService {
 		List<NiveauDiplome> ret = query.getResultList();
 		return ret;
 		//return null;
+	}
+	
+	@Override
+	public List<NiveauDiplome> pagination(int page, int limit) {
+		int offset = (page-1) * limit;
+		TypedQuery<NiveauDiplome> query = em.createNamedQuery("NiveauDiplome.pagination", NiveauDiplome.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		List<NiveauDiplome> ret = query.getResultList();
+		
+		return ret; 
 	}
 
 }

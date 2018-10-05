@@ -16,7 +16,10 @@ import org.hibernate.annotations.NamedQuery;
 @NamedQueries({
 	@NamedQuery(
 		name = "FicheDemandeDetail.findFicheDemandeByFiche", 
-		query = "SELECT fi FROM FicheDemandeDetail as fi  WHERE fi.ficheDemande.id = :idFiche")
+		query = "SELECT fi FROM FicheDemandeDetail as fi  WHERE fi.ficheDemande.id = :idFiche"),
+	@NamedQuery(
+		name = "FicheDemandeDetail.pagination", 
+		query = "SELECT ld FROM FicheDemandeDetail as ld order by ld.id")
 
 })
 public class FicheDemandeDetail {

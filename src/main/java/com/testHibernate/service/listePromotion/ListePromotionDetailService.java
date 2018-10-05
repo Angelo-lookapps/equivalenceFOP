@@ -21,4 +21,6 @@ public interface ListePromotionDetailService {
     
     ListePromotionDetail saveOrUpdateListePromotionDetailForm(ListePromotionDetailForm listePromotionDetailForm);
 
+	List<ListePromotionDetail> pagination(int page, int limit);
+
 }

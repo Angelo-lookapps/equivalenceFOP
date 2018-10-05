@@ -25,4 +25,6 @@ public interface CINService {
     
     CIN saveOrUpdateCINForm(CINForm cinForm);
 
+	List<CIN> pagination(int page, int limit);
+
 }

@@ -18,7 +18,10 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		query = "SELECT c FROM ListePromotion as c WHERE c.sessionSortie = :session "),
 	@NamedQuery(
 		name = "ListePromotion.findPromotionByIdListeDiplome", 
-		query = "SELECT c FROM ListePromotion as c WHERE c.listesDiplome.id = :idListe ")
+		query = "SELECT c FROM ListePromotion as c WHERE c.listesDiplome.id = :idListe "),
+	@NamedQuery(
+		name = "ListePromotion.pagination", 
+		query = "SELECT ld FROM ListePromotion as ld order by ld.id")
 	})
 public class ListePromotion {
 

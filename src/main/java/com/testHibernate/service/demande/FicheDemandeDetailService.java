@@ -23,4 +23,6 @@ public interface FicheDemandeDetailService {
     
     FicheDemandeDetail saveOrUpdateDemandeFormDetail(FicheDemandeDetailForm ficheForm);
 
+	List<FicheDemandeDetail> pagination(int page, int limit);
+
 }

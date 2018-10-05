@@ -23,7 +23,10 @@ import org.hibernate.annotations.Type;
 		query = "SELECT c FROM CIN c WHERE c.nom = :nom "),
 	@NamedQuery(
 		name = "CIN.findAllLieuDelivrance", 
-		query = "SELECT DISTINCT c.lieuDelivrance FROM CIN as c")
+		query = "SELECT DISTINCT c.lieuDelivrance FROM CIN as c"),
+	@NamedQuery(
+			name = "CIN.pagination", 
+			query = "SELECT ld FROM CIN as ld order by ld.id")	
 	})
 public class CIN {
 	

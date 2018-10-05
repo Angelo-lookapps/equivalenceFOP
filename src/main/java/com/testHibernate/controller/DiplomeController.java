@@ -64,9 +64,16 @@ public class DiplomeController {
 	 public String listDiplome(Model model){
 		
 		List<ListesDiplome> ret = listesDiplomeService.listAll();
+		/*List<ListesDiplome> test = listesDiplomeService.pagination(2, 3);
+		System.out.println("\n\n Size = "+test.size());
+		for(ListesDiplome temp : test) {
+			System.out.println("\n temp == "+temp.getEcole()+" "+temp.getFiliere());
+		}*/
+		
 		List<NiveauDiplome> nivaux = niveauDiplomeService.listAll();
         model.addAttribute("listesDiplome", ret);
         model.addAttribute("niveaux", nivaux);
+        
        // System.out.println("\n ret.Length = " + ret.size());
         if(session.getAttribute("isConnected")!=null) {
 	    	return "pages/enregistrement/diplomaList";

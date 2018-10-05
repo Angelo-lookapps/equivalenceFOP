@@ -14,6 +14,7 @@ import com.testHibernate.converts.demande.DemandeDetailFormToDemandeDetail;
 import com.testHibernate.converts.demande.DemandeFormToDemande;
 import com.testHibernate.model.demande.FicheDemandeDetail;
 import com.testHibernate.model.demande.FicheDemandeDetailForm;
+import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.repo.demande.FicheDemandeDetailRepository;
  
 @Service
@@ -77,5 +78,17 @@ public class FicheDemandeDetailServiceImpl implements FicheDemandeDetailService 
 	public void delete(Long id) {
 		ficheDemandeDetailRepository.deleteById(id);
 	} 
+	
+	@Override
+	public List<FicheDemandeDetail> pagination(int page, int limit) {
+		int offset = (page-1) * limit;
+		TypedQuery<FicheDemandeDetail> query = em.createNamedQuery("FicheDemandeDetail.pagination", FicheDemandeDetail.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		List<FicheDemandeDetail> ret = query.getResultList();
+		
+		return ret; 
+	}
 
 }

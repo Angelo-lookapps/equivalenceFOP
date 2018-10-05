@@ -17,6 +17,8 @@ public interface NiveauDiplomeService {
     NiveauDiplome saveOrUpdate(NiveauDiplome niveauDiplome);
 
     void delete(Long id);
+
+	List<NiveauDiplome> pagination(int page, int limit);
     
 
 }

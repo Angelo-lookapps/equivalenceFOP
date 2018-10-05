@@ -32,4 +32,6 @@ public interface FicheDemandeService {
     
     FicheDemande saveOrUpdateDemandeForm(FicheDemandeForm ficheForm);
 
+	List<FicheDemande> pagination(int page, int limit);
+
 }

@@ -138,8 +138,6 @@ public class GlobalHelper {
 				temp.setActiviteRecent(act); 
 				ret.add(temp);
 				
-			System.out.println("\n\n act = "+temp.getActiviteRecent().getDateAjout());
-			System.out.println("\n\n definitions = " + temp.getActiviteRecent().getDefinition());
 			}
 		}
 		else {
@@ -158,7 +156,7 @@ public class GlobalHelper {
 				for(ListePromotionDetail temp : listePromotionDetail) {
 					
 					String concat = temp.getNomComplet() + " - " + temp.getDateNaissance() + " - " + temp.getLieuNaissance();
-		 			System.out.println(" contain \"" + i + "\" : "+concat.toUpperCase().contains(i.toUpperCase())+ " DANS "+concat);	
+		 			System.out.println(" contain \"" + i + "\" : "+concat.toUpperCase().contains(i.toUpperCase())+ "\n\t DANS "+concat);	
 					if(concat.toUpperCase().contains(i.toUpperCase())) {
 						ret.add(temp);
 						break;

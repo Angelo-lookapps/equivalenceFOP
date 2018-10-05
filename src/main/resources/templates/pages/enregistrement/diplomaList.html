@@ -17,7 +17,7 @@
                     sessionStorage.fonts = true;
                 }
             });
-        </script>
+    </script>
     <!-- START GLOBAL MANDATORY STYLE -->
     <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
 
@@ -25,16 +25,9 @@
     <link href="assets/plugins/jquery.sumoselect/sumoselect.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 
-    <!-- START THEME LAYOUT STYLE -->
-
+    <!-- START THEME LAYOUT STYLE --> 
     <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+ 
     <title>Listes des dipl&ocirc;mes</title>
 </head>
 
@@ -65,7 +58,7 @@
             </div> <!-- /. Content Header (Page header) -->
 
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-9">
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -85,10 +78,10 @@
                                                 <th class="text-center">Ecole </th>
                                                 <th class="text-center">Fili&egrave;re </th>
                                                 <th class="text-center">Option</th>
+                                                <th class="text-center">Niveau du dipl&ocirc;me</th>
                                                 <th class="text-center">Mise &agrave; jour </th>
 
-                                                <th data-hide="all">Niveau du dipl&ocirc;me</th>
-                                                <th data-hide="all">Categorie </th>
+                                                 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -100,7 +93,9 @@
                                                         th:text="${diploma.option}"></a></td>
                                                 <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}"
                                                         th:text="${diploma.ecole}"></a></td>
-
+  												<td class="text-center"><b><a th:href="'/showDiploma/'+${diploma.id}"
+                                                            th:text="*{diploma.niveauDiplome.niveau}"></a></b></td>
+                                             
                                                 <td class="text-center">
                                                     <a th:href="'/editDiploma/'+${diploma.id}"><button class="btn btn-base btn-sm"
                                                             data-toggle="tooltip" data-placement="top" title="Update"><i
@@ -108,13 +103,7 @@
                                                     <button class="btn btn-danger btn-sm" data-toggle="tooltip"
                                                         data-placement="top" title="Delete " th:onclick="|goToDelete('${diploma.id}')|"><i
                                                             class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                                </td>
-
-                                                <td class="text-center"><b><a th:href="'/showDiploma/'+${diploma.id}"
-                                                            th:text="*{diploma.niveauDiplome.niveau}"></a></b></td>
-                                                <td class="text-center"><b><a th:href="'/showDiploma/'+${diploma.id}"
-                                                            th:text="*{diploma.niveauDiplome.categorie}"></a></b></td>
-
+                                                </td> 
                                             </tr>
 
                                         </tbody>

@@ -11,7 +11,10 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
 	@NamedQuery(
 		name = "NiveauDiplome.findNiveauByCategorie", 
-		query = "SELECT nv FROM NiveauDiplome nv WHERE nv.categorie = :categorie ")
+		query = "SELECT nv FROM NiveauDiplome nv WHERE nv.categorie = :categorie "),
+	@NamedQuery(
+		name = "NiveauDiplome.pagination", 
+		query = "SELECT ld FROM NiveauDiplome as ld order by ld.id")
 })
 public class NiveauDiplome {
 	

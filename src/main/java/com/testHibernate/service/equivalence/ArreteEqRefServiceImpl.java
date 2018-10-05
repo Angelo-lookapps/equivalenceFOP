@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
+import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.repo.equivalence.ArreteEqRefRepository;
  
 @Service
@@ -102,6 +103,17 @@ public class ArreteEqRefServiceImpl implements ArreteEqRefService {
 			}
 		}
 		return ret;
+	}
+	@Override
+	public List<ArreteEqRef> pagination(int page, int limit) {
+		int offset = (page-1) * limit;
+		TypedQuery<ArreteEqRef> query = em.createNamedQuery("ArreteEqRef.pagination", ArreteEqRef.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		List<ArreteEqRef> ret = query.getResultList();
+		
+		return ret; 
 	}
 
 }

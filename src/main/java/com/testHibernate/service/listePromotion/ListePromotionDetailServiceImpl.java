@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.listePromotion.ListePromotionDetailFormToListePromotionDetail;
+import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 import com.testHibernate.repo.listePromotion.ListePromotionDetailRepository;
@@ -71,4 +72,15 @@ public class ListePromotionDetailServiceImpl implements ListePromotionDetailServ
         return savedTousListeDiplome;
 	}
 
+	@Override
+	public List<ListePromotionDetail> pagination(int page, int limit) {
+		int offset = (page-1) * limit;
+		TypedQuery<ListePromotionDetail> query = em.createNamedQuery("ListePromotionDetail.pagination", ListePromotionDetail.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		List<ListePromotionDetail> ret = query.getResultList();
+		
+		return ret; 
+	}
 }

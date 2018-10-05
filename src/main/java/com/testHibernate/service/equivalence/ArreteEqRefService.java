@@ -24,4 +24,6 @@ public interface ArreteEqRefService {
     
     ArreteEqRef saveOrUpdateArreteEqRefForm(ArreteEqRefForm ArreteEqRefForm);
 
+	List<ArreteEqRef> pagination(int page, int limit);
+
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.listePromotion.ListePromotionFormToListePromotion;
+import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionForm;
 import com.testHibernate.repo.listePromotion.ListePromotionRepository;
@@ -80,6 +81,17 @@ public class ListePromotionServiceImpl implements ListePromotionService {
 			retour = ret.get(0);
 		}
 		return retour;
+	}
+	@Override
+	public List<ListePromotion> pagination(int page, int limit) {
+		int offset = (page-1) * limit;
+		TypedQuery<ListePromotion> query = em.createNamedQuery("ListePromotion.pagination", ListePromotion.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		List<ListePromotion> ret = query.getResultList();
+		
+		return ret; 
 	}
 
 }

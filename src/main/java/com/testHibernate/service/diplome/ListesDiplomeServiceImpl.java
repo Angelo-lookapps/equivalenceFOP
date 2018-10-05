@@ -8,12 +8,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.diplome.DiplomeFormToDiplome;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
 import com.testHibernate.model.diplome.NiveauDiplome;
+import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.repo.diplome.ListesDiplomeRepository;
 import com.testHibernate.repo.diplome.NiveauDiplomeRepository;
  
@@ -104,6 +106,18 @@ public class ListesDiplomeServiceImpl implements ListesDiplomeService {
 		List<ListesDiplome> ret = query.getResultList();
 		return ret;
 		//return null;
+	}
+
+	@Override
+	public List<ListesDiplome> pagination(int page, int limit) {
+		int offset = (page-1) * limit;
+		TypedQuery<ListesDiplome> query = em.createNamedQuery("ListesDiplome.pagination", ListesDiplome.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		List<ListesDiplome> ret = query.getResultList();
+		
+		return ret; 
 	}
 
 }

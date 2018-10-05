@@ -20,11 +20,13 @@ import javax.persistence.NamedQuery;
 		name = "ListesDiplome.findAllEcole", 
 		query = "SELECT DISTINCT ld.ecole FROM ListesDiplome as ld"),
 	@NamedQuery(
-			name = "ListesDiplome.findDiplomeByEcole", 
-			query = "SELECT ld FROM ListesDiplome as ld WHERE ld.ecole = :ecole")
+		name = "ListesDiplome.findDiplomeByEcole", 
+		query = "SELECT ld FROM ListesDiplome as ld WHERE ld.ecole = :ecole"),
+	@NamedQuery(
+		name = "ListesDiplome.pagination", 
+		query = "SELECT ld FROM ListesDiplome as ld order by ld.id")
 })
-public class ListesDiplome {
-	
+public class ListesDiplome {  
 	public ListesDiplome() {}
 
 	@Id

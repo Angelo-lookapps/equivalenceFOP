@@ -21,4 +21,6 @@ public interface ContentArreteService {
     
     ContentArrete saveOrUpdateContentArreteForm(ContentArreteForm contentArreteForm);
 
+	List<ContentArrete> pagination(int page, int limit);
+
 }

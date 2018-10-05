@@ -2,6 +2,7 @@ package com.testHibernate.controller;
   
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -71,7 +72,12 @@ public class FicheDemandeController {
 	//Tags
 	 private HttpSession session;
 	 private List<Tag> data = new ArrayList<Tag>();
+	 int nombreLigneMax = 5;
+	 private List<FicheDemande> fiches;
 	 
+	 void setNombreLigneMax(int nombre) {
+		 this.nombreLigneMax = nombre;
+	 }
 	 public FicheDemandeController() {}
 	
 	 @Autowired
@@ -115,10 +121,20 @@ public class FicheDemandeController {
 		this.ficheDemandeService = ficheDemandeService;
 	 }
  
-	 @GetMapping({"/requestList", "/requests"})
-	 public String listDemande(Model model){
-		List<FicheDemande> ret = ficheDemandeService.listAll();
-
+	 @GetMapping({"/requestList", "/requestList/page-{page}"})
+	 public String listDemande(Model model, @PathVariable(required=false) Optional<Integer> page){
+	 
+		 initialListeFiche();
+		 List<FicheDemande> ret = ficheDemandeService.pagination(1, nombreLigneMax);
+			if(page.isPresent()) {
+				ret = ficheDemandeService.pagination(page.get(), nombreLigneMax);
+			}  
+			try {
+				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
+				model.addAttribute("nombrePagination", nombrePagination);
+			} catch (Exception e) { 
+				e.printStackTrace();
+			}
         model.addAttribute("listeDemande", ret);
        // System.out.println("\n ret.Length = " + ret.size());
         if(session.getAttribute("isConnected")!=null) {
@@ -352,6 +368,11 @@ public class FicheDemandeController {
 				e.printStackTrace();
 			}
 		 return ficheDetail;
+	 }
+	 public void initialListeFiche() {
+		if(this.fiches==null){
+			this.fiches = ficheDemandeService.listAll();
+		}
 	 }
 	 
 	

@@ -80,8 +80,6 @@
                                                 <th class="text-center">Option</th>
                                                 <th class="text-center">Niveau du dipl&ocirc;me</th>
                                                 <th class="text-center">Mise &agrave; jour </th>
-
-                                                 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -105,11 +103,23 @@
                                                             class="fa fa-trash-o" aria-hidden="true"></i></button>
                                                 </td> 
                                             </tr>
-
+											
                                         </tbody>
+                                       
                                     </table>
+                                   
                                 </div>
 
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                              	<label class="col-sm-3">Pagination :</label>
+                              	<div class="btn-toolbar col-sm-3" role="toolbar" aria-label="Toolbar with button groups">
+                                      <div class="btn-group" role="group" aria-label="First group">
+                                          <span th:each=" page : ${nombrePagination}"><a th:href="'/diplomaList/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
+                                      </div>
+                                  </div> 
+                              </div>
                             </div>
                         </div>
                     </div>

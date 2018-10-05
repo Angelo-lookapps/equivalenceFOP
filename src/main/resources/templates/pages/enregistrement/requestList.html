@@ -79,42 +79,31 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">Num&eacute;ro /anne&eacute; </th>
-                                                <th class="text-center">Carte d'identit&eacute; </th>
                                                 <th class="text-center">Date de retrait </th>
+                                                <th class="text-center">Carte d'identit&eacute; </th>
+                                              
+                                                <th class="text-center">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Action</th>
-
-                                                <th data-hide="all">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
-                                                <th data-hide="all">T&eacute;l&eacute;phone :</th>
-                                                <th data-hide="all">Dipl&ocirc;me evoqu&eacute; :</th>
-                                                <th data-hide="all">Utilisation :</th>
+ 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each="demande : ${listeDemande}">
                                                 <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()-100}"></td>
-                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}"
-                                                        th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
-                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}"
-                                                        th:text="${demande.dateRetrait}"></a></td>
+                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
+                                                <td class="text-center"><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
                                                 <td class="text-center"><a th:class="${demande.statusEnregistrement} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'"
                                                         th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'confirmé' : 'non-confirmé'"></a></td>
                                                 <td class="text-center">
                                                     <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                     <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${demande.id}')|"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-													<a th:href="'/traitement/'+${demande.id}"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
+													<a th:href="'/traitement/'+${demande.id}"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
                                                     
                                                     <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow"> -->
                                                 </td>
-                                                <!-- DATA HIDE -->
-                                                <td class="text-center"><b><a th:href="'/showRequest/'+${demande.id}"
-                                                            th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
-                                                <td class="text-center"><b><a th:href="'/showRequest/'+${demande.id}"
-                                                            th:text="${demande.telephone}"></a></b></td>
-                                                <td class="text-center"><b><a th:href="'/showRequest/'+${demande.id}"
-                                                            th:text="${demande.diplome}"></a></b></td>
-                                                <td class="text-center"><b><a th:href="'/showRequest/'+${demande.id}"
-                                                            th:text="${demande.utilisation}"></a></b></td>
+                                              
                                             </tr>
                                         </tbody>
                                         <tfoot>
@@ -127,6 +116,17 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                              	<label class="col-sm-3">Pagination :</label>
+                              	<div class="btn-toolbar col-sm-3" role="toolbar" aria-label="Toolbar with button groups">
+                                      <div class="btn-group" role="group" aria-label="First group">
+                                          <span th:each=" page : ${nombrePagination}"><a th:href="'/requestList/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
+                                      </div>
+                                  </div> 
+                              </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

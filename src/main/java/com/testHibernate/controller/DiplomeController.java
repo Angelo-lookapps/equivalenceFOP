@@ -1,6 +1,7 @@
 package com.testHibernate.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PutMapping; 
 
 import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
 import com.testHibernate.helpers.GlobalHelper;
@@ -30,9 +31,13 @@ public class DiplomeController {
 	 private ListesDiplomeService listesDiplomeService;
 	 private NiveauDiplomeService niveauDiplomeService;
 	 private DiplomeToDiplomeForm diplomeToDiplomeForm; 
-	 
+	 private List<ListesDiplome> listeDiplomes;
 	 private HttpSession session;
+	 int nombreLigneMax = 5;
 	 
+	 void setNombreLigneMax(int nombre) {
+		 this.nombreLigneMax = nombre;
+	 }
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
@@ -60,21 +65,27 @@ public class DiplomeController {
         this.listesDiplomeService = listesDiplomeService;
 	 }
 	 
-	 @GetMapping({"/diplomaList", "/diplomes"})
-	 public String listDiplome(Model model){
+	 
+	 @GetMapping({"/diplomaList", "/diplomaList/page-{page}"})
+	 public String listDiplome(@PathVariable(required=false) Optional<Integer> page, Model model){
 		
-		List<ListesDiplome> ret = listesDiplomeService.listAll();
-		/*List<ListesDiplome> test = listesDiplomeService.pagination(2, 3);
-		System.out.println("\n\n Size = "+test.size());
-		for(ListesDiplome temp : test) {
-			System.out.println("\n temp == "+temp.getEcole()+" "+temp.getFiliere());
-		}*/
+		initialListeDiploma();
+		List<ListesDiplome> ret = listesDiplomeService.pagination(1, nombreLigneMax);
+		
+		if(page.isPresent()) {
+			ret = listesDiplomeService.pagination(page.get(), nombreLigneMax);
+		}  
+		try {
+			Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeDiplomes.size(), nombreLigneMax);
+			model.addAttribute("nombrePagination", nombrePagination);
+		} catch (Exception e) { 
+			e.printStackTrace();
+		}
 		
 		List<NiveauDiplome> nivaux = niveauDiplomeService.listAll();
+		
         model.addAttribute("listesDiplome", ret);
-        model.addAttribute("niveaux", nivaux);
-        
-       // System.out.println("\n ret.Length = " + ret.size());
+        model.addAttribute("niveaux", nivaux); 
         if(session.getAttribute("isConnected")!=null) {
 	    	return "pages/enregistrement/diplomaList";
         }
@@ -98,15 +109,18 @@ public class DiplomeController {
 		 return "pages/login";
 	 }
 
-	 @GetMapping("/editDiploma/{id}")
+	 @GetMapping("/editDiploma/{id}" )
 	 public String edit(@PathVariable String id, Model model){
         ListesDiplome liste = listesDiplomeService.getById(Long.valueOf(id));
         if(liste==null) {
         	return "redirect:/error404";	
         }
+        initialListeDiploma();
+        List<ListesDiplome> listeDiploma = listesDiplomeService.pagination(1, nombreLigneMax);
+		
+	
         ListesDiplomeForm listesDiplome = diplomeToDiplomeForm.convert(liste);
-
-		List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
+ 
         List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
         model.addAttribute("listNiveauDiploma", niveauxDiploma);
         model.addAttribute("listDiploma", listeDiploma);
@@ -120,14 +134,25 @@ public class DiplomeController {
         
 	 }
 	
-	 @GetMapping("/newDiploma")
-	 public String ajouterDiplome(Model model) {
+	 @GetMapping({"/newDiploma" ,"/newDiploma/page-{page} "})
+	 public String ajouterDiplome(@PathVariable(required=false) Optional<Integer> page , Model model) {
 		 //initial
 		// Map<String, String> listNiveau = new HashMap<String, String>();
 		 
-		 //Get Lists
-		 List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
+		 //Get Lists 
 		 List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
+		 initialListeDiploma();
+		 List<ListesDiplome> listeDiploma = listesDiplomeService.pagination(1, nombreLigneMax);
+			if(page.isPresent()) {
+				listeDiploma = listesDiplomeService.pagination(page.get(), nombreLigneMax);
+			}  
+			try {
+				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeDiplomes.size(), nombreLigneMax);
+				model.addAttribute("nombrePagination", nombrePagination);
+			} catch (Exception e) { 
+				e.printStackTrace();
+			}
+		 
 		
 		 model.addAttribute("listDiploma", listeDiploma);
 		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
@@ -195,6 +220,13 @@ public class DiplomeController {
 	 	 //fin historique
         return "redirect:/diplomaList";
 	 }
+	
+	public void initialListeDiploma() {
+		if(listeDiplomes==null){
+			this.listeDiplomes = listesDiplomeService.listAll();
+		}
+	}
+	
 	
 
 }

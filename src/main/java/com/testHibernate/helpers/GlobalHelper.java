@@ -188,4 +188,20 @@ public class GlobalHelper {
 		}
 		return ret;
 	}
+	public static Integer[] getNombrePageMax(int sizeList, int limit) throws Exception {
+		Integer[] ret = null; 
+		if(limit==0) {
+			throw new Exception("Error getNombrePageMax : invalid division by 0 for limit parameter");
+		}
+		if(sizeList!=0) {
+			int length = sizeList%limit==0 ? sizeList/limit : (sizeList/limit)+1; 
+			ret = new Integer[length];
+			for(Integer k = 0, i = 1; i <= ret.length;i++,k++){
+				System.out.println("iteration = "+i);
+				ret[k] = i;
+			}
+		} 
+		
+		return ret;
+	}
 }

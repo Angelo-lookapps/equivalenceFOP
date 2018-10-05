@@ -1,6 +1,7 @@
 package com.testHibernate.controller;
 
  
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -20,20 +21,26 @@ import com.testHibernate.converts.cin.CINToCINForm;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
+import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.historique.ActiviteRecentService;
 
 @Controller
 public class CINController {
-	 private CINService cinService;
-	 
-	
+	 private CINService cinService; 
 	 
 	 private CINToCINForm cinToCINForm;
 	 
+	 private List<CIN> cins;
+	 
 	 private HttpSession session;
 	 
+	 int nombreLigneMax = 5;
+	 
+	 void setNombreLigneMax(int nombre) {
+		 this.nombreLigneMax = nombre;
+	 }
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
@@ -71,11 +78,22 @@ public class CINController {
 		
 	 }
 	 
-	 @GetMapping(value={"/CINList", "/CINList/{deleteError}"})
-	 public String listCIN(Model model, @PathVariable(required=false) Optional<String> deleteError){
-       
-		 model.addAttribute("listCIN", cinService.listAll());
-        
+	 @GetMapping(value={"/CINList", "/CINList/{deleteError}", "/CINList/page-{page}"})
+	 public String listCIN(Model model, @PathVariable(required=false) Optional<String> deleteError,@PathVariable(required=false) Optional<Integer> page){
+		 
+		 initialListeCIN();
+		 List<CIN> listCIN = cinService.pagination(1, nombreLigneMax);
+			if(page.isPresent()) {
+				listCIN = cinService.pagination(page.get(), nombreLigneMax);
+			}  
+			try {
+				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.cins.size(), nombreLigneMax);
+				model.addAttribute("nombrePagination", nombrePagination);
+			} catch (Exception e) { 
+				e.printStackTrace();
+			}
+		
+		model.addAttribute("listCIN", listCIN);
         if(session.getAttribute("isConnected")!=null) {
         	if(deleteError.isPresent()) {
         		model.addAttribute("deleteError", deleteError.get());
@@ -167,5 +185,11 @@ public class CINController {
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	//fin historique
         return "redirect:/CINList/" + deleteError;
+	 }
+	 
+	 public void initialListeCIN() {
+		if(this.cins==null){
+			this.cins = cinService.listAll();
+		}
 	 }
 }

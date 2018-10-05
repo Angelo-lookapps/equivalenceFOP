@@ -183,6 +183,16 @@
                                     </table>
                                 </div>
                             </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                	<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                        <div class="btn-group" role="group" aria-label="First group">
+                                            <span th:each=" page : ${nombrePagination}"><a th:href="'/newDiploma/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
+                                        </div>
+                                    </div>
+                                </div> 
+                             </div>
                         </div>
                     </div>
                 </div>

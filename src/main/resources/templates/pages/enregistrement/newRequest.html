@@ -28,6 +28,10 @@
     <!-- START THEME LAYOUT STYLE -->
     <link href="assets/dist/css/component_ui.css" rel="stylesheet" type="text/css" />
     <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+    
+    
+        <!-- START PAGE LABEL PLUGINS --> 
+        <link href="assets/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css"/>
     <!-- START PAGE LABEL PLUGINS -->
     <link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
     <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
@@ -141,13 +145,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="diplome" class="col-sm-3 col-form-label">D&eacute;signation
-                                        dip&ocirc;me</label>
+                                    <label for="diplome" class="col-sm-3 col-form-label">D&eacute;signation du dip&ocirc;me</label>
                                     <div class="col-lg-6 col-md-9 col-sm-12">
                                         <input class="form-control" type="text" th:field="*{diplome}" placeholder="Diplôme evoqué..."
                                             id="diplome" required>
                                     </div>
                                 </div>
+                                 
                                 <div class="form-group row">
                                     <label for="utilisation" class="col-sm-3 col-form-label">Utilisation</label>
                                     <div class="col-lg-6 col-md-9 col-sm-12">
@@ -161,7 +165,38 @@
                                         <input class="form-control" type="date" th:field="*{dateRetrait}" placeholder="Date de retrait" id="dateRetrait">
                                     </div>
                                 </div>
-                               
+                                
+                               	<hr/>
+                               	<!-- INFORMATION DIPLOME DEMANDE --> 
+                                <div th:object="${ficheDemandeDetailForm}">
+	                               
+	                                <div class="form-group row">
+	                                    <label for="anneeDeb" class="col-sm-3 col-form-label">Anne&eacute; scolaire (session):</label>
+	                                    <div class="col-lg-3">
+	                                        <input id="demo_vertical2 anneeDeb" type="number" min="1950" max="2020" value="" th:field="*{anneeDeb}" class="form-control" placeholder="####" aria-describedby="fileHelp2">
+	                                    	<small id="fileHelp2" class="text-muted">Cel&agrave; vas servir &agrave; la v&eacute;rification de la conformit&eacute;s du dipl&ocirc;me.</small>
+	                                    </div>
+	                                     
+	                                    <label for="anneeFin" class="col-sm-1 col-form-label">jusqu'au </label>
+	                                   
+	                                    <div class="col-lg-3">
+	                                         <input id="demo_vertical2 anneeFin" type="number" min="1950" max="2020" value=""  th:field="*{anneeFin}" placeholder="####"  class="form-control">
+	                                    </div>
+	                                    
+	                                </div>
+	                                <div class="form-group row">
+	                                    <label class="col-sm-3 col-form-label">Mention obtenu</label>
+	                                    <div class="col-lg-6 col-md-9 col-sm-12">
+	                                        <select class="form-control " th:field="*{mention}"  aria-describedby="fileHelp1">
+	                                            <div th:each="mention : ${mentions}">
+	                                                <option th:value="${mention}" th:text="${mention}"></option>
+	                                            </div>
+	                                        </select>
+	                                    </div>
+	                                    <small id="fileHelp1" class="text-muted">Ceci sera v&eacute;rifier dans la liste des promotions.</small>
+	                                
+	                                </div> 
+                               	</div>
 
                                 <button type="submit" class="btn btn-base pull-right">Valider</button>
                             </form>
@@ -375,6 +410,9 @@
     <script src="assets/plugins/icheck/icheck.min.js"></script>
     <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
     <script src="assets/plugins/icheck/icheck-active.js"></script>
+    <!-- TouchSpin Js -->
+    <script src="assets/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="assets/plugins/bootstrap-touchspin/touchspin-active.js"></script> 
     <!-- Footable Js -->
     <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
     <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>

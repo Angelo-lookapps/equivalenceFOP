@@ -71,4 +71,15 @@ public class ListePromotionServiceImpl implements ListePromotionService {
         return savedlistePromotion;
 	}
 
+	@Override
+	public ListePromotion getPromotionByIdListeDiplome(Long idListe) {
+		TypedQuery<ListePromotion> query = em.createNamedQuery("ListePromotion.findPromotionByIdListeDiplome", ListePromotion.class).setParameter("idListe", idListe);
+		List<ListePromotion> ret = query.getResultList();
+		ListePromotion retour = null;
+		if(ret.size()!=0) {
+			retour = ret.get(0);
+		}
+		return retour;
+	}
+
 }

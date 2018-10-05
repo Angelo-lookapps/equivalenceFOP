@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <base href="http://localhost:8080/traitement" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Traitement arret&eacute; - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
+
+    <script>
+        WebFont.load({
+                google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
+                active: function () {
+                    sessionStorage.fonts = true;
+                }
+            });
+    </script>
+    
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+    <!-- START PAGE LABEL PLUGINS -->
+ 	<link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
+	
+    <!-- START THEME LAYOUT STYLE -->
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+
+    <title>TRAITEMENT ARRETE D'EQUIVALENCE</title>
+</head>
+
+<body class="hold-transition fixed sidebar-mini">
+
+    <!-- Preloader -->
+    <div class="preloader"></div>
+
+    <!-- Site wrapper -->
+    <!-- Content Wrapper. Contains page content -->
+    <div th:replace="fragments/header :: header">Static header</div>
+
+    <!-- Main content 
+             <div class="content">
+                <h1 th:text="'Hello ' + ${#strings.capitalize(pseudo)} + '!!!'"></h1>	
+				<a href="/users"> Test Connections databases</a>              
+     	     </div>-->
+
+    <div class="content-wrapper">
+        <div class="content">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="header-icon">
+                    <i class="pe-7s-display2"></i>
+                </div>
+                <div class="header-title">
+                    <h1>Traitement d'une demande d'&eacute;quivalence</h1>
+                    <small></small>
+                    <ol class="breadcrumb">
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li> 
+                        <li class="active"> Traitement </li>
+                    </ol>
+                </div>
+            </div> <!-- /. Content Header (Page header) -->
+            <div class="row">
+                <div class="col-sm-12">
+                   <div class="panel panel-bd lobidrag">
+                       <div class="panel-heading">
+                           <div class="panel-title">
+                               <h4>TRAITEMENT DE L'EQUIVALENCE</h4>
+                           </div>
+                       </div>
+                       <div class="panel-body">
+                           <div class="row">
+                               <div class="col-sm-12 col-md-12 col-lg-10 col-lg-offset-1 text-center">
+                                   <form method="post" class="f1 form4">
+                                       <div class="f1-steps f4-steps">
+                                           <div class="f1-step active">
+                                               <div class="f1-step-count"><h5>Etape-1</h5></div>
+                                               <p>CONFIRMATION DU DIPLOME</p>
+                                           </div>
+                                           <div class="f1-step">
+                                               <div class="f1-step-count"><h5>Etape-2</h5></div>
+                                               <p>VERIFICATION CONFORMITE</p>
+                                           </div>
+                                           <div class="f1-step">
+                                               <div class="f1-step-count"><h5>Etape-3</h5></div>
+                                               <p>TROUVER L'ARRETE</p>
+                                           </div>
+                                           <div class="f1-step">
+                                               <div class="f1-step-count"><h5>Etape-4</h5></div>
+                                               <p>IMPRIMER (EN PDF)</p>
+                                           </div>
+                                       </div>
+                                       <fieldset> 
+                                           <h4 class="wizard_heading">Demande de conformit&eacute; du diplome (avec l'original)</h4>
+                                           <div class="form-group row"> 
+			                                    <label for="status" class="col-sm-5 col-form-label">Le dipl&ocirc;me Original est-elle conforme au dipl&ocirc;me certifie&eacute; ?</label>
+			                                    <div class="col-lg-6 col-md-9 col-sm-12">
+			                                        <input type="checkbox" th:name="'status'" data-toggle="toggle" data-on="Oui" data-off="Non" data-onstyle="primary" data-offstyle="danger" data-size="small" >
+		                                        </div>
+		                                   </div> 
+		                                   <div class="form-group row">
+			                                    <label for="commentaire" class="col-sm-5 col-form-label">Remarque : </label>
+			                                    <div class="col-lg-6 col-md-9 col-sm-12">
+			                                        <textarea class="form-control" id="exampleTextarea" rows="3" type="text" th:name="'commentaire'" value="Aucune" placeholder="Si vous avez une remarque à faire, ecrivez ici ... " ></textarea>
+		                                        </div>
+		                                   </div> 
+                                           <div class="f1-buttons">
+                                               <button type="button" class="btn btn-base btn-next">Next</button>
+                                           </div>  
+                                       </fieldset>
+                                       <fieldset>
+                                           <h4 class="wizard_heading">V&eacute;rifier la carte d'identit&eacute; &agrave; la liste des Promotions</h4>
+                                           <div class="row">
+	                                           	<div class="col-md-7">
+	                                           			<div th:if="${not #lists.isEmpty(listePromotionDetail)}">
+							                                <div class="table-responsive">
+							                                     <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
+																 <table id="example1" class="footable table table-bordered table-hover toggle-arrow-tiny" data-page-size="8" data-filter=#filter>
+							                                        <thead>
+							                                            <tr>
+							                                                <th class="text-center">#</th>
+							                                                <th class="text-center">N° d'Enregistrement</th>
+							                                                <th class="text-center">Nom et pr&egrave;nom</th>
+							                                                <th class="text-center">Date et lieu de naissance</th>
+							                                                <th class="text-center">Mention</th> 
+							                                            </tr>
+							                                        </thead>
+							                                        <tbody>
+							                                            <tr th:each="promo : ${listePromotionDetail}">
+							                                                <td class="text-center" th:text="${promo.id}"></td>
+							                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.numeroMatricule}"></a></td>
+							                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.nomComplet}"></a></td> 
+							                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></a></td>
+							                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.mention}"></a></td>
+						                                                </tr>
+							                                        </tbody>
+							                                    </table>
+							                                </div>
+							                            </div>
+	                                           		</div>
+                                           		<div class="col-md-1"></div>
+                                           		<div class="col-md-4">
+                                           			<div class="form-group">
+		                                              <label for="f1-address1">Address One</label>
+		                                              <input type="text" name="f1-address1" placeholder="c/25 Asian Colombia, South Thander" class="form-control" id="f1-address1">
+		                                           	</div>
+		                                           	<div class="form-group">
+		                                               <label for="f1-address2">Address Two</label>
+		                                               <input type="text" name="f1-address2" placeholder="P.O. Box: xxxx, John Road, Barmigdo" class="form-control" id="f1-address2">
+		                                           	</div>
+		                                           	<div class="form-group">
+		                                               <label for="f1-city">City</label>
+		                                               <input type="text" name="f1-city" placeholder="Ogana" class="form-control" id="f1-city">
+		                                           	</div>
+		                                           	<div class="form-group">
+		                                               <label for="f1-state">State</label>
+		                                               <input type="text" name="f1-state" placeholder="Vincia" class="form-control" id="f1-state">
+		                                           	</div> 
+                                           		</div>
+                                           		
+                                           </div>
+                                           
+                                           <div class="f1-buttons">
+                                               <button type="button" class="btn btn-previous">Previous</button>
+                                               <button type="button" class="btn btn-base btn-next">Next</button>
+                                           </div>
+                                       </fieldset>
+                                       <fieldset>
+                                           <h4 class="wizard_heading">Trouver l'arr&ecirc;t&eacute; qui correspond</h4>
+                                           <div class="form-group">
+                                               <label class="sr-only" for="f1-username">Username</label>
+                                               <input type="text" name="f1-username" placeholder="Username" class="form-control" id="f1-username">
+                                           </div>
+                                           <div class="form-group">
+                                               <label class="sr-only" for="f1-password">Password</label>
+                                               <input type="password" name="f1-password" placeholder="Password" class="form-control" id="f1-password">
+                                           </div>
+                                           <div class="form-group">
+                                               <label class="sr-only" for="f1-repeat-password">Confirm password</label>
+                                               <input type="password" name="f1-repeat-password" placeholder="Confirm password..." 
+                                                      class="form-control" id="f1-repeat-password">
+                                           </div>
+                                           <div class="form-group">
+                                               <label class="sr-only">WEbsite</label>
+                                               <input type="text" name="f1-web" placeholder="Website Url" class="form-control" id="f1-facebook">
+                                           </div>
+                                           <div class="form-group">
+                                               <label class="sr-only">Facebook</label>
+                                               <input type="text" name="f1-facebook" placeholder="Facebook" class="form-control" id="f2-facebook">
+                                           </div>
+                                           <div class="form-group">
+                                               <label class="sr-only" for="f1-twitter">Twitter</label>
+                                               <input type="text" name="f1-twitter" placeholder="Twitter..." class="form-control" id="f1-twitter">
+                                           </div>
+                                           <div class="form-group">
+                                               <label class="sr-only" for="f1-google-plus">Google plus</label>
+                                               <input type="text" name="f1-google-plus" placeholder="Google plus..." class="form-control" id="f1-google-plus">
+                                           </div>
+                                           <div class="f1-buttons">
+                                               <button type="button" class="btn btn-previous">Previous</button>
+                                               <button type="button" class="btn btn-base btn-next">Next</button>
+                                           </div>
+                                       </fieldset>
+                                       <fieldset>
+                                           <h4 class="wizard_heading">Confirmation + Export au format PDF</h4>
+                                           <div class="form-group">
+                                               <label class="" for="f1-cardholder">Card Holder</label>
+                                               <input type="text" name="f1-cardholder" placeholder="John Cena" class="form-control" id="f1-cardholder">
+                                           </div>
+                                           <div class="form-group">
+                                               <label class="" for="f1-card-number">Card Number</label>
+                                               <input type="text" name="f1-card-number" placeholder="1552562547821536" class="form-control" id="f1-card-number">
+                                           </div>
+                                           <div class="row">
+                                               <div class="form-group col-sm-4">
+                                                   <label class="" for="f1-ucity">City</label>
+                                                   <input type="text" name="f1-ucity" placeholder="Alaska" class="form-control" id="f1-ucity">
+                                               </div>
+                                               <div class="form-group col-sm-4">
+                                                   <label class="" for="f1-ustate">State</label>
+                                                   <input type="text" name="f1-ustate" placeholder="Georgia" class="form-control" id="f1-ustate">
+                                               </div>
+                                               <div class="form-group col-sm-4">
+                                                   <label class="" for="f1-zip">Zip Code</label>
+                                                   <input type="text" name="f1-zip" placeholder="1450" class="form-control" id="f1-zip">
+                                               </div>
+                                           </div>
+                                           <div class="form-group">
+                                               <label class="">Delivery Type</label>
+                                               <select name="country" class="form-control">
+                                                   <option value="">Select</option>
+                                                   <option value="1h">Within 1 Hour ($7)</option>
+                                                   <option value="5h">Within 5 Hours ($4)</option>
+                                                   <option value="1d">Within 1 day ($2)</option>
+                                                   <option value="7d">Within 1 Week (Free)</option>
+                                               </select>
+                                           </div>
+                                           <div class="f1-buttons">
+                                               <button type="button" class="btn btn-previous">Previous</button>
+                                               <button type="submit" class="btn btn-base btn-submit">Submit</button>
+                                           </div>
+                                       </fieldset>
+                                   </form>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            </div>
+        </div> <!-- /.main content -->
+    </div>
+    <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+    <script>
+        function goToDelete(id) {
+            var txt;
+            var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
+            if (r == true) {
+                window.location.href = "/request/delete/" + id + "/home";
+            }
+
+        }
+    </script>
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+    <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+    <!-- START THEME LABEL SCRIPT -->
+
+    <!-- Footable Js -->
+    <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+    <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+    
+  	<!-- BootStrap WiZarD -->
+       <script src="assets/plugins/bootstrap-wizard/jquery.backstretch.min.js"></script>
+       <script src="assets/plugins/bootstrap-wizard/form.scripts.js"></script>
+    <!-- Footable Js -->
+    <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
+    <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
+
+    <!-- icheck Js -->
+    <script src="assets/plugins/icheck/icheck.min.js"></script>
+    <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+    <script src="assets/plugins/icheck/icheck-active.js"></script>
+    <script src="assets/dist/js/theme.js"></script>
+</body>
+
+</html>

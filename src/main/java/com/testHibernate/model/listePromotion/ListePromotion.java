@@ -11,11 +11,14 @@ import org.hibernate.annotations.NamedQuery;
 
 import com.testHibernate.model.diplome.ListesDiplome;
 
-@Entity(name="TousListeDiplome")
+@Entity(name="ListePromotion")
 @NamedQueries({
 	@NamedQuery(
-		name = "TousListeDiplome.findBySession", 
-		query = "SELECT c FROM TousListeDiplome as c WHERE c.sessionSortie = :session ")
+		name = "ListePromotion.findBySession", 
+		query = "SELECT c FROM ListePromotion as c WHERE c.sessionSortie = :session "),
+	@NamedQuery(
+		name = "ListePromotion.findPromotionByIdListeDiplome", 
+		query = "SELECT c FROM ListePromotion as c WHERE c.listesDiplome.id = :idListe ")
 	})
 public class ListePromotion {
 

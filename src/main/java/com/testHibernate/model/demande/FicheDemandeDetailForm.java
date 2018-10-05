@@ -9,15 +9,13 @@ public class FicheDemandeDetailForm {
 		
 	}
 
-	public FicheDemandeDetailForm(Long id, FicheDemande ficheDemande, String anneeDeb, String anneeFin, String mention,
-			Blob image) {
+	public FicheDemandeDetailForm(Long id, FicheDemande ficheDemande, String anneeDeb, String anneeFin) {
 		super();
 		this.id = id;
 		this.ficheDemande = ficheDemande;
 		this.anneeDeb = anneeDeb;
 		this.anneeFin = anneeFin;
 		this.mention = mention;
-		this.image = image;
 	}
 
     private Long id;
@@ -25,7 +23,6 @@ public class FicheDemandeDetailForm {
 	private String anneeDeb;
 	private String anneeFin;
 	private String mention;
-	private Blob image;
 
 	public Long getId() {
 		return id;
@@ -65,14 +62,6 @@ public class FicheDemandeDetailForm {
 
 	public void setMention(String mention) {
 		this.mention = mention;
-	}
-
-	public Blob getImage() {
-		return image;
-	}
-
-	public void setImage(Blob image) {
-		this.image = image;
 	}
 
 	

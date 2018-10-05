@@ -25,7 +25,9 @@
 
     <!-- START THEME LAYOUT STYLE -->
     <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
-
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
     <title>Fiche Demande</title>
 </head>
 
@@ -66,28 +68,26 @@
                         </div>
 
                         <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
+                            <div class="table-responsive"> 
+                                <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Fiche detaill&eacute; :</th>
-                                            <th> </th>
-                                            <th> </th>
-                                        </tr>
+                                     		<th colspan="2" class="text-center">DEMANDE D’EQUIVALENCE ADMINISTRATIVE DE TITRE ET DIPLOME</td>
+                                     	</tr>
                                     </thead>
                                     <tbody>
+                                     	
                                         <tr>
                                             <th>Num&eacute;ro enregistre&eacute; </th>
                                             <td th:text="*{ficheDemande.id} + ' /' + *{ficheDemande.dateRetrait.getYear()-100}"></td>
                                         </tr>
                                         <tr>
                                             <th>Carte d'identit&eacute; (associ&eacute;) </th>
-                                            <td th:text="*{ficheDemande.cin.nom} + ' ' + *{ficheDemande.cin.prenom}"><a
-                                                    th:href="'/showCIN/'+ *{ficheDemande.cin.id}"></a> </td>
+                                            <td><a class="text-primary" th:href="'/cin/show/'+ *{ficheDemande.cin.id}"  th:text="*{ficheDemande.cin.nom} + ' ' + *{ficheDemande.cin.prenom}"></a> </td>
                                         </tr>
                                         <tr>
                                             <th>Dipl&ocirc;me (associ&eacute;) </th>
-                                            <td th:text="*{ficheDemande.listesDiplome.id}"><a th:href="'/showDiploma/'+ *{ficheDemande.listesDiplome.id}"></a></td>
+                                            <td><a class="text-primary" th:href="'/showDiploma/'+ *{ficheDemande.listesDiplome.id}" th:text="*{ficheDemande.listesDiplome.niveauDiplome.niveau} + ' EN ' + *{ficheDemande.listesDiplome.filiere} + ' option:' + *{ficheDemande.listesDiplome.option} "></a></td>
                                         </tr>
                                         <tr>
                                             <th>t&eacute;l&eacute;phone </th>
@@ -102,7 +102,7 @@
                                             <td th:text="*{ficheDemande.utilisation}"></td>
                                         </tr>
                                         <tr>
-                                            <th>Status Enregistrement </th>
+                                            <th>Status </th>
                                             <td> 
 		                                        <input type="checkbox" th:field="*{ficheDemande.statusEnregistrement}" data-toggle="toggle"
 		                                            data-on="confirmé" data-off="non-confirmé" data-onstyle="base" data-offstyle="danger" data-size="small" disabled>
@@ -114,7 +114,7 @@
                                             <td th:text="*{ficheDemande.dateRetrait}"></td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> 
                             </div>
                         </div>
                     </div>
@@ -123,12 +123,89 @@
                     <a href="/requestList"><button type="button" class="btn btn-primary w-md m-rb-5"><i class="fa fa-reply">
                             </i> Revenir</button></a>
                     <a th:href="'/editRequest/' + ${ficheDemande.id}"><button type="button" class="btn btn-base w-md m-rb-5"><i class="fa fa-check-square-o"> </i> Mettre &agrave; jour</button></a>
+             	</div>
+             	<div class="col-sm-4">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Info</h4>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="table-responsive"> 
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                     		<th colspan="2" class="text-center">Information diplome</td>
+                                     	</tr>
+                                    </thead>
+                                    <tbody>
+                                     	
+                                        <tr>
+                                            <th>Anne&eacute; scolaire (Session) </th>
+                                            <td th:text="*{ficheDemandeDetail.anneeDeb} + ' - ' + *{ficheDemandeDetail.anneeFin}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mention </th>
+                                            <td>
+                                            	<button type="button" th:if="*{ficheDemandeDetail.mention=='Passable'}" th:class="'btn btn-black btn-transparent w-md m-rb-5'" disabled th:text="*{ficheDemandeDetail.mention}"></button>
+                                           		<button type="button" th:if="*{ficheDemandeDetail.mention!='Passable'}" th:class="'btn btn-success btn-transparent w-md m-rb-5'" disabled th:text="*{ficheDemandeDetail.mention}"></button>
+											</td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div> <!-- CONTENT -->
     </div> <!-- WRAPPER -->
     <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+<script>
+        function printPDF(titre) {
+        	console.log("Print = "+titre);
+            var pdf = new jsPDF('p', 'pt', 'a4');
+            // source can be HTML-formatted string, or a reference
+            // to an actual DOM element from which the text will be scraped.
+            source = $('#pdf')[0];
 
+            // we support special element handlers. Register them with jQuery-style 
+            // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+            // There is no support for any other type of selectors 
+            // (class, of compound) at this time.
+            specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector
+                '#bypassme': function (element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"
+                    return true
+                }
+            };
+            margins = {
+                top: 80,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+            // all coords and widths are in jsPDF instance's declared units
+            // 'inches' in this case
+            pdf.fromHTML(
+                source, // HTML string or DOM elem ref.
+                margins.left, // x coord
+                margins.top, { // y coord
+                    'width': margins.width, // max width of content on PDF
+                    'elementHandlers': specialElementHandlers
+                },
+
+                function (dispose) {
+                    // dispose: object with X, Y of the last line add to the PDF 
+                    //          this allow the insertion of new lines after html
+                    pdf.save(titre + '.pdf');
+                }, margins
+            );
+        }
+    </script>
     <!-- ./²wrapper -->
     <!-- START CORE PLUGINS -->
     <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>

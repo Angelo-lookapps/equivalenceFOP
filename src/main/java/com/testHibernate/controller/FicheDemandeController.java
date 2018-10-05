@@ -1,5 +1,5 @@
 package com.testHibernate.controller;
- 
+  
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,21 +18,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.testHibernate.converts.demande.DemandeDetailToDemandeDetailForm;
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.Tag;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.demande.FicheDemande;
+import com.testHibernate.model.demande.FicheDemandeDetail;
+import com.testHibernate.model.demande.FicheDemandeDetailForm;
 import com.testHibernate.model.demande.FicheDemandeForm;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.service.cin.CINService;
+import com.testHibernate.service.demande.FicheDemandeDetailService;
 import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
 import com.testHibernate.service.historique.ActiviteRecentService;
+import com.testHibernate.service.listePromotion.ListePromotionDetailService;
+import com.testHibernate.service.listePromotion.ListePromotionService;
 
 @Controller
 public class FicheDemandeController {
@@ -41,9 +47,29 @@ public class FicheDemandeController {
 	 private FicheDemandeService ficheDemandeService;
 	 private CINService cinService;
 	 private ListesDiplomeService listesDiplomeService;
+	 private FicheDemandeDetailService ficheDemandeDetailService;
+	 private ActiviteRecentService activiteRecentService;
+	 private ListePromotionDetailService listePromotionDetailService;
+	 private ListePromotionService listePromotionService;
+	 private DemandeDetailToDemandeDetailForm ficheDemandeDetailToficheDemandeDetailForm;
 	 
+	 @Autowired
+	 public void setFicheDemandeDetailToficheDemandeDetailForm(
+			DemandeDetailToDemandeDetailForm ficheDemandeDetailToficheDemandeDetailForm) {
+		this.ficheDemandeDetailToficheDemandeDetailForm = ficheDemandeDetailToficheDemandeDetailForm;
+	 }
+
+	 @Autowired
+	 public void setListePromotionService(ListePromotionService listePromotionService) {
+		this.listePromotionService = listePromotionService;
+	 }
+
+	@Autowired
+	 public void setListePromotionDetailService(ListePromotionDetailService listePromotionDetailService) {
+		this.listePromotionDetailService = listePromotionDetailService;
+	 }
+	//Tags
 	 private HttpSession session;
-	 
 	 private List<Tag> data = new ArrayList<Tag>();
 	 
 	 public FicheDemandeController() {}
@@ -52,19 +78,21 @@ public class FicheDemandeController {
 	 public void setSession(HttpSession session) {
 		this.session = session;
 	 }
-	 
-	 private ActiviteRecentService activiteRecentService;
-	 
 	 @Autowired
 	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
 		this.activiteRecentService = activiteRecentService;
 	 }
-	 
 	 ///CONVERTS
 	 private DemandeToDemandeForm demandeToDemandeForm;
 	 
+	 
 	 @Autowired
 	 public void setNiveauDiplomeService(NiveauDiplomeService niveauDiplomeService) {
+	 }
+	 
+	 @Autowired
+	 public void setFicheDemandeDetailService(FicheDemandeDetailService ficheDemandeDetailService) {
+		this.ficheDemandeDetailService = ficheDemandeDetailService;
 	 }
 	 
 	 @Autowired
@@ -103,11 +131,14 @@ public class FicheDemandeController {
 	 
 	 @GetMapping("/showRequest/{id}")
 	 public String getDemandeById(@PathVariable String id, Model model){
-		 FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));
+		 FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));		 
 		 model.addAttribute("ficheDemande", fiche);
+		 
 		 if(fiche==null) {
 			 return "redirect:/error404/requestList";	
 		 }	
+		 FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(fiche.getId());
+		 model.addAttribute("ficheDemandeDetail", ficheDetail);
 		// System.out.println("GEGE");
 		
 		 if(session.getAttribute("isConnected")!=null) {
@@ -121,24 +152,29 @@ public class FicheDemandeController {
 	 public String edit(@PathVariable String id, Model model){
         FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));
         if(fiche==null) {
-			 return "redirect:/error404";	
+			 return "redirect:/error404/RequestList";	
 		 }	
         FicheDemandeForm ficheDemandeForm = demandeToDemandeForm.convert(fiche);
-
+        FicheDemandeDetail ficheDemandeDetail  = ficheDemandeDetailService.getFicheDemandeByFiche(fiche.getId());
+        FicheDemandeDetailForm ficheDemandeDetailForm = ficheDemandeDetailToficheDemandeDetailForm.convert(ficheDemandeDetail);
+        
 		List<FicheDemande> listeDemande = ficheDemandeService.listAll();
 		List<CIN> listCIN = cinService.listAll();
 		List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
 		List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
 		List<String> listEcole = listesDiplomeService.getAllEcole();
-			
+		List<String> mentions = GlobalHelper.getMentionList();
+		
 		 //Dispatch
 		 model.addAttribute("listesDiplome", listesDiplome);
 		 model.addAttribute("listEcole", listEcole);
 		 model.addAttribute("listCIN", listCIN);
+		 model.addAttribute("mentions", mentions);
 		 model.addAttribute("listeDemande", listeDemande);
 		 model.addAttribute("listLieuDelivrance", listLieuDelivrance);
 		 model.addAttribute("listeDemande", listeDemande);
 		 model.addAttribute("ficheDemandeForm", ficheDemandeForm);
+		 model.addAttribute("ficheDemandeDetailForm", ficheDemandeDetailForm);
 		 model.addAttribute("isEdit", "1");
        
     
@@ -159,14 +195,17 @@ public class FicheDemandeController {
 		 List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
 		 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
 		 List<String> listEcole = listesDiplomeService.getAllEcole();
-			
+		 List<String> mentions = GlobalHelper.getMentionList();
+		 
 		 //Dispatch
 		 model.addAttribute("listesDiplome", listesDiplome);
 		 model.addAttribute("listEcole", listEcole);
 		 model.addAttribute("listCIN", listCIN);
+		 model.addAttribute("mentions", mentions);
 		 model.addAttribute("listeDemande", listeDemande);
 		 model.addAttribute("listLieuDelivrance", listLieuDelivrance);
 		 model.addAttribute("ficheDemandeForm", new FicheDemandeForm());
+		 model.addAttribute("ficheDemandeDetailForm", new FicheDemandeDetailForm());
 		 
 		 if(session.getAttribute("isConnected")!=null) {
 			 return "pages/enregistrement/newRequest";
@@ -174,18 +213,10 @@ public class FicheDemandeController {
 		 model.addAttribute("errorlogin", "4");
 		 return "pages/login";
 		 		
-	 }
-	
-	 public List<FicheDemande> getDemandeByCIN(String idCin){
-		 return this.ficheDemandeService.getFicheDemandeByCIN(Long.valueOf(idCin));
-	 }
-	 public List<FicheDemande> getDemandeByDate(String dateRetrait){
-		 return this.ficheDemandeService.getFicheDemandeByDate(dateRetrait);
-	 }
-	 
+	 } 
 	 
 	 @PostMapping(value = "/saveRequest")
-	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult){
+	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, @Valid  @ModelAttribute FicheDemandeDetailForm ficheDemandeDetailForm, BindingResult bindingResult){
 		 
 		 if(bindingResult.hasErrors()){  
 			return "redirect:/error505";	 
@@ -201,7 +232,14 @@ public class FicheDemandeController {
 		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	 //fin historique	
-		 	
+
+	 	try{
+	 		
+	 		FicheDemandeDetail ficheDetail = this.saveDemandeDetail(ficheSaved, ficheDemandeDetailForm);
+	 	
+	 	}catch(Exception e) {
+	 		e.printStackTrace();
+	 	}
 		 return "redirect:/showRequest/" + ficheSaved.getId();
 	 }
 	 @PutMapping(value = "/updateRequest")
@@ -241,30 +279,40 @@ public class FicheDemandeController {
 		 return simulateSearchResult(tagName);
 
 	 }
-	 //My methods
-	 public boolean isEncours(String idFiche) throws Exception {
-		 
-		 FicheDemande listesSaved = ficheDemandeService.getById(Long.valueOf(idFiche));
-		 boolean ret = false;
-		
-		 /*	
-		 try {
-			 if(listesSaved == null) {
-				throw new Exception("Error : the ListePromotion with id : "+idFiche+" is invalid!");	
-			 } 
-			 
-			 List<ListePromotionDetail> listeAdmisChild = listePromotionDetailService.getDetailByIdListePromotion(listesSaved.getId());
-			 if(listeAdmisChild.size()!=0) {
-				 ret = true;
-			 }
-			 
-		}catch(Exception e) {
-			throw e;
-		}*/
-		return ret;
-	}
 	 
 	 
+	 @GetMapping("/traitement/{id}")
+	 public String traitementFiche(@PathVariable String id, Model model){
+		 	FicheDemande ficheSaved = ficheDemandeService.getById(Long.valueOf(id));
+	 try {
+			
+		 if(ficheSaved==null) {
+			 System.out.println("\n\n\n ficheSaved==null \n");
+			 return "redirect:/error404/requestList";
+		 }
+		 	FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(ficheSaved.getId());
+		 if(ficheDetail==null) {
+			 System.out.println("\n\n\n ficheDetail==null \n");
+			 return "redirect:/error404/requestList";
+		 }
+		 	ListePromotion listePromotion = listePromotionService.getPromotionByIdListeDiplome(ficheSaved.getListesDiplome().getId());
+		 if(listePromotion==null) {
+			 System.out.println("\n\n\n listePromotion==null \n");
+			 return "redirect:/error404/requestList";
+		 }
+			 //System.out.println("\n\n\n listePromotion = "+listePromotion.getId()+" \n");
+			 List<ListePromotionDetail> listePromotionDetail = listePromotionDetailService.getDetailByIdListePromotion(listePromotion.getId());
+			 
+			 model.addAttribute("listePromotion", listePromotion);
+			 model.addAttribute("listePromotionDetail", listePromotionDetail);
+			 model.addAttribute("ficheDemande", ficheSaved);
+			 model.addAttribute("ficheDemandeDetail", ficheDetail); 
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 return "pages/traitement/traitement";
+	 }
+	  
 	 
 	 //My methods
 	 private List<Tag> simulateSearchResult(String tagName) {
@@ -284,6 +332,19 @@ public class FicheDemandeController {
 			 e.printStackTrace();
 		 }
 		 return result;
+	 }
+	 public FicheDemandeDetail saveDemandeDetail(FicheDemande fiche, FicheDemandeDetailForm ficheDemandeDetailForm) {
+		 FicheDemandeDetail ficheDetail = null;	
+		 try {
+			
+			 	FicheDemandeDetailForm saved = ficheDemandeDetailForm;
+			 	saved.setFicheDemande(fiche); 
+			 	ficheDetail = ficheDemandeDetailService.saveOrUpdateDemandeFormDetail(saved);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		 return ficheDetail;
 	 }
 	
 

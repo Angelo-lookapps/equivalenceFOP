@@ -5,8 +5,8 @@ import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.Id; 
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -57,10 +57,10 @@ public class FicheDemande {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@ManyToOne
+	@OneToOne
 	private CIN cin;
 	
-	@ManyToOne
+	@OneToOne
 	private ListesDiplome listesDiplome;
 	
 	private String telephone;

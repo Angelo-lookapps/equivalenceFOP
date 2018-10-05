@@ -129,7 +129,7 @@
                                                 <th class="text-center">Num&eacute;ro /anne&eacute; </th>
                                                 <th class="text-center">Carte d'identit&eacute; </th>
                                                 <th class="text-center">Date de retrait </th>
-                                                <th class="text-center">Status d'enregistrement</th>
+                                                <th class="text-center">Status</th>
                                                 <th class="text-center">Action</th>
 
                                                 <th data-hide="all">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
@@ -154,7 +154,8 @@
                                                     <button class="btn btn-danger btn-sm" data-toggle="tooltip"
                                                         data-placement="top" title="Delete " th:onclick="|goToDelete('${demande.id}')|"><i
                                                             class="fa fa-trash-o" aria-hidden="true"></i></button>
-
+													<a th:href="'/traitement/'+${demande.id}"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
+                                                    
                                                     <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow"> -->
                                                 </td>
                                                 <!-- DATA HIDE -->

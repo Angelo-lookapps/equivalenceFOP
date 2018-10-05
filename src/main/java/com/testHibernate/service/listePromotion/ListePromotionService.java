@@ -13,6 +13,8 @@ public interface ListePromotionService {
 
     ListePromotion getById(Long id);
     
+    ListePromotion  getPromotionByIdListeDiplome(@Param(value = "idListe") Long idListe);
+    
     List<ListePromotion>  getBySession(@Param(value = "session") String session);
 
     ListePromotion saveOrUpdate(ListePromotion listePromotion);

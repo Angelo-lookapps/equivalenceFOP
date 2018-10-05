@@ -1,8 +1,6 @@
 package com.testHibernate.controller;
 
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import java.util.List;
 import java.util.Optional;
 

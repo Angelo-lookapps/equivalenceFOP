@@ -127,13 +127,21 @@
 							                                            </tr>
 							                                        </thead>
 							                                        <tbody>
+							                                        	<tr th:if="${not #lists.isEmpty(suggestion)}" th:each="promo : ${suggestion}">  
+					                                                		<td class="text-center text-primary" th:text="${promo.id}"></td>
+							                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" class="text-primary" th:text="${promo.numeroMatricule}"></a></td>
+							                                                <td class="text-center "><a th:href="'/showAdmis/' + ${promo.id}" class="text-primary" th:text="${promo.nomComplet}"></a></td> 
+							                                                <td class="text-center "><a th:href="'/showAdmis/' + ${promo.id}" class="text-primary" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></a></td>
+							                                                <td class="text-center "><a th:href="'/showAdmis/' + ${promo.id}" class="text-primary" th:text="${promo.mention}"></a></td>
+					                                                   	</tr>
 							                                            <tr th:each="promo : ${listePromotionDetail}">
 							                                                <td class="text-center" th:text="${promo.id}"></td>
 							                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.numeroMatricule}"></a></td>
 							                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.nomComplet}"></a></td> 
 							                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></a></td>
 							                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.mention}"></a></td>
-						                                                </tr>
+							                                           </tr>
+						                                               
 							                                        </tbody>
 							                                    </table>
 							                                </div>

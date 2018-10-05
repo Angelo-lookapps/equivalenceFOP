@@ -9,6 +9,7 @@ import java.util.List;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
+import com.testHibernate.model.listePromotion.ListePromotionDetail;
 
 public class GlobalHelper {
 	 
@@ -104,7 +105,7 @@ public class GlobalHelper {
 		java.util.Date date = new java.util.Date();
 		return  dateFormat.format(date);
 	} 
-	@SuppressWarnings("null")
+
 	public List<TempActivite> splitActivityTime(List<ActiviteRecent> list) throws Exception {
 		List<TempActivite> ret = new ArrayList<TempActivite>();
 		String[] tab1 = null, tab2 = null;
@@ -147,5 +148,46 @@ public class GlobalHelper {
 		
 		return ret;
 	} 
-	 
+	public static List<ListePromotionDetail> searchAtListe(List<ListePromotionDetail> listePromotionDetail, String[] search) throws Exception {
+		List<ListePromotionDetail> ret = new ArrayList<ListePromotionDetail>();
+		try {
+			if(listePromotionDetail.size()==0) {
+				throw new Exception("Error dans searchAtListe method : the size of argument List<ListePromotionDetail> listePromotionDetail is 0.");
+			}
+			for(String i : search) {
+				for(ListePromotionDetail temp : listePromotionDetail) {
+					
+					String concat = temp.getNomComplet() + " - " + temp.getDateNaissance() + " - " + temp.getLieuNaissance();
+		 			System.out.println(" contain \"" + i + "\" : "+concat.toUpperCase().contains(i.toUpperCase())+ " DANS "+concat);	
+					if(concat.toUpperCase().contains(i.toUpperCase())) {
+						ret.add(temp);
+						break;
+					}
+				}
+			}
+		}catch(Exception e) {
+			throw e;
+		}
+		return ret;
+	}
+	public static List<ListePromotionDetail> listAnotherSuggestion(List<ListePromotionDetail> suggestions, List<ListePromotionDetail> list) throws Exception{
+		List<ListePromotionDetail> ret = new ArrayList<ListePromotionDetail>();
+		try {
+			if(suggestions.size()==0 || list.size()==0) {
+				throw new Exception("Error dans listAnotherSuggestion method : the size of argument List<ListePromotionDetail> listePromotionDetail,list is 0.");
+			} 
+			for(ListePromotionDetail temp : list) {
+				for(ListePromotionDetail suggs : suggestions) { 
+					if(temp!=suggs) {
+						ret.add(temp);
+						break;
+					}
+				}
+			}
+			 
+		}catch(Exception e) {
+			throw e;
+		}
+		return ret;
+	}
 }

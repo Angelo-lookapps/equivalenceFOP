@@ -96,7 +96,7 @@ public class PagesController {
 	
 	@GetMapping("/timeline")
 	public String historique(ModelMap modelMap) {
-		List<ActiviteRecent> activities = activiteRecentService.getRecentActiviteByNumber(5);
+		List<ActiviteRecent> activities = activiteRecentService.listAll();
 		List<TempActivite> tempActivities = null;
 		try {
 			

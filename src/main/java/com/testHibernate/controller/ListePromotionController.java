@@ -157,7 +157,6 @@ public class ListePromotionController {
 				listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
 				listePromotionDetailForm.setListePromotion(listePromotion1);
 				listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
-				System.out.println("\n\n\n GEGE ===== " + listesSaved.getNomComplet());
 				
 				//Mis en historique
 				ActiviteRecent historique = new ActiviteRecent(); 

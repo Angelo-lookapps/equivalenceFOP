@@ -302,9 +302,16 @@ public class FicheDemandeController {
 		 }
 			 //System.out.println("\n\n\n listePromotion = "+listePromotion.getId()+" \n");
 			 List<ListePromotionDetail> listePromotionDetail = listePromotionDetailService.getDetailByIdListePromotion(listePromotion.getId());
+			 String[] search = {ficheSaved.getCin().getNom(), ficheSaved.getCin().getPrenom(),
+					 			ficheSaved.getCin().getDateNaissance()+" - "+ficheSaved.getCin().getLieuNaissance()}; 
 			 
+			 List<ListePromotionDetail> suggestion = GlobalHelper.searchAtListe(listePromotionDetail, search);
+			 List<ListePromotionDetail> autreQueSuggestion = suggestion!=null ? GlobalHelper.listAnotherSuggestion(suggestion, listePromotionDetail) : listePromotionDetail;
 			 model.addAttribute("listePromotion", listePromotion);
-			 model.addAttribute("listePromotionDetail", listePromotionDetail);
+			 if(suggestion!=null) {
+				 model.addAttribute("suggestion", suggestion);
+			 } 
+			 model.addAttribute("listePromotionDetail", autreQueSuggestion);
 			 model.addAttribute("ficheDemande", ficheSaved);
 			 model.addAttribute("ficheDemandeDetail", ficheDetail); 
 		 }catch(Exception e) {
@@ -346,6 +353,7 @@ public class FicheDemandeController {
 			}
 		 return ficheDetail;
 	 }
+	 
 	
 
 }

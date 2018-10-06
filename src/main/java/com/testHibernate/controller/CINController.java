@@ -1,6 +1,7 @@
 package com.testHibernate.controller;
 
  
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +17,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.testHibernate.converts.cin.CINToCINForm;
 import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.helpers.Tag;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
 import com.testHibernate.model.diplome.ListesDiplome;
@@ -31,6 +35,8 @@ public class CINController {
 	 private CINService cinService; 
 	 
 	 private CINToCINForm cinToCINForm;
+	 
+	 private List<Tag> data = new ArrayList<Tag>();
 	 
 	 private List<CIN> cins;
 	 
@@ -185,6 +191,33 @@ public class CINController {
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	//fin historique
         return "redirect:/CINList/" + deleteError;
+	 }
+	 
+	 @GetMapping(value = "/searchCIN")
+	 public @ResponseBody List<Tag> getTags(@RequestParam(required=true) String champ) {
+		 System.out.println("data == "+data.size());
+		 return simulateSearchResult(champ);
+
+	 }
+	 
+	 private List<Tag> simulateSearchResult(String tagName) {
+		 List<Tag> result = new ArrayList<Tag>();
+		 try{
+			 if(data.size()==0) {
+				 initialListeCIN();
+				 data =  GlobalHelper.convertCINToListTag(cins); 
+			 }
+			 System.out.println("data == "+data.size());
+			// iterate a list and filter by tagName
+			 for (Tag tag : data) {
+				if (tag.getTagName().toUpperCase().contains(tagName.toUpperCase())) {
+					result.add(tag);
+				}
+			}
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 return result;
 	 }
 	 
 	 public void initialListeCIN() {

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.testHibernate.model.cin.CIN;
+import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
@@ -78,17 +79,19 @@ public class GlobalHelper {
 		
 		return ret;
 	} 
+	
 	public static List<Tag> convertCINToListTag(List<CIN> cins) throws Exception{
 		List<Tag> ret = new ArrayList<Tag>();
 		if(cins.size()==0) {
-			throw new Exception("Error in convertToHashMap : size of CIN is 0 !");
+			throw new Exception("Error in convertToHashMap : size of cins is 0 !");
 		}
 		for(CIN cin : cins) {
-			ret.add(new Tag(cin.getId(), cin.getNom() + " " + cin.getPrenom()+ " - " + cin.getNationalite() + " - " + cin.getAdresseActuelle()));
+			ret.add(new Tag(cin.getId(), cin.getNom() + " " + cin.getPrenom()+ " Née le " + cin.getDateNaissance() + " à " + cin.getLieuNaissance()));
 		} 
 		
 		return ret;
 	} 
+	
 	
 	public static HashMap<String, String> getChampDemande(){
 		HashMap<String, String> ret = new HashMap<String, String>();

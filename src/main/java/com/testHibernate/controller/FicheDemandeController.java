@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.testHibernate.converts.demande.DemandeDetailToDemandeDetailForm;
@@ -29,6 +31,7 @@ import com.testHibernate.model.demande.FicheDemandeDetail;
 import com.testHibernate.model.demande.FicheDemandeDetailForm;
 import com.testHibernate.model.demande.FicheDemandeForm;
 import com.testHibernate.model.diplome.ListesDiplome;
+import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
@@ -53,7 +56,7 @@ public class FicheDemandeController {
 	 private ListePromotionDetailService listePromotionDetailService;
 	 private ListePromotionService listePromotionService;
 	 private DemandeDetailToDemandeDetailForm ficheDemandeDetailToficheDemandeDetailForm;
-	 
+	 private NiveauDiplomeService niveauDiplomeService;
 	 @Autowired
 	 public void setFicheDemandeDetailToficheDemandeDetailForm(
 			DemandeDetailToDemandeDetailForm ficheDemandeDetailToficheDemandeDetailForm) {
@@ -91,9 +94,12 @@ public class FicheDemandeController {
 	 ///CONVERTS
 	 private DemandeToDemandeForm demandeToDemandeForm;
 	 
+	 private List<ListesDiplome> listeDiplomes;
+	 
 	 
 	 @Autowired
 	 public void setNiveauDiplomeService(NiveauDiplomeService niveauDiplomeService) {
+		 this.niveauDiplomeService = niveauDiplomeService;
 	 }
 	 
 	 @Autowired
@@ -212,10 +218,12 @@ public class FicheDemandeController {
 		 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
 		 List<String> listEcole = listesDiplomeService.getAllEcole();
 		 List<String> mentions = GlobalHelper.getMentionList();
+		 List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
 		 
 		 //Dispatch
 		 model.addAttribute("listesDiplome", listesDiplome);
 		 model.addAttribute("listEcole", listEcole);
+		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
 		 model.addAttribute("listCIN", listCIN);
 		 model.addAttribute("mentions", mentions);
 		 model.addAttribute("listeDemande", listeDemande);
@@ -232,14 +240,16 @@ public class FicheDemandeController {
 	 } 
 	 
 	 @PostMapping(value = "/saveRequest")
-	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, @Valid  @ModelAttribute FicheDemandeDetailForm ficheDemandeDetailForm, BindingResult bindingResult){
+	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm,  @RequestParam String cin, @RequestParam String listeDiplome, @Valid  @ModelAttribute FicheDemandeDetailForm ficheDemandeDetailForm, BindingResult bindingResult){
 		 
 		 if(bindingResult.hasErrors()){  
 			return "redirect:/error505";	 
 		 }
-		 
+		 System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome);
 		 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
 		 ficheDemandeForm.setStatusEnregistrement(false);
+		 ficheDemandeForm.setCin(cinService.getById(Long.valueOf(cin)));
+		 ficheDemandeForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
 		 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
 		 
 		 //Mis en historique
@@ -255,7 +265,7 @@ public class FicheDemandeController {
 	 	
 	 	}catch(Exception e) {
 	 		e.printStackTrace();
-	 	}
+	 	} 
 		 return "redirect:/showRequest/" + ficheSaved.getId();
 	 }
 	 @PutMapping(value = "/updateRequest")
@@ -289,10 +299,17 @@ public class FicheDemandeController {
         return "redirect:/"+page;
 	 }
 	 
-	 @GetMapping(value = "/getTags")
-	 public @ResponseBody List<Tag> getTags(@RequestParam(required=true) String tagName) {
+	 @GetMapping(value = "/searchDiplome")
+	 public @ResponseBody List<Tag> getTags(@RequestParam(required=true) String champ) {
 		 System.out.println("data == "+data.size());
-		 return simulateSearchResult(tagName);
+		 return simulateSearchResult(champ);
+
+	 }
+	 @GetMapping(value = "/searchCritereDiplome")
+	 public @ResponseBody List<Tag> getListeDemandeByCriteres(@RequestParam(required=true) String champ,@RequestParam(required=true) String ecole,
+			 @RequestParam(required=true) String filiere,@RequestParam(required=true) String option,@RequestParam(required=true) String niveau) {
+		 //System.out.println("data == "+data.size());
+		 return simulateSearchResult(champ);
 
 	 }
 	 
@@ -340,9 +357,10 @@ public class FicheDemandeController {
 	 //My methods
 	 private List<Tag> simulateSearchResult(String tagName) {
 		 List<Tag> result = new ArrayList<Tag>();
+		 initialListeFiche();
 		 try{
 			 if(data.size()==0) {
-				 data =  GlobalHelper.convertDiplomeToListTag(listesDiplomeService.listAll()); 
+				 data =  GlobalHelper.convertDiplomeToListTag(listeDiplomes); 
 			 }
 			 System.out.println("data == "+data.size());
 			// iterate a list and filter by tagName
@@ -370,10 +388,11 @@ public class FicheDemandeController {
 		 return ficheDetail;
 	 }
 	 public void initialListeFiche() {
-		if(this.fiches==null){
+		if(this.fiches==null || this.listeDiplomes==null){
 			this.fiches = ficheDemandeService.listAll();
+			this.listeDiplomes = listesDiplomeService.listAll();
 		}
-	 }
+	 } 
 	 
 	
 

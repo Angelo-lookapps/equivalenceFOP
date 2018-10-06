@@ -30,17 +30,14 @@
     <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
     
     
-        <!-- START PAGE LABEL PLUGINS --> 
-        <link href="assets/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css"/>
+    <!-- START PAGE LABEL PLUGINS --> 
+    <link href="assets/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css"/>
     <!-- START PAGE LABEL PLUGINS -->
-    <link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
-    <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.css" rel="stylesheet" type="text/css">
-	
- 	<script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script> 
-   	<script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
-    
+      <!-- START PAGE LABEL PLUGINS --> 
+        <link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
+        <link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
+
+     
     <title>Nouvelle demande</title>
 </head>
 
@@ -93,7 +90,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <div th:if="${not #lists.isEmpty(listCIN)}">
+                                    <!-- <div th:if="${not #lists.isEmpty(listCIN)}">
                                         <label class="col-sm-3 col-form-label">Veuillez selectionner un CIN</label>
                                         <div class="col-lg-6 col-md-9 col-sm-12">
                                             <select class="form-control basic-single" th:field="*{cin}">
@@ -108,12 +105,20 @@
                                                 </div>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-1 col-form-label"><a href="/newCIN" data-toggle="tooltip"
-                                            data-placement="right" title="Ajouter une nouvelle CIN"><i class="glyphicon glyphicon-plus"></i></a></div>
+                                    </div> -->
+                                     <label class="col-sm-3 col-form-label">Veuillez choisir un CIN</label>
+                                     <div class="col-lg-6 col-md-9 col-sm-12">
+                                     	<div class="input-group">
+                                     	   <input type="text" id="cinHidden" name="cin" hidden>
+                                           <input type="text" class="form-control" id="cinChamp" placeholder="Carte d'identité..." data-toggle="modal" data-target="#searchCINModal">
+                                           <span class="input-group-btn">
+                                               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchCINModal">Choisir</button>
+                                           </span>
+                                       	</div><!-- /input-group -->
+                                     </div>   
                                 </div>
                                 <div class="form-group row">
-                                    <div th:if="${not #lists.isEmpty(listesDiplome)}">
+                                   <!-- <div th:if="${not #lists.isEmpty(listesDiplome)}">
                                         <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me
                                         </label>
                                         <div class="col-lg-6 col-md-9 col-sm-12">
@@ -129,13 +134,17 @@
                                                 </div>
                                             </select>
                                         </div>
-                                    </div>
-                                    <!-- <label class="col-sm-3 col-form-label">Veuillez renseigner le dipl&ocirc;me</label>
-                                    <div class="col-lg-6 col-md-9 col-sm-12  class="autocomplete"">
-                                        <input class="form-control" type="text" th:field="*{listesDiplome}" id="w-input-search" required>
-                                    </div> -->
-                                    <!-- <input type="text" id="w-input-search" th:field="*{listesDiplome}"> -->
-                                    <div class="col-sm-1 col-form-label"><a href="/newDiplome" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle Diplome"><i class="glyphicon glyphicon-plus"></i></a></div>
+                                    </div>--> 
+                                    <label class="col-sm-3 col-form-label">Veuillez choisir le dipl&ocirc;me</label>
+                                     <div class="col-lg-6 col-md-9 col-sm-12">
+                                     	<div class="input-group">
+                                     	   <input type="text" id="listeDiplomeHidden"  name="listeDiplome" hidden>
+                                           <input type="text" class="form-control" id="listeDiplomeChamp" placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
+                                           <span class="input-group-btn">
+                                               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchlisteDiplomeModal">Choisir</button>
+                                           </span>
+                                       	</div><!-- /input-group -->
+                                     </div>  
                                 </div>
                                 <div class="form-group row">
                                     <label for="telephone" class="col-sm-3 col-form-label">T&eacute;l&eacute;phone</label>
@@ -257,108 +266,210 @@
                         </div>
                     </div>
                 </div>
+                 
+                <!-- MODALS DIALOG -->
+	            <div class="modal fade" id="searchCINModal" tabindex="-1" role="dialog">	
+	                <div class="modal-dialog" role="document">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+	                                    aria-hidden="true">&times;</span></button>
+	                            <h1 class="modal-title">Rechercher Carte d'identit&eacute; </h1>
+	                        </div>
+	                        <!-- <form th:action="@{/searchCIN}" method="GET"> -->
+	                            <div class="modal-body">  
+	                                <div class="form-group row">
+	                                    <div class="col-sm-12">
+	                                    	<div class="col-md-3">
+	                                    		<label for="example-text-input" class=" col-form-label">Champ de recherche :</label>
+	                                    	</div>
+	                                    	<div class="col-md-6">
+	                                        	<input class="form-control" id="cin" type="text" placeholder="Rechercher Diplôme ...">
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                        	<button class="btn btn-base " th:onclick="|searchCIN()|" > Chercher</button>
+	                                    	</div>
+	                                    </div>
+	                                    <hr/>
+	                                    <div class="skin-flat"><div id="outputCIN" class="row"></div></div>
+	                                </div>
+	                            </div>
+	                            <div class="modal-footer">
+	                                <button  class="btn btn-base"  data-dismiss="modal" >Ok</button>
+	                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+	                            </div>
+	                        <!-- </form> -->
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+	            </div><!-- /.modal -->
+	            
+	            <!-- MODALS DIALOG -->
+	            <div class="modal fade" id="searchlisteDiplomeModal" tabindex="-1" role="dialog">	
+	                <div class="modal-dialog" role="document">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+	                                    aria-hidden="true">&times;</span></button>
+	                            <h1 class="modal-title">Rechercher dipl&ocirc;me </h1>
+	                        </div>
+	                        <!-- <form th:action="@{/searchCIN}" method="GET"> -->
+	                            <div class="modal-body">  
+	                                <div class="form-group row">
+	                                    <div class="col-sm-12">
+	                                    	<div class="col-md-3">
+	                                    		<label for="example-text-input" class=" col-form-label">Champ de recherche :</label>
+	                                    	</div>
+	                                    	<div class="col-md-6">
+	                                        	<input class="form-control" id="listeDiplome" type="text" placeholder="Rechercher Diplôme ...">
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                        	<button class="btn btn-base " th:onclick="|searchListeDiplome()|" > Chercher</button>
+	                                    	</div>
+	                                    </div>
+                                    </div>
+	                                    <hr/>
+                                  	
+                                  	<div class="form-group row">  
+	                                    <div class="col-sm-12">
+	                                    <label>Recherche par crit&egrave;re :</label>
+	                                    	<div class="skin-flat">
+		                                    	<div class="col-md-9"> 
+		                                    		<div class="col-md-9 col-md-offset-1">
+			                                        	<input class="form-control" id="listeDiplome" type="text" placeholder="Rechercher Diplôme ...">
+			                                        </div>
+			                                    	<div class="col-md-10 col-md-offset-1">
+			                                    		
+			                                    		<div class="i-check col-sm-2">
+		                                                    <input tabindex="1" th:name="'ecole'" type="checkbox" id="ecole">
+		                                                    <label for="flat-checkbox-1">Ecole</label>
+		                                                </div>
+		                                                <div class="i-check col-sm-2">
+		                                                    <input tabindex="2" th:name="'filiere'" type="checkbox" id="filiere" checked>
+		                                                    <label for="flat-checkbox-2">Fili&egrave;re</label>
+		                                                </div>
+		                                                <div class="i-check col-sm-2">
+		                                                    <input tabindex="3" th:name="'option'" type="checkbox" id="option">
+		                                                    <label for="flat-checkbox-3">Option</label>
+		                                                </div>
+		                                                
+		                                                <div class="col-md-6"> 
+			                                                <div class="form-group row">
+							                                    <div th:if="${not #lists.isEmpty(listNiveauDiploma)}" > 
+							                                        <div class="col-lg-12">
+							                                            <select class="form-control" th:name="'niveau'" id="niveau">
+							                                                <div th:each="niveau : ${listNiveauDiploma}"> 
+							                                                    <option th:value="${niveau.id}" th:text="${niveau.niveau}"> </option> 
+							                                                </div>
+							                                            </select>
+							                                        </div>
+							                                    </div>
+							                                </div>	
+														</div>	
+		                                    		</div> 
+		                                        </div>
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                        	<button class="btn btn-base " th:onclick="|searchCritereDiplome()|" > Chercher</button>
+	                                    	</div>
+	                                    </div>
+                                    </div>
+                                    <div class="form-group row">
+	                                    <div class="skin-flat">
+	                                    	<div id="outputlisteDiplome" class="row"></div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="modal-footer">
+	                                <button  class="btn btn-base" data-dismiss="modal" >Ok</button>
+	                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+	                            </div>
+	                        <!-- </form> -->
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+	            </div><!-- /.modal -->
             </div>
         </div>
     </div>
     <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
 	<script>
-	function autocomplete(inp, arr) {
-		  /*the autocomplete function takes two arguments,
-		  the text field element and an array of possible autocompleted values:*/
-		  console.log("autocomplet : "+arr);
-		  var currentFocus;
-		  /*execute a function when someone writes in the text field:*/
-		  inp.addEventListener("input", function(e) {
-		      var a, b, i, val = this.value;
-		      /*close any already open lists of autocompleted values*/
-		      closeAllLists();
-		      if (!val) { return false;}
-		      currentFocus = -1;
-		      /*create a DIV element that will contain the items (values):*/
-		      a = document.createElement("DIV");
-		      a.setAttribute("id", this.id + "autocomplete-list");
-		      a.setAttribute("class", "autocomplete-items");
-		      /*append the DIV element as a child of the autocomplete container:*/
-		      this.parentNode.appendChild(a);
-		      /*for each item in the array...*/
-		      for (i = 0; i < arr.length; i++) {
-		        /*check if the item starts with the same letters as the text field value:*/
-		        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-		          /*create a DIV element for each matching element:*/
-		          b = document.createElement("DIV");
-		          /*make the matching letters bold:*/
-		          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-		          b.innerHTML += arr[i].substr(val.length);
-		          /*insert a input field that will hold the current array item's value:*/
-		          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-		          /*execute a function when someone clicks on the item value (DIV element):*/
-		              b.addEventListener("click", function(e) {
-		              /*insert the value for the autocomplete text field:*/
-		              inp.value = this.getElementsByTagName("input")[0].value;
-		              /*close the list of autocompleted values,
-		              (or any other open lists of autocompleted values:*/
-		              closeAllLists();
-		          });
-		          a.appendChild(b);
-		        }
-		      }
-		  });
-		  /*execute a function presses a key on the keyboard:*/
-		  inp.addEventListener("keydown", function(e) {
-		      var x = document.getElementById(this.id + "autocomplete-list");
-		      if (x) x = x.getElementsByTagName("div");
-		      if (e.keyCode == 40) {
-		        /*If the arrow DOWN key is pressed,
-		        increase the currentFocus variable:*/
-		        currentFocus++;
-		        /*and and make the current item more visible:*/
-		        addActive(x);
-		      } else if (e.keyCode == 38) { //up
-		        /*If the arrow UP key is pressed,
-		        decrease the currentFocus variable:*/
-		        currentFocus--;
-		        /*and and make the current item more visible:*/
-		        addActive(x);
-		      } else if (e.keyCode == 13) {
-		        /*If the ENTER key is pressed, prevent the form from being submitted,*/
-		        e.preventDefault();
-		        if (currentFocus > -1) {
-		          /*and simulate a click on the "active" item:*/
-		          if (x) x[currentFocus].click();
-		        }
-		      }
-		  });
-		  function addActive(x) {
-		    /*a function to classify an item as "active":*/
-		    if (!x) return false;
-		    /*start by removing the "active" class on all items:*/
-		    removeActive(x);
-		    if (currentFocus >= x.length) currentFocus = 0;
-		    if (currentFocus < 0) currentFocus = (x.length - 1);
-		    /*add class "autocomplete-active":*/
-		    x[currentFocus].classList.add("autocomplete-active");
-		  }
-		  function removeActive(x) {
-		    /*a function to remove the "active" class from all autocomplete items:*/
-		    for (var i = 0; i < x.length; i++) {
-		      x[i].classList.remove("autocomplete-active");
-		    }
-		  }
-		  function closeAllLists(elmnt) {
-		    /*close all autocomplete lists in the document,
-		    except the one passed as an argument:*/
-		    var x = document.getElementsByClassName("autocomplete-items");
-		    for (var i = 0; i < x.length; i++) {
-		      if (elmnt != x[i] && elmnt != inp) {
-		      x[i].parentNode.removeChild(x[i]);
-		    }
-		  }
+	function searchListeDiplome() {
+		$.ajax({
+			  method: "GET",
+			  url: "http://localhost:8080/searchDiplome",
+			  data: { champ: $("#listeDiplome").val() }
+			}).done(function( msg ) {
+				//var obj = JSON.parse(msg); 
+				
+				$('#outputlisteDiplome').html(getHtml(msg,"setIdDiplome")); 
+				
+				 console.log( "Data Saved: " + msg[0].tagName );
+				//$("#outputCIN").html(msg);
+			   
+	  		});
+	}
+	function searchCritereDiplome() {
+		$.ajax({
+			  method: "GET",
+			  url: "http://localhost:8080/searchCritereDiplome",
+			  data: { 
+				  	champ: $("#listeDiplome").val(),
+				  	ecole: $("#ecole").val,
+				  	filiere: $("#filiere").val,
+				  	option: $("#option").val ,
+				  	niveau: $("#niveau").val
+				  	}
+			}).done(function( msg ) {
+				//var obj = JSON.parse(msg); 
+				
+				$('#outputlisteDiplome').html(getHtml(msg,"setIdDiplome")); 
+				
+				 console.log( "Data Saved: " + msg[0].tagName );
+				//$("#outputCIN").html(msg);
+			   
+	  		});
+	}
+	
+	function searchCIN() {
+		$.ajax({
+			  method: "GET",
+			  url: "http://localhost:8080/searchCIN",
+			  data: { champ: $("#cin").val() }
+			}).done(function( msg ) {
+				//var obj = JSON.parse(msg); 
+				
+				$('#outputCIN').html(getHtml(msg,"setIdCIN")); 
+				
+				 console.log( "Data Saved: " + msg[0].tagName );
+				//$("#outputCIN").html(msg);
+			   
+	  		});
+	}
+	function setIdCIN(id, name){ 
+		 $('#cinChamp').val(name); 
+		 $('#cinHidden').val(id);
+		// cinChamp.setAttribute("name", "cin");
+	}
+	function setIdDiplome(id, name){ 
+		 $('#listeDiplomeChamp').val(name); 
+		 $('#listeDiplomeHidden').val(id);
+		// cinChamp.setAttribute("name", "cin");
+	} 
+	function getHtml(msg, fonction){
+		var html = "<div class=\"col-md-10\"><h4>Resultat(s) du recherche : <b class=\"text-primary\" >" + msg.length + " </b></h4>";
+		//console.log("size = " + msg.length);
+		html+="<div class=\"col-md-1\"></div><div class=\"col-md-11\">";
+		var i = 0; 
+		while (i < msg.length){
+			html+="<div class=\"i-check\"><input tabindex=\""+i+"\" "+
+				  "type=\"radio\" id=\"flat-radio-"+i+"\" name=\"selectRadio\" onclick=\""+fonction+"("+ msg[i].id + ",'" + msg[i].tagName + "')\" value=\""+msg[i].id+"\">"+
+				  "  <label for=\"flat-radio-"+i+"\"> " + msg[i].tagName + " </label></div>";
+			i++;
 		}
-		/*execute a function when someone clicks in the document:*/
-		document.addEventListener("click", function (e) {
-		    closeAllLists(e.target);
-		});
-		}
+		html+="</div><div class=\"col-md-2\"></div></div>";
+		return html;
+	}
+	
+
 	</script>
     <!-- ./²wrapper -->
     <!-- START CORE PLUGINS -->
@@ -397,19 +508,26 @@
 			});
 		});*/
 	</script>
-   
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script> 
+   	<script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script> 
     <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/fastclick/fastclick.min.js"></script>
     <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
     <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+   
     <!-- Select2 Js -->
     <script src="assets/plugins/select2/select2.min.js"></script>
     <script src="assets/plugins/select2/select2-active.js"></script>
     <!-- icheck Js -->
     <script src="assets/plugins/icheck/icheck.min.js"></script>
     <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-    <script src="assets/plugins/icheck/icheck-active.js"></script>
+    <script src="assets/plugins/icheck/icheck-active.js"></script>>
+    <!-- modals js -->
+    <script src="assets/plugins/modals/classie.js"></script>
+    <script src="assets/plugins/modals/modalEffects.js"></script>
+    
     <!-- TouchSpin Js -->
     <script src="assets/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
     <script src="assets/plugins/bootstrap-touchspin/touchspin-active.js"></script> 

@@ -127,7 +127,7 @@ public class ListesDiplomeServiceImpl implements ListesDiplomeService {
 		System.out.println("Query searchMultiple = " + query.toString());
 		List<ListesDiplome> ret = query.getResultList();
 		
-		System.out.println("\n searchMultiple == "+ret.size());
+		System.out.println("\n searchMultiple  ListesDiplome== "+ret.size());
 		
 		return ret; 
 	}

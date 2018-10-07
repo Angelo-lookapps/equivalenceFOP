@@ -1,6 +1,8 @@
 package com.testHibernate.controller;
 
  
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +43,8 @@ public class CINController {
 	 private List<CIN> cins;
 	 
 	 private HttpSession session;
+	 
+	 GlobalHelper gh = new GlobalHelper();
 	 
 	 int nombreLigneMax = 5;
 	 
@@ -199,14 +203,36 @@ public class CINController {
 		 return simulateSearchResult(champ);
 
 	 }
-	 
+	 @GetMapping(value = "/searchCritereCIN")
+	 public @ResponseBody List<Tag> getListeDemandeByCriteres(@RequestParam(required=true) String nomCIN, @RequestParam(required=true) String prenom,
+				@RequestParam(required=true) String numeroCIN, @RequestParam(required=true) String adresseActuelle, 
+				@RequestParam(required=true) String fonction, @RequestParam(required=true) String lieuTravail) { 
+		System.out.println("\n\n nomCIN = "+nomCIN);
+		 return this.simulateSearchResultByCritere(nomCIN, prenom,  numeroCIN, adresseActuelle, 
+				 fonction, lieuTravail);
+
+	 }
+	 private List<Tag> simulateSearchResultByCritere(String nom, String prenom, 
+				String numeroCIN, String adresseActuelle, 
+				String fonction, String lieuTravail) {
+		 List<Tag> result = new ArrayList<Tag>();
+		 initialListeCIN();
+		 
+		 try{ 
+			 result =  gh.convertCINToListTag(cinService.searchMultiple(nom, prenom , numeroCIN, 
+					 adresseActuelle, fonction, lieuTravail)); 
+			  
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 return result;
+	 }
 	 private List<Tag> simulateSearchResult(String tagName) {
 		 List<Tag> result = new ArrayList<Tag>();
 		 try{
-			 if(data.size()==0) {
-				 initialListeCIN();
-				 data =  GlobalHelper.convertCINToListTag(cins); 
-			 }
+			 initialListeCIN();
+			 data =  gh.convertCINToListTag(cins); 
+			
 			 System.out.println("data == "+data.size());
 			// iterate a list and filter by tagName
 			 for (Tag tag : data) {

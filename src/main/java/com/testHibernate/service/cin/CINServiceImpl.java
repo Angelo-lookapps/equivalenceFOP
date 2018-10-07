@@ -1,5 +1,7 @@
 package com.testHibernate.service.cin;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.cin.CINFormToCIN;
+import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
 import com.testHibernate.model.diplome.ListesDiplome;
@@ -101,6 +104,23 @@ public class CINServiceImpl implements CINService {
 		List<CIN> ret = query.getResultList();
 		
 		return ret; 
+	}
+
+	@Override
+	public List<CIN> searchMultiple(String nom, String prenom, String numeroCIN, 
+			String adresseActuelle, String fonction, String lieuTravail) {
+		TypedQuery<CIN> query = em.createNamedQuery("CIN.searchMultiple", CIN.class)
+				.setParameter(1, "%"+nom.toLowerCase()+"%")
+				.setParameter(2, "%"+prenom.toLowerCase()+"%") 
+				.setParameter(3, "%"+numeroCIN.toLowerCase()+"%")
+				.setParameter(4, "%"+adresseActuelle.toLowerCase()+"%") 
+				.setParameter(5, "%"+fonction.toLowerCase()+"%")
+				.setParameter(6, "%"+nom.toLowerCase()+"%");
+		List<CIN> ret = query.getResultList();
+		
+		System.out.println("\n searchMultiple  CIN== "+ret.size());
+		
+		return ret;
 	}
 
 }

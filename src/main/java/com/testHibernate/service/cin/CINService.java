@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 
 import com.testHibernate.model.cin.CIN;
-import com.testHibernate.model.cin.CINForm;
+import com.testHibernate.model.cin.CINForm; 
 
 public interface CINService {
 	
@@ -26,5 +26,8 @@ public interface CINService {
     CIN saveOrUpdateCINForm(CINForm cinForm);
 
 	List<CIN> pagination(int page, int limit);
+	
+    List<CIN> searchMultiple(String nom, String prenom, 
+							String numeroCIN, String adresseActuelle , String fonction, String lieuTravail);
 
 }

@@ -80,7 +80,7 @@ public class GlobalHelper {
 		
 		return ret;
 	} 
-	public static List<Tag> convertMultiple(List<ListesDiplome> listesDiplomeByMultiple, String idNiveau) throws Exception{
+	public List<Tag> convertMultiple(List<ListesDiplome> listesDiplomeByMultiple, String idNiveau) throws Exception{
 		List<Tag> ret = new ArrayList<Tag>();
 		if(listesDiplomeByMultiple.size()==0) {
 			throw new Exception("Error in convertToHashMap : size of listesDiplome is 0 !");
@@ -100,7 +100,7 @@ public class GlobalHelper {
 		return ret;
 	} 
 	
-	public static List<Tag> convertDiplomeToListTag(List<ListesDiplome> listesDiplome) throws Exception{
+	public List<Tag> convertDiplomeToListTag(List<ListesDiplome> listesDiplome) throws Exception{
 		List<Tag> ret = new ArrayList<Tag>();
 		if(listesDiplome.size()==0) {
 			throw new Exception("Error in convertToHashMap : size of listesDiplome is 0 !");
@@ -112,7 +112,7 @@ public class GlobalHelper {
 		return ret;
 	} 
 	
-	public static List<Tag> convertCINToListTag(List<CIN> cins) throws Exception{
+	public List<Tag> convertCINToListTag(List<CIN> cins) throws Exception{
 		List<Tag> ret = new ArrayList<Tag>();
 		if(cins.size()==0) {
 			throw new Exception("Error in convertToHashMap : size of cins is 0 !");

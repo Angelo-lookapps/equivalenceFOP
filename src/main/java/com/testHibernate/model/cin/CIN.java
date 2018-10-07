@@ -25,9 +25,19 @@ import org.hibernate.annotations.Type;
 		name = "CIN.findAllLieuDelivrance", 
 		query = "SELECT DISTINCT c.lieuDelivrance FROM CIN as c"),
 	@NamedQuery(
-			name = "CIN.pagination", 
-			query = "SELECT ld FROM CIN as ld order by ld.id")	
-	})
+		name = "CIN.pagination", 
+		query = "SELECT ld FROM CIN as ld order by ld.id"),
+	@NamedQuery(
+		name = "CIN.searchMultiple", 
+		query = "SELECT ld FROM CIN as ld"
+				+ " WHERE lower(ld.nom) LIKE ?1"
+				+ "	AND lower(ld.prenom) LIKE ?2"
+				+ " AND lower(ld.numeroCIN) LIKE ?3"
+				+ " AND lower(ld.adresseActuelle) LIKE ?4"
+				+ " AND lower(ld.fonction) LIKE ?5"
+				+ " AND lower(ld.lieuTravail) LIKE ?6"
+				+ " ORDER BY ld.id" )
+})
 public class CIN {
 	
 	public CIN(Long id, String nom, String prenom, Date dateNaissance, String lieuNaissance, String numeroCIN,

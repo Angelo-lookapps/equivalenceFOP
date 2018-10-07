@@ -75,6 +75,7 @@ public class FicheDemandeController {
 	 private List<Tag> data = new ArrayList<Tag>();
 	 int nombreLigneMax = 5;
 	 private List<FicheDemande> fiches;
+	 GlobalHelper gh = new GlobalHelper();
 	 
 	 void setNombreLigneMax(int nombre) {
 		 this.nombreLigneMax = nombre;
@@ -243,7 +244,7 @@ public class FicheDemandeController {
 		 if(bindingResult.hasErrors()){  
 			return "redirect:/error505";	 
 		 }
-		 System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome);
+		 System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
 		 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
 		 ficheDemandeForm.setStatusEnregistrement(false);
 		 ficheDemandeForm.setCin(cinService.getById(Long.valueOf(cin)));
@@ -257,8 +258,7 @@ public class FicheDemandeController {
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	 //fin historique	
 
-	 	try{
-	 		
+	 	try{ 
 	 		FicheDemandeDetail ficheDetail = this.saveDemandeDetail(ficheSaved, ficheDemandeDetailForm);
 	 	
 	 	}catch(Exception e) {
@@ -363,7 +363,7 @@ public class FicheDemandeController {
 		 initialListeFiche();
 		 try{
 			 if(data.size()==0) {
-				 data =  GlobalHelper.convertDiplomeToListTag(listeDiplomes); 
+				 data =  gh.convertDiplomeToListTag(listeDiplomes); 
 			 }
 			 System.out.println("data == "+data.size());
 			// iterate a list and filter by tagName
@@ -382,11 +382,8 @@ public class FicheDemandeController {
 			 List<Tag> result = new ArrayList<Tag>();
 			 initialListeFiche();
 			 
-			 try{
-				 if(data.size()==0) {
-					 result =  GlobalHelper.convertMultiple(listesDiplomeService.searchMultiple(ecole, filiere, option), idNiveau); 
-				 
-				 }
+			 try{ 
+				 result =  gh.convertMultiple(listesDiplomeService.searchMultiple(ecole, filiere, option), idNiveau); 
 				  
 			 }catch(Exception e) {
 				 e.printStackTrace();
@@ -398,6 +395,7 @@ public class FicheDemandeController {
 		 try {
 			
 			 	FicheDemandeDetailForm saved = ficheDemandeDetailForm;
+			 	saved.setAnneeFin(ficheDemandeDetailForm.getAnneeDeb()+1);
 			 	saved.setFicheDemande(fiche); 
 			 	ficheDetail = ficheDemandeDetailService.saveOrUpdateDemandeFormDetail(saved);
 				

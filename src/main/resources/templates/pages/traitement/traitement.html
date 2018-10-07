@@ -75,20 +75,20 @@
                                    <form method="post" class="f1 form4">
                                        <div class="f1-steps f4-steps">
                                            <div class="f1-step active">
-                                               <div class="f1-step-count"><h5>Etape-1</h5></div>
-                                               <p>CONFIRMATION DU DIPLOME</p>
+                                               <div class="f1-step-count"><h5><i class="fa fa-user-circle"></i></h5></div>
+                                               <p>1- CONFIRMATION DU DIPLOME</p>
                                            </div>
                                            <div class="f1-step">
-                                               <div class="f1-step-count"><h5>Etape-2</h5></div>
-                                               <p>VERIFICATION CONFORMITE</p>
+                                               <div class="f1-step-count"><h5><i class="fa fa-check-square-o"></i></h5></div>
+                                               <p>2- VERIFICATION CONFORMITE</p>
                                            </div>
                                            <div class="f1-step">
-                                               <div class="f1-step-count"><h5>Etape-3</h5></div>
-                                               <p>TROUVER L'ARRETE</p>
+                                               <div class="f1-step-count"><h5><i class="fa fa-check-square-o"></i></h5></div>
+                                               <p>3- VERIFICATION DE L'ARRETE</p>
                                            </div>
                                            <div class="f1-step">
-                                               <div class="f1-step-count"><h5>Etape-4</h5></div>
-                                               <p>IMPRIMER (EN PDF)</p>
+                                               <div class="f1-step-count"><h5><i class="fa fa-file-pdf-o" ></i></h5></div>
+                                               <p>4- IMPRIMER (EN PDF)</p>
                                            </div>
                                        </div>
                                        <fieldset> 
@@ -102,11 +102,11 @@
 		                                   <div class="form-group row">
 			                                    <label for="commentaire" class="col-sm-5 col-form-label">Remarque : </label>
 			                                    <div class="col-lg-6 col-md-9 col-sm-12">
-			                                        <textarea class="form-control" id="exampleTextarea" rows="3" type="text" th:name="'commentaire'" value="Aucune" placeholder="Si vous avez une remarque à faire, ecrivez ici ... " ></textarea>
+			                                        <textarea class="form-control" id="remarque" rows="3" type="text" th:name="'commentaire'" value="Aucune" placeholder="Si vous avez une remarque à faire, ecrivez ici ... " ></textarea>
 		                                        </div>
 		                                   </div> 
                                            <div class="f1-buttons">
-                                               <button type="button" class="btn btn-base btn-next">Next</button>
+                                               <button type="button" onclick="ifEmptyField('remarque')" class="btn btn-base btn-next">Next</button>
                                            </div>  
                                        </fieldset>
                                        <fieldset>
@@ -175,7 +175,7 @@
                                            </div>
                                        </fieldset>
                                        <fieldset>
-                                           <h4 class="wizard_heading">Trouver l'arr&ecirc;t&eacute; qui correspond</h4>
+                                           <h4 class="wizard_heading">V&eacute;rification de l'arr&ecirc;t&eacute;</h4>
                                            <div class="form-group">
                                                <label class="sr-only" for="f1-username">Username</label>
                                                <input type="text" name="f1-username" placeholder="Username" class="form-control" id="f1-username">
@@ -260,6 +260,16 @@
     </div>
     <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
     <script>
+    	function ifEmptyField(id){
+    		
+    		var temp = $("#"+id).val();
+    		
+    		if(temp==""){
+    			//confirm("Vous ne voulez pas posez= "+temp);
+    			$("#"+id).val(" ")
+    		}
+    	}
+    
         function goToDelete(id) {
             var txt;
             var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");

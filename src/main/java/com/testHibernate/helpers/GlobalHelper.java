@@ -136,7 +136,7 @@ public class GlobalHelper {
 		return ret;
 	} 
 	public static String getCurrentDate() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		java.util.Date date = new java.util.Date();
 		return  dateFormat.format(date);
 	} 

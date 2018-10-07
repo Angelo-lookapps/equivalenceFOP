@@ -18,6 +18,7 @@ public class ArreteEqRefToArreteEqRefForm implements Converter<ArreteEqRef, Arre
     	arreteEqRefForm.setTitre(arreteEqRef.getTitre());
     	arreteEqRefForm.setAnneeSortie(arreteEqRef.getAnneeSortie());  
     	arreteEqRefForm.setDateAjout(arreteEqRef.getDateAjout());
+    	arreteEqRefForm.setStatus(arreteEqRef.getStatus());
     	
         return arreteEqRefForm;
     }

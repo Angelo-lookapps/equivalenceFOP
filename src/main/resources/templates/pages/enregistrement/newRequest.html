@@ -255,6 +255,16 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                	<label class="col-md-3">Pagination :</label>
+                                	<div class="btn-toolbar col-md-2" role="toolbar" aria-label="Toolbar with button groups">
+                                        <div class="btn-group" role="group" aria-label="First group">
+                                            <span th:each=" page : ${nombrePagination}"><a th:href="'/requestList/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
+                                        </div>
+                                    </div>
+                                </div> 
+                             </div>
                         </div>
                     </div>
                 </div>

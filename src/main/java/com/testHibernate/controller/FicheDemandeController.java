@@ -206,13 +206,23 @@ public class FicheDemandeController {
     	return "pages/login";
 	 }
 	 
-	 @GetMapping("/newRequest")
-	 public String ajouterDemande(Model model) {
+	 @GetMapping({"/newRequest","/requestList/{deleteError}", "/requestList/page-{page}"})
+	 public String ajouterDemande(Model model ,@PathVariable(required=false) Optional<String> deleteError,@PathVariable(required=false) Optional<Integer> page) {
 		 //initial
-		 
-		 //Get Lists
-		 List<FicheDemande> listeDemande = ficheDemandeService.listAll();
+		 initialListeFiche();
+		 //Get Lists 
 		 List<CIN> listCIN = cinService.listAll();
+		 List<FicheDemande> listeDemande = ficheDemandeService.pagination(1, nombreLigneMax);
+		if(page.isPresent()) {
+			listeDemande = ficheDemandeService.pagination(page.get(), nombreLigneMax);
+		}  
+		try {
+			Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
+			model.addAttribute("nombrePagination", nombrePagination);
+		} catch (Exception e) { 
+			e.printStackTrace();
+		}
+		 
 		 List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
 		 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
 		 List<String> listEcole = listesDiplomeService.getAllEcole();
@@ -286,6 +296,11 @@ public class FicheDemandeController {
 	 @GetMapping("/request/delete/{id}/{page}")
 	 public String delete(@PathVariable String id, @PathVariable String page){
 		 FicheDemande listesSaved = ficheDemandeService.getById(Long.valueOf(id));
+		 FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(listesSaved.getId());
+		 if(ficheDetail==null) {
+			 return "redirect:/error404/"+page;
+		 }
+		 ficheDemandeDetailService.delete(ficheDetail.getId());
 		 ficheDemandeService.delete(Long.valueOf(id));
          
 		 //Mis en historique
@@ -338,7 +353,7 @@ public class FicheDemandeController {
 		 }
 			 //System.out.println("\n\n\n listePromotion = "+listePromotion.getId()+" \n");
 			 List<ListePromotionDetail> listePromotionDetail = listePromotionDetailService.getDetailByIdListePromotion(listePromotion.getId());
-			 String[] search = {ficheSaved.getCin().getNom(), ficheSaved.getCin().getPrenom(),
+			 String[] search = {ficheSaved.getCin().getNom() + " " + ficheSaved.getCin().getPrenom(),
 					 			ficheSaved.getCin().getDateNaissance()+" - "+ficheSaved.getCin().getLieuNaissance()}; 
 			 
 			 List<ListePromotionDetail> suggestion = GlobalHelper.searchAtListe(listePromotionDetail, search);
@@ -393,9 +408,9 @@ public class FicheDemandeController {
 	 public FicheDemandeDetail saveDemandeDetail(FicheDemande fiche, FicheDemandeDetailForm ficheDemandeDetailForm) {
 		 FicheDemandeDetail ficheDetail = null;	
 		 try {
-			
+			 	int anneeFin = Integer.parseInt(ficheDemandeDetailForm.getAnneeDeb())+(int)1;
 			 	FicheDemandeDetailForm saved = ficheDemandeDetailForm;
-			 	saved.setAnneeFin(ficheDemandeDetailForm.getAnneeDeb()+1);
+			 	saved.setAnneeFin(anneeFin+"");
 			 	saved.setFicheDemande(fiche); 
 			 	ficheDetail = ficheDemandeDetailService.saveOrUpdateDemandeFormDetail(saved);
 				

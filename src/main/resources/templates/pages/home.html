@@ -129,7 +129,7 @@
                                                 <th class="text-center">Date de retrait </th>
                                                 <th class="text-center">Carte d'identit&eacute; </th>
                                                 <th class="text-center">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
-                                                <th class="text-center">Status</th>
+                                              
                                                 <th class="text-center">Action</th>
  
                                             </tr>
@@ -140,8 +140,6 @@
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
                                                 <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
-                                                <td class="text-center"><a th:class="${demande.statusEnregistrement} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'"
-                                                        th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'confirmé' : 'non-confirmé'"></a></td>
                                                 <td class="text-center">
                                                     <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm"
                                                             data-toggle="tooltip" data-placement="top" title="Update"><i

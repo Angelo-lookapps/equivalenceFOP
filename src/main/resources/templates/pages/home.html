@@ -57,8 +57,7 @@
                     <h1>Liste des promotions de chaque &eacute;cole par session</h1>
                     <small></small>
                     <ol class="breadcrumb">
-                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li> 
-                        <li class="active"> - </li>
+                        <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>  
                     </ol>
                 </div>
             </div> <!-- /. Content Header (Page header) -->
@@ -127,24 +126,20 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">Num&eacute;ro /anne&eacute; </th>
-                                                <th class="text-center">Carte d'identit&eacute; </th>
                                                 <th class="text-center">Date de retrait </th>
+                                                <th class="text-center">Carte d'identit&eacute; </th>
+                                                <th class="text-center">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">Action</th>
-
-                                                <th data-hide="all">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
-                                                <th data-hide="all">T&eacute;l&eacute;phone :</th>
-                                                <th data-hide="all">Dipl&ocirc;me evoqu&eacute; :</th>
-                                                <th data-hide="all">Utilisation :</th>
+ 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each="demande : ${listeDemande}">
-                                                <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()+1900}"></td>
-                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}"
-                                                        th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
-                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}"
-                                                        th:text="${demande.dateRetrait}"></a></td>
+                                                <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()-100}"></td>
+                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
+                                                <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
                                                 <td class="text-center"><a th:class="${demande.statusEnregistrement} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'"
                                                         th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'confirmé' : 'non-confirmé'"></a></td>
                                                 <td class="text-center">
@@ -158,11 +153,7 @@
                                                     
                                                     <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow"> -->
                                                 </td>
-                                                <!-- DATA HIDE -->
-                                                <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
-                                                <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.telephone}"></a></b></td>
-                                                <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.diplome}"></a></b></td>
-                                                <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.utilisation}"></a></b></td>
+                                               
                                             </tr>
                                         </tbody>
                                         <tfoot>

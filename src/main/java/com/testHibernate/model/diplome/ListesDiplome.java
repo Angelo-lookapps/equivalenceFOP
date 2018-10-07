@@ -24,7 +24,12 @@ import javax.persistence.NamedQuery;
 		query = "SELECT ld FROM ListesDiplome as ld WHERE ld.ecole = :ecole"),
 	@NamedQuery(
 		name = "ListesDiplome.pagination", 
-		query = "SELECT ld FROM ListesDiplome as ld order by ld.id")
+		query = "SELECT ld FROM ListesDiplome as ld order by ld.id"),
+	@NamedQuery(
+		name = "ListesDiplome.searchMultiple", 
+		query = "SELECT ld FROM ListesDiplome as ld WHERE lower(ld.ecole) LIKE ?1 "
+				+ "	AND lower(ld.filiere) LIKE ?2"
+				+ " AND lower(ld.option) LIKE ?3 ORDER BY ld.id" ) 
 })
 public class ListesDiplome {  
 	public ListesDiplome() {}

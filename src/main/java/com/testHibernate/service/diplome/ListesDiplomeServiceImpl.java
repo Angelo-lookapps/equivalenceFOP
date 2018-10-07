@@ -7,15 +7,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.diplome.DiplomeFormToDiplome;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
-import com.testHibernate.model.diplome.NiveauDiplome;
-import com.testHibernate.model.historique.ActiviteRecent;
+import com.testHibernate.model.diplome.NiveauDiplome; 
 import com.testHibernate.repo.diplome.ListesDiplomeRepository;
 import com.testHibernate.repo.diplome.NiveauDiplomeRepository;
  
@@ -116,6 +114,20 @@ public class ListesDiplomeServiceImpl implements ListesDiplomeService {
 		query.setMaxResults(limit);
 		
 		List<ListesDiplome> ret = query.getResultList();
+		
+		return ret; 
+	}
+
+	@Override
+	public List<ListesDiplome> searchMultiple(String ecole, String filiere, String option ) {
+		TypedQuery<ListesDiplome> query = em.createNamedQuery("ListesDiplome.searchMultiple", ListesDiplome.class)
+										.setParameter(1, "%"+ecole.toLowerCase()+"%")
+										.setParameter(2, "%"+filiere.toLowerCase()+"%")
+										.setParameter(3, "%"+option.toLowerCase()+"%");
+		System.out.println("Query searchMultiple = " + query.toString());
+		List<ListesDiplome> ret = query.getResultList();
+		
+		System.out.println("\n searchMultiple == "+ret.size());
 		
 		return ret; 
 	}

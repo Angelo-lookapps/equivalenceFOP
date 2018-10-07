@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.testHibernate.converts.demande.DemandeDetailToDemandeDetailForm;
@@ -306,10 +304,15 @@ public class FicheDemandeController {
 
 	 }
 	 @GetMapping(value = "/searchCritereDiplome")
-	 public @ResponseBody List<Tag> getListeDemandeByCriteres(@RequestParam(required=true) String champ,@RequestParam(required=true) String ecole,
-			 @RequestParam(required=true) String filiere,@RequestParam(required=true) String option,@RequestParam(required=true) String niveau) {
-		 //System.out.println("data == "+data.size());
-		 return simulateSearchResult(champ);
+	 public @ResponseBody List<Tag> getListeDemandeByCriteres(@RequestParam(required=true) String ecole,
+			 @RequestParam(required=true) String filiere,@RequestParam(required=true) String option,@RequestParam(required=true, defaultValue="") String niveau) {
+		 System.out.println("\n\n DATA == ");
+			 System.out.println("\t ecole == " + ecole);
+			 System.out.println("\t filiere == " + filiere);
+			 System.out.println("\t option == " + option);
+			 System.out.println("\t niveau == " + niveau);
+		 
+		 return this.simulateSearchResultByCritere( ecole, filiere, option, niveau);
 
 	 }
 	 
@@ -374,6 +377,22 @@ public class FicheDemandeController {
 		 }
 		 return result;
 	 }
+	//My methods
+	 private List<Tag> simulateSearchResultByCritere(String ecole, String filiere, String option, String idNiveau) {
+			 List<Tag> result = new ArrayList<Tag>();
+			 initialListeFiche();
+			 
+			 try{
+				 if(data.size()==0) {
+					 result =  GlobalHelper.convertMultiple(listesDiplomeService.searchMultiple(ecole, filiere, option), idNiveau); 
+				 
+				 }
+				  
+			 }catch(Exception e) {
+				 e.printStackTrace();
+			 }
+			 return result;
+		 }
 	 public FicheDemandeDetail saveDemandeDetail(FicheDemande fiche, FicheDemandeDetailForm ficheDemandeDetailForm) {
 		 FicheDemandeDetail ficheDetail = null;	
 		 try {

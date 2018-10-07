@@ -29,5 +29,7 @@ public interface ListesDiplomeService {
     ListesDiplome saveOrUpdateListesDiplomeForm(ListesDiplomeForm listesDiplomeForm);
 
     List<ListesDiplome> pagination(int page, int limit);
+    
+    List<ListesDiplome> searchMultiple(String ecole, String filiere, String option);
 
 }

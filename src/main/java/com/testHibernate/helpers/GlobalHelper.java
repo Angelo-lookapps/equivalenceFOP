@@ -9,6 +9,7 @@ import java.util.List;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.diplome.ListesDiplome;
+import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
 
@@ -67,6 +68,37 @@ public class GlobalHelper {
 		}
 		return ret;
 	}
+		
+	public static List<Tag> convert(List<ListesDiplome> listesDiplome) throws Exception{
+		List<Tag> ret = new ArrayList<Tag>();
+		if(listesDiplome.size()==0) {
+			throw new Exception("Error in convertToHashMap : size of listesDiplome is 0 !");
+		}
+		for(ListesDiplome diplome : listesDiplome) {
+			ret.add(new Tag(diplome.getId(), diplome.getEcole() + " " + diplome.getFiliere() + " - " + diplome.getNiveauDiplome().getNiveau()));
+		} 
+		
+		return ret;
+	} 
+	public static List<Tag> convertMultiple(List<ListesDiplome> listesDiplomeByMultiple, String idNiveau) throws Exception{
+		List<Tag> ret = new ArrayList<Tag>();
+		if(listesDiplomeByMultiple.size()==0) {
+			throw new Exception("Error in convertToHashMap : size of listesDiplome is 0 !");
+		}
+		if(!idNiveau.equals("")){
+			for(ListesDiplome diplome : listesDiplomeByMultiple) {
+				if(idNiveau.equals(diplome.getNiveauDiplome().getId().toString())) {
+					ret.add(new Tag(diplome.getId(), diplome.getEcole() + " " + diplome.getFiliere() + " - " + diplome.getNiveauDiplome().getNiveau()));
+				}
+			}
+		} else{
+			for(ListesDiplome diplome : listesDiplomeByMultiple) { 
+				ret.add(new Tag(diplome.getId(), diplome.getEcole() + " " + diplome.getFiliere() + " - " + diplome.getNiveauDiplome().getNiveau()));
+			}
+		} 
+		
+		return ret;
+	} 
 	
 	public static List<Tag> convertDiplomeToListTag(List<ListesDiplome> listesDiplome) throws Exception{
 		List<Tag> ret = new ArrayList<Tag>();
@@ -174,9 +206,12 @@ public class GlobalHelper {
 	public static List<ListePromotionDetail> listAnotherSuggestion(List<ListePromotionDetail> suggestions, List<ListePromotionDetail> list) throws Exception{
 		List<ListePromotionDetail> ret = new ArrayList<ListePromotionDetail>();
 		try {
-			if(suggestions.size()==0 || list.size()==0) {
+			if( list.size()==0) {
 				throw new Exception("Error dans listAnotherSuggestion method : the size of argument List<ListePromotionDetail> listePromotionDetail,list is 0.");
 			} 
+			else if(suggestions.size()==0) {
+				return list;
+			}
 			for(ListePromotionDetail temp : list) {
 				for(ListePromotionDetail suggs : suggestions) { 
 					if(temp!=suggs) {

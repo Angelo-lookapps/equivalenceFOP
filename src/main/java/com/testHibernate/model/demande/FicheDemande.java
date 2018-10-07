@@ -33,7 +33,7 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		query = "SELECT fi FROM FicheDemande as fi ORDER BY :champ ASC "),
 	@NamedQuery(
 		name = "FicheDemande.pagination", 
-		query = "SELECT ld FROM FicheDemande as ld order by ld.id")	
+		query = "SELECT ld FROM FicheDemande as ld order by ld.id")
 
 })
 public class FicheDemande {

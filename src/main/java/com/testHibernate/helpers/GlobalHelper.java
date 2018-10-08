@@ -1,6 +1,8 @@
 package com.testHibernate.helpers;
 
+import java.sql.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import com.testHibernate.model.listePromotion.ListePromotionDetail;
 
 public class GlobalHelper {
 	 
+    public static SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy"); 
 	public static String _ArticleContent = "<hr />\r\n" +
 			"<p style=\"margin-left:40px; margin-right:0cm\"><span style=\"font-size:8px\"><span style=\"font-family:&quot;Times New Roman&quot;,serif\"><span style=\"color:#333333\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;MINISTERE DE LA FONCTION PUBLIQUE,</span></span></span></p>\r\n" + 
 			"\r\n" + 
@@ -136,9 +139,17 @@ public class GlobalHelper {
 		return ret;
 	} 
 	public static String getCurrentDate() {
-		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		java.util.Date date = new java.util.Date();
 		return  dateFormat.format(date);
+	} 
+	public static String convertToStringDate(Date date) {
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); 
+		return  dateFormat.format(date);
+	} 
+	public static Date convertToDate(String date) throws ParseException {
+	  
+		return  new java.sql.Date(formater.parse(date).getTime());
 	} 
 
 	public List<TempActivite> splitActivityTime(List<ActiviteRecent> list) throws Exception {
@@ -157,6 +168,7 @@ public class GlobalHelper {
 					subs[1] = act.getDateAjout();
 					tab1 = subs;
 				}
+				System.out.println("\n\n SplitActivite1 = "+tab1[0]);
 				temp.setDateAjout1(tab1[0]);
 				temp.setDateAjout2(tab1[1]);
 				

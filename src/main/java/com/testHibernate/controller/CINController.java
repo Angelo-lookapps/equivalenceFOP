@@ -25,7 +25,6 @@ import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.Tag;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
-import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.historique.ActiviteRecentService;

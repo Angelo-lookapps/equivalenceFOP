@@ -5,9 +5,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+
+import com.testHibernate.model.cin.CIN;
 
 
 @Entity(name="ListePromotionDetail")
@@ -16,9 +20,12 @@ import org.hibernate.annotations.NamedQuery;
 		name = "ListePromotionDetail.findByIdListePromotion", 
 		query = "SELECT c FROM ListePromotionDetail as c WHERE c.listePromotion.id = :idListePromotion "),
 	@NamedQuery(
-		name = "ListePromotionDetail.pagination", 
-		query = "SELECT ld FROM ListePromotionDetail as ld order by ld.id")
-	})
+			name = "ListePromotionDetail.pagination", 
+			query = "SELECT ld FROM ListePromotionDetail as ld order by ld.id"),
+	@NamedQuery(
+			name = "ListePromotionDetail.findAdmisByCIN", 
+			query = "SELECT ld FROM ListePromotionDetail as ld WHERE ld.cin.id = :idCin order by ld.id")
+ })
 public class ListePromotionDetail {
 
 	public ListePromotionDetail() {
@@ -47,6 +54,10 @@ public class ListePromotionDetail {
 	
 	private String numeroMatricule;
 	private String nomComplet;
+	
+	@ManyToOne
+	private CIN cin;
+	
 	private String dateNaissance;
 	private String lieuNaissance;
 	private String mention;
@@ -54,6 +65,16 @@ public class ListePromotionDetail {
 	private String dateAjout;
 	
 	
+	
+	
+	public CIN getCin() {
+		return cin;
+	}
+
+	public void setCin(CIN cin) {
+		this.cin = cin;
+	}
+
 	public String getDateAjout() {
 		return dateAjout;
 	}

@@ -67,37 +67,17 @@ public class CIN {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message = "CIN nom is required.")
+	
 	private String nom;
-	
-	@NotNull(message = "CIN prenom is required.")
 	private String prenom;
-	
-	@NotNull(message = "CIN dateNaissance is required.")
 	private Date dateNaissance;
-	
-	@NotNull(message = "CIN lieuNaissance is required.")
 	private String lieuNaissance;
-	
-	@NotNull(message = "CIN numeroCIN is required.")
 	private String numeroCIN;
-	
-	@NotNull(message = "CIN adresseActuelle is required.")
 	private String adresseActuelle;
-	
-	@NotNull(message = "CIN dateDelivrance is required.")
 	private Date dateDelivrance;
-	
-	@NotNull(message = "CIN lieuDelivrance is required.")
 	private String lieuDelivrance;
-	
-	@NotNull(message = "CIN nationalite is required.")
 	private String nationalite;
-	
-	@NotNull(message = "CIN fonction is required.")
 	private String fonction;
-	
-	@NotNull(message = "CIN lieuTravail is required.")
 	private String lieuTravail;
 	
 	@Lob

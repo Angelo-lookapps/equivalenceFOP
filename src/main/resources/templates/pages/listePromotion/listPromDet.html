@@ -111,29 +111,57 @@
                                             placeholder="Numéro d'Enregistrement . . ." id="numeroMatricule" required>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="nomComplet" class="col-sm-3 col-form-label">Nom et pr&egrave;nom</label>
-                                    <div class="col-lg-6 col-md-9 col-sm-12">
-                                        <input class="form-control" th:field="*{nomComplet}" type="text" placeholder="Nom complet . . ."
-                                            id="nomComplet" required>
-                                    </div>
+                                <!-- CHECKING CIN -->
+                         		<div class="form-group row">
+                           			<div class="col-lg-12 col-lg-offset-3">
+                           			 	<input  type="checkbox" id="hasCIN" th:onclick="|cocher()|"><small id="fileHelpTel" class="text-muted ">Cocher ici si vous voulez <b>joindre une carte d'identit&eacute;</b></small>
+                          	 	    </div>
+                               	</div> 
+                          	 	<!-- END --> 
+                                
+                                <!-- HIDDEN FIELD -->
+                                <div id="delete" hidden="true" class="form-group row"> 
+                                     <label class="col-sm-3 col-form-label">S&eacute;lectionner votre CIN</label>
+                                     <div class="col-lg-6 col-md-9 col-sm-12">
+                                     	<div class="input-group">
+                                     	   <input type="text" id="cinHidden" th:name="'idCin'" hidden>
+                                           <input type="text" class="form-control" id="cinChamp" placeholder="Carte d'identité..." data-toggle="modal" data-target="#searchCINModal">
+                                           <span class="input-group-btn">
+                                               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchCINModal">Choisir</button>
+                                           </span>
+                                       	</div><!-- /input-group -->
+                                     </div>   
                                 </div>
-
-
-                                <div class="form-group row">
-                                    <label for="dateNaissance" class="col-sm-3 col-form-label">Date et lieu de
-                                        naissance</label>
-                                    <div class="col-lg-3  ">
-                                        <input class="form-control" th:field="*{dateNaissance}" type="date" placeholder="date naissance . . ."
-                                            id="dateNaissance" required>
-                                    </div>
-                                    <div class="col-sm-1 ">
-                                        <label for="lieuNaissance" class="col-form-label"> &agrave; </label>
-                                    </div>
-                                    <div class="col-lg-3  ">
-                                        <input class="form-control" th:field="*{lieuNaissance}" type="text" placeholder="lieu Naissance . . ."
-                                            id="lieuNaissance" required>
-                                    </div>
+								<!-- END -->
+								<div id="delete2"> 
+									<div class="form-group row">
+	                                    <label for="nomComplet" class="col-sm-3 col-form-label">Nom et pr&egrave;nom</label>
+	                                    <div class="col-lg-6 col-md-9 col-sm-12">
+	                                        <input class="form-control" th:field="*{nomComplet}" type="text" placeholder="Nom complet . . ." id="nomComplet" > 
+	                                    </div>
+	                                </div>
+	                                <div class="form-group row">
+	                                    <label for="dateNaissance" class="col-sm-3 col-form-label">Date et lieu de
+	                                        naissance</label>
+	                                    <div class="col-lg-3  ">
+	                                        <input class="form-control" th:field="*{dateNaissance}" type="date" placeholder="date naissance . . ."
+	                                            id="dateNaissance" >
+	                                    </div>
+	                                    <div class="col-sm-1 ">
+	                                        <label for="lieuNaissance" class="col-form-label"> &agrave; </label>
+	                                    </div>
+	                                    <div class="col-lg-3  ">
+	                                        <input class="form-control" th:field="*{lieuNaissance}" type="text" placeholder="lieu Naissance . . ."
+	                                            id="lieuNaissance" >
+	                                    </div>
+	                                </div>
+                                 	<div class="form-group row">
+                                    <label for="numeroMatricule" class="col-sm-3 col-form-label">Adresse postale</label>
+	                                    <div class="col-lg-6 col-md-9 col-sm-12">
+	                                        <input class="form-control" th:name="'adresseActuelle'" type="text"
+	                                            placeholder="Votre adresse actuelle . . ." id="adresseActuelle" >
+	                                    </div>
+                                	</div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Mention</label>
@@ -317,12 +345,165 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+        
+         <!-- MODALS DIALOG -->
+                <div class="modal fade" id="searchCINModal" tabindex="-1" role="dialog">	
+	                <div class="modal-dialog" role="document">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+	                                    aria-hidden="true">&times;</span></button>
+	                            <h1 class="modal-title">Rechercher Carte d'identit&eacute; </h1>
+	                        </div>
+	                        <!-- <form th:action="@{/searchCIN}" method="GET"> -->
+	                        <ul class="nav nav-tabs tabs-top">
+	                        	<li><a href="#searchCIN1" data-toggle="tab"><i class="fa fa-search"></i> Recherche simple</a></li>
+	                        	<li><a href="#searchCIN2" data-toggle="tab"><i class="fa fa-search-plus"></i> Recherche Avanc&eacute;e</a></li>
+		                    </ul>   
+	                            <div class="modal-body  tab-content">   
+	                                <div class="tab-pane fade in active" id="searchCIN1">
+		                                <div class="form-group row">
+		                                    <div class="col-sm-12">
+		                                    	<div class="col-md-3">
+		                                    		<label for="example-text-input" class=" col-form-label">Champ de recherche :</label>
+		                                    	</div>
+		                                    	<div class="col-md-6" >
+		                                        	<input class="form-control" id="cin" type="text" placeholder="Rechercher d'une CIN ...">
+		                                        </div>
+		                                        <div class="col-md-3">
+		                                        	<button class="btn btn-base " th:onclick="|searchCIN()|" > RECHERCHE</button>
+		                                    	</div>
+		                                    </div>
+	                                    </div>
+                                    </div>
+                                  	<div class="tab-pane fade" id="searchCIN2">
+	                                  	<div class="form-group row">  
+		                                    <div class="col-sm-12">
+		                                    	<h5>Recherche par crit&egrave;re :</h5> 
+		                                        <div class="form-group row">
+				                                    <label for="nom" class="col-md-2 col-form-label">Nom </label>
+				                                    <div class="col-md-4">
+				                                        <input class="form-control" type="text" th:name="'nom'" placeholder=" " id="nom">
+				                                    </div>
+				                                    <label for="prenom" class="col-md-2 col-form-label">Pr&egrave;nom </label>
+				                                    <div class="col-md-4 ">
+				                                        <input class="form-control" type="text" th:name="'prenom'" placeholder=" " id="prenom">
+				                                    </div>
+				                                </div> 
+				                                <div class="form-group row">
+				                                    <label for="numeroCIN" class="col-sm-2 col-form-label">N° carte d'identtit&eacute; </label>
+				                                    <div class="col-md-6 col-md-offset-1">
+				                                        <input class="form-control" type="number" th:name="'numeroCIN'" placeholder=" " id="numeroCIN" aria-describedby="fileHelpCIN">
+				                                    	<small id="fileHelpCIN" class="text-muted ">ex: 117 225 123 000</small>
+		                                    		</div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="adresseActuelle" class="col-sm-2 col-form-label">Adresse postale </label>
+				                                    <div class="col-md-6 col-md-offset-1">
+				                                        <input class="form-control" type="text" th:name="'adresseActuelle'" placeholder=" " id="adresseActuelle">
+				                                    </div>
+				                                </div> 
+				                                <div class="form-group row">
+				                                    <label for="fonction" class="col-md-2 col-form-label">Fonction et lieu de travail </label>
+				                                    <div class="col-md-4">
+				                                        <input class="form-control" type="text" th:name="'fonction'" placeholder=" " id="fonction">
+				                                    </div>
+				                                    <label for="lieuTravail" class="col-md-2 col-form-label"> chez </label>
+				                                    <div class="col-md-4 ">
+				                                        <input class="form-control" type="text" th:name="'lieuTravail'" placeholder=" " id="lieuTravail">
+				                                    </div>
+				                                </div> 
+		                                        <div class="col-md-6 col-md-offset-5">
+		                                        	<button class="btn btn-base " th:onclick="|searchCritereCIN()|" >RECHERCHE</button>
+		                                    	</div>
+		                                    </div>
+	                                    </div>
+                                    </div>
+                                    <div class="form-group row">
+	                                    <div class="skin-flat">
+	                                    	<div id="outputCIN" class="row"></div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="modal-footer">
+	                                <button  class="btn btn-base" data-dismiss="modal" >Ok</button>
+	                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+	                            </div>
+	                        <!-- </form> -->
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+	            </div><!-- /.modal -->
     </div> <!-- /.main content -->
     <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
 
     <!-- ./²wrapper -->
     <!-- START CORE PLUGINS -->
     <script>
+    	function cocher(){
+    		$("#hasCIN").change(function() { 
+    	  		$("#delete").attr("hidden", !this.checked);
+    	  		$("#delete2").attr("hidden", this.checked);
+    		});
+    	}
+    
+	    function searchCritereCIN() { 
+			$.ajax({
+				  method: "GET",
+				  url: "http://localhost:8080/searchCritereCIN",
+				  data: { 
+					  	nomCIN: $("#nom").val(),
+					  	prenom: $("#prenom").val(), 
+					  	numeroCIN: $("#numeroCIN").val() ,
+					  	adresseActuelle: $("#adresseActuelle").val(), 
+					  	fonction: $("#fonction").val(),
+					  	lieuTravail: $("#lieuTravail").val()  
+					  	}
+				}).done(function( msg ) {
+					//var obj = JSON.parse(msg); 
+					
+					$('#outputCIN').html(getHtml(msg,"setIdCIN")); 
+					
+					 console.log( "Data Saved: " + msg);
+					//$("#outputCIN").html(msg);
+				   
+		  		});
+		}
+		
+		function searchCIN() {
+			$.ajax({
+				  method: "GET",
+				  url: "http://localhost:8080/searchCIN",
+				  data: { champ: $("#cin").val() }
+				}).done(function( msg ) {
+					//var obj = JSON.parse(msg); 
+					
+					$('#outputCIN').html(getHtml(msg,"setIdCIN")); 
+					
+					 console.log( "Data Saved: " + msg[0].tagName );
+					//$("#outputCIN").html(msg);
+				   
+		  		});
+		}
+		function setIdCIN(id, name){ 
+			 $('#cinChamp').val(name); 
+			 $('#cinHidden').val(id);
+			// cinChamp.setAttribute("name", "cin");
+		}
+		function getHtml(msg, fonction){
+			var html = "<div class=\"col-md-10\"><h4>Resultat(s) du recherche : <b class=\"text-primary\" >" + msg.length + " </b></h4>";
+			//console.log("size = " + msg.length);
+			html+="<div class=\"col-md-1\"></div><div class=\"col-md-11\"> ";
+			var i = 0; 
+			while (i < msg.length){
+				html+="<div class=\"i-check\"><input tabindex=\""+i+"\" "+
+					  "type=\"radio\" id=\"flat-radio-"+i+"\" name=\"selectRadio\" onclick=\""+fonction+"("+ msg[i].id + ",'" + msg[i].tagName + "')\" value=\""+msg[i].id+"\">"+
+					  "  <label for=\"flat-radio-"+i+"\"> " + msg[i].tagName + " </label></div>";
+				i++;
+			}
+			html+="</div><div class=\"col-md-2\"></div></div>";
+			return html;
+		}
+		
         //My Methods
         function goToDelete(id) {
             var txt;

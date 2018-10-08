@@ -2,6 +2,7 @@ package com.testHibernate.controller;
 
  
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +24,15 @@ import com.testHibernate.converts.listePromotion.ListePromotionToListePromotionF
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.importFile.excel.MyReaderExcel;
+import com.testHibernate.model.cin.CIN;
+import com.testHibernate.model.cin.CINForm;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 import com.testHibernate.model.listePromotion.ListePromotionForm;
+import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.historique.ActiviteRecentService;
 import com.testHibernate.service.listePromotion.ListePromotionDetailService;
@@ -43,12 +47,17 @@ public class ListePromotionController {
 	 private ListePromotionToListePromotionForm listePromotionToListePromotionForm;
 	 private ListesDiplomeService listesDiplomeService;
 	 private ListePromotionDetailToListePromotionDetailForm listePromotionDetailToListePromotionDetailForm;
-	 
+	 private CINService cinService;
 	 private HttpSession session;
 	 
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
+	 }
+	 
+	 @Autowired
+	 public void setCINService(CINService cinService) {
+		this.cinService = cinService;
 	 }
 	 
 	 @Autowired
@@ -142,7 +151,7 @@ public class ListePromotionController {
 	}
 	
 	@PostMapping("/saveAdmis/{id}")
-	public String ajoutAdmisDetail(@PathVariable String id,@Valid  @ModelAttribute ListePromotionDetailForm listePromotionDetailForm , BindingResult bindingResult, Model model) {
+	public String ajoutAdmisDetail(@PathVariable String id,@Valid  @ModelAttribute ListePromotionDetailForm listePromotionDetailForm, @RequestParam(required=true) String idCin, @RequestParam(required=false) String adresseActuelle , BindingResult bindingResult, Model model) {
 		ListePromotionDetail listesSaved = null;
 		ListePromotion listePromotion1 = listePromotionService.getById(Long.valueOf(id));
 		if(listePromotion1==null) {
@@ -152,21 +161,42 @@ public class ListePromotionController {
 		if(bindingResult.hasErrors()){
 			return "redirect:/error505";
 		}  
+		CIN getit = null;
+		
 		try {
-			
 			if(!listePromotionDetailForm.getNomComplet().equals("") || !listePromotionDetailForm.getLieuNaissance().equals("") ) {
 				listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
-				listePromotionDetailForm.setListePromotion(listePromotion1);
-				listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
-				System.out.println("\n\n\n GEGE ===== " + listesSaved.getNomComplet());
+				  getit = insertNewCIN(listePromotionDetailForm.getNomComplet(), listePromotionDetailForm.getDateNaissance(), listePromotionDetailForm.getLieuNaissance(), adresseActuelle); 
+			}else {
 				
-				//Mis en historique
-				ActiviteRecent historique = new ActiviteRecent(); 
-				 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
-				 	historique.setDateAjout(GlobalHelper.getCurrentDate());
-				 	activiteRecentService.saveOrUpdate(historique);
-			 	//fin historique
+				if(!idCin.equals("")) {
+					getit = cinService.getById(Long.valueOf(idCin));
+					if(getit==null) {
+						return "redirect:/error404/listProm";
+					}
+				}
+				System.out.println("\n\n getIt = "+getit.getNom()+" "+getit.getPrenom());
+				String nomComplet = getit.getNom()+" "+getit.getPrenom();
+				String dateNaissance = GlobalHelper.convertToStringDate(getit.getDateNaissance()); 
+				
+				listePromotionDetailForm.setNomComplet(nomComplet);
+				listePromotionDetailForm.setDateNaissance(dateNaissance);
+				listePromotionDetailForm.setLieuNaissance(getit.getLieuNaissance()); 
 			}
+		
+		listePromotionDetailForm.setCin(getit); 
+		listePromotionDetailForm.setListePromotion(listePromotion1);
+		//System.out.println("\n\n listePromotionDetailForm = "+listePromotionDetailForm.getMention());
+		listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
+		System.out.println("\n\n\n GEGE ===== " + listesSaved.getNomComplet());
+		
+		//Mis en historique
+		ActiviteRecent historique = new ActiviteRecent(); 
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
+		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+		 	activiteRecentService.saveOrUpdate(historique);
+	 	//fin historique
+			
 
 		}catch(Exception er) {
 			er.printStackTrace();
@@ -390,4 +420,37 @@ public class ListePromotionController {
 		return ret;
 	}
 	
+	public CIN insertNewCIN(String nomComplet, String dateNaissance, String lieuNaissance, String adresseActuelle) {
+		CIN ret = null;
+		try {
+			if(!nomComplet.equals("") && !dateNaissance.equals("") && !lieuNaissance.equals("")) {
+				String[] tab1 = nomComplet.split(" ");
+				CINForm cinForm = new CINForm();
+				cinForm.setNom(tab1[0]);
+				cinForm.setPrenom(tab1[1]);
+				cinForm.setDateNaissance(Date.valueOf(dateNaissance));
+				cinForm.setLieuNaissance(lieuNaissance);
+				cinForm.setAdresseActuelle(adresseActuelle);
+				cinForm.setDateAjout(GlobalHelper.getCurrentDate());
+				cinForm.setFonction("");
+				cinForm.setLieuTravail("");
+				cinForm.setDateDelivrance(Date.valueOf(GlobalHelper.getCurrentDate()));
+				cinForm.setLieuNaissance("");
+				cinForm.setNationalite("Malagasy");
+				cinForm.setPhoto("".getBytes());
+				
+				ret = cinService.saveOrUpdateCINForm(cinForm); 
+				
+				 //Mis en historique
+				 ActiviteRecent historique = new ActiviteRecent(); 
+				 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un CIN "+ret.getNom().toUpperCase()+" "+ret.getPrenom()));
+				 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+				 	activiteRecentService.saveOrUpdate(historique);
+			 	 //fin historique0
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ret;
+	}
 }

@@ -36,8 +36,6 @@ public class ArreteController {
 	
 	 private ArreteEqRefService arreteEqRefService;
 	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm; 
-	 private ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef;
-	 
 	 private ListesDiplomeService listesDiplomeService;
 	 
 	 private ActiviteRecentService activiteRecentService;
@@ -50,7 +48,6 @@ public class ArreteController {
 	 
 	 @Autowired
 	 public void setArreteEqRefFormToArreteEqRef(ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef) {
-		this.arreteEqRefFormToArreteEqRef = arreteEqRefFormToArreteEqRef;
 	 }
 	 
 	 @Autowired
@@ -83,7 +80,7 @@ public class ArreteController {
 	public String ajoutArrete(@Valid  @ModelAttribute ArreteEqRefForm arreteEqRefForm , BindingResult bindingResult, Model model) {
 		ArreteEqRef listesSaved = null;
 		if(bindingResult.hasErrors()){
-			return "pages/equivalence/listArrete";
+			return "redirect/error404/listArrete";
 		}
 		try {
 			 
@@ -100,7 +97,6 @@ public class ArreteController {
 		content.setArreteEqRef(listesSaved);
 		content.setDateAjout(GlobalHelper.getCurrentDate());
 		ContentArrete temp = this.contentArreteService.saveOrUpdate(content);
-		//System.out.println("\n\n\n IS WORKING ??????????????");
 		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
 		}catch(Exception e) {
 			e.printStackTrace();

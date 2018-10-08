@@ -335,7 +335,10 @@ public class FicheDemandeController {
 	 @GetMapping("/traitement/{id}")
 	 public String traitementFiche(@PathVariable String id, Model model){
 		 	FicheDemande ficheSaved = ficheDemandeService.getById(Long.valueOf(id));
-	 try {
+		 	
+		 	ListePromotionDetail list = listePromotionDetailService.getById(Long.valueOf(id));
+			
+	try {
 			
 		 if(ficheSaved==null) {
 			 System.out.println("\n\n\n ficheSaved==null \n");

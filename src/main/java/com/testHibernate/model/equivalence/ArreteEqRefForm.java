@@ -23,13 +23,13 @@ public class ArreteEqRefForm {
 	private String anneeSortie;
 	private String titre;
 	private String dateAjout;
-	private boolean status;
+	private Boolean status;
 	
-	public boolean getStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean statut) {
+	public void setStatus(Boolean statut) {
 		this.status = statut;
 	}
 

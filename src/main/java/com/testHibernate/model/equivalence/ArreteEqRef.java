@@ -47,17 +47,18 @@ public class ArreteEqRef {
 	private String anneeSortie;
 	private String titre;
 	
-	private boolean status;
+	
+	private Boolean status;
 	
 	private String dateAjout;
 	
 	
 	
-	public boolean getStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean statut) {
+	public void setStatus(Boolean statut) {
 		this.status = statut;
 	}
 

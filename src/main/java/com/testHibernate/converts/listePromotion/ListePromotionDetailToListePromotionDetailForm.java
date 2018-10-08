@@ -17,6 +17,7 @@ public class ListePromotionDetailToListePromotionDetailForm implements Converter
     	tousListeDiplomeDetailForm.setNumeroMatricule(listePromotionDetail.getNumeroMatricule());
     	tousListeDiplomeDetailForm.setListePromotion(listePromotionDetail.getListePromotion());
     	tousListeDiplomeDetailForm.setNomComplet(listePromotionDetail.getNomComplet());
+    	tousListeDiplomeDetailForm.setCin(listePromotionDetail.getCin());
     	tousListeDiplomeDetailForm.setDateNaissance(listePromotionDetail.getDateNaissance());  
     	tousListeDiplomeDetailForm.setLieuNaissance(listePromotionDetail.getLieuNaissance());
     	tousListeDiplomeDetailForm.setMention(listePromotionDetail.getMention());

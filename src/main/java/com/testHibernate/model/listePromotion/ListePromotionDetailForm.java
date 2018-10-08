@@ -1,5 +1,6 @@
 package com.testHibernate.model.listePromotion;
-  
+
+import com.testHibernate.model.cin.CIN;
 
 public class ListePromotionDetailForm {
 
@@ -25,11 +26,20 @@ public class ListePromotionDetailForm {
  	private ListePromotion listePromotion;
  	private String numeroMatricule;
 	private String nomComplet;
+	private CIN cin;
 	private String dateNaissance;
 	private String lieuNaissance;
 	private String mention;
 	private String dateAjout;
 	
+
+	public CIN getCin() {
+		return cin;
+	}
+
+	public void setCin(CIN cin) {
+		this.cin = cin;
+	}
 
 	public void setDateAjout(String dateAjout) {
 		this.dateAjout = dateAjout;

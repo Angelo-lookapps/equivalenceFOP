@@ -83,4 +83,18 @@ public class ListePromotionDetailServiceImpl implements ListePromotionDetailServ
 		
 		return ret; 
 	}
+
+	@Override
+	public ListePromotionDetail getAdmisByCIN(Long idCin) throws Exception {
+		TypedQuery<ListePromotionDetail> query = em.createNamedQuery("ListePromotionDetail.findByIdListePromotion", ListePromotionDetail.class).setParameter("idCin", idCin);
+		List<ListePromotionDetail> ret = query.getResultList();
+		ListePromotionDetail retour = null;
+		if(ret.size()!=0) {
+			retour = ret.get(0);
+		}else {
+			throw new Exception("Error in com.testHibernate.service.listePromotion.ListePromotionDetailServiceImpl.getAdmisByCIN : size is 0");
+		}
+		
+		return retour;
+	}
 }

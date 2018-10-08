@@ -1,6 +1,7 @@
 package com.testHibernate.importFile.excel;
  
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.model.cin.CIN; 
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 
@@ -19,6 +22,7 @@ public class MyReaderExcel {
 	public List<ListePromotionDetailForm> getPromotionByExcel(String fileName, ListePromotion listePromotion) throws Exception{
 		List<ListePromotionDetailForm> ret = new ArrayList<ListePromotionDetailForm>();
 		Workbook workbook = null;
+		System.out.println("\n\n ListePormotion = "+listePromotion.getNomPromotion());
 		try { 		
 			// Creating a Workbook from an Excel file (.xls or .xlsx)
 	        workbook = WorkbookFactory.create(new File(fileName));
@@ -36,22 +40,34 @@ public class MyReaderExcel {
 	        // 2. Or you can use a for-each loop to iterate over the rows and columns
 	        for (Row row: sheet) {
 	        	ListePromotionDetailForm temp = new ListePromotionDetailForm();
-	        	System.out.println(dataFormatter.formatCellValue(row.getCell(0)) + "\t" + dataFormatter.formatCellValue(row.getCell(1)) + "\t" + dataFormatter.formatCellValue(row.getCell(2))+ "\t" + dataFormatter.formatCellValue(row.getCell(3))+ "\t" + dataFormatter.formatCellValue(row.getCell(4)));
+	        	System.out.println(dataFormatter.formatCellValue(row.getCell(0)) + 
+	        			"\t" + dataFormatter.formatCellValue(row.getCell(1)) +
+	        			"\t" + dataFormatter.formatCellValue(row.getCell(2)) +
+	        			"\t" + dataFormatter.formatCellValue(row.getCell(3)) + 
+	        			"\t" + dataFormatter.formatCellValue(row.getCell(4)) +
+	        			"\t" + dataFormatter.formatCellValue(row.getCell(5)));
 	        	
-	        	if(!dataFormatter.formatCellValue(row.getCell(0)).equals("") && !dataFormatter.formatCellValue(row.getCell(4)).equals("Mention")) {
-	        		temp.setListePromotion(listePromotion);
-	        		Long id = !dataFormatter.formatCellValue(row.getCell(0)).equals("#") ? Long.parseLong(dataFormatter.formatCellValue(row.getCell(0))) : 0;
-	        		//temp.setId(id); 			//ID
-	                temp.setNumeroMatricule(dataFormatter.formatCellValue(row.getCell(1)));			 	//N° matricule
-	                temp.setNomComplet(dataFormatter.formatCellValue(row.getCell(2)));					//Nom complet
-	                
-	                String[] tabs = dataFormatter.formatCellValue(row.getCell(3)).split("à");
+        		if(!dataFormatter.formatCellValue(row.getCell(0)).equals("") && !dataFormatter.formatCellValue(row.getCell(4)).equals("Mention")) {
+	    	        
+        			//temp.setId(id); 			//ID
+        			temp.setNumeroMatricule(dataFormatter.formatCellValue(row.getCell(0)));			 	//N° matricule
+	                temp.setNomComplet(dataFormatter.formatCellValue(row.getCell(1)));					//Nom complet
+	                String[] tabs = null;
+	                CIN cin = null;
+	                if( dataFormatter.formatCellValue(row.getCell(2)).split("à").length!=0) {
+	                	tabs = dataFormatter.formatCellValue(row.getCell(2)).split("à");      
+	                }
+	                else {
+	                	tabs = dataFormatter.formatCellValue(row.getCell(2)).split(" ");  
+	                } 	
 	                temp.setDateNaissance(tabs[0]);	 		//Date naissance
 	                temp.setLieuNaissance(tabs[1]);	 		//Lieu naissance
-	                																		 
+	                cin = utilCIN(dataFormatter.formatCellValue(row.getCell(1)), tabs[0], tabs[1], dataFormatter.formatCellValue(row.getCell(3)));
+			        temp.setListePromotion(listePromotion);
+	                temp.setCin(cin); 														 
 	                temp.setMention(dataFormatter.formatCellValue(row.getCell(4)));	//Mention
 	                ret.add(temp);
-	        	} 
+        		} 
 	        } 
 	        
 	        if(workbook!=null) { 
@@ -62,5 +78,24 @@ public class MyReaderExcel {
         } 
 		
 		return ret;
+	}
+	public CIN utilCIN(String nomComplet, String dateNaissance, String lieuNaissance, String adresseActuelle) throws ParseException {
+		String[] tab1 = nomComplet.split(" ");
+		CIN cinForm = new CIN();
+		cinForm.setNom(tab1[0]);
+		cinForm.setPrenom(tab1[1]);
+		cinForm.setDateNaissance(GlobalHelper.convertStringToDate(dateNaissance));
+		cinForm.setLieuNaissance(lieuNaissance);
+		cinForm.setAdresseActuelle(adresseActuelle);
+		cinForm.setDateAjout(GlobalHelper.getCurrentDate());
+		cinForm.setNumeroCIN("");
+		cinForm.setFonction("");
+		cinForm.setLieuTravail("");
+		cinForm.setDateDelivrance(GlobalHelper.convertStringToDate(GlobalHelper.getCurrentDate()));
+		cinForm.setLieuDelivrance("(Temporaire)");
+		cinForm.setNationalite("Malagasy");
+		cinForm.setPhoto("".getBytes());
+		//System.out.println("\n\n CIN IMPORT OK!!!!\n");
+		return cinForm;
 	}
 }

@@ -147,31 +147,22 @@
                                     Message!!!</strong>
                             </div>
                             <div class="modal-body">
-                                <div class="form-group row">
-                                    <div th:if="${not #lists.isEmpty(listeDiploma)}">
-                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me
-                                        </label>
-                                        <div class="col-sm-7">
-                                            <select class="form-control basic-single" th:field="*{listesDiplome}">
-                                                <div th:each="ecole : ${listEcole}">
-                                                    <optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
-                                                        <div th:each="diplome : ${listeDiploma}">
-                                                            <div th:if="${ecole == diplome.ecole}">
-                                                                <option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} "></option>
-                                                            </div>
-                                                        </div>
-                                                    </optgroup>
-                                                </div>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1 col-form-label"><b><a href="/newDiploma" data-toggle="tooltip"
-                                                data-placement="right" title="Ajouter une nouvelle Diplome" th:text="'Nouveau!!!'"></a></b></div>
-                                </div>
+                                <div class="form-group row"> 
+                                    <label class="col-sm-3 col-form-label">Veuillez choisir le dipl&ocirc;me</label>
+                                     <div class="col-lg-8 col-md-9 col-sm-12">
+                                     	<div class="input-group">
+                                     	   <input type="text" id="listeDiplomeHidden"  th:name="'listeDiplome'" hidden>
+                                           <input type="text" class="form-control" id="listeDiplomeChamp" placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
+                                           <span class="input-group-btn">
+                                               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchlisteDiplomeModal">Choisir</button>
+                                           </span>
+                                       	</div><!-- /input-group -->
+                                     </div>  
+                                </div> 
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Session </label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control  basic-single" th:field="*{sessionSortie}">
+                                    <div class="col-sm-8">
+                                        <select class="form-control " th:field="*{sessionSortie}">
                                             <option disabled="disabled" selected="selected" th:value="${#calendars.format(#calendars.createNow(), 'yyyy')}"
                                                 th:text="'Session le'"></option>
                                             <!--placeholder-->
@@ -184,7 +175,7 @@
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Nom de la promotion
                                         :</label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-8">
                                         <input class="form-control" type="text" th:field="*{nomPromotion}" required>
                                     </div>
                                 </div>
@@ -197,6 +188,92 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+            
+             <!-- MODALS DIALOG -->
+	            <div class="modal fade" id="searchlisteDiplomeModal" tabindex="-1" role="dialog">	
+	                <div class="modal-dialog" role="document">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+	                                    aria-hidden="true">&times;</span></button>
+	                            <h1 class="modal-title">Rechercher dipl&ocirc;me </h1>
+	                        </div>
+	                        <!-- <form th:action="@{/searchCIN}" method="GET"> -->
+	                        <ul class="nav nav-tabs tabs-top">
+	                        	<li><a href="#search1" data-toggle="tab"><i class="fa fa-search"></i> Recherche simple</a></li>
+	                        	<li><a href="#search2" data-toggle="tab"><i class="fa fa-search-plus"></i> Recherche Avanc&eacute;e</a></li>
+		                    </ul>   
+	                            <div class="modal-body  tab-content">   
+	                                <div class="tab-pane fade in active" id="search1">
+		                                <div class="form-group row">
+		                                    <div class="col-sm-12">
+		                                    	<div class="col-md-3">
+		                                    		<label for="example-text-input" class=" col-form-label">Champ de recherche :</label>
+		                                    	</div>
+		                                    	<div class="col-md-6" >
+		                                        	<input class="form-control" id="listeDiplome" type="text" placeholder="Rechercher Diplôme ...">
+		                                        </div>
+		                                        <div class="col-md-3">
+		                                        	<button class="btn btn-base " th:onclick="|searchListeDiplome()|" > RECHERCHE</button>
+		                                    	</div>
+		                                    </div>
+	                                    </div>
+                                    </div> 
+                                  	<div class="tab-pane fade" id="search2">
+	                                  	<div class="form-group row">  
+		                                    <div class="col-sm-12">
+		                                    	<h5>Recherche par crit&egrave;re :</h5> 
+		                                        <div class="form-group row">
+				                                    <label for="dateRetrait" class="col-sm-2 col-form-label">Ecole </label>
+				                                    <div class="col-md-8 col-md-offset-1">
+				                                        <input class="form-control" type="text" th:name="'ecole'" placeholder=" " id="ecole">
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="dateRetrait" class="col-sm-2 col-form-label">Fili&egrave;re </label>
+				                                    <div class="col-md-8 col-md-offset-1">
+				                                        <input class="form-control" type="text" th:name="'filiere'" placeholder=" " id="filiere">
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="dateRetrait" class="col-sm-2 col-form-label">Option </label>
+				                                    <div class="col-md-8 col-md-offset-1">
+				                                        <input class="form-control" type="text" th:name="'option'" placeholder=" " id="option">
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+								                    <div th:if="${not #lists.isEmpty(listNiveauDiploma)}" >
+								                    	<label for="dateRetrait" class="col-sm-2 col-form-label">Niveau </label>
+				                                      	<div class="col-md-8 col-md-offset-1">
+								                             <select class="form-control" th:name="'niveau'" id="niveau">
+								                                  <option th:value="''" th:text="'-- Tous les niveaux --'"> </option> 
+								                                  <div th:each="niveau : ${listNiveauDiploma}"> 
+								                                       <option th:value="${niveau.id}" th:text="${niveau.niveau}"> </option> 
+								                                  </div>
+								                             </select>
+								                        </div>
+								                 	</div>
+								                </div>	 
+		                                        <div class="col-md-6 col-md-offset-5">
+		                                        	<button class="btn btn-base " th:onclick="|searchCritereDiplome()|" >RECHERCHE</button>
+		                                    	</div>
+		                                    </div>
+	                                    </div>
+                                    </div>
+                                    <div class="form-group row">
+	                                    <div class="skin-flat">
+	                                    	<div id="outputlisteDiplome" class="row"></div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="modal-footer">
+	                                <button  class="btn btn-base" data-dismiss="modal" >Ok</button>
+	                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+	                            </div>
+	                        <!-- </form> -->
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+	            </div><!-- /.modal -->
 
         </div> <!-- /.main content -->
     </div>
@@ -225,6 +302,61 @@
             	
             }
         }
+        
+        function searchListeDiplome() {
+    		$.ajax({
+    			  method: "GET",
+    			  url: "http://localhost:8080/searchDiplome",
+    			  data: { champ: $("#listeDiplome").val() }
+    			}).done(function( msg ) {
+    				//var obj = JSON.parse(msg); 
+    				
+    				$('#outputlisteDiplome').html(getHtml(msg,"setIdDiplome")); 
+    				
+    				 console.log( "Data Saved: " + msg[0].tagName );
+    				//$("#outputCIN").html(msg);
+    			   
+    	  		});
+    	}
+    	function searchCritereDiplome() { 
+    		$.ajax({
+    			  method: "GET",
+    			  url: "http://localhost:8080/searchCritereDiplome",
+    			  data: { 
+    				  	ecole: $("#ecole").val(),
+    				  	filiere: $("#filiere").val(),
+    				  	option: $("#option").val() ,
+    				  	niveau: $("#niveau").val()
+    				  	}
+    			}).done(function( msg ) {
+    				//var obj = JSON.parse(msg); 
+    				
+    				$('#outputlisteDiplome').html(getHtml(msg,"setIdDiplome")); 
+    				
+    				 console.log( "Data Saved: " + msg);
+    				//$("#outputCIN").html(msg);
+    			   
+    	  		});
+    	}
+    	function setIdDiplome(id, name){ 
+   		 $('#listeDiplomeChamp').val(name); 
+   		 $('#listeDiplomeHidden').val(id);
+   		// cinChamp.setAttribute("name", "cin");
+	   	} 
+	   	function getHtml(msg, fonction){
+	   		var html = "<div class=\"col-md-10\"><h4>Resultat(s) du recherche : <b class=\"text-primary\" >" + msg.length + " </b></h4>";
+	   		//console.log("size = " + msg.length);
+	   		html+="<div class=\"col-md-1\"></div><div class=\"col-md-11\"> ";
+	   		var i = 0; 
+	   		while (i < msg.length){
+	   			html+="<div class=\"i-check\"><input tabindex=\""+i+"\" "+
+	   				  "type=\"radio\" id=\"flat-radio-"+i+"\" name=\"selectRadio\" onclick=\""+fonction+"("+ msg[i].id + ",'" + msg[i].tagName + "')\" value=\""+msg[i].id+"\">"+
+	   				  "  <label for=\"flat-radio-"+i+"\"> " + msg[i].tagName + " </label></div>";
+	   			i++;
+	   		}
+	   		html+="</div><div class=\"col-md-2\"></div></div>";
+	   		return html;
+	   	}
     </script>
 
     <!-- DataTable Js -->

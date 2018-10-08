@@ -1,17 +1,15 @@
 package com.testHibernate.helpers;
-
-import java.sql.Date;
+ 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.testHibernate.model.cin.CIN;
-import com.testHibernate.model.demande.FicheDemande;
-import com.testHibernate.model.diplome.ListesDiplome;
-import com.testHibernate.model.diplome.NiveauDiplome;
+import com.testHibernate.model.cin.CIN; 
+import com.testHibernate.model.diplome.ListesDiplome; 
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
 
@@ -143,14 +141,25 @@ public class GlobalHelper {
 		java.util.Date date = new java.util.Date();
 		return  dateFormat.format(date);
 	} 
-	public static String convertToStringDate(Date date) {
-		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); 
-		return  dateFormat.format(date);
+	public static String convertToStringDate(java.sql.Date date) { 
+		return  formater.format(date);
 	} 
-	public static Date convertToDate(String date) throws ParseException {
-	  
-		return  new java.sql.Date(formater.parse(date).getTime());
-	} 
+	public static String formatDate(String date) throws ParseException { 
+		Date ret = formater.parse(date);
+		return  ret.getDay()+"-"+ret.getMonth()+"-"+ret.getYear();
+	}
+	public static java.sql.Date convertStringToDate(String date){ 
+        java.sql.Date ret = null;
+        java.util.Date temp = null;
+        try{
+            temp =  formater.parse(date);
+            ret = new java.sql.Date(temp.getTime());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return ret; 
+    }
+    
 
 	public List<TempActivite> splitActivityTime(List<ActiviteRecent> list) throws Exception {
 		List<TempActivite> ret = new ArrayList<TempActivite>();

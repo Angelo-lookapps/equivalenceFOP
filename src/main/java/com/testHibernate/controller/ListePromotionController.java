@@ -129,16 +129,15 @@ public class ListePromotionController {
 	 }	
 	
 	@PostMapping("/savePromo")
-	public String ajoutPromo(@Valid  @ModelAttribute ListePromotionForm listePromotionForm , BindingResult bindingResult, Model model) {
+	public String ajoutPromo(@Valid  @ModelAttribute ListePromotionForm listePromotionForm , @RequestParam(required=false) String listeDiplome, BindingResult bindingResult, Model model) {
 		
 		ListePromotion listesSaved = null;
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
-		} 
-		System.out.println("\n\n Hello world \n");
-		listePromotionForm.setDateAjout(GlobalHelper.getCurrentDate());
-		
-		System.out.println("\n\n date d'ajout = "+listePromotionForm.getDateAjout());
+		}  
+		listePromotionForm.setDateAjout(GlobalHelper.getCurrentDate()); 
+		if(listeDiplome!=null)
+			listePromotionForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
 		
 		listesSaved = listePromotionService.saveOrUpdateListePromotionForm(listePromotionForm);
 		//Mis en historique
@@ -157,7 +156,7 @@ public class ListePromotionController {
 		if(listePromotion1==null) {
 			return "redirect:/error404/listProm";	
 		}
-		
+		Integer newCIN = 0;  
 		if(bindingResult.hasErrors()){
 			return "redirect:/error505";
 		}  
@@ -165,8 +164,10 @@ public class ListePromotionController {
 		
 		try {
 			if(!listePromotionDetailForm.getNomComplet().equals("") || !listePromotionDetailForm.getLieuNaissance().equals("") ) {
-				listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
+				  listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
 				  getit = insertNewCIN(listePromotionDetailForm.getNomComplet(), listePromotionDetailForm.getDateNaissance(), listePromotionDetailForm.getLieuNaissance(), adresseActuelle); 
+				  
+				  newCIN = 1;
 			}else {
 				
 				if(!idCin.equals("")) {
@@ -201,10 +202,13 @@ public class ListePromotionController {
 		}catch(Exception er) {
 			er.printStackTrace();
 		}
+		if(newCIN==1) {
+			return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getId()+"/newCIN-"+newCIN;	
+		}
 		 return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getId();		
 	}
-	@GetMapping("/showPromoDetail/{id}")
-	public String ajoutPromo( @PathVariable String id, Model model) {
+	@GetMapping({"/showPromoDetail/{id}", "/showPromoDetail/{id}/newCIN-{newCIN}"})
+	public String ajoutPromo( @PathVariable String id, Model model, @PathVariable(required=false) Optional<Integer> newCIN) {
 		
 		List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(Long.valueOf(id));
 		ListePromotion listePromotion = listePromotionService.getById(Long.valueOf(id));
@@ -218,7 +222,10 @@ public class ListePromotionController {
 		try {
 			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
 			List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
-	 
+			
+			if(newCIN.isPresent() && newCIN.get()!=0) {
+				model.addAttribute("newCIN", newCIN.get());
+			}
 			model.addAttribute("listeDiploma", listeDiploma);
 			model.addAttribute("annees", annee);
 			model.addAttribute("ecole", ecole);
@@ -293,6 +300,7 @@ public class ListePromotionController {
 		try {
 			//INITIALISATION
 			List<ListePromotionDetailForm> list = testExcel.getPromotionByExcel(filename, listePromotion);
+			
 			List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(Long.valueOf(id));
 			List<String> mentions = GlobalHelper.getMentionList(); 
 			String ecole = listePromotion.getListesDiplome().getEcole(); 
@@ -302,8 +310,15 @@ public class ListePromotionController {
 			//Importation
 			for(ListePromotionDetailForm temp : list) {
 				//System.out.println("" + temp.getId() + " | " + temp.getListePromotion().getNomPromotion() + " | " + temp.getNumeroMatricule() + " | " + temp.getNomComplet()+ " | " + temp.getDateNaissance()+ " | " + temp.getLieuNaissance()+ " | " + temp.getMention());
-				
+				CIN cin = insertNewCIN(temp.getNomComplet(), temp.getDateNaissance(), temp.getLieuNaissance(), temp.getCin().getAdresseActuelle());
+				System.out.println("\n DATE NAISSANCE CIN = "+temp.getLieuNaissance());
 				temp.setDateAjout(GlobalHelper.getCurrentDate());
+				temp.setCin(cin);
+				System.out.println("\n CIN getDateNaissance= "+temp.getCin().getDateNaissance());
+				System.out.println("\n CIN getLieuNaissance= "+temp.getCin().getLieuNaissance());
+				System.out.println("\n CIN getNom= "+temp.getCin().getNom()+" "+temp.getCin().getPrenom());
+				System.out.println("\n CIN getNomPromotion= "+temp.getListePromotion().getNomPromotion());
+				System.out.println("\n CIN getNomComplet= "+temp.getNomComplet());
 				ListePromotionDetail listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(temp);
 				
 				model.addAttribute("successImport", "Félicitation, l'importation du fichier: \""+ filename +"\" est finie !!!");	
@@ -327,6 +342,7 @@ public class ListePromotionController {
 			model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
 			
 		} catch (Exception e) { 
+			//e.printStackTrace();
 			model.addAttribute("errorImport", "Fichier incorrect (suggestion: vérifier si le fichier est bien sous l'extension .xls où .xlsx; Où s'il n'inclut pas une liste d'étudiants admis) Veuillez recommencez svp!!!");	
 		}
 		return "redirect:/showPromoDetail/" + listePromotion.getId();
@@ -427,15 +443,17 @@ public class ListePromotionController {
 				String[] tab1 = nomComplet.split(" ");
 				CINForm cinForm = new CINForm();
 				cinForm.setNom(tab1[0]);
-				cinForm.setPrenom(tab1[1]);
-				cinForm.setDateNaissance(Date.valueOf(dateNaissance));
+				cinForm.setPrenom(tab1[1]); 
+				
+				cinForm.setDateNaissance(GlobalHelper.convertStringToDate(dateNaissance));
 				cinForm.setLieuNaissance(lieuNaissance);
 				cinForm.setAdresseActuelle(adresseActuelle);
 				cinForm.setDateAjout(GlobalHelper.getCurrentDate());
+				cinForm.setNumeroCIN("");
 				cinForm.setFonction("");
 				cinForm.setLieuTravail("");
-				cinForm.setDateDelivrance(Date.valueOf(GlobalHelper.getCurrentDate()));
-				cinForm.setLieuNaissance("");
+				cinForm.setDateDelivrance(GlobalHelper.convertStringToDate(GlobalHelper.getCurrentDate()));
+				cinForm.setLieuDelivrance("(Temporaire)"); 
 				cinForm.setNationalite("Malagasy");
 				cinForm.setPhoto("".getBytes());
 				

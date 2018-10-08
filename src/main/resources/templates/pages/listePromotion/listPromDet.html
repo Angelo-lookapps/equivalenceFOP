@@ -79,6 +79,8 @@
                                                     Excel</span>)</label>
                                             <input type="file" class="form-control-file" id="filename" th:name="'filename'"
                                                 th:onchange="|validImport()|">
+                                            <small id="fileHelpTel" class="text-muted ">Le fichier Excel doit pr&eacute;sent&eacute; les colonnes suivantes: 
+                                            	<br/><b>N° Matricule | Nom complet | Date et lieu naissance | Mention</b></small>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -89,6 +91,10 @@
                                         <div th:if="${successImport!=null}">
                                             <div class="alert alert-sm alert-success alert-dismissible" role="alert"><i
                                                     class="fa fa-check-circle"></i><span th:text="${successImport}"></span></div>
+                                        </div>
+                                        <div th:if="${newCIN==1}">
+                                            <div class="alert alert-sm alert-success alert-dismissible" role="alert"><i
+                                                    class="fa fa-info-circle"></i><span>Une Carte d'identit&eacute; temporaire vient d'&ecirc;tre cr&eacute;&eacute;!</span></div>
                                         </div>
                                         <b><label class="text-muted" id="output"></label></b>
                                     </div>
@@ -296,15 +302,15 @@
                        <div class="modal-body">
                            <div class="form-group row">
                                <label for="example-text-input" class="col-sm-3 col-form-label">ID :</label>
-                               <div class="col-sm-9">
+                               <div class="col-sm-8">
                                    <input class="form-control" type="text" th:field="*{id}" disabled>
                                </div>
                            </div>
                            <div class="form-group row">
                                <div th:if="${not #lists.isEmpty(listeDiploma)}">
                                    <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me </label>
-                                   <div class="col-sm-7">
-                                       <select class="form-control basic-single" th:field="*{listesDiplome}">
+                                   <div class="col-sm-8">
+                                       <select class="form-control" th:field="*{listesDiplome}" th:name="'listeDiplome'">
                                            <optgroup th:label="'Ecole délivreur ' + ${ecole} + ' : '">
                                                <div th:each="diplome : ${listeDiploma}">
                                                    <div th:if="${ecole == diplome.ecole}">
@@ -314,14 +320,13 @@
                                            </optgroup>
                                        </select>
                                    </div> 
-                                   <div class="col-sm-1 col-form-label"><b><a href="/newDiploma" data-toggle="tooltip" data-placement="right" title="Ajouter une nouvelle Diplome" th:text="'Nouveau!!!'"></a></b></div>
-                               </div>
+                                </div>
                            </div>
                            
                            <div class="form-group row">
                              <label class="col-sm-3 col-form-label">Session </label>
-                             <div class="col-sm-7">
-                                 <select class="form-control  basic-single" th:field="*{sessionSortie}">
+                             <div class="col-sm-8">
+                                 <select class="form-control " th:field="*{sessionSortie}">
                                      <option disabled="disabled" selected="selected" th:value="${#calendars.format(#calendars.createNow(), 'yyyy')}" th:text="'Session le'"></option>
                                      <!--placeholder-->
                                      <div th:each="annee : ${annees}">
@@ -332,7 +337,7 @@
                          </div>
                         	 <div class="form-group row">
 	                             <label for="example-text-input" class="col-sm-3 col-form-label">Nom de la promotion :</label>
-	                             <div class="col-sm-9">
+	                             <div class="col-sm-8">
 	                                 <input class="form-control" type="text" th:field="*{nomPromotion}" required>
 	                             </div>
                          	</div>

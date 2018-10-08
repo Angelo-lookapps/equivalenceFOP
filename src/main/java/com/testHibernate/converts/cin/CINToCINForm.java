@@ -24,6 +24,7 @@ public class CINToCINForm implements Converter<CIN, CINForm> {
     	cinForm.setFonction(cin.getFonction());
     	cinForm.setLieuTravail(cin.getLieuTravail());
     	cinForm.setPhoto(cin.getPhoto());
+    	cin.setDateAjout(cinForm.getDateAjout()); 
     	
         return cinForm;
     }

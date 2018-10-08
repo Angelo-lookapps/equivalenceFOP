@@ -228,8 +228,7 @@ public class CINController {
 		 List<Tag> result = new ArrayList<Tag>();
 		 try{
 			 initialListeCIN();
-			 data =  gh.convertCINToListTag(cins); 
-			
+			 data =  gh.convertCINToListTag(cins);  
 			 System.out.println("data == "+data.size());
 			// iterate a list and filter by tagName
 			 for (Tag tag : data) {

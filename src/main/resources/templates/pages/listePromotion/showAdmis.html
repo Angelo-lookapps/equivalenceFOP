@@ -89,13 +89,9 @@
                                             <td th:text="*{diplomaDetail.numeroMatricule}"></td>
                                         </tr>
                                         <tr>
-                                            <th>Nom complet </th>
-                                            <td th:text="*{diplomaDetail.nomComplet}"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Date et lieu de naissance </th>
-                                            <td th:text="*{diplomaDetail.dateNaissance} + '  à  ' + *{diplomaDetail.lieuNaissance}"></td>
-                                        </tr>
+                                            <th>Carte d'identit&eacute; (associ&eacute;) </th>
+                                            <td><a class="text-primary" th:href="'/cin/show/'+ *{diplomaDetail.cin.id}"  th:text="*{diplomaDetail.cin.nom} + ' ' + *{diplomaDetail.cin.prenom}"></a> </td>
+                                        </tr>  
                                         <tr>
                                             <th>Mention </th>
                                             <td>

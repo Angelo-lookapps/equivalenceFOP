@@ -141,7 +141,6 @@ public class FicheDemandeController {
 				e.printStackTrace();
 			}
         model.addAttribute("listeDemande", ret);
-       // System.out.println("\n ret.Length = " + ret.size());
         if(session.getAttribute("isConnected")!=null) {
         	return "pages/enregistrement/requestList";
         }
@@ -160,7 +159,7 @@ public class FicheDemandeController {
 		 }	
 		 FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(fiche.getId());
 		 model.addAttribute("ficheDemandeDetail", ficheDetail);
-		// System.out.println("GEGE");
+		
 		
 		 if(session.getAttribute("isConnected")!=null) {
 			 return "pages/enregistrement/showRequest";	
@@ -254,7 +253,7 @@ public class FicheDemandeController {
 		 if(bindingResult.hasErrors()){  
 			return "redirect:/error505";	 
 		 }
-		 System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
+		// System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
 		 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
 		 ficheDemandeForm.setStatusEnregistrement(false);
 		 ficheDemandeForm.setCin(cinService.getById(Long.valueOf(cin)));
@@ -321,11 +320,11 @@ public class FicheDemandeController {
 	 @GetMapping(value = "/searchCritereDiplome")
 	 public @ResponseBody List<Tag> getListeDemandeByCriteres(@RequestParam(required=true) String ecole,
 			 @RequestParam(required=true) String filiere,@RequestParam(required=true) String option,@RequestParam(required=true, defaultValue="") String niveau) {
-		 System.out.println("\n\n DATA == ");
+		/* System.out.println("\n\n DATA == ");
 			 System.out.println("\t ecole == " + ecole);
 			 System.out.println("\t filiere == " + filiere);
 			 System.out.println("\t option == " + option);
-			 System.out.println("\t niveau == " + niveau);
+			 System.out.println("\t niveau == " + niveau);*/
 		 
 		 return this.simulateSearchResultByCritere( ecole, filiere, option, niveau);
 
@@ -338,7 +337,7 @@ public class FicheDemandeController {
 		 	
 		 	ListePromotionDetail list = listePromotionDetailService.getById(Long.valueOf(id));
 			
-	try {
+ 	try {
 			
 		 if(ficheSaved==null) {
 			 System.out.println("\n\n\n ficheSaved==null \n");

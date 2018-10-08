@@ -89,23 +89,7 @@
                                         Message!!!</strong>
                                 </div>
 
-                                <div class="form-group row">
-                                    <!-- <div th:if="${not #lists.isEmpty(listCIN)}">
-                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un CIN</label>
-                                        <div class="col-lg-6 col-md-9 col-sm-12">
-                                            <select class="form-control basic-single" th:field="*{cin}">
-                                                <div th:each="lieu : ${listLieuDelivrance}">
-                                                    <optgroup th:label="'Délivrance à '+${lieu} + ' : '">
-                                                        <div th:each="cins : ${listCIN}">
-                                                            <div th:if="${lieu == cins.lieuDelivrance}">
-                                                                <option th:value="${cins.id}" th:text="${cins.nom} + ' ' + ${cins.prenom} + ' (' + ${cins.lieuDelivrance} + ')' "></option>
-                                                            </div>
-                                                        </div>
-                                                    </optgroup>
-                                                </div>
-                                            </select>
-                                        </div>
-                                    </div> -->
+                                <div class="form-group row"> 
                                      <label class="col-sm-3 col-form-label">Veuillez choisir un CIN</label>
                                      <div class="col-lg-6 col-md-9 col-sm-12">
                                      	<div class="input-group">
@@ -117,24 +101,7 @@
                                        	</div><!-- /input-group -->
                                      </div>   
                                 </div>
-                                <div class="form-group row">
-                                   <!-- <div th:if="${not #lists.isEmpty(listesDiplome)}">
-                                        <label class="col-sm-3 col-form-label">Veuillez selectionner un dipl&ocirc;me
-                                        </label>
-                                        <div class="col-lg-6 col-md-9 col-sm-12">
-                                            <select class="form-control basic-single" th:field="*{listesDiplome}">
-                                                <div th:each="ecole : ${listEcole}">
-                                                    <optgroup th:label="'Ecole délivreur '+${ecole} + ' : '">
-                                                        <div th:each="diplome : ${listesDiplome}">
-                                                            <div th:if="${ecole == diplome.ecole}">
-                                                                <option th:value="${diplome.id}" th:text="${diplome.niveauDiplome.niveau} + ' EN ' + ${diplome.filiere} + ' option:' + ${diplome.option} + ' ('+ ${diplome.ecole} + ')'"></option>
-                                                            </div>
-                                                        </div>
-                                                    </optgroup>
-                                                </div>
-                                            </select>
-                                        </div>
-                                    </div>--> 
+                                <div class="form-group row"> 
                                     <label class="col-sm-3 col-form-label">Veuillez choisir le dipl&ocirc;me</label>
                                      <div class="col-lg-6 col-md-9 col-sm-12">
                                      	<div class="input-group">

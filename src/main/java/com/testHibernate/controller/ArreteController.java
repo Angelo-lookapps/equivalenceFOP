@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
@@ -77,13 +78,14 @@ public class ArreteController {
 	}
 	//Equivalence
 	@PostMapping("/saveArrete")
-	public String ajoutArrete(@Valid  @ModelAttribute ArreteEqRefForm arreteEqRefForm , BindingResult bindingResult, Model model) {
+	public String ajoutArrete(@Valid  @ModelAttribute ArreteEqRefForm arreteEqRefForm , @RequestParam String listeDiplome, BindingResult bindingResult, Model model) {
 		ArreteEqRef listesSaved = null;
 		if(bindingResult.hasErrors()){
 			return "redirect/error404/listArrete";
 		}
 		try {
-			 
+		arreteEqRefForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
+		
 		listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
 		//Mis en historique
 		 ActiviteRecent historique = new ActiviteRecent(); 

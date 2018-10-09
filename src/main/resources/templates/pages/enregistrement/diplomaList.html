@@ -67,6 +67,13 @@
                         </div>
                         <div class="panel-body">
                             <div th:if="${not #lists.isEmpty(listesDiplome)}">
+                            	<div th:if="${newArrete!=null}">
+                                    <div class="alert alert-sm alert-success alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                        <i class="fa fa-info-circle"></i><strong> Information!</strong>Une arr&ecirc;t&eacute; <b><a th:href="'/newArrete/'+${isExistArrete}"><span th:text="'N° '+${newArrete}"></span></b></a>
+                                         vient d'&ecirc;tre cr&eacute;e avec le dipl&ocirc;me</div>
+                                </div>
                                 <div class="table-responsive">
                                     <input type="text" class="form-control input-sm m-b-15" id="filter" placeholder="Search in table">
 

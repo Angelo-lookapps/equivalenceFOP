@@ -14,16 +14,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping; 
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
+import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.ListesDiplomeForm;
 import com.testHibernate.model.diplome.NiveauDiplome;
+import com.testHibernate.model.equivalence.ArreteEqRef;
+import com.testHibernate.model.equivalence.ArreteEqRefForm;
+import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
+import com.testHibernate.service.equivalence.ArreteEqRefService;
+import com.testHibernate.service.equivalence.ContentArreteService;
 import com.testHibernate.service.historique.ActiviteRecentService;
 
 @Controller
@@ -34,6 +41,17 @@ public class DiplomeController {
 	 private List<ListesDiplome> listeDiplomes;
 	 private HttpSession session;
 	 int nombreLigneMax = 5;
+	 
+	 private ArreteEqRefService arreteEqRefService;
+	 @Autowired
+	 public void setArreteEqRefService(ArreteEqRefService arreteEqRefService) {
+		this.arreteEqRefService = arreteEqRefService;
+	 }
+	 private ContentArreteService contentArreteService;
+	 @Autowired
+	 public void setContentArreteService(ContentArreteService contentArreteService) {
+		this.contentArreteService = contentArreteService;
+	 } 
 	 
 	 void setNombreLigneMax(int nombre) {
 		 this.nombreLigneMax = nombre;
@@ -66,17 +84,21 @@ public class DiplomeController {
 	 }
 	 
 	 
-	 @GetMapping({"/diplomaList", "/diplomaList/page-{page}"})
-	 public String listDiplome(@PathVariable(required=false) Optional<Integer> page, Model model){
+	 @GetMapping({"/diplomaList", "/diplomaList/page-{page}", "/diplomaList/newArrete-{idArrete}"})
+	 public String listDiplome(@PathVariable(required=false) Optional<Integer> page, @PathVariable(required=false) Optional<Integer> idArrete, Model model){
 		
 		initialListeDiploma();
 		List<ListesDiplome> ret = listesDiplomeService.pagination(1, nombreLigneMax);
 		
 		if(page.isPresent()) {
 			ret = listesDiplomeService.pagination(page.get(), nombreLigneMax);
-		}  
+		} 
+		
 		try {
 			Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeDiplomes.size(), nombreLigneMax);
+			if(idArrete.isPresent()) {
+				 model.addAttribute("newArrete", idArrete.get());
+			}
 			model.addAttribute("nombrePagination", nombrePagination);
 		} catch (Exception e) { 
 			e.printStackTrace();
@@ -93,15 +115,15 @@ public class DiplomeController {
 		return "pages/login";
 	 }	
 	 
-	 @GetMapping("/showDiploma/{id}")
+	 @GetMapping( "/showDiploma/{id}" )
 	 public String getDiploma(@PathVariable String id, Model model){
 		 ListesDiplome list = listesDiplomeService.getById(Long.valueOf(id));
 		 model.addAttribute("diploma", list);
 		 if(list==null) {
 			return "redirect:/error404/diplomaList";	
 		 }
-		 // System.out.println("GEGE");
-		 
+		 // System.out.println("GEGE"); 
+ 		 
 		 if(session.getAttribute("isConnected")!=null) {
 	    	return "pages/enregistrement/showDiploma";
 		 }	
@@ -143,17 +165,19 @@ public class DiplomeController {
 		 List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
 		 initialListeDiploma();
 		 List<ListesDiplome> listeDiploma = listesDiplomeService.pagination(1, nombreLigneMax);
+		 List<Integer> annee = null;
 			if(page.isPresent()) {
 				listeDiploma = listesDiplomeService.pagination(page.get(), nombreLigneMax);
 			}  
 			try {
+				annee = DateHelper.getAnneeList(1999, 2022);
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeDiplomes.size(), nombreLigneMax);
 				model.addAttribute("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
 				e.printStackTrace();
 			}
 		 
-		
+		 model.addAttribute("annees", annee);
 		 model.addAttribute("listDiploma", listeDiploma);
 		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
 		 model.addAttribute("listesDiplome", new ListesDiplomeForm());
@@ -172,23 +196,35 @@ public class DiplomeController {
 	 }
 	 
 	 @PostMapping(value = "/saveDiploma")
-	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, BindingResult bindingResult){
+	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @RequestParam String anneeSortie, BindingResult bindingResult){
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
 			 //return "pages/enregistrement/newDiploma";
 		 }
-		 
-	
-		 ListesDiplome listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
-		 //Mis en historique
-		 ActiviteRecent historique = new ActiviteRecent(); 
-		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un diplome \""+listesSaved.getFiliere())+"\"");
-		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
-		 	activiteRecentService.saveOrUpdate(historique);
-	 	 //fin historique
-		 
-		 return "redirect:/showDiploma/" + listesSaved.getId();
+		 ListesDiplome listesSaved = null;
+		 ArreteEqRef arrete = null;
+		 try{
+			  
+			 listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
+			 
+			 //Mis en historique
+			 ActiviteRecent historique = new ActiviteRecent(); 
+			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un diplome \""+listesSaved.getFiliere())+"\"");
+			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+			 	activiteRecentService.saveOrUpdate(historique);
+		 	 //fin historique
+		 	if(!anneeSortie.equals("vide")) { 
+				 arrete = this.insertArreteLink(listesSaved, anneeSortie);
+		 	}
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 if(arrete!=null) {
+			 return "redirect:/diplomaList/newArrete-"+arrete.getId(); 
+		 }
+		 return "redirect:/diplomaList" ;
+		
 	 }
 	 
 	 @PutMapping(value = "/updateDiploma")
@@ -225,6 +261,42 @@ public class DiplomeController {
 		if(listeDiplomes==null){
 			this.listeDiplomes = listesDiplomeService.listAll();
 		}
+	}
+	 
+	public ArreteEqRef insertArreteLink(ListesDiplome listeDiplomeTemp, String anneeSortie) throws Exception {
+		ArreteEqRef ret = null;
+		ListesDiplome listeDiplome = listeDiplomeTemp; 
+		ArreteEqRefForm arreteEqRefForm = new ArreteEqRefForm();
+		if(listeDiplome==null) {
+			throw new Exception("Error : listeDiplomeTemp is invalid line 246!!");
+		}
+		try {  
+			arreteEqRefForm.setListesDiplome(listeDiplome);
+			arreteEqRefForm.setAnneeSortie(anneeSortie);
+			arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
+			arreteEqRefForm.setTitre(listeDiplome.getEcole()+" - "+listeDiplome.getFiliere()+" - "+listeDiplome.getOption());
+			arreteEqRefForm.setStatus(false);
+			
+			ret = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
+			
+			//Mis en historique
+			 ActiviteRecent historique = new ActiviteRecent(); 
+			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "une nouvelle arrêté avec comme titre : \""+ret.getTitre()+" année sortie: "+ret.getAnneeSortie()+"\""));
+			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+			 	activiteRecentService.saveOrUpdate(historique);
+		 	 //fin historique
+		 	
+		//initialisation ContentArrete
+		ContentArrete content = new ContentArrete(); 
+		content.setArreteEqRef(ret);
+		content.setDateAjout(GlobalHelper.getCurrentDate());
+		ContentArrete temp = this.contentArreteService.saveOrUpdate(content);
+		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
+		
+		}catch(Exception e) {
+			throw e;
+		}
+		return ret;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package com.testHibernate.controller;
  
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -46,15 +47,15 @@ public class ArreteController {
 		this.activiteRecentService = activiteRecentService;
 	 }
 	 private ContentArreteService contentArreteService;
-	 
-	 @Autowired
-	 public void setArreteEqRefFormToArreteEqRef(ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef) {
-	 }
-	 
 	 @Autowired
 	 public void setContentArreteService(ContentArreteService contentArreteService) {
 		this.contentArreteService = contentArreteService;
 	 } 
+	 @Autowired
+	 public void setArreteEqRefFormToArreteEqRef(ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef) {
+	 }
+	 
+	
 	 private HttpSession session;
 	 
 	 @Autowired
@@ -76,14 +77,22 @@ public class ArreteController {
 	public void setArreteEqRefToArreteEqRefForm(ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm) {
 		this.arreteEqRefToArreteEqRefForm = arreteEqRefToArreteEqRefForm;
 	}
+	
 	//Equivalence
 	@PostMapping("/saveArrete")
 	public String ajoutArrete(@Valid  @ModelAttribute ArreteEqRefForm arreteEqRefForm , @RequestParam String listeDiplome, BindingResult bindingResult, Model model) {
+		
 		ArreteEqRef listesSaved = null;
 		if(bindingResult.hasErrors()){
 			return "redirect/error404/listArrete";
 		}
 		try {
+			listesSaved = arreteEqRefService.getArreteByIdDiplome(Long.valueOf(listeDiplome));
+			
+		if(listesSaved!=null) {
+			return "redirect:/listArrete/isExist-"+listesSaved.getId();
+		}
+		 
 		arreteEqRefForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
 		
 		listesSaved = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
@@ -168,8 +177,8 @@ public class ArreteController {
 		return "pages/equivalence/checkArrete";		
 	}
 	
-	@GetMapping("/listArrete")
-	public String listArrete(Model model) {
+	@GetMapping({"/listArrete", "/listArrete/isExist-{idArrete}"})
+	public String listArrete(@PathVariable(required=false) Optional<Integer> idArrete, Model model) {
 		
 		try {	
 				List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
@@ -177,6 +186,9 @@ public class ArreteController {
 				List<ArreteEqRef> arreteList = arreteEqRefService.listAll();
 				List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
 				
+				if(idArrete.isPresent()) {
+					model.addAttribute("isExistArrete", idArrete.get());
+				}
 				model.addAttribute("arreteEqRefForm", new ArreteEqRefForm());
 				model.addAttribute("annees", annee);
 				model.addAttribute("listEcole", listEcole);

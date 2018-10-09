@@ -14,6 +14,8 @@ public interface ArreteEqRefService {
     ArreteEqRef getById(Long id);
     
     List<ArreteEqRef>  getArreteByTitre(@Param(value = "titre") String titre);
+    
+    ArreteEqRef  getArreteByIdDiplome(@Param(value = "idDiplome") Long idDiplome);
 
     ArreteEqRef saveOrUpdate(ArreteEqRef ArreteEqRef);
 

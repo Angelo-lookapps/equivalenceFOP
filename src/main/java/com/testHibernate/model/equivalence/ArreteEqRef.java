@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -21,7 +21,10 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		query = "UPDATE ArreteEqRef SET id = :id, listesDiplome.id = :idListesDiplome, anneeSortie = :anneeSortie, titre = :titre WHERE id = :id"),
 	@NamedQuery(
 		name = "ArreteEqRef.pagination", 
-		query = "SELECT ld FROM ArreteEqRef as ld order by ld.id")
+		query = "SELECT ld FROM ArreteEqRef as ld order by ld.id"),
+	@NamedQuery(
+		name = "ArreteEqRef.findArreteByIdDiplome", 
+		query = "SELECT ld FROM ArreteEqRef as ld WHERE ld.listesDiplome.id = :idDiplome order by ld.id")
 })
 public class ArreteEqRef {
 
@@ -41,18 +44,13 @@ public class ArreteEqRef {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne
+	@OneToOne
 	private ListesDiplome listesDiplome;
 	
 	private String anneeSortie;
 	private String titre;
-	
-	
 	private Boolean status;
-	
 	private String dateAjout;
-	
-	
 	
 	public Boolean getStatus() {
 		return status;

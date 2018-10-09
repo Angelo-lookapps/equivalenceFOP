@@ -144,9 +144,10 @@ public class GlobalHelper {
 	public static String convertToStringDate(java.sql.Date date) { 
 		return  formater.format(date);
 	} 
-	public static String formatDate(String date) throws ParseException { 
-		Date ret = formater.parse(date);
-		return  ret.getDay()+"-"+ret.getMonth()+"-"+ret.getYear();
+	public static String formatDate(String date) { 
+		String[] daty = date.split("-");
+		String ret = daty[2]+"-"+daty[1]+"-"+daty[0];
+		return  ret;
 	}
 	public static java.sql.Date convertStringToDate(String date){ 
         java.sql.Date ret = null;

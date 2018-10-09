@@ -132,11 +132,22 @@ public class CINController {
         
 	 }
 	 
-	 @GetMapping("/newCIN")
-	 public String ajouterCIN(Model model) {
+	 @GetMapping({"/newCIN", "/newCIN/page-{page}"})
+	 public String ajouterCIN(Model model, @PathVariable(required=false) Optional<Integer> page) {
 		 model.addAttribute("listCIN", cinService.listAll());
 		 model.addAttribute("cinForm", new CINForm());
-		 
+		 initialListeCIN();
+		 List<CIN> listCIN = cinService.pagination(1, nombreLigneMax);
+			if(page.isPresent()) {
+				listCIN = cinService.pagination(page.get(), nombreLigneMax);
+			}  
+			try {
+				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.cins.size(), nombreLigneMax);
+				model.addAttribute("nombrePagination", nombrePagination);
+			} catch (Exception e) { 
+				e.printStackTrace();
+			}
+		 model.addAttribute("listCIN", listCIN);
 		 if(session.getAttribute("isConnected")!=null) {
 			 return "pages/enregistrement/newCIN";	
 		 }	

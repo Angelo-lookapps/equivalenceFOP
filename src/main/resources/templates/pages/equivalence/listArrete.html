@@ -95,8 +95,8 @@
                                         <tbody>
                                             <tr th:each="arrete : ${arreteList}">
                                                 <td class="text-center" th:text="${arrete.id}"></td>
-                                                <td class="text-center"><a th:text="${arrete.titre}"></a></td>
-                                                <td class="text-center"><a th:text="${arrete.anneeSortie}"></a></td>
+                                                <td class="text-center"><a th:href="'/newArrete/'+${arrete.id}" th:text="${arrete.titre}"></a></td>
+                                                <td class="text-center"><a th:href="'/newArrete/'+${arrete.id}" th:text="${arrete.anneeSortie}"></a></td>
                                                 <td class="text-center">
                                                     <a th:href="'/newArrete/'+${arrete.id}"><button class="btn btn-base btn-sm"
                                                             data-toggle="tooltip" data-placement="top" title="Editer"><i
@@ -113,6 +113,17 @@
                                         </tfoot>
                                     </table>
                                 </div>
+                                
+                                <div class="row">
+                                <div class="col-md-12">
+                                	<label class="col-md-4">Pagination :</label>
+                                	<div class="btn-toolbar col-md-8" role="toolbar" aria-label="Toolbar with button groups">
+                                        <div class="btn-group" role="group" aria-label="First group">
+                                            <span th:each=" page : ${nombrePagination}"><a th:href="'/listArrete/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
+                                        </div>
+                                    </div>
+                                </div> 
+                             </div>
                             </div>
                         </div>
                     </div>

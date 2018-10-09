@@ -222,14 +222,14 @@ public class FicheDemandeController {
 			e.printStackTrace();
 		}
 		 
-		 List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
+		 //List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
 		 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
 		 List<String> listEcole = listesDiplomeService.getAllEcole();
 		 List<String> mentions = GlobalHelper.getMentionList();
 		 List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
 		 
 		 //Dispatch
-		 model.addAttribute("listesDiplome", listesDiplome);
+		 //model.addAttribute("listesDiplome", listesDiplome);
 		 model.addAttribute("listEcole", listEcole);
 		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
 		 model.addAttribute("listCIN", listCIN);

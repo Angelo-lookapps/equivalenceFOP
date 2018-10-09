@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.DateHelper;
+import com.testHibernate.helpers.Encrypt;
 import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
@@ -39,6 +41,7 @@ public class ArreteController {
 	 private ArreteEqRefService arreteEqRefService;
 	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm; 
 	 private ListesDiplomeService listesDiplomeService;
+	 List<ArreteEqRef> arretes ;
 	 
 	 private ActiviteRecentService activiteRecentService;
 	 
@@ -50,6 +53,7 @@ public class ArreteController {
 	 @Autowired
 	 public void setContentArreteService(ContentArreteService contentArreteService) {
 		this.contentArreteService = contentArreteService;
+		
 	 } 
 	 @Autowired
 	 public void setArreteEqRefFormToArreteEqRef(ArreteEqRefFormToArreteEqRef arreteEqRefFormToArreteEqRef) {
@@ -57,7 +61,7 @@ public class ArreteController {
 	 
 	
 	 private HttpSession session;
-	 
+	 int nombreLigneMax = 5;
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
@@ -116,12 +120,13 @@ public class ArreteController {
 	}
 	//Equivalence
 	@PutMapping("/updateArrete/{id}")
-	public String updateArrete(@Valid @ModelAttribute ArreteEqRefForm arreteEqRefForm , @PathVariable String id, BindingResult bindingResult, Model model) {
+	public String updateArrete(@Valid @ModelAttribute ArreteEqRefForm arreteEqRefForm, @RequestParam String listeDiplome , @PathVariable String id, BindingResult bindingResult, Model model) {
 		ArreteEqRef updateEntity = null;
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
 		}
 		try{ 
+			arreteEqRefForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
 			arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate()); 
 			updateEntity= arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
 		}catch(Exception ex) {
@@ -143,7 +148,7 @@ public class ArreteController {
 			}
 			ArreteEqRefForm arreteEqRefForm = listesSaved!=null ? this.arreteEqRefToArreteEqRefForm.convert(listesSaved) : new ArreteEqRefForm();
 			 	
-			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
+			//List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 			List<String> listEcole = listesDiplomeService.getAllEcole();
 			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
 			String contentArticle = GlobalHelper._ArticleContent;
@@ -151,7 +156,7 @@ public class ArreteController {
 			model.addAttribute("arreteEqRef", listesSaved);
 			model.addAttribute("annees", annee);
 			model.addAttribute("listEcole", listEcole);
-			model.addAttribute("listeDiploma", listeDiploma);
+			//model.addAttribute("listeDiploma", listeDiploma);
 			model.addAttribute("arreteEqRefForm", arreteEqRefForm);
 			model.addAttribute("idArrete", arreteEqRefForm!=null ? arreteEqRefForm.getId().toString() : "");
 			 
@@ -177,18 +182,30 @@ public class ArreteController {
 		return "pages/equivalence/checkArrete";		
 	}
 	
-	@GetMapping({"/listArrete", "/listArrete/isExist-{idArrete}"})
-	public String listArrete(@PathVariable(required=false) Optional<Integer> idArrete, Model model) {
+	@GetMapping({"/listArrete", "/listArrete/isExist-{idArrete}", "/listArrete/page-{page}"})
+	public String listArrete(@PathVariable(required=false) Optional<Integer> idArrete, @PathVariable(required=false) Optional<Integer> page, Model model) {
 		
 		try {	
 				List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 				List<String> listEcole = listesDiplomeService.getAllEcole();
-				List<ArreteEqRef> arreteList = arreteEqRefService.listAll();
+				 
 				List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
 				
 				if(idArrete.isPresent()) {
 					model.addAttribute("isExistArrete", idArrete.get());
 				}
+				initialListeArrete();
+				List<ArreteEqRef> arreteList = arreteEqRefService.pagination(1, nombreLigneMax);
+					if(page.isPresent()) {
+						arreteList = arreteEqRefService.pagination(page.get(), nombreLigneMax);
+					}  
+					try {
+						Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.arretes.size(), nombreLigneMax);
+						model.addAttribute("nombrePagination", nombrePagination);
+					} catch (Exception e) { 
+						e.printStackTrace();
+					}
+				
 				model.addAttribute("arreteEqRefForm", new ArreteEqRefForm());
 				model.addAttribute("annees", annee);
 				model.addAttribute("listEcole", listEcole);
@@ -238,6 +255,12 @@ public class ArreteController {
 			
 		return "redirect:/newArrete/" + id ;		
 	}
+	
+	public void initialListeArrete() {
+		if(this.arretes==null){
+			this.arretes = arreteEqRefService.listAll();
+		}
+	 }
 	
 
 }

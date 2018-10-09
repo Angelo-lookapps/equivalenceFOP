@@ -263,27 +263,16 @@
                                             <tr>
                                                 <th class="text-center">ID </th>
                                                 <th class="text-center">Num&eacute;ro CIN</th>
-                                                <th class="text-center">Nom </th>
-                                                <th class="text-center">Pr&eacute;nom </th>
-                                                <th class="text-center">Date et lieu naissance</th>
-                                                <th data-hide="all">Adresse</th>
-                                                <th data-hide="all">Date et lieu de d&eacute;livrance </th>
-                                                <th data-hide="all">Nationalit&eacute; </th>
-                                                <th data-hide="all">Fonction et lieu de travail </th>
+                                                <th class="text-center">Nom et pr&egrave;nom</th> 
+                                                <th class="text-center">Date et lieu naissance</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each="cin : ${listCIN}">
                                                 <td th:text="${cin.id}"></td>
                                                 <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.numeroCIN}"></a></td>
-                                                <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nom}"></a></td>
-                                                <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.prenom}"></a></td>
+                                                <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nom}+' '+${cin.prenom}"></a></td> 
                                                 <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateNaissance}+' à '+${cin.lieuNaissance}"></a></td>
-                                                <!-- DATA HIDE -->
-                                                <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.adresseActuelle}"></a></b></td>
-                                                <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateDelivrance}+' à '+${cin.lieuDelivrance}"></a></b></td>
-                                                <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nationalite}"></a></b></td>
-                                                <td><b><a th:href="'cin/show/'+${cin.id}" th:text="${cin.fonction}+' à '+${cin.lieuTravail}"></a></b></td>
                                             </tr>
                                         </tbody>
                                         <tfoot>
@@ -296,6 +285,17 @@
                                     </table>
                                 </div>
                             </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                	<label class="col-md-4">Pagination :</label>
+                                	<div class="btn-toolbar col-md-8" role="toolbar" aria-label="Toolbar with button groups">
+                                        <div class="btn-group" role="group" aria-label="First group">
+                                            <span th:each=" page : ${nombrePagination}"><a th:href="'/newCIN/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
+                                        </div>
+                                    </div>
+                                </div> 
+                             </div>
                         </div>
                     </div>
                 </div>

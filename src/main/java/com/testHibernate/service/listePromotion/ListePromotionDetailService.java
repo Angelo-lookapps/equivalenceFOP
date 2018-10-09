@@ -15,7 +15,7 @@ public interface ListePromotionDetailService {
     
     List<ListePromotionDetail>  getDetailByIdListePromotion(@Param(value = "idListePromotion") Long idListePromotion);
 
-    ListePromotionDetail  getAdmisByCIN(@Param(value = "idCin") Long idCin) throws Exception;	
+    ListePromotionDetail getAdmisByCIN(Long idCin) throws Exception;	
     
     ListePromotionDetail saveOrUpdate(ListePromotionDetail tousListePromotionDetail);
     

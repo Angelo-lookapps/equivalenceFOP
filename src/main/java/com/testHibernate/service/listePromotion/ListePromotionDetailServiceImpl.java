@@ -86,7 +86,9 @@ public class ListePromotionDetailServiceImpl implements ListePromotionDetailServ
 
 	@Override
 	public ListePromotionDetail getAdmisByCIN(Long idCin) throws Exception {
-		TypedQuery<ListePromotionDetail> query = em.createNamedQuery("ListePromotionDetail.findByIdListePromotion", ListePromotionDetail.class).setParameter("idCin", idCin);
+		TypedQuery<ListePromotionDetail> query = em.createNamedQuery("ListePromotionDetail.findAdmisByCIN", ListePromotionDetail.class)
+				.setParameter(1, idCin);
+		System.out.println("\n\n GET ADMIS = "+idCin);
 		List<ListePromotionDetail> ret = query.getResultList();
 		ListePromotionDetail retour = null;
 		if(ret.size()!=0) {

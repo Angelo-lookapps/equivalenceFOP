@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.testHibernate.converts.demande.DemandeDetailToDemandeDetailForm;
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
+import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.Tag;
 import com.testHibernate.model.cin.CIN;
@@ -30,6 +31,9 @@ import com.testHibernate.model.demande.FicheDemandeDetailForm;
 import com.testHibernate.model.demande.FicheDemandeForm;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.diplome.NiveauDiplome;
+import com.testHibernate.model.equivalence.ArreteEqRef;
+import com.testHibernate.model.equivalence.ArreteEqRefForm;
+import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
@@ -38,6 +42,8 @@ import com.testHibernate.service.demande.FicheDemandeDetailService;
 import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
+import com.testHibernate.service.equivalence.ArreteEqRefService;
+import com.testHibernate.service.equivalence.ContentArreteService;
 import com.testHibernate.service.historique.ActiviteRecentService;
 import com.testHibernate.service.listePromotion.ListePromotionDetailService;
 import com.testHibernate.service.listePromotion.ListePromotionService;
@@ -55,6 +61,19 @@ public class FicheDemandeController {
 	 private ListePromotionService listePromotionService;
 	 private DemandeDetailToDemandeDetailForm ficheDemandeDetailToficheDemandeDetailForm;
 	 private NiveauDiplomeService niveauDiplomeService;
+	 private ArreteEqRefService arreteEqRefService;
+	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm;
+	 
+	 @Autowired
+	 public void setArreteEqRefToArreteEqRefForm(ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm) {
+		this.arreteEqRefToArreteEqRefForm = arreteEqRefToArreteEqRefForm;
+	 }
+	 
+	 @Autowired
+	 public void setArreteEqRefService(ArreteEqRefService arreteEqRefService) {
+		this.arreteEqRefService = arreteEqRefService;
+	 }
+	 
 	 @Autowired
 	 public void setFicheDemandeDetailToficheDemandeDetailForm(
 			DemandeDetailToDemandeDetailForm ficheDemandeDetailToficheDemandeDetailForm) {
@@ -95,6 +114,12 @@ public class FicheDemandeController {
 	 
 	 private List<ListesDiplome> listeDiplomes;
 	 
+	 private ContentArreteService contentArreteService;
+	 @Autowired
+	 public void setContentArreteService(ContentArreteService contentArreteService) {
+		this.contentArreteService = contentArreteService;
+		
+	 } 
 	 
 	 @Autowired
 	 public void setNiveauDiplomeService(NiveauDiplomeService niveauDiplomeService) {
@@ -333,44 +358,40 @@ public class FicheDemandeController {
 	 
 	 @GetMapping("/traitement/{id}")
 	 public String traitementFiche(@PathVariable String id, Model model){
-		 	FicheDemande ficheSaved = ficheDemandeService.getById(Long.valueOf(id));
-		 	
-		 	ListePromotionDetail list = listePromotionDetailService.getById(Long.valueOf(id));
-			
+	 	FicheDemande ficheSaved = ficheDemandeService.getById(Long.valueOf(id));
+		ContentArrete contentArrete = null;
+		String contentArticle = GlobalHelper._ArticleContent;
+	 	if(ficheSaved==null) {
+	 		System.out.println("\n\n\n ficheSaved==null \n");
+	 		return "redirect:/error404/requestList";
+	 	} 
+	 	ListePromotionDetail leTraiter = null;
  	try {
-			
-		 if(ficheSaved==null) {
-			 System.out.println("\n\n\n ficheSaved==null \n");
-			 return "redirect:/error404/requestList";
-		 }
-		 	FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(ficheSaved.getId());
-		 if(ficheDetail==null) {
+ 		//System.out.println("\n\n deb = "+ficheSaved.getCin().getId());
+ 		leTraiter = listePromotionDetailService.getAdmisByCIN(ficheSaved.getCin().getId()); 
+ 		
+ 		//System.out.println("\n\n leTraiter === "+leTraiter.getListePromotion().getNomPromotion());
+	 	FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(ficheSaved.getId());
+ 		if(ficheDetail==null) {
 			 System.out.println("\n\n\n ficheDetail==null \n");
 			 return "redirect:/error404/requestList";
-		 }
-		 	ListePromotion listePromotion = listePromotionService.getPromotionByIdListeDiplome(ficheSaved.getListesDiplome().getId());
-		 if(listePromotion==null) {
-			 System.out.println("\n\n\n listePromotion==null \n");
-			 return "redirect:/error404/requestList";
-		 }
-			 //System.out.println("\n\n\n listePromotion = "+listePromotion.getId()+" \n");
-			 List<ListePromotionDetail> listePromotionDetail = listePromotionDetailService.getDetailByIdListePromotion(listePromotion.getId());
-			 String[] search = {ficheSaved.getCin().getNom() + " " + ficheSaved.getCin().getPrenom(),
-					 			ficheSaved.getCin().getDateNaissance()+" - "+ficheSaved.getCin().getLieuNaissance()}; 
-			 
-			 List<ListePromotionDetail> suggestion = GlobalHelper.searchAtListe(listePromotionDetail, search);
-			 List<ListePromotionDetail> autreQueSuggestion = suggestion!=null ? GlobalHelper.listAnotherSuggestion(suggestion, listePromotionDetail) : listePromotionDetail;
-			 model.addAttribute("listePromotion", listePromotion);
-			 if(suggestion!=null) {
-				 model.addAttribute("suggestion", suggestion);
-			 } 
-			 model.addAttribute("listePromotionDetail", autreQueSuggestion);
-			 model.addAttribute("ficheDemande", ficheSaved);
-			 model.addAttribute("ficheDemandeDetail", ficheDetail); 
-		 }catch(Exception e) {
+ 		} 
+ 		ArreteEqRef ref = arreteEqRefService.getArreteByIdDiplome(ficheSaved.getListesDiplome().getId());
+ 		contentArrete = contentArreteService.getContentByArrete(ref.getId())!=null ? contentArreteService.getContentByArrete(ref.getId()) : null;
+ 		ArreteEqRefForm	arreteEqRefForm = arreteEqRefToArreteEqRefForm.convert(ref);
+ 		ListesDiplome diplome = ficheSaved.getListesDiplome();
+ 		
+ 			model.addAttribute("contentArrete",  contentArrete);
+ 			model.addAttribute("contentArticle", contentArticle);
+ 			model.addAttribute("arreteEqRefForm", arreteEqRefForm);
+			model.addAttribute("leTraiter", leTraiter);
+			model.addAttribute("diplome", diplome);
+			model.addAttribute("ficheDemande", ficheSaved);
+			model.addAttribute("ficheDemandeDetail", ficheDetail); 
+	 	}catch(Exception e) {
 			 e.printStackTrace();
-		 }
-		 return "pages/traitement/traitement";
+	 	}
+	 	return "pages/traitement/traitement";
 	 }
 	  
 	 

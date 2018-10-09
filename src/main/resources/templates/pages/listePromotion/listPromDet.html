@@ -251,6 +251,7 @@
                                     <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
+                                            	<th class="text-center">Sélection</th>
                                                 <th class="text-center">#</th>
                                                 <th class="text-center">N° d'Enregistrement</th>
                                                 <th class="text-center">Nom et pr&egrave;nom</th>
@@ -261,6 +262,12 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each="promo : ${listePromotionDetails}">
+                                           		<td>
+                                                    <div class="checkbox checkbox-success">
+                                                        <input th:id="'checkbox'+${promo.id}" type="checkbox" th:name="'checkbox'">
+                                                        <label th:for="'checkbox'+${promo.id}"></label>
+                                                    </div>
+                                                </td>
                                                 <td class="text-center" th:text="${promo.id}"></td>
                                                 <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.numeroMatricule}"></a></td>
                                                 <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.nomComplet}"></a></td> 

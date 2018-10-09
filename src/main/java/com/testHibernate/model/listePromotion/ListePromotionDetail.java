@@ -24,7 +24,7 @@ import com.testHibernate.model.cin.CIN;
 			query = "SELECT ld FROM ListePromotionDetail as ld order by ld.id"),
 	@NamedQuery(
 			name = "ListePromotionDetail.findAdmisByCIN", 
-			query = "SELECT ld FROM ListePromotionDetail as ld WHERE ld.cin.id = :idCin order by ld.id")
+			query = "SELECT ld FROM ListePromotionDetail as ld WHERE ld.cin.id = ?1 order by ld.id")
  })
 public class ListePromotionDetail {
 

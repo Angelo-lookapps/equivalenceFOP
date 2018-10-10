@@ -17,6 +17,8 @@ public interface ListePromotionDetailService {
 
     ListePromotionDetail getAdmisByCIN(Long idCin) throws Exception;	
     
+    List<ListePromotionDetail> getAllAdmisByCIN(Long idCin) throws Exception;
+    
     ListePromotionDetail saveOrUpdate(ListePromotionDetail tousListePromotionDetail);
     
     void delete(Long id);

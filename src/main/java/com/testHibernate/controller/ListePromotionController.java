@@ -1,8 +1,7 @@
 package com.testHibernate.controller;
 
  
-
-import java.sql.Date;
+ 
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +48,8 @@ public class ListePromotionController {
 	 private ListePromotionDetailToListePromotionDetailForm listePromotionDetailToListePromotionDetailForm;
 	 private CINService cinService;
 	 private HttpSession session;
-	 
+	 private List<ListePromotion> listeProms;
+	 int nombreLigneMax = 5;
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
@@ -94,9 +94,9 @@ public class ListePromotionController {
 	 }
 	 
 
-	@GetMapping({"/listProm", "/listProm/warning/{id}"})
-	 public String listPromo(Model model, @PathVariable(required=false) Optional<String> id){
-		List<ListePromotion> ret = this.listePromotionService.listAll();
+	@GetMapping({"/listProm", "/listProm/warning/{id}", "/listProm/page-{page}"})
+	 public String listPromo(Model model, @PathVariable(required=false) Optional<String> id,  @PathVariable(required=false) Optional<Integer> page){
+		List<ListePromotion> ret = null;
 		try {
 			if(id.isPresent() && !id.get().equals("0")) {
         		model.addAttribute("deleteWarning", id.get()); 
@@ -104,9 +104,21 @@ public class ListePromotionController {
         		model.addAttribute("deleteWarning2", id.get()); 
             }
 			
-			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
-			List<String> listEcole = listesDiplomeService.getAllEcole();
 			
+			
+			initialListePromotion();
+			ret = this.listePromotionService.pagination(1, nombreLigneMax);
+				if(page.isPresent()) {
+					ret = listePromotionService.pagination(page.get(), nombreLigneMax);
+				}  
+				try {
+					Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeProms.size(), nombreLigneMax);
+					model.addAttribute("nombrePagination", nombrePagination);
+				} catch (Exception e) { 
+					e.printStackTrace();
+				}
+			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll(); 
+			List<String> listEcole = listesDiplomeService.getAllEcole();
 			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
 			model.addAttribute("annees", annee);
 			model.addAttribute("listEcole", listEcole);
@@ -471,4 +483,9 @@ public class ListePromotionController {
 		}
 		return ret;
 	}
+	 public void initialListePromotion() {
+		if(this.listeProms==null){
+			this.listeProms = listePromotionService.listAll();
+		}
+	 }
 }

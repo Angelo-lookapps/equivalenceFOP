@@ -2,6 +2,7 @@ package com.testHibernate.controller;
  
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession; 
 
@@ -177,10 +178,14 @@ public class PagesController {
 
 	@PostMapping(value = "/login")
 	public String login(@RequestParam(required=true) String pseudo,
-			@RequestParam(required=true) String mdp, ModelMap modelMap) {
+			@RequestParam(required=true) String mdp, @RequestParam(required=false) Optional<Boolean> stillConnected, ModelMap modelMap) {
 		
 		if(pseudo.toUpperCase().equals("ADMIN")) {
 			if(mdp.equals("admin")) {
+				if(stillConnected.isPresent()) {
+					String[] admin = {pseudo,mdp};
+					session.setAttribute("keepConnected", admin);
+				}
 				session.setAttribute("isConnected", pseudo);
 				return "redirect:/home";
 			}
@@ -199,7 +204,10 @@ public class PagesController {
 	
 	@GetMapping(value = "/logout")
 	public String logout(Model model) {
-		
+		if(session.getAttribute("keepConnected")!=null) {
+			String[] ret = (String[])session.getAttribute("keepConnected");
+			model.addAttribute("keepConnected", ret);
+		}
 		session.invalidate();
 		model.addAttribute("logout", true);
 		return "pages/login";	

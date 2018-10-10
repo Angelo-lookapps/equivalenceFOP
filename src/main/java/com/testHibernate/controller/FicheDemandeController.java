@@ -174,8 +174,8 @@ public class FicheDemandeController {
         
 	 }	
 	 
-	 @GetMapping("/showRequest/{id}")
-	 public String getDemandeById(@PathVariable String id, Model model){
+	 @GetMapping({"/showRequest/{id}", "/showRequest/{id}/notification-{size}"})
+	 public String getDemandeById(@PathVariable String id, @PathVariable(required=false) Optional<Integer> size, Model model){
 		 FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));		 
 		 model.addAttribute("ficheDemande", fiche);
 		 
@@ -184,7 +184,9 @@ public class FicheDemandeController {
 		 }	
 		 FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(fiche.getId());
 		 model.addAttribute("ficheDemandeDetail", ficheDetail);
-		
+		 if(size.isPresent()) {
+			 model.addAttribute("size", size.get());
+		 }
 		
 		 if(session.getAttribute("isConnected")!=null) {
 			 return "pages/enregistrement/showRequest";	
@@ -278,27 +280,37 @@ public class FicheDemandeController {
 		 if(bindingResult.hasErrors()){  
 			return "redirect:/error505";	 
 		 }
-		// System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
+		 List<ListePromotionDetail> leTraiter = null;
+		 FicheDemande ficheSaved = null;
+		 int size=-1;
+	 try { 
+		 leTraiter = listePromotionDetailService.getAllAdmisByCIN(Long.valueOf(cin));
+		 if(leTraiter.size()!=0) {
+			 size = leTraiter.size();
+		 }
+		 // System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
 		 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
 		 ficheDemandeForm.setStatusEnregistrement(false);
 		 ficheDemandeForm.setCin(cinService.getById(Long.valueOf(cin)));
 		 ficheDemandeForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
-		 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
+		 ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
 		 
-		 //Mis en historique
-		 ActiviteRecent historique = new ActiviteRecent(); 
-		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Une demande au nom de \""+ficheSaved.getCin().getNom().toUpperCase()+" "+ficheSaved.getCin().getPrenom()+"\""));
-		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
-		 	activiteRecentService.saveOrUpdate(historique);
-	 	 //fin historique	
-
-	 	try{ 
+			 //Mis en historique
+			 ActiviteRecent historique = new ActiviteRecent(); 
+			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Une demande au nom de \""+ficheSaved.getCin().getNom().toUpperCase()+" "+ficheSaved.getCin().getPrenom()+"\""));
+			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+			 	activiteRecentService.saveOrUpdate(historique);
+		 	 //fin historique	
+	 
 	 		FicheDemandeDetail ficheDetail = this.saveDemandeDetail(ficheSaved, ficheDemandeDetailForm);
 	 	
 	 	}catch(Exception e) {
 	 		e.printStackTrace();
 	 	} 
-		 return "redirect:/showRequest/" + ficheSaved.getId();
+	 	if(size!=-1) {
+	 		return "redirect:/showRequest/" + ficheSaved.getId() + "/notification-"+size;
+	 	}
+	 	return "redirect:/showRequest/" + ficheSaved.getId();
 	 }
 	 @PutMapping(value = "/updateRequest")
 	 public String updateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult){

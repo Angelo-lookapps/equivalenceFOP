@@ -99,4 +99,13 @@ public class ListePromotionDetailServiceImpl implements ListePromotionDetailServ
 		
 		return retour;
 	}
+
+	@Override
+	public List<ListePromotionDetail> getAllAdmisByCIN(Long idCin) throws Exception {
+		TypedQuery<ListePromotionDetail> query = em.createNamedQuery("ListePromotionDetail.findAdmisByCIN", ListePromotionDetail.class)
+				.setParameter(1, idCin); 
+		List<ListePromotionDetail> ret = query.getResultList();
+	
+		return ret;
+	}
 }

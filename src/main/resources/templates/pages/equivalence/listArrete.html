@@ -114,16 +114,16 @@
                                     </table>
                                 </div>
                                 
-                                <div class="row">
-                                <div class="col-md-12">
-                                	<label class="col-md-4">Pagination :</label>
-                                	<div class="btn-toolbar col-md-8" role="toolbar" aria-label="Toolbar with button groups">
-                                        <div class="btn-group" role="group" aria-label="First group">
-                                            <span th:each=" page : ${nombrePagination}"><a th:href="'/listArrete/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
-                                        </div>
-                                    </div>
-                                </div> 
-                             </div>
+                             	<div class="row">
+	                                <div class="col-md-12">
+	                                	<label class="col-md-4">Pagination :</label>
+	                                	<div class="btn-toolbar col-md-8" role="toolbar" aria-label="Toolbar with button groups">
+	                                        <div class="btn-group" role="group" aria-label="First group">
+	                                            <span th:each=" page : ${nombrePagination}"><a th:href="'/listArrete/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
+	                                        </div>
+	                                    </div>
+	                                </div> 
+	                             </div>
                             </div>
                         </div>
                     </div>

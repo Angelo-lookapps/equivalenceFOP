@@ -69,9 +69,18 @@ public class FicheDemande {
 	private String telephone;
 	private String diplome;
 	private String utilisation;
-	private boolean statusEnregistrement;
+	private Boolean statusEnregistrement;
 	private Date dateRetrait;
+	private Boolean statusRejet;
 	
+	public Boolean getStatusRejet() {
+		return statusRejet;
+	}
+
+	public void setStatusRejet(Boolean statusRejet) {
+		this.statusRejet = statusRejet;
+	}
+
 	private String dateAjout;
 	
 	

@@ -175,7 +175,7 @@ public class FicheDemandeController {
 	 }	
 	 
 	 @GetMapping({"/showRequest/{id}", "/showRequest/{id}/notification-{size}"})
-	 public String getDemandeById(@PathVariable String id, @PathVariable(required=false) Optional<Integer> size, Model model){
+	 public String getDemandeById(@PathVariable String id, @PathVariable(required=false) String size, Model model){
 		 FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));		 
 		 model.addAttribute("ficheDemande", fiche);
 		 
@@ -184,8 +184,8 @@ public class FicheDemandeController {
 		 }	
 		 FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(fiche.getId());
 		 model.addAttribute("ficheDemandeDetail", ficheDetail);
-		 if(size.isPresent()) {
-			 model.addAttribute("size", size.get());
+		 if(size!=null) {
+			 model.addAttribute("size", size );
 		 }
 		
 		 if(session.getAttribute("isConnected")!=null) {
@@ -232,8 +232,8 @@ public class FicheDemandeController {
     	return "pages/login";
 	 }
 	 
-	 @GetMapping({"/newRequest","/requestList/{deleteError}", "/requestList/page-{page}"})
-	 public String ajouterDemande(Model model ,@PathVariable(required=false) Optional<String> deleteError,@PathVariable(required=false) Optional<Integer> page) {
+	 @GetMapping({"/newRequest","/newRequest/isDuplicated/{idFiche}", "/newRequest/page-{page}"})
+	 public String ajouterDemande(Model model , @PathVariable(required=false) Optional<Long> idFiche, @PathVariable(required=false) Optional<Integer> page) {
 		 //initial
 		 initialListeFiche();
 		 //Get Lists 
@@ -241,7 +241,7 @@ public class FicheDemandeController {
 		 List<FicheDemande> listeDemande = ficheDemandeService.pagination(1, nombreLigneMax);
 		if(page.isPresent()) {
 			listeDemande = ficheDemandeService.pagination(page.get(), nombreLigneMax);
-		}  
+		}
 		try {
 			Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
 			model.addAttribute("nombrePagination", nombrePagination);
@@ -265,7 +265,11 @@ public class FicheDemandeController {
 		 model.addAttribute("listLieuDelivrance", listLieuDelivrance);
 		 model.addAttribute("ficheDemandeForm", new FicheDemandeForm());
 		 model.addAttribute("ficheDemandeDetailForm", new FicheDemandeDetailForm());
-		 
+		  
+		 if(idFiche.isPresent()) {
+			 FicheDemande duplicate = ficheDemandeService.getById(idFiche.get());
+			 model.addAttribute("isDuplicated", duplicate);
+		 }
 		 if(session.getAttribute("isConnected")!=null) {
 			 return "pages/enregistrement/newRequest";
 		 }	
@@ -282,28 +286,35 @@ public class FicheDemandeController {
 		 }
 		 List<ListePromotionDetail> leTraiter = null;
 		 FicheDemande ficheSaved = null;
+		 FicheDemande isDuplicated = null;
 		 int size=-1;
 	 try { 
-		 leTraiter = listePromotionDetailService.getAllAdmisByCIN(Long.valueOf(cin));
-		 if(leTraiter.size()!=0) {
-			 size = leTraiter.size();
-		 }
-		 // System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
-		 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
-		 ficheDemandeForm.setStatusEnregistrement(false);
-		 ficheDemandeForm.setCin(cinService.getById(Long.valueOf(cin)));
-		 ficheDemandeForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
-		 ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
+		 isDuplicated = this.hasDuplicated(cin, listeDiplome);
+		 if(isDuplicated==null) {
+				 
+			 leTraiter = listePromotionDetailService.getAllAdmisByCIN(Long.valueOf(cin));
+			 if(leTraiter.size()!=0) {
+				 size = leTraiter.size();
+			 }
+			 // System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
+			 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
+			 ficheDemandeForm.setStatusEnregistrement(false);
+			 ficheDemandeForm.setCin(cinService.getById(Long.valueOf(cin)));
+			 ficheDemandeForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
+			 ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
+			 
+				 //Mis en historique
+				 ActiviteRecent historique = new ActiviteRecent(); 
+				 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Une demande au nom de \""+ficheSaved.getCin().getNom().toUpperCase()+" "+ficheSaved.getCin().getPrenom()+"\""));
+				 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+				 	activiteRecentService.saveOrUpdate(historique);
+			 	 //fin historique	
 		 
-			 //Mis en historique
-			 ActiviteRecent historique = new ActiviteRecent(); 
-			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Une demande au nom de \""+ficheSaved.getCin().getNom().toUpperCase()+" "+ficheSaved.getCin().getPrenom()+"\""));
-			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
-			 	activiteRecentService.saveOrUpdate(historique);
-		 	 //fin historique	
-	 
-	 		FicheDemandeDetail ficheDetail = this.saveDemandeDetail(ficheSaved, ficheDemandeDetailForm);
-	 	
+		 		FicheDemandeDetail ficheDetail = this.saveDemandeDetail(ficheSaved, ficheDemandeDetailForm);
+		}else {
+			return "redirect:/newRequest/isDuplicated/"+isDuplicated.getId();
+		}
+		 
 	 	}catch(Exception e) {
 	 		e.printStackTrace();
 	 	} 
@@ -329,19 +340,20 @@ public class FicheDemandeController {
 		 return "redirect:/showRequest/" + ficheSaved.getId();
 	 }
 	 
-	 @GetMapping("/request/delete/{id}/{page}")
+	 @GetMapping("/request/rejete/{id}/{page}")
 	 public String delete(@PathVariable String id, @PathVariable String page){
-		 FicheDemande listesSaved = ficheDemandeService.getById(Long.valueOf(id));
-		 FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(listesSaved.getId());
-		 if(ficheDetail==null) {
+		 FicheDemande listesSaved = null;
+		 listesSaved = ficheDemandeService.getById(Long.valueOf(id));
+		 if(listesSaved!=null) {
 			 return "redirect:/error404/"+page;
 		 }
-		 ficheDemandeDetailService.delete(ficheDetail.getId());
-		 ficheDemandeService.delete(Long.valueOf(id));
+		 listesSaved.setStatusRejet(true);
+		 listesSaved = ficheDemandeService.saveOrUpdate(listesSaved);
+		 //ficheDemandeService.delete(Long.valueOf(id));
          
 		 //Mis en historique
 		 ActiviteRecent historique = new ActiviteRecent();
-		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(2, "La demande de "+listesSaved.getCin().getNom().toUpperCase()+" "+listesSaved.getCin().getPrenom()+" : "+listesSaved.getId() + "/" +listesSaved.getDateRetrait().getYear()));
+		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(4, "La demande de "+listesSaved.getCin().getNom().toUpperCase()+" "+listesSaved.getCin().getPrenom()+" : "+listesSaved.getId() + "/" +listesSaved.getDateRetrait().getYear()));
 		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	//fin historique
@@ -377,11 +389,12 @@ public class FicheDemandeController {
 	 		System.out.println("\n\n\n ficheSaved==null \n");
 	 		return "redirect:/error404/requestList";
 	 	} 
+	 	List<ListePromotionDetail> listeTraiter = null;
 	 	ListePromotionDetail leTraiter = null;
  	try {
  		//System.out.println("\n\n deb = "+ficheSaved.getCin().getId());
- 		leTraiter = listePromotionDetailService.getAdmisByCIN(ficheSaved.getCin().getId()); 
- 		
+ 		listeTraiter = listePromotionDetailService.getAllAdmisByCIN(ficheSaved.getCin().getId()); 
+ 		leTraiter = admisTraiter(listeTraiter, ficheSaved);
  		//System.out.println("\n\n leTraiter === "+leTraiter.getListePromotion().getNomPromotion());
 	 	FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(ficheSaved.getId());
  		if(ficheDetail==null) {
@@ -460,6 +473,44 @@ public class FicheDemandeController {
 			this.listeDiplomes = listesDiplomeService.listAll();
 		}
 	 } 
+	 
+	 public ListePromotionDetail admisTraiter(List<ListePromotionDetail> listeTraiter, FicheDemande fiche) {
+		 ListePromotionDetail ret = null;
+		 try {
+			 if(listeTraiter.size()==0) {
+				 throw new Exception("Error method admisTrater: the field listeTraiter is invalid size 0.");
+			 }
+			 for(ListePromotionDetail temp : listeTraiter) {
+				 if(temp.getListePromotion().getListesDiplome().getId().equals(fiche.getListesDiplome().getId())) {
+					 ret = temp;
+					 break;
+				 }
+			 }
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 return ret;
+	 }
+	 public FicheDemande hasDuplicated(String cin, String listeDiplome) {
+		 FicheDemande ret = null;
+		 List<FicheDemande> listeDemande = null;
+		 try {
+			 listeDemande = ficheDemandeService.getFicheDemandeByCIN(Long.valueOf(cin));
+			 if(listeDemande.size()==0) {
+				 return ret;
+			 }
+			 for(FicheDemande temp : listeDemande) {
+				 if(temp.getListesDiplome().getId().equals(Long.valueOf(listeDiplome))) {
+					 ret = temp;
+					 break;
+				 }
+			 }
+			 
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 return ret;
+	 }
 	 
 	
 

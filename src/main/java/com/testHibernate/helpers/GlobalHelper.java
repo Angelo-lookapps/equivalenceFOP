@@ -64,6 +64,8 @@ public class GlobalHelper {
 				ret = "Vous avez récemment ajouter : " + query; break;
 			case 2:
 				ret = "Vous avez supprimé : " + query; break; 
+			case 4:
+				ret = "Mise en rejet : " + query; break; 
 			default:
 				ret = "Vous avez mis à jour : " + query; break; 
 		}

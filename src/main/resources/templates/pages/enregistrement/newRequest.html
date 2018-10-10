@@ -78,6 +78,14 @@
                         </div>
 
                         <div class="panel-body">
+                        	<div th:if="${isDuplicated!=null}">
+                                  <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
+                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                     <i class="fa fa-exclamation-circle"></i><strong>Attention : </strong>
+                                     Une demande de cette équivalence est déjà en cours. <a th:href="'/showRequest/'+${isDuplicated.id}" >Voir la demande (<span th:text="'N°'+${isDuplicated.id}"></span>) date de retrait <span th:text="'N°'+${isDuplicated.dateRetrait}"></span></a> 
+                                 </div>
+                             </div>
+                        
                             <form th:object="${ficheDemandeForm}" th:action="${isEdit == 1} ? @{/udpateRequest} : @{/saveRequest}"
                                 th:method="${isEdit == 1} ? 'PUT' : 'POST'" class="f1">
 
@@ -106,7 +114,7 @@
                                      <div class="col-lg-6 col-md-9 col-sm-12">
                                      	<div class="input-group">
                                      	   <input type="text" id="listeDiplomeHidden"  name="listeDiplome" hidden>
-                                           <input type="text" class="form-control" id="listeDiplomeChamp" placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
+                                           <input type="text" class="form-control" id="listeDiplomeChamp"  placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
                                            <span class="input-group-btn">
                                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchlisteDiplomeModal">Choisir</button>
                                            </span>

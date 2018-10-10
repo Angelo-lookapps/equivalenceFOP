@@ -30,11 +30,24 @@ public class FicheDemandeForm {
 	private String telephone;
 	private String diplome;
 	private String utilisation;
-	private boolean statusEnregistrement;
+	private Boolean statusEnregistrement;
+	
+	private Boolean statusRejet;
+	
 	private Date dateRetrait; 
 	
 	private String dateAjout;
 	
+	
+	
+	public Boolean getStatusRejet() {
+		return statusRejet;
+	}
+
+	public void setStatusRejet(Boolean statusRejet) {
+		this.statusRejet = statusRejet;
+	}
+
 	public String getDateAjout() {
 		return dateAjout;
 	}
@@ -79,10 +92,10 @@ public class FicheDemandeForm {
 	public void setUtilisation(String utilisation) {
 		this.utilisation = utilisation;
 	}
-	public boolean getStatusEnregistrement() {
+	public Boolean getStatusEnregistrement() {
 		return statusEnregistrement;
 	}
-	public void setStatusEnregistrement(boolean statusEnregistrement) {
+	public void setStatusEnregistrement(Boolean statusEnregistrement) {
 		this.statusEnregistrement = statusEnregistrement;
 	}
 	public Date getDateRetrait() {

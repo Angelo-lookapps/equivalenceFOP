@@ -98,7 +98,7 @@
                                                         th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'confirmé' : 'non-confirmé'"></a></td>
                                                 <td class="text-center">
                                                     <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
-                                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete " th:onclick="|goToDelete('${demande.id}')|"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Mettre dans les rejets " th:onclick="|goToDelete('${demande.id}')|"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 													<a th:href="'/traitement/'+${demande.id}"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
                                                     
                                                     <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow"> -->
@@ -142,7 +142,7 @@
             var txt;
             var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
             if (r == true) {
-                window.location.href = "/request/delete/" + id + "/requestList";
+                window.location.href = "/request/rejete/" + id + "/requestList";
             }
 
         }

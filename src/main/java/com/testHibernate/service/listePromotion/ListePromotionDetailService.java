@@ -11,9 +11,9 @@ public interface ListePromotionDetailService {
 	
     List<ListePromotionDetail> listAll();
 
-    ListePromotionDetail getById(Long id);
+    ListePromotionDetail getById(Long id); 
     
-    List<ListePromotionDetail>  getDetailByIdListePromotion(@Param(value = "idListePromotion") Long idListePromotion);
+    List<ListePromotionDetail>  getDetailByIdListePromotion(@Param(value = "idListePromotion") Long idListePromotion); 
 
     ListePromotionDetail getAdmisByCIN(Long idCin) throws Exception;	
     

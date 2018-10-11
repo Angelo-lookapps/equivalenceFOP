@@ -5,8 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -20,11 +18,11 @@ import com.testHibernate.model.cin.CIN;
 		name = "ListePromotionDetail.findByIdListePromotion", 
 		query = "SELECT c FROM ListePromotionDetail as c WHERE c.listePromotion.id = :idListePromotion "),
 	@NamedQuery(
-			name = "ListePromotionDetail.pagination", 
-			query = "SELECT ld FROM ListePromotionDetail as ld order by ld.id"),
+		name = "ListePromotionDetail.pagination", 
+		query = "SELECT ld FROM ListePromotionDetail as ld order by ld.id"),
 	@NamedQuery(
-			name = "ListePromotionDetail.findAdmisByCIN", 
-			query = "SELECT ld FROM ListePromotionDetail as ld WHERE ld.cin.id = ?1 order by ld.id")
+		name = "ListePromotionDetail.findAdmisByCIN", 
+		query = "SELECT ld FROM ListePromotionDetail as ld WHERE ld.cin.id = ?1 order by ld.id")
  })
 public class ListePromotionDetail {
 
@@ -42,6 +40,7 @@ public class ListePromotionDetail {
 		this.dateNaissance = dateNaissance;
 		this.lieuNaissance = lieuNaissance;
 		this.mention = mention;
+		
 	}
 
 
@@ -51,6 +50,7 @@ public class ListePromotionDetail {
 	
 	@ManyToOne
 	private ListePromotion listePromotion;
+	
 	
 	private String numeroMatricule;
 	private String nomComplet;

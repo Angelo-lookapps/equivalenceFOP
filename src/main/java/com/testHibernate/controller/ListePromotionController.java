@@ -219,11 +219,12 @@ public class ListePromotionController {
 		}
 		 return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getId();		
 	}
-	@GetMapping({"/showPromoDetail/{id}", "/showPromoDetail/{id}/newCIN-{newCIN}"})
-	public String ajoutPromo( @PathVariable String id, Model model, @PathVariable(required=false) Optional<Integer> newCIN) {
-		
+	@GetMapping({"/showPromoDetail/{session}/{id}", "/showPromoDetail/{id}/newCIN-{newCIN}"})
+	public String ajoutPromo(@PathVariable String session, @PathVariable String id, Model model, @PathVariable(required=false) Optional<Integer> newCIN) {
+		//modication
 		List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(Long.valueOf(id));
-		ListePromotion listePromotion = listePromotionService.getById(Long.valueOf(id));
+		ListePromotion listePromotion = listePromotionService.getByIdDiplomeAndSession(Long.valueOf(id), session);
+		 
 		List<String> mentions = GlobalHelper.getMentionList();
 		
 		if(listePromotion==null) {

@@ -15,6 +15,8 @@ public interface ListePromotionService {
     
     ListePromotion  getPromotionByIdListeDiplome(@Param(value = "idListe") Long idListe);
     
+    ListePromotion  getByIdDiplomeAndSession( Long idDiplome, String sessionSortie);
+    
     List<ListePromotion>  getBySession(@Param(value = "session") String session);
 
     ListePromotion saveOrUpdate(ListePromotion listePromotion);

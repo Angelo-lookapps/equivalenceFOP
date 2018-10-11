@@ -254,8 +254,6 @@ public class CINController {
 	 }
 	 
 	 public void initialListeCIN() {
-		if(this.cins==null){
 			this.cins = cinService.listAll();
-		}
 	 }
 }

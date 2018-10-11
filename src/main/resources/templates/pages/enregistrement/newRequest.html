@@ -85,7 +85,20 @@
                                      Une demande de cette équivalence est déjà en cours. <a th:href="'/showRequest/'+${isDuplicated.id}" >Voir la demande (<span th:text="'N°'+${isDuplicated.id}"></span>) date de retrait <span th:text="'N°'+${isDuplicated.dateRetrait}"></span></a> 
                                  </div>
                              </div>
-                        
+                       		 <div th:if="${needProm!=null && proms!=null}">
+                                 <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
+                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                     <i class="fa fa-exclamation-circle"></i><strong>Attention : </strong>
+                                     La carte d'identité <a th:href="'/cin/show/' + ${needProm.id}" th:text="'N° '+ ${needProm.id} +' au nom de : '+ ${needProm.nom} + ' ' + ${needProm.prenom} " ></a> doit fournir une liste de promotion (<a th:href="'/showPromoDetail/' + ${proms.sessionSortie} + '/' + ${proms.listesDiplome.id}" th:text="'cliquez ici'"></a> pour joindre une liste).  
+                                 </div>
+                             </div>
+                             <div th:if="${needProm!=null && sessionDeb!=null && proms==null}">
+                                 <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
+                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                     <i class="fa fa-exclamation-circle"></i><strong>Attention : </strong>
+                                     La liste des promotion de : <b th:text="${ecole}"></b> session: <span th:text="${sessionDeb}"></span> n'est pas encore dans la base de donnée.(<a th:href="'/listProm'" th:text="'cliquez ici'"></a> pour ajouter la Promotion)  
+                                 </div>
+                             </div>
                             <form th:object="${ficheDemandeForm}" th:action="${isEdit == 1} ? @{/udpateRequest} : @{/saveRequest}"
                                 th:method="${isEdit == 1} ? 'PUT' : 'POST'" class="f1">
 
@@ -102,7 +115,7 @@
                                      <div class="col-lg-6 col-md-9 col-sm-12">
                                      	<div class="input-group">
                                      	   <input type="text" id="cinHidden" name="cin" hidden>
-                                           <input type="text" class="form-control" id="cinChamp" placeholder="Carte d'identité..." data-toggle="modal" data-target="#searchCINModal">
+                                           <input type="text" class="form-control" id="cinChamp" autocomplete="off" placeholder="Carte d'identité..." data-toggle="modal" data-target="#searchCINModal">
                                            <span class="input-group-btn">
                                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchCINModal">Choisir</button>
                                            </span>
@@ -113,8 +126,9 @@
                                     <label class="col-sm-3 col-form-label">Veuillez choisir le dipl&ocirc;me</label>
                                      <div class="col-lg-6 col-md-9 col-sm-12">
                                      	<div class="input-group">
+                                     	   <input type="text" id="idCinTemp"  name="idCinTemp" hidden>
                                      	   <input type="text" id="listeDiplomeHidden"  name="listeDiplome" hidden>
-                                           <input type="text" class="form-control" id="listeDiplomeChamp"  placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
+                                           <input type="text" class="form-control" id="listeDiplomeChamp" autocomplete="off" placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
                                            <span class="input-group-btn">
                                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchlisteDiplomeModal">Choisir</button>
                                            </span>
@@ -428,14 +442,14 @@
 		$('#anneeFin').val(addition); 
 	}
 	
-	function searchListeDiplome() {
+	function searchListeDiplome() { 
+		 
 		$.ajax({
 			  method: "GET",
 			  url: "http://localhost:8080/searchDiplome",
 			  data: { champ: $("#listeDiplome").val() }
 			}).done(function( msg ) {
-				//var obj = JSON.parse(msg); 
-				
+
 				$('#outputlisteDiplome').html(getHtml(msg,"setIdDiplome")); 
 				
 				 console.log( "Data Saved: " + msg[0].tagName );
@@ -454,7 +468,6 @@
 				  	niveau: $("#niveau").val()
 				  	}
 			}).done(function( msg ) {
-				//var obj = JSON.parse(msg); 
 				
 				$('#outputlisteDiplome').html(getHtml(msg,"setIdDiplome")); 
 				
@@ -504,7 +517,8 @@
 	function setIdCIN(id, name){ 
 		 $('#cinChamp').val(name); 
 		 $('#cinHidden').val(id);
-		// cinChamp.setAttribute("name", "cin");
+		 $('#idCinTemp').val(id);
+		//console.log('Hello = '+id);
 	}
 	function setIdDiplome(id, name){ 
 		 $('#listeDiplomeChamp').val(name); 

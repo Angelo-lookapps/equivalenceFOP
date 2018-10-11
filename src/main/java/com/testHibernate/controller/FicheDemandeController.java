@@ -232,8 +232,12 @@ public class FicheDemandeController {
     	return "pages/login";
 	 }
 	 
-	 @GetMapping({"/newRequest","/newRequest/isDuplicated/{idFiche}", "/newRequest/page-{page}"})
-	 public String ajouterDemande(Model model , @PathVariable(required=false) Optional<Long> idFiche, @PathVariable(required=false) Optional<Integer> page) {
+	 @GetMapping({"/newRequest","/newRequest/needAddListe/cin-{cin}/diplome-{prom}-{sessionDeb}","/newRequest/isDuplicated/{idFiche}", "/newRequest/page-{page}"})
+	 public String ajouterDemande(Model model , @PathVariable(required=false) Optional<Long> cin, @PathVariable(required=false) Optional<Long> prom,
+			 @PathVariable(required=false) String sessionDeb,
+			 @PathVariable(required=false) Optional<Long> idFiche,
+			 @PathVariable(required=false) Optional<Integer> page) {
+		 
 		 //initial
 		 initialListeFiche();
 		 //Get Lists 
@@ -265,7 +269,22 @@ public class FicheDemandeController {
 		 model.addAttribute("listLieuDelivrance", listLieuDelivrance);
 		 model.addAttribute("ficheDemandeForm", new FicheDemandeForm());
 		 model.addAttribute("ficheDemandeDetailForm", new FicheDemandeDetailForm());
-		  
+		 	
+		 if(cin.isPresent() && prom.isPresent() ) {
+			 ListePromotion proms = null;
+			 ListePromotion temp = listePromotionService.getPromotionByIdListeDiplome(Long.valueOf(prom.get()));
+			 proms = listePromotionService.getByIdDiplomeAndSession(Long.valueOf(prom.get()), sessionDeb );
+			 CIN need = cinService.getById(cin.get());
+			 model.addAttribute("needProm", need);  
+			 if(proms!=null) {
+				 model.addAttribute("proms", proms);
+			 }else if(proms==null && temp!=null){
+				 
+				 model.addAttribute("ecole", temp.getListesDiplome().getEcole() + " EN " + temp.getListesDiplome().getFiliere());
+				 model.addAttribute("sessionDeb", sessionDeb );
+			 }
+			
+		 }
 		 if(idFiche.isPresent()) {
 			 FicheDemande duplicate = ficheDemandeService.getById(idFiche.get());
 			 model.addAttribute("isDuplicated", duplicate);
@@ -284,6 +303,8 @@ public class FicheDemandeController {
 		 if(bindingResult.hasErrors()){  
 			return "redirect:/error505";	 
 		 }
+		 
+		 
 		 List<ListePromotionDetail> leTraiter = null;
 		 FicheDemande ficheSaved = null;
 		 FicheDemande isDuplicated = null;
@@ -295,6 +316,8 @@ public class FicheDemandeController {
 			 leTraiter = listePromotionDetailService.getAllAdmisByCIN(Long.valueOf(cin));
 			 if(leTraiter.size()!=0) {
 				 size = leTraiter.size();
+			 }else {
+				 return "redirect:/newRequest/needAddListe/cin-"+Long.valueOf(cin)+"/diplome-"+Long.valueOf(listeDiplome)+"-"+ficheDemandeDetailForm.getAnneeDeb();
 			 }
 			 // System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
 			 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
@@ -360,21 +383,17 @@ public class FicheDemandeController {
         return "redirect:/"+page;
 	 }
 	 
-	 @GetMapping(value = "/searchDiplome")
-	 public @ResponseBody List<Tag> getTags(@RequestParam(required=true) String champ) {
-		 System.out.println("data == "+data.size());
+	 @GetMapping("/searchDiplome")
+	 public @ResponseBody List<Tag> getTags(@RequestParam(required=true) String champ ) {
+		 
+		 System.out.println("\n\n\n CHAMP == "+champ);
 		 return simulateSearchResult(champ);
 
 	 }
 	 @GetMapping(value = "/searchCritereDiplome")
 	 public @ResponseBody List<Tag> getListeDemandeByCriteres(@RequestParam(required=true) String ecole,
 			 @RequestParam(required=true) String filiere,@RequestParam(required=true) String option,@RequestParam(required=true, defaultValue="") String niveau) {
-		/* System.out.println("\n\n DATA == ");
-			 System.out.println("\t ecole == " + ecole);
-			 System.out.println("\t filiere == " + filiere);
-			 System.out.println("\t option == " + option);
-			 System.out.println("\t niveau == " + niveau);*/
-		 
+		
 		 return this.simulateSearchResultByCritere( ecole, filiere, option, niveau);
 
 	 }

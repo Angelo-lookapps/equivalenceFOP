@@ -99,13 +99,15 @@
                                         <tbody>
                                             <tr th:each="promo : ${promos}">
                                                 <td class="text-center" th:text="${promo.id}"></td>
-                                                <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.id}"
+                                                <td class="text-center"><a th:href="'/showPromoDetail/'+ ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}"
                                                         th:text="${promo.listesDiplome.ecole} + ' | ' + ${promo.listesDiplome.filiere}+ ' | option: ' + ${promo.listesDiplome.option} "></a></td>
-                                                <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.id}"
-                                                        th:text="${promo.sessionSortie}"></</a> </td> <td class="text-center"><a
-                                                            th:href="'/showPromoDetail/' + ${promo.id}" th:text="${promo.nomPromotion}"></</a>
-                                                                </td> <td class="text-center">
-                                                            <a th:href="'/showPromoDetail/' + ${promo.id}" class="btn btn-base btn-sm">Modifier</a>
+                                                <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}"
+                                                        th:text="${promo.sessionSortie}"></</a> </td>
+                                                <td class="text-center"><a
+                                                            th:href="'/showPromoDetail/' + ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}" th:text="${promo.nomPromotion}"></</a>
+                                                                </td> 
+                                               	<td class="text-center">
+                                                            <a th:href="'/showPromoDetail/'+ ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}" class="btn btn-base btn-sm">Modifier</a>
                                                             <button class="btn btn-danger btn-sm" data-toggle="tooltip"
                                                                 data-placement="top" title="Supprimer"><i class="fa fa-trash"
                                                                     aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"></i></button>
@@ -160,7 +162,7 @@
                                      <div class="col-lg-8 col-md-9 col-sm-12">
                                      	<div class="input-group">
                                      	   <input type="text" id="listeDiplomeHidden"  th:name="'listeDiplome'" hidden>
-                                           <input type="text" class="form-control" id="listeDiplomeChamp" placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
+                                           <input type="text" class="form-control" id="listeDiplomeChamp" autocomplete="off" placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
                                            <span class="input-group-btn">
                                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchlisteDiplomeModal">Choisir</button>
                                            </span>

@@ -32,10 +32,10 @@
     <link href="assets/plugins/inputs/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
 
     <!-- START THEME JS -->
-    <script src="https://cdn.ckeditor.com/4.10.0/full-all/ckeditor.js"></script>
+    <script src="assets/js/ckeditor.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+    <script src="assets/js/jspdf.debug.js"></script>
+    <script src="assets/js/jspdf.min.js"></script>
     <script src="assets/plugins/inputs/js/plugins/sortable.js" type="text/javascript"></script>
     <script src="assets/plugins/inputs/js/fileinput.js" type="text/javascript"></script>
     <script src="assets/plugins/inputs/js/locales/fr.js" type="text/javascript"></script>
@@ -177,7 +177,10 @@
                                                                     style="font-family:&quot;Times New Roman&quot;,serif"><strong><span
                                                                             style="font-size:9.0pt"><span style="color:#333333">Sp&eacute;cialit&eacute;&nbsp;:
                                                                                 <span th:text="'...'"></span></span></span></strong></span></span></p>
-
+														<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:12pt">
+															<span style="font-family:&quot;Times New Roman&quot;,serif">
+																<span style="font-size:9.0pt">www.dgfop.gov.mg</span></span>
+																</span></p>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -237,7 +240,10 @@
                                                     style="font-family:&quot;Times New Roman&quot;,serif"><strong><span
                                                             style="font-size:9.0pt"><span style="color:#333333">Sp&eacute;cialit&eacute;&nbsp;:
                                                                 <span th:text="'...'"></span></span></span></strong></span></span></p>
-
+										<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:12pt">
+															<span style="font-family:&quot;Times New Roman&quot;,serif">
+																<span style="font-size:9.0pt">www.dgfop.gov.mg</span></span>
+																</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -338,7 +344,7 @@
 	                                     <div class="col-lg-8 col-md-9 col-sm-12">
 	                                     	<div class="input-group">
 	                                     	   <input type="text" id="listeDiplomeHidden" th:name="'listeDiplome'" hidden>
-	                                           <input type="text" class="form-control" id="listeDiplomeChamp" placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
+	                                           <input type="text" class="form-control" autocomplete="off" id="listeDiplomeChamp" placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
 	                                           <span class="input-group-btn">
 	                                               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchlisteDiplomeModal">Choisir</button>
 	                                           </span>

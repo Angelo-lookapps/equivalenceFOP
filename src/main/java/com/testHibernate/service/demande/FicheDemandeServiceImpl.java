@@ -121,4 +121,23 @@ public class FicheDemandeServiceImpl implements FicheDemandeService {
 		
 		return ret; 
 	}
+
+
+	@Override
+	public List<FicheDemande> selectByRejet(List<FicheDemande> listeDemande, Boolean statusRejet) throws Exception {
+		List<FicheDemande> liste = new ArrayList<FicheDemande>();
+		try {
+			if(listeDemande.size()==0) {
+				throw new Exception("Error in selectByRejet : listeDeamnde is zero!");
+			}
+			for(FicheDemande temp : listeDemande) {
+				if(temp.getStatusRejet()==statusRejet) { 
+					liste.add(temp);
+				}
+			}
+		}catch(Exception e) {
+			throw e;
+		}
+		return liste;
+	}
 }

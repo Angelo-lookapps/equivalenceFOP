@@ -230,7 +230,7 @@
                                             <tr th:each="demande : ${listeDemande}">
                                                 <td th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()-100}"></td>
                                                 <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
-                                                <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+                                                <td><a th:href="'/showRequest/'+${demande.id}" th:text="${#dates.format(demande.dateRetrait, 'dd-MM-yyyy')}"></a></td>
                                                 <td><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></td>
                                        		</tr>
                                         </tbody>

@@ -272,7 +272,7 @@
                                                 <td th:text="${cin.id}"></td>
                                                 <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.numeroCIN}"></a></td>
                                                 <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nom}+' '+${cin.prenom}"></a></td> 
-                                                <td><a th:href="'cin/show/'+${cin.id}" th:text="${cin.dateNaissance}+' à '+${cin.lieuNaissance}"></a></td>
+                                                <td><a th:href="'cin/show/'+${cin.id}" th:text="${#dates.format(cin.dateNaissance, 'dd-MM-yyyy')}+' à '+${cin.lieuNaissance}"></a></td>
                                             </tr>
                                         </tbody>
                                         <tfoot>

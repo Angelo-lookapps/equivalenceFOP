@@ -92,9 +92,9 @@
                                             <div class="alert alert-sm alert-success alert-dismissible" role="alert"><i
                                                     class="fa fa-check-circle"></i><span th:text="${successImport}"></span></div>
                                         </div>
-                                        <div th:if="${newCIN==1}">
+                                        <div th:if="${newCIN!=null}">
                                             <div class="alert alert-sm alert-success alert-dismissible" role="alert"><i
-                                                    class="fa fa-info-circle"></i><span>Une Carte d'identit&eacute; temporaire vient d'&ecirc;tre cr&eacute;&eacute;!</span></div>
+                                                    class="fa fa-info-circle"></i><span>Une Carte d'identit&eacute; temporaire vient d'&ecirc;tre cr&eacute;&eacute;!(<a th:href="'/cin/show/'+${newCIN}"></a>)</span></div>
                                         </div>
                                         <b><label class="text-muted" id="output"></label></b>
                                     </div>

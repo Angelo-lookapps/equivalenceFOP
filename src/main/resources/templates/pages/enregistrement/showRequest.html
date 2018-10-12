@@ -117,7 +117,7 @@
                                         </tr>
                                         <tr>
                                             <th>Date Retrait </th>
-                                            <td th:text="*{ficheDemande.dateRetrait}"></td>
+                                            <td th:text="*{#dates.format(ficheDemande.dateRetrait, 'dd-MM-yyyy')}"></td>
                                         </tr>
                                     </tbody>
                                 </table> 

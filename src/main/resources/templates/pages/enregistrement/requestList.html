@@ -91,7 +91,7 @@
                                         <tbody>
                                             <tr th:each="demande : ${listeDemande}">
                                                 <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()-100}"></td>
-                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${#dates.format(demande.dateRetrait, 'dd-MM-yyyy')}"></a></td>
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
                                                 <td class="text-center"><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
                                                 <td class="text-center"><a th:class="${demande.statusEnregistrement} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'"

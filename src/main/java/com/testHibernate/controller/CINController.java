@@ -207,7 +207,7 @@ public class CINController {
 	 
 	 @GetMapping(value = "/searchCIN")
 	 public @ResponseBody List<Tag> getTags(@RequestParam(required=true) String champ) {
-		 System.out.println("data == "+data.size());
+		 //System.out.println("data == "+data.size());
 		 return simulateSearchResult(champ);
 
 	 }
@@ -215,7 +215,7 @@ public class CINController {
 	 public @ResponseBody List<Tag> getListeDemandeByCriteres(@RequestParam(required=true) String nomCIN, @RequestParam(required=true) String prenom,
 				@RequestParam(required=true) String numeroCIN, @RequestParam(required=true) String adresseActuelle, 
 				@RequestParam(required=true) String fonction, @RequestParam(required=true) String lieuTravail) { 
-		System.out.println("\n\n nomCIN = "+nomCIN);
+		//System.out.println("\n\n nomCIN = "+nomCIN);
 		 return this.simulateSearchResultByCritere(nomCIN, prenom,  numeroCIN, adresseActuelle, 
 				 fonction, lieuTravail);
 
@@ -240,7 +240,7 @@ public class CINController {
 		 try{
 			 initialListeCIN();
 			 data =  gh.convertCINToListTag(cins);  
-			 System.out.println("data == "+data.size());
+			 //System.out.println("data == "+data.size());
 			// iterate a list and filter by tagName
 			 for (Tag tag : data) {
 				if (tag.getTagName().toUpperCase().contains(tagName.toUpperCase())) {

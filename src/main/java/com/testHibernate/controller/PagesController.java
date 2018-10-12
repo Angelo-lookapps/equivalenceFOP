@@ -102,9 +102,7 @@ public class PagesController {
 		try {
 			
 			tempActivities = global.splitActivityTime(activities);  
-			System.out.println("\n\n\n\n TEST : \n ");
-			System.out.println("SIZE : "+tempActivities.size());
-			System.out.println("info : "+tempActivities.get(1).getActiviteRecent().getDateAjout());
+			
 		} catch (Exception e) { 
 			e.printStackTrace();
 		}

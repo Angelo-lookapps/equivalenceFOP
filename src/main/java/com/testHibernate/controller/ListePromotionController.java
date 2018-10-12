@@ -104,8 +104,6 @@ public class ListePromotionController {
         		model.addAttribute("deleteWarning2", id.get()); 
             }
 			
-			
-			
 			initialListePromotion();
 			ret = this.listePromotionService.pagination(1, nombreLigneMax);
 				if(page.isPresent()) {
@@ -146,7 +144,7 @@ public class ListePromotionController {
 		ListePromotion listesSaved = null;
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
-		}  
+		} 
 		listePromotionForm.setDateAjout(GlobalHelper.getCurrentDate()); 
 		if(listeDiplome!=null)
 			listePromotionForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
@@ -168,7 +166,7 @@ public class ListePromotionController {
 		if(listePromotion1==null) {
 			return "redirect:/error404/listProm";	
 		}
-		Integer newCIN = 0;  
+		Long newCIN = (long) 0;  
 		if(bindingResult.hasErrors()){
 			return "redirect:/error505";
 		}  
@@ -178,8 +176,10 @@ public class ListePromotionController {
 			if(!listePromotionDetailForm.getNomComplet().equals("") || !listePromotionDetailForm.getLieuNaissance().equals("") ) {
 				  listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
 				  getit = insertNewCIN(listePromotionDetailForm.getNomComplet(), listePromotionDetailForm.getDateNaissance(), listePromotionDetailForm.getLieuNaissance(), adresseActuelle); 
-				  
-				  newCIN = 1;
+				  if(getit!=null){
+					  newCIN = getit.getId(); 
+				  }
+				
 			}else {
 				
 				if(!idCin.equals("")) {
@@ -188,10 +188,11 @@ public class ListePromotionController {
 						return "redirect:/error404/listProm";
 					}
 				}
-				System.out.println("\n\n getIt = "+getit.getNom()+" "+getit.getPrenom());
+				//System.out.println("\n\n getIt = "+getit.getNom()+" "+getit.getPrenom());
 				String nomComplet = getit.getNom()+" "+getit.getPrenom();
 				String dateNaissance = GlobalHelper.convertToStringDate(getit.getDateNaissance()); 
 				
+				listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
 				listePromotionDetailForm.setNomComplet(nomComplet);
 				listePromotionDetailForm.setDateNaissance(dateNaissance);
 				listePromotionDetailForm.setLieuNaissance(getit.getLieuNaissance()); 
@@ -201,43 +202,41 @@ public class ListePromotionController {
 		listePromotionDetailForm.setListePromotion(listePromotion1);
 		//System.out.println("\n\n listePromotionDetailForm = "+listePromotionDetailForm.getMention());
 		listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
-		System.out.println("\n\n\n GEGE ===== " + listesSaved.getNomComplet());
+		//System.out.println("\n\n\n GEGE ===== " + listesSaved.getNomComplet());
 		
 		//Mis en historique
 		ActiviteRecent historique = new ActiviteRecent(); 
 		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un étudiant admis \"" + listesSaved.getNomComplet().toUpperCase() + " à la "+listesSaved.getListePromotion().getNomPromotion() + " de " + listesSaved.getListePromotion().getListesDiplome().getEcole()+"\""));
 		 	historique.setDateAjout(GlobalHelper.getCurrentDate());
 		 	activiteRecentService.saveOrUpdate(historique);
-	 	//fin historique
-			
+	 	//fin historique	
 
 		}catch(Exception er) {
 			er.printStackTrace();
 		}
-		if(newCIN==1) {
-			return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getId()+"/newCIN-"+newCIN;	
+		if(newCIN!=0) {
+			System.out.println("\n\n String URL = redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId()+"/newCIN-"+newCIN);
+			return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getId()+"/newCIN-"+newCIN;	
 		}
-		 return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getId();		
+		System.out.println("\n\n String URL 2  = redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId());
+		return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId();		
 	}
-	@GetMapping({"/showPromoDetail/{session}/{id}", "/showPromoDetail/{id}/newCIN-{newCIN}"})
-	public String ajoutPromo(@PathVariable String session, @PathVariable String id, Model model, @PathVariable(required=false) Optional<Integer> newCIN) {
+	@GetMapping({"/showPromoDetail/{session}/{id}", "/showPromoDetail/{session}/{id}/newCIN-{newCIN}"})
+	public String ajoutPromo(@PathVariable String session, @PathVariable String id, Model model, @PathVariable(required=false) Long newCIN) {
 		//modication
-		List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(Long.valueOf(id));
 		ListePromotion listePromotion = listePromotionService.getByIdDiplomeAndSession(Long.valueOf(id), session);
-		 
-		List<String> mentions = GlobalHelper.getMentionList();
-		
 		if(listePromotion==null) {
 			return "redirect:/error404/listProm";	
 		}
-		//List<String> listEcole = listesDiplomeService.getAllEcole();
+		List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(listePromotion.getId()); ///Listes des admis by idPromotion
+		List<String> mentions = GlobalHelper.getMentionList(); 
 		String ecole = listePromotion.getListesDiplome().getEcole();
 		try {
 			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
 			List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
 			
-			if(newCIN.isPresent() && newCIN.get()!=0) {
-				model.addAttribute("newCIN", newCIN.get());
+			if(newCIN!=null ) {
+				model.addAttribute("newCIN", newCIN);
 			}
 			model.addAttribute("listeDiploma", listeDiploma);
 			model.addAttribute("annees", annee);
@@ -324,14 +323,14 @@ public class ListePromotionController {
 			for(ListePromotionDetailForm temp : list) {
 				//System.out.println("" + temp.getId() + " | " + temp.getListePromotion().getNomPromotion() + " | " + temp.getNumeroMatricule() + " | " + temp.getNomComplet()+ " | " + temp.getDateNaissance()+ " | " + temp.getLieuNaissance()+ " | " + temp.getMention());
 				CIN cin = insertNewCIN(temp.getNomComplet(), temp.getDateNaissance(), temp.getLieuNaissance(), temp.getCin().getAdresseActuelle());
-				System.out.println("\n DATE NAISSANCE CIN = "+temp.getLieuNaissance());
+			//	System.out.println("\n DATE NAISSANCE CIN = "+temp.getLieuNaissance());
 				temp.setDateAjout(GlobalHelper.getCurrentDate());
 				temp.setCin(cin);
-				System.out.println("\n CIN getDateNaissance= "+temp.getCin().getDateNaissance());
+			/*	System.out.println("\n CIN getDateNaissance= "+temp.getCin().getDateNaissance());
 				System.out.println("\n CIN getLieuNaissance= "+temp.getCin().getLieuNaissance());
 				System.out.println("\n CIN getNom= "+temp.getCin().getNom()+" "+temp.getCin().getPrenom());
 				System.out.println("\n CIN getNomPromotion= "+temp.getListePromotion().getNomPromotion());
-				System.out.println("\n CIN getNomComplet= "+temp.getNomComplet());
+				System.out.println("\n CIN getNomComplet= "+temp.getNomComplet());*/
 				ListePromotionDetail listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(temp);
 				
 				model.addAttribute("successImport", "Félicitation, l'importation du fichier: \""+ filename +"\" est finie !!!");	
@@ -358,7 +357,7 @@ public class ListePromotionController {
 			//e.printStackTrace();
 			model.addAttribute("errorImport", "Fichier incorrect (suggestion: vérifier si le fichier est bien sous l'extension .xls où .xlsx; Où s'il n'inclut pas une liste d'étudiants admis) Veuillez recommencez svp!!!");	
 		}
-		return "redirect:/showPromoDetail/" + listePromotion.getId();
+		return "redirect:/showPromoDetail/"+listePromotion.getSessionSortie()+"/"+listePromotion.getListesDiplome().getId(); 
 	}
 	
 	@GetMapping("/admis/delete/{id}")
@@ -379,8 +378,8 @@ public class ListePromotionController {
 		 	activiteRecentService.saveOrUpdate(historique);
 	 	 //fin historique
 		 	
-       return "redirect:/showPromoDetail/" + listesSaved.getListePromotion().getId();
-	 }
+	 		return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId(); 
+  	}
 	
 	public int deleteAllChild(String id) {
 		 ListePromotion listesSaved = listePromotionService.getById(Long.valueOf(id));
@@ -457,8 +456,11 @@ public class ListePromotionController {
 				CINForm cinForm = new CINForm();
 				cinForm.setNom(tab1[0]);
 				cinForm.setPrenom(tab1[1]); 
-				
-				cinForm.setDateNaissance(GlobalHelper.convertStringToDate(dateNaissance));
+				/*System.out.println("\n\n ");
+				System.out.println("Date dateNaissance = " + dateNaissance);
+				System.out.println("Date formatDate = " + GlobalHelper.formatDate(dateNaissance));
+				System.out.println("convert dateNaissance = " + GlobalHelper.convertStringToDate(GlobalHelper.formatDate(dateNaissance).toString()));*/
+				cinForm.setDateNaissance( GlobalHelper.convertStringToDate(GlobalHelper.formatDate(dateNaissance).toString()));
 				cinForm.setLieuNaissance(lieuNaissance);
 				cinForm.setAdresseActuelle(adresseActuelle);
 				cinForm.setDateAjout(GlobalHelper.getCurrentDate());
@@ -485,8 +487,6 @@ public class ListePromotionController {
 		return ret;
 	}
 	 public void initialListePromotion() {
-		if(this.listeProms==null){
 			this.listeProms = listePromotionService.listAll();
-		}
 	 }
 }

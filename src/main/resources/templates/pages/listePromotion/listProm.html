@@ -88,25 +88,26 @@
                                 <div class="table-responsive">
                                     <table id="dataTableExample1" class="table table-bordered table-striped table-hover">
                                         <thead>
-                                            <tr>
-                                                <th class="text-center">#</th>
-                                                <th class="text-center">Nom de l'&eacute;cole</th>
-                                                <th class="text-center">Session</th>
+                                            <tr> 
+                                            	<th class="text-center">Session</th>
+                                                <th class="text-center">Nom de l'&eacute;cole</th> 
                                                 <th class="text-center">Nom de la promotion</th>
+                                                <th class="text-center">Total Admis</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="promo : ${promos}">
-                                                <td class="text-center" th:text="${promo.id}"></td>
-                                                <td class="text-center"><a th:href="'/showPromoDetail/'+ ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}"
-                                                        th:text="${promo.listesDiplome.ecole} + ' | ' + ${promo.listesDiplome.filiere}+ ' | option: ' + ${promo.listesDiplome.option} "></a></td>
+                                            <tr th:each="promo : ${promos}"> 
                                                 <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}"
                                                         th:text="${promo.sessionSortie}"></</a> </td>
+                                                <td class="text-center"><a th:href="'/showPromoDetail/'+ ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}"
+                                                        th:text="${promo.listesDiplome.ecole} + ' | ' + ${promo.listesDiplome.filiere}+ ' | option: ' + ${promo.listesDiplome.option} "></a></td>
+                                                
                                                 <td class="text-center"><a
                                                             th:href="'/showPromoDetail/' + ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}" th:text="${promo.nomPromotion}"></</a>
                                                                 </td> 
-                                               	<td class="text-center">
+                                               	<td class="text-center"><b th:text="''"></b></td>
+                                              	<td class="text-center">
                                                             <a th:href="'/showPromoDetail/'+ ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}" class="btn btn-base btn-sm">Modifier</a>
                                                             <button class="btn btn-danger btn-sm" data-toggle="tooltip"
                                                                 data-placement="top" title="Supprimer"><i class="fa fa-trash"

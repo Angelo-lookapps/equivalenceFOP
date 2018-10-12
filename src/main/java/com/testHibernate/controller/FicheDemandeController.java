@@ -160,6 +160,7 @@ public class FicheDemandeController {
 				ret = ficheDemandeService.pagination(page.get(), nombreLigneMax);
 			}  
 			try {
+				ret = ficheDemandeService.selectByRejet(ret, false);
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
 				model.addAttribute("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
@@ -243,10 +244,12 @@ public class FicheDemandeController {
 		 //Get Lists 
 		 List<CIN> listCIN = cinService.listAll();
 		 List<FicheDemande> listeDemande = ficheDemandeService.pagination(1, nombreLigneMax);
+		 
 		if(page.isPresent()) {
 			listeDemande = ficheDemandeService.pagination(page.get(), nombreLigneMax);
 		}
 		try {
+			listeDemande = ficheDemandeService.selectByRejet(listeDemande, false);
 			Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
 			model.addAttribute("nombrePagination", nombrePagination);
 		} catch (Exception e) { 
@@ -322,6 +325,7 @@ public class FicheDemandeController {
 			 // System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
 			 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
 			 ficheDemandeForm.setStatusEnregistrement(false);
+			 ficheDemandeForm.setStatusRejet(false);
 			 ficheDemandeForm.setCin(cinService.getById(Long.valueOf(cin)));
 			 ficheDemandeForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
 			 ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
@@ -365,7 +369,8 @@ public class FicheDemandeController {
 	 
 	 @GetMapping("/request/rejete/{id}/{page}")
 	 public String delete(@PathVariable String id, @PathVariable String page){
-		 FicheDemande listesSaved = null;
+		 FicheDemande listesSaved = new FicheDemande();
+		 System.out.println("\n\n Error liste id = "+id);
 		 listesSaved = ficheDemandeService.getById(Long.valueOf(id));
 		 if(listesSaved!=null) {
 			 return "redirect:/error404/"+page;
@@ -386,7 +391,7 @@ public class FicheDemandeController {
 	 @GetMapping("/searchDiplome")
 	 public @ResponseBody List<Tag> getTags(@RequestParam(required=true) String champ ) {
 		 
-		 System.out.println("\n\n\n CHAMP == "+champ);
+		 //System.out.println("\n\n\n CHAMP == "+champ);
 		 return simulateSearchResult(champ);
 
 	 }
@@ -405,7 +410,7 @@ public class FicheDemandeController {
 		ContentArrete contentArrete = null;
 		String contentArticle = GlobalHelper._ArticleContent;
 	 	if(ficheSaved==null) {
-	 		System.out.println("\n\n\n ficheSaved==null \n");
+	 		//System.out.println("\n\n\n ficheSaved==null \n");
 	 		return "redirect:/error404/requestList";
 	 	} 
 	 	List<ListePromotionDetail> listeTraiter = null;
@@ -417,7 +422,7 @@ public class FicheDemandeController {
  		//System.out.println("\n\n leTraiter === "+leTraiter.getListePromotion().getNomPromotion());
 	 	FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(ficheSaved.getId());
  		if(ficheDetail==null) {
-			 System.out.println("\n\n\n ficheDetail==null \n");
+			// System.out.println("\n\n\n ficheDetail==null \n");
 			 return "redirect:/error404/requestList";
  		} 
  		ArreteEqRef ref = arreteEqRefService.getArreteByIdDiplome(ficheSaved.getListesDiplome().getId());
@@ -447,7 +452,7 @@ public class FicheDemandeController {
 			 if(data.size()==0) {
 				 data =  gh.convertDiplomeToListTag(listeDiplomes); 
 			 }
-			 System.out.println("data == "+data.size());
+			 //System.out.println("data == "+data.size());
 			// iterate a list and filter by tagName
 			 for (Tag tag : data) {
 				if (tag.getTagName().toUpperCase().contains(tagName.toUpperCase())) {
@@ -487,10 +492,8 @@ public class FicheDemandeController {
 		 return ficheDetail;
 	 }
 	 public void initialListeFiche() {
-		if(this.fiches==null || this.listeDiplomes==null){
 			this.fiches = ficheDemandeService.listAll();
 			this.listeDiplomes = listesDiplomeService.listAll();
-		}
 	 } 
 	 
 	 public ListePromotionDetail admisTraiter(List<ListePromotionDetail> listeTraiter, FicheDemande fiche) {

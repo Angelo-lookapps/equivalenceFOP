@@ -33,5 +33,7 @@ public interface FicheDemandeService {
     FicheDemande saveOrUpdateDemandeForm(FicheDemandeForm ficheForm);
 
 	List<FicheDemande> pagination(int page, int limit);
+	
+	List<FicheDemande> selectByRejet(List<FicheDemande> listeDemande, Boolean statusRejet) throws Exception;
 
 }

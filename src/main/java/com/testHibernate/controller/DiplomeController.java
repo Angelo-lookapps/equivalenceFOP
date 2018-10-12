@@ -258,9 +258,7 @@ public class DiplomeController {
 	 }
 	
 	public void initialListeDiploma() {
-		if(listeDiplomes==null){
 			this.listeDiplomes = listesDiplomeService.listAll();
-		}
 	}
 	 
 	public ArreteEqRef insertArreteLink(ListesDiplome listeDiplomeTemp, String anneeSortie) throws Exception {

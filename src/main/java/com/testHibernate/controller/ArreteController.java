@@ -141,7 +141,7 @@ public class ArreteController {
 			 
 			ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
 			ContentArrete contentArrete = contentArreteService.getContentByArrete(Long.valueOf(id))!=null ? contentArreteService.getContentByArrete(Long.valueOf(id)) : null;
-			//System.out.println("\n\n\n contentArrete = "+contentArrete.getContenu());
+			
 			
 			if(listesSaved==null) {
 				return "redirect:/error404/listArrete";	

@@ -372,7 +372,9 @@ public class FicheDemandeController {
 		 FicheDemande listesSaved = new FicheDemande();
 		 System.out.println("\n\n Error liste id = "+id);
 		 listesSaved = ficheDemandeService.getById(Long.valueOf(id));
-		 if(listesSaved!=null) {
+		 
+		 if(listesSaved==null) {
+			 System.out.println("\n\n Error listesSaved  = "+listesSaved.getDiplome());
 			 return "redirect:/error404/"+page;
 		 }
 		 listesSaved.setStatusRejet(true);

@@ -62,7 +62,7 @@
                 </div>
             </div> <!-- /. Content Header (Page header) -->
             <div class="row">
-                <div class="col-sm-10">
+                <div class="col-sm-9">
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -131,26 +131,52 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <a href="/newRequest"><button type="button" class="btn btn-primary w-md m-rb-5">Ajouter</button></a>
+                    <a href="/newRequest"><button type="button" class="btn btn-primary w-md m-rb-5">Faire une nouvelle demande</button></a>
+                	<hr/>
+                	<h5>Filtrer par:</h5>
+               	 	<div class="gege">
+	                	<div class="i-check">
+	                        <input id="radio1" type="radio" checked name="myRadio" th:onclick="|radioButton()|" value="0">
+	                        <label for="tout">Tout</label>
+	                    </div>
+	                    <div class="i-check">
+	                        <input id="radio1" type="radio"  name="myRadio" th:onclick="|radioButton()|" value="1">
+	                        <label for="rejet">Rejeter</label>
+	                    </div>
+	                    <div class="i-check">
+	                        <input id="radio1" type="radio"  name="myRadio" th:onclick="|radioButton()|" value="2">
+	                        <label for="nonRejet">En cours</label>
+	                    </div>
+                    </div>
+                	
                 </div>
             </div>
         </div>
     </div>
     <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+ 
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script>
         function goToDelete(id) {
             var txt;
             var r = confirm("Cette action est irreversible! Etes-vous vraiment sûr de continuer?");
             if (r == true) {
+            	console.log("url:  /request/rejete/" + id + "/requestList");
                 window.location.href = "/request/rejete/" + id + "/requestList";
             }
 
         }
+         
+        function radioButton() { 
+        	console.log("Hello world");
+        	var temp = $("input[type|='radio']").val();
+        	console.log("Hello world = "+temp);
+        	console.log("this = "+$("#radio1").val()); 
+        }
     </script>
-    <!-- ./²wrapper -->
-    <!-- START CORE PLUGINS -->
-    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
-    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/fastclick/fastclick.min.js"></script>

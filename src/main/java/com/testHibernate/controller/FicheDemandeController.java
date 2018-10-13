@@ -151,20 +151,32 @@ public class FicheDemandeController {
 		this.ficheDemandeService = ficheDemandeService;
 	 }
  
-	 @GetMapping({"/requestList", "/requestList/page-{page}"})
-	 public String listDemande(Model model, @PathVariable(required=false) Optional<Integer> page){
+	 @GetMapping({"/requestList", "/requestList/page-{page}", "/requestList/filter/{filter}", "/requestList/page-{page}/filter/{filter}"})
+	 public String listDemande(Model model, @PathVariable(required=false) Optional<Integer> page, @PathVariable(required=false) Integer filter){
 	 
 		 initialListeFiche();
+		 
 		 List<FicheDemande> ret = ficheDemandeService.pagination(1, nombreLigneMax);
 			if(page.isPresent()) {
 				ret = ficheDemandeService.pagination(page.get(), nombreLigneMax);
+				model.addAttribute("pageActuel", page.get());
 			}  
 			try {
-				ret = ficheDemandeService.selectByRejet(ret, false);
+				if(filter!=0) { 
+					ret = ficheDemandeService.selectByRejet(ret, filter==1 ? false : true);
+					model.addAttribute("filter", filter);
+					model.addAttribute("filtrer", filter==1 ? "En-cours" : "Rejeté");
+				}else {
+					model.addAttribute("filter", filter);
+					model.addAttribute("filtrer", filter==1 ? "En-cours" : "Rejeté");
+				}
+				
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
 				model.addAttribute("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
-				e.printStackTrace();
+				model.addAttribute("error", e.getMessage());
+	 			return "pages/erreur/505"; 
+				//e.printStackTrace();
 			}
         model.addAttribute("listeDemande", ret);
         if(session.getAttribute("isConnected")!=null) {
@@ -301,7 +313,7 @@ public class FicheDemandeController {
 	 } 
 	 
 	 @PostMapping(value = "/saveRequest")
-	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm,  @RequestParam String cin, @RequestParam String listeDiplome, @Valid  @ModelAttribute FicheDemandeDetailForm ficheDemandeDetailForm, BindingResult bindingResult){
+	 public String saveOrUpdateDemande(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm,  @RequestParam String cin, @RequestParam String listeDiplome, @Valid  @ModelAttribute FicheDemandeDetailForm ficheDemandeDetailForm, BindingResult bindingResult, Model model){
 		 
 		 if(bindingResult.hasErrors()){  
 			return "redirect:/error505";	 
@@ -343,7 +355,9 @@ public class FicheDemandeController {
 		}
 		 
 	 	}catch(Exception e) {
-	 		e.printStackTrace();
+	 		model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+	 		//e.printStackTrace();
 	 	} 
 	 	if(size!=-1) {
 	 		return "redirect:/showRequest/" + ficheSaved.getId() + "/notification-"+size;
@@ -425,7 +439,8 @@ public class FicheDemandeController {
 	 	FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(ficheSaved.getId());
  		if(ficheDetail==null) {
 			// System.out.println("\n\n\n ficheDetail==null \n");
-			 return "redirect:/error404/requestList";
+ 			model.addAttribute("pageRedirect", "requestList");
+ 			return "pages/erreur/404"; 
  		} 
  		ArreteEqRef ref = arreteEqRefService.getArreteByIdDiplome(ficheSaved.getListesDiplome().getId());
  		contentArrete = contentArreteService.getContentByArrete(ref.getId())!=null ? contentArreteService.getContentByArrete(ref.getId()) : null;
@@ -440,7 +455,8 @@ public class FicheDemandeController {
 			model.addAttribute("ficheDemande", ficheSaved);
 			model.addAttribute("ficheDemandeDetail", ficheDetail); 
 	 	}catch(Exception e) {
-			 e.printStackTrace();
+	 		model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
 	 	}
 	 	return "pages/traitement/traitement";
 	 }

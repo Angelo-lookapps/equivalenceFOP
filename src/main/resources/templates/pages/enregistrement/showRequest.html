@@ -93,7 +93,7 @@
                                         </tr>
                                         <tr>
                                             <th>Dipl&ocirc;me (associ&eacute;) </th>
-                                            <td><a class="text-primary" th:href="'/showDiploma/'+ *{ficheDemande.listesDiplome.id}" th:text="*{ficheDemande.listesDiplome.niveauDiplome.niveau} + ' EN ' + *{ficheDemande.listesDiplome.filiere} + ' option:' + *{ficheDemande.listesDiplome.option} "></a></td>
+                                            <td><a class="text-primary" th:href="'/showDiploma/'+ *{ficheDemande.listesDiplome.id}" th:text="*{ficheDemande.listesDiplome.ecole}+' | '+*{ficheDemande.listesDiplome.niveauDiplome.niveau} + ' EN ' + *{ficheDemande.listesDiplome.filiere} + ' option:' + *{ficheDemande.listesDiplome.option} "></a></td>
                                         </tr>
                                         <tr>
                                             <th>t&eacute;l&eacute;phone </th>
@@ -117,7 +117,7 @@
                                         </tr>
                                         <tr>
                                             <th>Date Retrait </th>
-                                            <td th:text="*{#dates.format(ficheDemande.dateRetrait, 'dd-MM-yyyy')}"></td>
+                                            <td th:text="'Rendez-vous le '+*{#dates.format(ficheDemande.dateRetrait, 'dd-MM-yyyy')}"></td>
                                         </tr>
                                     </tbody>
                                 </table> 

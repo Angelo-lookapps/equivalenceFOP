@@ -100,8 +100,10 @@ public class DiplomeController {
 				 model.addAttribute("newArrete", idArrete.get());
 			}
 			model.addAttribute("nombrePagination", nombrePagination);
-		} catch (Exception e) { 
-			e.printStackTrace();
+		} catch (Exception e) {
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+		//	e.printStackTrace();
 		}
 		
 		List<NiveauDiplome> nivaux = niveauDiplomeService.listAll();
@@ -174,7 +176,9 @@ public class DiplomeController {
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeDiplomes.size(), nombreLigneMax);
 				model.addAttribute("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
-				e.printStackTrace();
+				model.addAttribute("error", e.getMessage());
+	 			return "pages/erreur/505"; 
+				//e.printStackTrace();
 			}
 		 
 		 model.addAttribute("annees", annee);
@@ -196,7 +200,7 @@ public class DiplomeController {
 	 }
 	 
 	 @PostMapping(value = "/saveDiploma")
-	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @RequestParam String anneeSortie, BindingResult bindingResult){
+	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @RequestParam String anneeSortie, BindingResult bindingResult, Model model){
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
@@ -218,7 +222,9 @@ public class DiplomeController {
 				 arrete = this.insertArreteLink(listesSaved, anneeSortie);
 		 	}
 		 }catch(Exception e) {
-			 e.printStackTrace();
+				model.addAttribute("error", e.getMessage());
+	 			return "pages/erreur/505"; 
+			// e.printStackTrace();
 		 }
 		 if(arrete!=null) {
 			 return "redirect:/diplomaList/newArrete-"+arrete.getId(); 

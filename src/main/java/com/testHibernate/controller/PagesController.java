@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,6 +36,8 @@ public class PagesController {
 	 private GlobalHelper global = new GlobalHelper();
 	 
 	 private ListePromotionService listePromotionService;
+	 int nombreLigneMax = 5;
+	 private List<FicheDemande> fiches;
 	 
 	 @Autowired
 	 public void setListePromotionService(ListePromotionService listePromotionService) {
@@ -117,13 +120,27 @@ public class PagesController {
 			
 	}
 
-	@GetMapping("/home")
-	public String home(@RequestParam(required=false) String name, ModelMap modelMap) {
-		List<FicheDemande> ret = ficheDemandeService.listAll();
+	@GetMapping({"/home", "/home/demande/page-{page}"})
+	public String home(@RequestParam(required=false) String name, @PathVariable(required=false) Optional<Integer> page, ModelMap modelMap) {
+		//List<FicheDemande> ret = ficheDemandeService.listAll();
 		List<ActiviteRecent> activities = activiteRecentService.getRecentActiviteByNumber(5);
-		
+		 //initial
+		 initialListeFiche();
 		int testDelete = activiteRecentService.deleteAllLast();
-	
+		List<FicheDemande> ret = ficheDemandeService.pagination(1, nombreLigneMax);
+			if(page.isPresent()) {
+				ret = ficheDemandeService.pagination(page.get(), nombreLigneMax);
+				modelMap.put("pageActuel", page.get());
+			}  
+			try {
+				ret = ficheDemandeService.selectByRejet(ret, false); 
+				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
+				modelMap.put("nombrePagination", nombrePagination);
+			} catch (Exception e) { 
+				modelMap.put("error", e.getMessage());
+	 			return "pages/erreur/505"; 
+				//e.printStackTrace();
+			}
 		HashMap<String, String> champs = GlobalHelper.getChampDemande();
 		if(session.getAttribute("isConnected")!=null) {
 			 
@@ -210,7 +227,9 @@ public class PagesController {
 		model.addAttribute("logout", true);
 		return "pages/login";	
 	}
-	
+	public void initialListeFiche() {
+		this.fiches = ficheDemandeService.listAll(); 
+	} 
 
 	//espace personnel
 	@GetMapping("/listStaff")

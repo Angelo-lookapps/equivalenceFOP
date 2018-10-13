@@ -145,7 +145,9 @@ public class CINController {
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.cins.size(), nombreLigneMax);
 				model.addAttribute("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
-				e.printStackTrace();
+				model.addAttribute("error", e.getMessage());
+	 			return "pages/erreur/505"; 
+				//e.printStackTrace();
 			}
 		 model.addAttribute("listCIN", listCIN);
 		 if(session.getAttribute("isConnected")!=null) {
@@ -195,6 +197,7 @@ public class CINController {
         	cinService.delete(Long.valueOf(id));
         }catch(Exception e) {
         	deleteError = "1";
+        	
         }
         //Mis en historique
 		ActiviteRecent historique = new ActiviteRecent();

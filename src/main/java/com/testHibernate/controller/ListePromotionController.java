@@ -113,7 +113,9 @@ public class ListePromotionController {
 					Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeProms.size(), nombreLigneMax);
 					model.addAttribute("nombrePagination", nombrePagination);
 				} catch (Exception e) { 
-					e.printStackTrace();
+					model.addAttribute("error", e.getMessage());
+		 			return "pages/erreur/505"; 
+					//e.printStackTrace();
 				}
 			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll(); 
 			List<String> listEcole = listesDiplomeService.getAllEcole();
@@ -125,7 +127,9 @@ public class ListePromotionController {
 			model.addAttribute("listPromotionForm", new ListePromotionForm());
 		
 		} catch (Exception e) {
-			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+			//e.printStackTrace();
 		}
 		
 		if(session.getAttribute("isConnected")!=null) {
@@ -212,7 +216,9 @@ public class ListePromotionController {
 	 	//fin historique	
 
 		}catch(Exception er) {
-			er.printStackTrace();
+			model.addAttribute("error", er.getMessage());
+ 			return "pages/erreur/505"; 
+			//er.printStackTrace();
 		}
 		if(newCIN!=0) {
 			System.out.println("\n\n String URL = redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId()+"/newCIN-"+newCIN);
@@ -247,18 +253,22 @@ public class ListePromotionController {
 			model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
 			model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
 		} catch (Exception e) { 
-			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+			//e.printStackTrace();
 		}
 		return "pages/listePromotion/listPromDet";		
 	}
 	
 	@GetMapping("/promotion/delete/{id}")
-	 public String deletePromo(@PathVariable String id ){
+	 public String deletePromo(@PathVariable String id , Model model){
 		int error = 0;
 		try {
 			error = this.deleteAllChild(id);
 		}catch(Exception e) {
-			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+			//e.printStackTrace();
 		}
 		return "redirect:/listProm/warning/"+error;
 	 }
@@ -278,7 +288,9 @@ public class ListePromotionController {
 			model.addAttribute("diplomaDetail", admis);
 			model.addAttribute("listePromotion", listePromotion);
 		 }catch(Exception e) {
-			 e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+			// e.printStackTrace();
 		 }
 		 if(admis==null) {
 			return "redirect:/error404/listProm";	
@@ -293,7 +305,9 @@ public class ListePromotionController {
 			 model.addAttribute("diplomaDetail", list);
 			 
 		 }catch(Exception e) {
-			 e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+			 //e.printStackTrace();
 		 }
 		 if(list==null) {
 			return "redirect:/error404/listProm";	

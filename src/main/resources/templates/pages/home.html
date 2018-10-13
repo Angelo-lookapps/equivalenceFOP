@@ -113,7 +113,7 @@
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
                             <div class="panel-title">
-                                <h4>Liste des Demandes en cours</h4>
+                                <h4>Liste des Demandes En cours</h4>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -137,7 +137,7 @@
                                         <tbody>
                                             <tr th:each="demande : ${listeDemande}">
                                                 <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()-100}"></td>
-                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.dateRetrait}"></a></td>
+                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="'Rendez-vous le '+${#dates.format(demande.dateRetrait, 'dd-MM-yyyy')}"></a></td>
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
                                                 <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
                                                 <td class="text-center">
@@ -165,6 +165,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                           	<div class="col-md-12">
+                           	<label class="col-md-4">Pagination :</label>
+                           	<div class="btn-toolbar col-md-8" role="toolbar" aria-label="Toolbar with button groups">
+                                   <div class="btn-group" role="group" aria-label="First group">
+                                       <span th:each=" page : ${nombrePagination}"><a th:href="'/home/demande/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
+                                   </div>
+                               </div> 
+                           </div>
+                         </div>
+                        
                     </div>
                 </div>
                 <div class="col-lg-4 visible-lg">

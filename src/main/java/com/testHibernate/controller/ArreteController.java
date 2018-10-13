@@ -114,7 +114,9 @@ public class ArreteController {
 		ContentArrete temp = this.contentArreteService.saveOrUpdate(content);
 		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
 		}catch(Exception e) {
-			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+		//	e.printStackTrace();
 		}
 		return "redirect:/newArrete/" + listesSaved.getId();		
 	}
@@ -130,7 +132,9 @@ public class ArreteController {
 			arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate()); 
 			updateEntity= arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
 		}catch(Exception ex) {
-			ex.printStackTrace();
+			model.addAttribute("error", ex.getMessage());
+ 			return "pages/erreur/505"; 
+			//ex.printStackTrace();
 		}
 		return "redirect:/newArrete/" + updateEntity.getId();		
 	}
@@ -166,7 +170,9 @@ public class ArreteController {
 			model.addAttribute("contentArreteForm", new ContentArreteForm());
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+			//e.printStackTrace();
 		}
 		if(session.getAttribute("isConnected")!=null) { 
 			return "pages/equivalence/newArrete";
@@ -214,7 +220,9 @@ public class ArreteController {
 		
 			 
 		} catch (Exception e) {
-			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+			//e.printStackTrace();
 		}
 
 		if(session.getAttribute("isConnected")!=null) { 
@@ -250,7 +258,9 @@ public class ArreteController {
 		 	 //fin historique
 						
 		} catch (Exception e) {
-			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+ 			return "pages/erreur/505"; 
+			//e.printStackTrace();
 		}
 			
 		return "redirect:/newArrete/" + id ;		

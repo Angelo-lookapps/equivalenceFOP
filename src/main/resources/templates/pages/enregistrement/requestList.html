@@ -66,7 +66,7 @@
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
                             <div class="panel-title">
-                                <h4>Liste des Demandes</h4>
+                                <h4>Liste des Demandes <span th:if="${filter!=null && filter!=0}" th:text="'(Filtrer par: '+${filtrer}+')'"></span></h4>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -83,7 +83,8 @@
                                                 <th class="text-center">Carte d'identit&eacute; </th>
                                               
                                                 <th class="text-center">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
-                                                <th class="text-center">Status</th>
+                                                <!-- <th class="text-center">Status</th> -->
+                                                <th class="text-center">Situation</th>
                                                 <th class="text-center">Action</th>
  
                                             </tr>
@@ -91,13 +92,13 @@
                                         <tbody>
                                             <tr th:each="demande : ${listeDemande}">
                                                 <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()-100}"></td>
-                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${#dates.format(demande.dateRetrait, 'dd-MM-yyyy')}"></a></td>
+                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="'Rendez-vous le '+${#dates.format(demande.dateRetrait, 'dd-MM-yyyy')}"></a></td>
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
                                                 <td class="text-center"><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
-                                                <td class="text-center"><a th:class="${demande.statusEnregistrement} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'"
-                                                        th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'confirmé' : 'non-confirmé'"></a></td>
+                                                <!-- <td class="text-center"><a th:class="${demande.statusEnregistrement} ? 'btn btn-primary disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'" th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'A traiter' : 'Finie'"></a></td> -->
+                                                <td class="text-center"><a th:class="${demande.statusRejet} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'"  th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusRejet} ? 'En-cours' : 'Rejeté'"></a></td>
                                                 <td class="text-center">
-                                                    <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                    <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                     <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Mettre dans les rejets " th:onclick="|goToDelete('${demande.id}')|"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 													<a th:href="'/traitement/'+${demande.id}"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
                                                     
@@ -125,29 +126,30 @@
                                       </div>
                                   </div> 
                               </div>
-                            </div>
-                            
+                            </div> 
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <a href="/newRequest"><button type="button" class="btn btn-primary w-md m-rb-5">Faire une nouvelle demande</button></a>
                 	<hr/>
-                	<h5>Filtrer par:</h5>
-               	 	<div class="gege">
+                	<h5>Filtrer par:</h5> 
+                		<input th:if="${pageActuel!=null}" id="pageActuel" type="text" th:value="${pageActuel}" hidden>
 	                	<div class="i-check">
-	                        <input id="radio1" type="radio" checked name="myRadio" th:onclick="|radioButton()|" value="0">
+	                        <input th:if="${filter!=null && filter!=0}" id="radio1" type="radio"  name="myRadio"  value="0">
+	                        <input th:if="${filter==null || filter==0}" checked id="radio1" type="radio"  name="myRadio"  value="0">
 	                        <label for="tout">Tout</label>
-	                    </div>
+	                    </div> 
 	                    <div class="i-check">
-	                        <input id="radio1" type="radio"  name="myRadio" th:onclick="|radioButton()|" value="1">
-	                        <label for="rejet">Rejeter</label>
-	                    </div>
-	                    <div class="i-check">
-	                        <input id="radio1" type="radio"  name="myRadio" th:onclick="|radioButton()|" value="2">
+	                        <input th:if="${filter==null || filter!=1}" id="radio1" type="radio"  name="myRadio" value="1">
+	                        <input th:if="${filter!=null && filter==1}" checked id="radio1" type="radio"  name="myRadio"  value="1">
 	                        <label for="nonRejet">En cours</label>
 	                    </div>
-                    </div>
+	                    <div class="i-check">
+	                   		<input th:if="${filter==null || filter!=2}" id="radio1" type="radio"  name="myRadio"  value="2">
+	                        <input th:if="${filter!=null && filter==2}" checked id="radio1" type="radio"  name="myRadio"  value="2">
+	                        <label for="rejet">Rejeté</label>
+	                    </div> 
                 	
                 </div>
             </div>
@@ -170,12 +172,24 @@
 
         }
          
-        function radioButton() { 
-        	console.log("Hello world");
-        	var temp = $("input[type|='radio']").val();
-        	console.log("Hello world = "+temp);
-        	console.log("this = "+$("#radio1").val()); 
-        }
+        //Filtrer par
+        var $radios = $('input[name="myRadio"]');
+        $radios.change(function(){
+        	var $checked =  
+       		$radios.filter(':checked');
+        	//console.log($checked.val());
+        	var $pageActuel = $("#pageActuel");
+        	if($pageActuel.val()!=null){
+        		//console.log("PageActuel = "+$pageActuel.val());
+        		window.location.href="http://localhost:8080/requestList/page-" + $pageActuel.val() + "/filter/" + $checked.val();
+        	}else{
+        		//console.log("NOPE !!!");
+        		window.location.href="http://localhost:8080/requestList/filter/"+$checked.val();
+        	}
+        	
+        	 
+        });
+      
     </script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>

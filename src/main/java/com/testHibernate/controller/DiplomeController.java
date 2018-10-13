@@ -86,7 +86,10 @@ public class DiplomeController {
 	 
 	 @GetMapping({"/diplomaList", "/diplomaList/page-{page}", "/diplomaList/newArrete-{idArrete}"})
 	 public String listDiplome(@PathVariable(required=false) Optional<Integer> page, @PathVariable(required=false) Optional<Integer> idArrete, Model model){
-		
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		initialListeDiploma();
 		List<ListesDiplome> ret = listesDiplomeService.pagination(1, nombreLigneMax);
 		
@@ -101,7 +104,7 @@ public class DiplomeController {
 			}
 			model.addAttribute("nombrePagination", nombrePagination);
 		} catch (Exception e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 		//	e.printStackTrace();
 		}
@@ -110,15 +113,17 @@ public class DiplomeController {
 		
         model.addAttribute("listesDiplome", ret);
         model.addAttribute("niveaux", nivaux); 
-        if(session.getAttribute("isConnected")!=null) {
-	    	return "pages/enregistrement/diplomaList";
-        }
-    	model.addAttribute("errorlogin", "4");
-		return "pages/login";
+	       
+        return "pages/enregistrement/diplomaList";
+        
 	 }	
 	 
 	 @GetMapping( "/showDiploma/{id}" )
 	 public String getDiploma(@PathVariable String id, Model model){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		 ListesDiplome list = listesDiplomeService.getById(Long.valueOf(id));
 		 model.addAttribute("diploma", list);
 		 if(list==null) {
@@ -126,16 +131,17 @@ public class DiplomeController {
 		 }
 		 // System.out.println("GEGE"); 
  		 
-		 if(session.getAttribute("isConnected")!=null) {
-	    	return "pages/enregistrement/showDiploma";
-		 }	
-		 model.addAttribute("errorlogin", "4");
-		 return "pages/login";
+		 return "pages/enregistrement/showDiploma";
+		 
 	 }
 
 	 @GetMapping("/editDiploma/{id}" )
 	 public String edit(@PathVariable String id, Model model){
-        ListesDiplome liste = listesDiplomeService.getById(Long.valueOf(id));
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
+		 ListesDiplome liste = listesDiplomeService.getById(Long.valueOf(id));
         if(liste==null) {
         	return "redirect:/error404";	
         }
@@ -150,18 +156,20 @@ public class DiplomeController {
         model.addAttribute("listDiploma", listeDiploma);
         model.addAttribute("listesDiplome", listesDiplome);
         model.addAttribute("isEdit", "1");
-        if(session.getAttribute("isConnected")!=null) {
-        	return "pages/enregistrement/newDiploma";
-		 }	
-		 model.addAttribute("errorlogin", "4");
-		 return "pages/login";
+        
+        return "pages/enregistrement/newDiploma";
+		  
         
 	 }
 	
 	 @GetMapping({"/newDiploma" ,"/newDiploma/page-{page} "})
 	 public String ajouterDiplome(@PathVariable(required=false) Optional<Integer> page , Model model) {
 		 //initial
-		// Map<String, String> listNiveau = new HashMap<String, String>();
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
+		 // Map<String, String> listNiveau = new HashMap<String, String>();
 		 
 		 //Get Lists 
 		 List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
@@ -176,7 +184,7 @@ public class DiplomeController {
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeDiplomes.size(), nombreLigneMax);
 				model.addAttribute("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
-				model.addAttribute("error", e.getMessage());
+				model.addAttribute("error", e);
 	 			return "pages/erreur/505"; 
 				//e.printStackTrace();
 			}
@@ -187,11 +195,9 @@ public class DiplomeController {
 		 model.addAttribute("listesDiplome", new ListesDiplomeForm());
 		 
 		
-		 if(session.getAttribute("isConnected")!=null) {
-			 return "pages/enregistrement/newDiploma";	
-		 }	
-		 model.addAttribute("errorlogin", "4");
-		 return "pages/login";
+		 
+		 return "pages/enregistrement/newDiploma";	
+		 
 	 }
 	
 	
@@ -206,6 +212,10 @@ public class DiplomeController {
 			 return "redirect:/error505";
 			 //return "pages/enregistrement/newDiploma";
 		 }
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		 ListesDiplome listesSaved = null;
 		 ArreteEqRef arrete = null;
 		 try{
@@ -222,7 +232,7 @@ public class DiplomeController {
 				 arrete = this.insertArreteLink(listesSaved, anneeSortie);
 		 	}
 		 }catch(Exception e) {
-				model.addAttribute("error", e.getMessage());
+				model.addAttribute("error", e);
 	 			return "pages/erreur/505"; 
 			// e.printStackTrace();
 		 }
@@ -239,6 +249,10 @@ public class DiplomeController {
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
 		 }
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		 
 		 ListesDiplome listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
 		//Mis en historique
@@ -252,6 +266,10 @@ public class DiplomeController {
 	 
 	@GetMapping("/diploma/delete/{id}")
 	 public String delete(@PathVariable String id){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		ListesDiplome listesSaved = listesDiplomeService.getById(Long.valueOf(id));
 		listesDiplomeService.delete(Long.valueOf(id));
 		//Mis en historique

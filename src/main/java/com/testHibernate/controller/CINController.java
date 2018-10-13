@@ -72,22 +72,27 @@ public class CINController {
 	 
 	 @GetMapping("/cin/show/{id}")
 	 public String getCIN(@PathVariable String id, Model model){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		 CIN listesSaved = cinService.getById(Long.valueOf(id));
 		 if(listesSaved==null) {
 			 return "redirect:/error404/CINList";	
 		 }
 		 model.addAttribute("cin", listesSaved);
-		 if(session.getAttribute("isConnected")!=null) {
-			 return "pages/enregistrement/showCIN";
-		 }	
-		 model.addAttribute("errorlogin", "4");
-		 return "pages/login";
+
+		 return "pages/enregistrement/showCIN";
+		  
 		
 	 }
 	 
 	 @GetMapping(value={"/CINList", "/CINList/{deleteError}", "/CINList/page-{page}"})
 	 public String listCIN(Model model, @PathVariable(required=false) Optional<String> deleteError,@PathVariable(required=false) Optional<Integer> page){
-		 
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		 initialListeCIN();
 		 List<CIN> listCIN = cinService.pagination(1, nombreLigneMax);
 			if(page.isPresent()) {
@@ -101,20 +106,20 @@ public class CINController {
 			}
 		
 		model.addAttribute("listCIN", listCIN);
-        if(session.getAttribute("isConnected")!=null) {
-        	if(deleteError.isPresent()) {
-        		model.addAttribute("deleteError", deleteError.get());
-            }
-        	return "pages/enregistrement/CINList";
+        if(deleteError.isPresent()) {
+    		model.addAttribute("deleteError", deleteError.get());
         }
-    	
-    	model.addAttribute("errorlogin", "4");
-		return "pages/login";
+    	return "pages/enregistrement/CINList";
+         
 	 }	
 	 
 	 @GetMapping("cin/edit/{id}")
 	 public String edit(@PathVariable String id, Model model){
-        CIN cin = cinService.getById(Long.valueOf(id));
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
+		 CIN cin = cinService.getById(Long.valueOf(id));
         if(cin==null) {
 			return "redirect:/error404";	
 		}
@@ -124,16 +129,17 @@ public class CINController {
         model.addAttribute("cinForm", cinForm);
         model.addAttribute("isEdit", "1");
         
-        if(session.getAttribute("isConnected")!=null) {
-        	return "pages/enregistrement/newCIN";
-		}	
-		model.addAttribute("errorlogin", "4");
-		return "pages/login";
+        return "pages/enregistrement/newCIN";
+	 
         
 	 }
 	 
 	 @GetMapping({"/newCIN", "/newCIN/page-{page}"})
 	 public String ajouterCIN(Model model, @PathVariable(required=false) Optional<Integer> page) {
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		 model.addAttribute("listCIN", cinService.listAll());
 		 model.addAttribute("cinForm", new CINForm());
 		 initialListeCIN();
@@ -145,25 +151,27 @@ public class CINController {
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.cins.size(), nombreLigneMax);
 				model.addAttribute("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
-				model.addAttribute("error", e.getMessage());
+				model.addAttribute("error", e);
 	 			return "pages/erreur/505"; 
 				//e.printStackTrace();
 			}
 		 model.addAttribute("listCIN", listCIN);
-		 if(session.getAttribute("isConnected")!=null) {
-			 return "pages/enregistrement/newCIN";	
-		 }	
-		 model.addAttribute("errorlogin", "4");
-		 return "pages/login";
+		 
+		 return "pages/enregistrement/newCIN";	
+		 
 		 	
 	 }
 	
 	 @PostMapping(value = "/saveCIN")
-	 public String saveOrUpdateCIN(@Valid  @ModelAttribute CINForm cinForm, BindingResult bindingResult){
+	 public String saveOrUpdateCIN(@Valid  @ModelAttribute CINForm cinForm, BindingResult bindingResult, Model model){
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
-		 } 	
+		 }
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	 	
 			 	
 		 cinForm.setDateAjout(GlobalHelper.getCurrentDate());
 		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm); 
@@ -178,11 +186,15 @@ public class CINController {
 	 }
 	 
 	 @PutMapping(value = "/updatesCIN")
-	 public String updatesCIN(@Valid  @ModelAttribute CINForm cinForm, BindingResult bindingResult){
+	 public String updatesCIN(@Valid  @ModelAttribute CINForm cinForm, BindingResult bindingResult, Model model){
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
 		 }
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 	
 		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm);
 
@@ -191,7 +203,11 @@ public class CINController {
 	 
 	 @GetMapping("/cin/delete/{id}")
 	 public String delete(@PathVariable String id, Model model){
-		CIN listesSaved = cinService.getById(Long.valueOf(id));
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
+		 CIN listesSaved = cinService.getById(Long.valueOf(id));
         String deleteError = "";
 		try {
         	cinService.delete(Long.valueOf(id));

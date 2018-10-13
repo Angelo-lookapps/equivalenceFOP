@@ -43,7 +43,7 @@
                             <p> Le serveur a rencontr&eacute; quelque chose d'inattendu qui ne lui permettait pas de compl&eacute;ter la requ&ecirc;te.
                                 Nous nous excusons. Vous pouvez revenir &agrave; la page principale: </p>
                             <h5>Source de l'erreur : </h5>
-                            <p th:if="${error!=null}" th:text="${error}"></p>
+                            <p th:if="${error!=null}" class="text-danger" th:text="${error}"></p>
                             <a href="/home" class="btn btn-base">Tableau de bord</a>
                         </div>
                     </div>

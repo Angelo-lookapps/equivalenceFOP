@@ -96,6 +96,10 @@ public class ListePromotionController {
 
 	@GetMapping({"/listProm", "/listProm/warning/{id}", "/listProm/page-{page}"})
 	 public String listPromo(Model model, @PathVariable(required=false) Optional<String> id,  @PathVariable(required=false) Optional<Integer> page){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		List<ListePromotion> ret = null;
 		try {
 			if(id.isPresent() && !id.get().equals("0")) {
@@ -113,7 +117,7 @@ public class ListePromotionController {
 					Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeProms.size(), nombreLigneMax);
 					model.addAttribute("nombrePagination", nombrePagination);
 				} catch (Exception e) { 
-					model.addAttribute("error", e.getMessage());
+					model.addAttribute("error", e);
 		 			return "pages/erreur/505"; 
 					//e.printStackTrace();
 				}
@@ -127,16 +131,13 @@ public class ListePromotionController {
 			model.addAttribute("listPromotionForm", new ListePromotionForm());
 		
 		} catch (Exception e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 			//e.printStackTrace();
 		}
 		
-		if(session.getAttribute("isConnected")!=null) {
-			 return "pages/listePromotion/listProm";
-        }
-    	model.addAttribute("errorlogin", "4");
-		return "pages/login";
+		 return "pages/listePromotion/listProm";
+       
        // System.out.println("\n ret.Length = " + ret.size());
       
         
@@ -144,7 +145,10 @@ public class ListePromotionController {
 	
 	@PostMapping("/savePromo")
 	public String ajoutPromo(@Valid  @ModelAttribute ListePromotionForm listePromotionForm , @RequestParam(required=false) String listeDiplome, BindingResult bindingResult, Model model) {
-		
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		ListePromotion listesSaved = null;
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
@@ -165,6 +169,10 @@ public class ListePromotionController {
 	
 	@PostMapping("/saveAdmis/{id}")
 	public String ajoutAdmisDetail(@PathVariable String id,@Valid  @ModelAttribute ListePromotionDetailForm listePromotionDetailForm, @RequestParam(required=true) String idCin, @RequestParam(required=false) String adresseActuelle , BindingResult bindingResult, Model model) {
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		ListePromotionDetail listesSaved = null;
 		ListePromotion listePromotion1 = listePromotionService.getById(Long.valueOf(id));
 		if(listePromotion1==null) {
@@ -227,9 +235,14 @@ public class ListePromotionController {
 		System.out.println("\n\n String URL 2  = redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId());
 		return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId();		
 	}
+	
 	@GetMapping({"/showPromoDetail/{session}/{id}", "/showPromoDetail/{session}/{id}/newCIN-{newCIN}"})
 	public String ajoutPromo(@PathVariable String session, @PathVariable String id, Model model, @PathVariable(required=false) Long newCIN) {
 		//modication
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		ListePromotion listePromotion = listePromotionService.getByIdDiplomeAndSession(Long.valueOf(id), session);
 		if(listePromotion==null) {
 			return "redirect:/error404/listProm";	
@@ -253,7 +266,7 @@ public class ListePromotionController {
 			model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
 			model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
 		} catch (Exception e) { 
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 			//e.printStackTrace();
 		}
@@ -262,11 +275,15 @@ public class ListePromotionController {
 	
 	@GetMapping("/promotion/delete/{id}")
 	 public String deletePromo(@PathVariable String id , Model model){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		int error = 0;
 		try {
 			error = this.deleteAllChild(id);
 		}catch(Exception e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 			//e.printStackTrace();
 		}
@@ -274,6 +291,10 @@ public class ListePromotionController {
 	 }
 	 @GetMapping("/editAdmis/{id}")
 	 public String editAdmis(@PathVariable String id, Model model){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		 ListePromotionDetail admis = listePromotionDetailService.getById(Long.valueOf(id));
 		 List<String> mentions = GlobalHelper.getMentionList();
 		 try{
@@ -288,24 +309,26 @@ public class ListePromotionController {
 			model.addAttribute("diplomaDetail", admis);
 			model.addAttribute("listePromotion", listePromotion);
 		 }catch(Exception e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 			// e.printStackTrace();
 		 }
-		 if(admis==null) {
-			return "redirect:/error404/listProm";	
-		 } 
+		 
 		 return "pages/listePromotion/editAdmis";
 	 }
 	 @GetMapping("/showAdmis/{id}")
 	 public String showAdmis(@PathVariable String id, Model model){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		 ListePromotionDetail list = listePromotionDetailService.getById(Long.valueOf(id));
 		 try{
 			 
 			 model.addAttribute("diplomaDetail", list);
 			 
 		 }catch(Exception e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 			 //e.printStackTrace();
 		 }
@@ -317,6 +340,10 @@ public class ListePromotionController {
 		
 	@GetMapping(value="/importExcel/{id}")
 	public String testImport(@PathVariable String id, @RequestParam(required=true)String  filename, Model model) {
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		ListePromotion listePromotion = listePromotionService.getById(Long.valueOf(id));
 		 if(listePromotion == null) {
 			return "redirect:/error404/listPromDet/"+id;	
@@ -376,6 +403,10 @@ public class ListePromotionController {
 	
 	@GetMapping("/admis/delete/{id}")
 	 public String deleteAdmis(@PathVariable String id){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		ListePromotionDetail listesSaved = listePromotionDetailService.getById(Long.valueOf(id));
 
 		listePromotionDetailService.delete(Long.valueOf(id));

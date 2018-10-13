@@ -90,6 +90,10 @@ public class ArreteController {
 		if(bindingResult.hasErrors()){
 			return "redirect/error404/listArrete";
 		}
+		if(session.getAttribute("isConnected")==null) {
+			model.addAttribute("errorlogin", "4");
+			return "pages/login";
+		}	
 		try {
 			listesSaved = arreteEqRefService.getArreteByIdDiplome(Long.valueOf(listeDiplome));
 			
@@ -114,7 +118,7 @@ public class ArreteController {
 		ContentArrete temp = this.contentArreteService.saveOrUpdate(content);
 		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
 		}catch(Exception e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 		//	e.printStackTrace();
 		}
@@ -123,6 +127,10 @@ public class ArreteController {
 	//Equivalence
 	@PutMapping("/updateArrete/{id}")
 	public String updateArrete(@Valid @ModelAttribute ArreteEqRefForm arreteEqRefForm, @RequestParam String listeDiplome , @PathVariable String id, BindingResult bindingResult, Model model) {
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		ArreteEqRef updateEntity = null;
 		if(bindingResult.hasErrors()){
 			return "pages/equivalence/listArrete";
@@ -141,6 +149,10 @@ public class ArreteController {
 	
 	@GetMapping("/newArrete/{id}")
 	public String newArrete(@PathVariable String id, Model model){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		try { 
 			 
 			ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
@@ -170,15 +182,13 @@ public class ArreteController {
 			model.addAttribute("contentArreteForm", new ContentArreteForm());
 			
 		} catch (Exception e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 			//e.printStackTrace();
 		}
-		if(session.getAttribute("isConnected")!=null) { 
-			return "pages/equivalence/newArrete";
-		}	
-		model.addAttribute("errorlogin", "4");
-		return "pages/login";
+		 
+		return "pages/equivalence/newArrete";
+		 
 		
 	
 	}
@@ -190,7 +200,10 @@ public class ArreteController {
 	
 	@GetMapping({"/listArrete", "/listArrete/isExist-{idArrete}", "/listArrete/page-{page}"})
 	public String listArrete(@PathVariable(required=false) Optional<Integer> idArrete, @PathVariable(required=false) Optional<Integer> page, Model model) {
-		
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		try {	
 				List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 				List<String> listEcole = listesDiplomeService.getAllEcole();
@@ -220,21 +233,21 @@ public class ArreteController {
 		
 			 
 		} catch (Exception e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 			//e.printStackTrace();
 		}
-
-		if(session.getAttribute("isConnected")!=null) { 
-			return "pages/equivalence/listArrete";	
-		}
-		model.addAttribute("errorlogin", "4");
-		return "pages/login";
+		
+		return "pages/equivalence/listArrete";	
+		 
 	}
 	 
 	@PostMapping("/saveContent/{id}")
 	public String articleLoiArrete(@PathVariable String id, @Valid @ModelAttribute ContentArreteForm contentArreteForm, Model model, BindingResult bindingResult) {
-		
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
 		ContentArrete listesSaved = null;
 		ContentArreteForm content = contentArreteForm; 
 	/*	System.out.println("\n\n\n contenu = "+contenu);
@@ -258,7 +271,7 @@ public class ArreteController {
 		 	 //fin historique
 						
 		} catch (Exception e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 			//e.printStackTrace();
 		}

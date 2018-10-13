@@ -137,7 +137,7 @@ public class PagesController {
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
 				modelMap.put("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
-				modelMap.put("error", e.getMessage());
+				modelMap.put("error", e);
 	 			return "pages/erreur/505"; 
 				//e.printStackTrace();
 			}

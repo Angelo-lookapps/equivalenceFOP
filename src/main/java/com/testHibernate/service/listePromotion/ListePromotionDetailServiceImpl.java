@@ -52,7 +52,8 @@ public class ListePromotionDetailServiceImpl implements ListePromotionDetailServ
 	
 	@Override
 	public List<ListePromotionDetail> getDetailByIdListePromotion(Long idListePromotion) {
-		TypedQuery<ListePromotionDetail> query = em.createNamedQuery("ListePromotionDetail.findByIdListePromotion", ListePromotionDetail.class).setParameter("idListePromotion", idListePromotion);
+		TypedQuery<ListePromotionDetail> query = em.createNamedQuery("ListePromotionDetail.findByIdListePromotion", ListePromotionDetail.class)
+				.setParameter("idListePromotion", idListePromotion);
 		List<ListePromotionDetail> ret = query.getResultList();
 		
 		return ret;

@@ -5,6 +5,7 @@
 
 <head>
     <meta charset="utf-8">
+    <base href="http://localhost:8080/login" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -97,13 +98,14 @@
                                  </div>
                              </div>
 
-                            <button class="btn btn-base pull-right">Se connecter</button>
+                            
                             <div class="checkbox checkbox-success">
                                 <input th:if="${keepConnected!=null}" id="checkbox3" checked type="checkbox" th:name="'stillConnected'">
                                 <input th:if="${keepConnected==null}" id="checkbox3" type="checkbox" th:name="'stillConnected'">
                                 
                                 <label for="checkbox3">Gardez-moi connect&eacute;</label>
                             </div>
+                            <button class="btn btn-base pull-right">Se connecter</button>
                         </div>
                     </form>
                 </div>

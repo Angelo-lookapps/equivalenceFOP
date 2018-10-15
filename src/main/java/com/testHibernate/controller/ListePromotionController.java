@@ -2,6 +2,7 @@ package com.testHibernate.controller;
 
  
  
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,8 @@ import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.importFile.excel.MyReaderExcel;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
+import com.testHibernate.model.demande.FicheDemande;
+import com.testHibernate.model.demande.FicheDemandeDetail;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotion;
@@ -32,6 +35,8 @@ import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 import com.testHibernate.model.listePromotion.ListePromotionForm;
 import com.testHibernate.service.cin.CINService;
+import com.testHibernate.service.demande.FicheDemandeDetailService;
+import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.historique.ActiviteRecentService;
 import com.testHibernate.service.listePromotion.ListePromotionDetailService;
@@ -49,10 +54,22 @@ public class ListePromotionController {
 	 private CINService cinService;
 	 private HttpSession session;
 	 private List<ListePromotion> listeProms;
+	 private FicheDemandeDetailService ficheDemandeDetailService;
+	 private FicheDemandeService ficheDemandeService;
 	 int nombreLigneMax = 5;
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
+	 }
+	 
+	 @Autowired
+	 public void setFicheDemandeService(FicheDemandeService ficheDemandeService) {
+		this.ficheDemandeService = ficheDemandeService;
+	 }
+	 
+	 @Autowired
+	 public void setFicheDemandeDetailService(FicheDemandeDetailService ficheDemandeDetailService) {
+		this.ficheDemandeDetailService = ficheDemandeDetailService;
 	 }
 	 
 	 @Autowired
@@ -92,6 +109,41 @@ public class ListePromotionController {
 	 public void setListesDiplomeDetailService(ListePromotionDetailService listesDiplomeDetailService) {
 		 this.listePromotionDetailService = listesDiplomeDetailService;
 	 }
+	
+	@GetMapping("/refreshAllRejet")
+	public String actualiserFicheDemande(Model model) {
+		List<FicheDemande> ficheRejetRecent = null;
+		int compteurFiche = 0;
+		try {
+			ficheRejetRecent = refreshAllStatusRejet(); 
+			if(ficheRejetRecent!=null && ficheRejetRecent.size()!=0) {
+				/*System.out.println("/////////////////////////////////////////////////////////////////////////"); 
+				System.out.println("Fiche Rejete to EnCour = "+ficheRejetRecent.size()); */
+				for(FicheDemande cible : ficheRejetRecent) {
+			    	cible.setStatusRejet(false);
+			    	
+			    	FicheDemande temp = ficheDemandeService.saveOrUpdate(cible);
+					//Mis en historique
+					ActiviteRecent historique = new ActiviteRecent(); 
+					 	historique.setDefinition( GlobalHelper.getQueryStringActivities(3, " la demande \""+temp.getListesDiplome().getEcole()+" "+temp.getListesDiplome().getFiliere()+" "
+					 			+ ""+temp.getListesDiplome().getOption()+" : de "+temp.getCin().getNom()+" "+temp.getCin().getPrenom()+" rendez-vous le "+temp.getDateRetrait()+"\""));
+					 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+					 	activiteRecentService.saveOrUpdate(historique);
+				 	 //fin historique
+					 if(temp!=null) {
+						 compteurFiche++;
+					 }
+			    }
+			 }
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e);
+ 			return "pages/erreur/505"; 
+		}
+
+		return "redirect:/requestList/refresh/"+compteurFiche;
+		
+	}
 	 
 
 	@GetMapping({"/listProm", "/listProm/warning/{id}", "/listProm/page-{page}"})
@@ -236,14 +288,15 @@ public class ListePromotionController {
 		return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId();		
 	}
 	
-	@GetMapping({"/showPromoDetail/{session}/{id}", "/showPromoDetail/{session}/{id}/newCIN-{newCIN}"})
-	public String ajoutPromo(@PathVariable String session, @PathVariable String id, Model model, @PathVariable(required=false) Long newCIN) {
+	@GetMapping({"/showPromoDetail/{session2}/{id}", "/showPromoDetail/{session2}/{id}/newCIN-{newCIN}"})
+	public String ajoutPromo(@PathVariable String session2, @PathVariable String id, Model model, @PathVariable(required=false) Long newCIN) {
 		//modication
-		 if(session.getAttribute("isConnected")==null) {
-			 model.addAttribute("errorlogin", "4");
-			 return "pages/login";
-		 }	
-		ListePromotion listePromotion = listePromotionService.getByIdDiplomeAndSession(Long.valueOf(id), session);
+		if(session.getAttribute("isConnected")==null) {
+			model.addAttribute("errorlogin", "4");
+			return "pages/login";
+		}	
+		System.out.println("\n\n Session2 == "+session2);
+		ListePromotion listePromotion = listePromotionService.getByIdDiplomeAndSession(Long.valueOf(id), session2);
 		if(listePromotion==null) {
 			return "redirect:/error404/listProm";	
 		}
@@ -402,7 +455,7 @@ public class ListePromotionController {
 	}
 	
 	@GetMapping("/admis/delete/{id}")
-	 public String deleteAdmis(@PathVariable String id){
+	 public String deleteAdmis(@PathVariable String id, Model model){
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";
@@ -426,7 +479,7 @@ public class ListePromotionController {
 	 		return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId(); 
   	}
 	
-	public int deleteAllChild(String id) {
+	public int deleteAllChild(String id) throws Exception {
 		 ListePromotion listesSaved = listePromotionService.getById(Long.valueOf(id));
 		 int ret = 0;
 		 try {
@@ -468,7 +521,8 @@ public class ListePromotionController {
 			 }
 		 
 		 } catch (Exception e) { 
-			e.printStackTrace();
+			 throw e;
+			//e.printStackTrace();
 		 } 
 		 
 		 return ret; 		
@@ -527,11 +581,97 @@ public class ListePromotionController {
 			 	 //fin historique0
 			}
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw e;
+			//e.printStackTrace();
 		}
 		return ret;
-	}
+	 }
 	 public void initialListePromotion() {
 			this.listeProms = listePromotionService.listAll();
+	 }
+	 
+	 public ListePromotionDetail getAdmisByFicheDemande(ListePromotion listeProm, FicheDemande fiche) throws Exception {
+		 ListePromotionDetail ret = null;
+		 List<ListePromotionDetail> getListProm = null;
+		 FicheDemandeDetail demandeDetail = null;
+		 try {
+			 demandeDetail = ficheDemandeDetailService.getFicheDemandeByFiche(fiche.getId());
+			 /*System.out.println("\n\n***********************************************************************\n"
+				 		+ " ListePromotion getId() = "+listeProm.getId());*/
+			 getListProm = listePromotionDetailService.getDetailByIdListePromotion(listeProm.getId());
+			
+			 if(getListProm.size()!=0) {
+				 for(ListePromotionDetail temp : getListProm ) {
+					 //System.out.println(" listePromotionsDetail recent ajout: COMPARER"); 
+					 if(fiche.getListesDiplome().getId()==temp.getListePromotion().getListesDiplome().getId() && demandeDetail.getAnneeDeb().equals(temp.getListePromotion().getSessionSortie())) { ///Check conformité promotion et la fiche
+						 		
+						 if(fiche.getCin().compareTo(temp.getCin())) {
+							 //System.out.println("Compare CIN = "+temp);
+							 ret = temp;
+							 break;
+						 }
+					 }
+				 }
+			 }
+		 }catch(Exception e) {
+			 throw e;
+			 //e.printStackTrace();
+		 }
+		 //System.out.print("ret ==  "+ret);
+		 return ret;
+	 }
+	 public ListePromotion getListePromotionByFiche(FicheDemande ficheDemande) throws Exception{
+		 ListePromotion ret = null;
+		 FicheDemandeDetail demandeDetail = null;
+		 try {
+			 if(ficheDemande==null) {
+				 throw new Exception("Error at getListePromotionByFiche method's ListePromotionController: ficheDemande.Id is invalid or null !!! ");
+			 }
+			 demandeDetail = ficheDemandeDetailService.getFicheDemandeByFiche(ficheDemande.getId());
+			 //System.out.println("\n\n demandeDetail = "+demandeDetail.getId());
+			 if(demandeDetail!=null) {
+				 System.out.println("\n\n getByIdDiplomeAndSession = "+ficheDemande.getListesDiplome().getEcole()+" session: "+demandeDetail.getAnneeDeb());
+				 ret = listePromotionService.getByIdDiplomeAndSession(ficheDemande.getListesDiplome().getId(), demandeDetail.getAnneeDeb());
+			 }
+			 
+		 }catch(Exception e) {
+			 throw e;
+			 //e.printStackTrace();
+		 }
+		 return ret;
+	 }
+	 public List<FicheDemande> refreshAllStatusRejet() throws Exception {
+		 //ret va contenir le nombre de ListePromotionDetail(Admis) qui vont etre changer en false
+		 List<FicheDemande> ret = new ArrayList<FicheDemande>();
+		 List<FicheDemande> allRejet = ficheDemandeService.getFicheDemandeByStatusRejet();
+		 
+		 //On va prendre les ficheDemande avec statusRejet true 
+		 try {
+			 if(allRejet.size()==0) {
+				 return ret;
+			 }
+			 for(FicheDemande fiche : allRejet) {
+				 
+				 ListePromotion listeProm = this.getListePromotionByFiche(fiche);
+				 if(listeProm==null) {
+					 //System.out.println("\n\n listeProm is NULL = "+fiche.getId()); 
+				 }
+				 ListePromotionDetail temp = null;
+				 //System.out.println(" listeProm = "+listeProm.getNomPromotion());
+				 if(listeProm!=null) {
+					 temp = this.getAdmisByFicheDemande(listeProm, fiche);
+				 }
+				
+				 if(temp!=null) {//
+					 //System.out.println("\n fiche resolue = "+fiche.getId());
+					 ret.add(fiche);
+				 }
+			 }
+			
+		 }catch(Exception e) {
+			 throw e;
+			 //e.printStackTrace();
+		 }
+		 return ret;
 	 }
 }

@@ -20,7 +20,7 @@ public interface FicheDemandeService {
 	
 	List<FicheDemande> getFicheDemandeByCIN(@Param("idCIN") Long idCin);
 	
-	List<FicheDemande> getFicheDemandeByStatus(@Param("status") String status);
+	List<FicheDemande> getFicheDemandeByStatusRejet();
 	
     List<FicheDemande> getFicheDemandeByDate(@Param("dateRetrait") String dateRetrait);
 

@@ -62,6 +62,7 @@
                 </div>
             </div> <!-- /. Content Header (Page header) -->
             <div class="row">
+            	
                 <div class="col-sm-8">
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
@@ -70,6 +71,7 @@
                             </div>
                         </div>
                         <div class="panel-body">
+                       
                             <form th:action="@{/filter}" method="GET" class="f1">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Champ :</label>
@@ -147,7 +149,7 @@
                                                     <button class="btn btn-danger btn-sm" data-toggle="tooltip"
                                                         data-placement="top" title="Delete " th:onclick="|goToDelete('${demande.id}')|"><i
                                                             class="fa fa-trash-o" aria-hidden="true"></i></button>
-													<a th:href="'/traitement/'+${demande.id}"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
+													<a th:href="'/traitement/'+${demande.id}+'/statusRejet/0'"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
                                                     
                                                     <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow"> -->
                                                 </td>

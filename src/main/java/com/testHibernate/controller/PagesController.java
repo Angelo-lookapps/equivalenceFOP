@@ -120,8 +120,8 @@ public class PagesController {
 			
 	}
 
-	@GetMapping({"/home", "/home/demande/page-{page}"})
-	public String home(@RequestParam(required=false) String name, @PathVariable(required=false) Optional<Integer> page, ModelMap modelMap) {
+	@GetMapping({"/home", "/home/statusRejet/{statusRejet}","/home/demande/page-{page}"})
+	public String home(@RequestParam(required=false) Boolean statusRejet, @RequestParam(required=false) String name, @PathVariable(required=false) Optional<Integer> page, ModelMap modelMap) {
 		//List<FicheDemande> ret = ficheDemandeService.listAll();
 		List<ActiviteRecent> activities = activiteRecentService.getRecentActiviteByNumber(5);
 		 //initial
@@ -152,6 +152,9 @@ public class PagesController {
 			modelMap.put("name", name);	
 			modelMap.put("testDelete", testDelete);
 			modelMap.put("pathSource", "src/main/ressources/static/");
+			if(statusRejet!=null && statusRejet) {
+				modelMap.put("statusRejet", statusRejet );
+			}
 			
 			return "pages/home";
 		}

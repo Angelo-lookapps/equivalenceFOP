@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.testHibernate.converts.demande.DemandeDetailToDemandeDetailForm;
+import com.testHibernate.converts.demande.DemandeFormToDemande;
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.GlobalHelper;
@@ -63,6 +64,13 @@ public class FicheDemandeController {
 	 private NiveauDiplomeService niveauDiplomeService;
 	 private ArreteEqRefService arreteEqRefService;
 	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm;
+	 
+	 private DemandeFormToDemande demandeFormToDemande;
+	 
+	 @Autowired
+	 public void setDemandeFormToDemande(DemandeFormToDemande demandeFormToDemande) {
+		this.demandeFormToDemande = demandeFormToDemande;
+	 }
 	 
 	 @Autowired
 	 public void setArreteEqRefToArreteEqRefForm(ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm) {
@@ -150,9 +158,9 @@ public class FicheDemandeController {
 	 public void setFicheDemandeService(FicheDemandeService ficheDemandeService) {
 		this.ficheDemandeService = ficheDemandeService;
 	 }
- 
-	 @GetMapping({"/requestList", "/requestList/page-{page}", "/requestList/filter/{filter}", "/requestList/page-{page}/filter/{filter}"})
-	 public String listDemande(Model model, @PathVariable(required=false) Optional<Integer> page, @PathVariable(required=false) Integer filter){
+	 
+	 @GetMapping({"/requestList", "/requestList/refresh/{compteur}", "/requestList/page-{page}", "/requestList/filter/{filter}", "/requestList/page-{page}/filter/{filter}"})
+	 public String listDemande(Model model, @PathVariable(required=false) Integer compteur, @PathVariable(required=false) Optional<Integer> page, @PathVariable(required=false) Integer filter){
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";
@@ -176,6 +184,10 @@ public class FicheDemandeController {
 				
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
 				model.addAttribute("nombrePagination", nombrePagination);
+				
+				if(compteur!=null) {
+					model.addAttribute("compteurFiche", compteur);
+				}
 			} catch (Exception e) { 
 				model.addAttribute("error", e);
 	 			return "pages/erreur/505"; 
@@ -188,24 +200,27 @@ public class FicheDemandeController {
         
 	 }	
 	 
-	 @GetMapping({"/showRequest/{id}", "/showRequest/{id}/notification-{size}"})
-	 public String getDemandeById(@PathVariable String id, @PathVariable(required=false) String size, Model model){
+	 @GetMapping({"/showRequest/{id}", "/showRequest/{id}/statusRejet/{statusRejet}", "/showRequest/{id}/notification-{size}"})
+	 public String getDemandeById(@PathVariable String id, @PathVariable(required=false) Boolean statusRejet , @PathVariable(required=false) String size, Model model){
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";
 		 }	
-		 FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));		 
-		 model.addAttribute("ficheDemande", fiche);
-		 
+		 FicheDemande fiche = ficheDemandeService.getById(Long.valueOf(id));
+		  
 		 if(fiche==null) {
 			 return "redirect:/error404/requestList";	
 		 }	
+		 fiche.setStatusRejet(fiche.getStatusRejet() ? false : true);
+		 model.addAttribute("ficheDemande", fiche);
 		 FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(fiche.getId());
 		 model.addAttribute("ficheDemandeDetail", ficheDetail);
 		 if(size!=null) {
 			 model.addAttribute("size", size );
 		 }
-		
+		 if(statusRejet!=null && statusRejet) {
+			 model.addAttribute("statusRejet", statusRejet );
+		 }
 	  
 		 return "pages/enregistrement/showRequest";	
 		 
@@ -334,16 +349,18 @@ public class FicheDemandeController {
 		 FicheDemande ficheSaved = null;
 		 FicheDemande isDuplicated = null;
 		 int size=-1;
+		 int rejete = -1;
 	 try { 
 		 isDuplicated = this.hasDuplicated(cin, listeDiplome);
 		 if(isDuplicated==null) {
 				 
 			 leTraiter = listePromotionDetailService.getAllAdmisByCIN(Long.valueOf(cin));
 			 ficheDemandeForm.setStatusRejet(false);
-			 if(leTraiter.size()!=0) {
+			 if(leTraiter.size()!=0 && checkAdmisOK(leTraiter, demandeFormToDemande.convert(ficheDemandeForm))) {
 				 size = leTraiter.size();
-			 }else {
+			 }else if(!checkAdmisOK(leTraiter, demandeFormToDemande.convert(ficheDemandeForm))){
 				 ficheDemandeForm.setStatusRejet(true);
+				 rejete = 1;
 				 //return "redirect:/newRequest/needAddListe/cin-"+Long.valueOf(cin)+"/diplome-"+Long.valueOf(listeDiplome)+"-"+ficheDemandeDetailForm.getAnneeDeb();
 			 }
 			 // System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
@@ -373,6 +390,9 @@ public class FicheDemandeController {
 	 	} 
 	 	if(size!=-1) {
 	 		return "redirect:/showRequest/" + ficheSaved.getId() + "/notification-"+size;
+	 	}
+	 	if(rejete!=-1) {
+	 		return "redirect:/showRequest/" + ficheSaved.getId()+"/statusRejet/"+rejete;
 	 	}
 	 	return "redirect:/showRequest/" + ficheSaved.getId();
 	 }
@@ -438,26 +458,29 @@ public class FicheDemandeController {
 	 }
 	 
 	 
-	 @GetMapping("/traitement/{id}")
-	 public String traitementFiche(@PathVariable String id, Model model){
+	 @GetMapping({"/traitement/{id}", "/traitement/{id}/statusRejet/{status}"})
+	 public String traitementFiche(@PathVariable String id,@PathVariable Integer status, Model model){
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";
-		 }	
+		 }	 
 		FicheDemande ficheSaved = ficheDemandeService.getById(Long.valueOf(id));
 		ContentArrete contentArrete = null;
 		String contentArticle = GlobalHelper._ArticleContent;
-	 	if(ficheSaved==null) {
-	 		//System.out.println("\n\n\n ficheSaved==null \n");
+	 	if(ficheSaved==null) { 
 	 		return "redirect:/error404/requestList";
-	 	} 
+	 	}  
+	 	if(ficheSaved.getStatusRejet() && status==1) {
+	 		return "redirect:/showRequest/"+ficheSaved.getId()+"/statusRejet/"+ficheSaved.getStatusRejet();
+	 	}else if(ficheSaved.getStatusRejet() && status!=1) {
+	 		return "redirect:/home/statusRejet/"+ficheSaved.getStatusRejet() ;
+	 	}
+	 	
 	 	List<ListePromotionDetail> listeTraiter = null;
 	 	ListePromotionDetail leTraiter = null;
  	try {
- 		//System.out.println("\n\n deb = "+ficheSaved.getCin().getId());
  		listeTraiter = listePromotionDetailService.getAllAdmisByCIN(ficheSaved.getCin().getId()); 
  		leTraiter = admisTraiter(listeTraiter, ficheSaved);
- 		//System.out.println("\n\n leTraiter === "+leTraiter.getListePromotion().getNomPromotion());
 	 	FicheDemandeDetail ficheDetail = ficheDemandeDetailService.getFicheDemandeByFiche(ficheSaved.getId());
  		if(ficheDetail==null) {
 			// System.out.println("\n\n\n ficheDetail==null \n");
@@ -475,7 +498,10 @@ public class FicheDemandeController {
 			model.addAttribute("leTraiter", leTraiter);
 			model.addAttribute("diplome", diplome);
 			model.addAttribute("ficheDemande", ficheSaved);
-			model.addAttribute("ficheDemandeDetail", ficheDetail); 
+			model.addAttribute("ficheDemandeDetail", ficheDetail);
+			
+			//Verification cas demande rejeté
+		 	
 	 	}catch(Exception e) {
 	 		model.addAttribute("error", e);
  			return "pages/erreur/505"; 
@@ -574,6 +600,25 @@ public class FicheDemandeController {
 		 return ret;
 	 }
 	 
+	 
+	 public Boolean checkAdmisOK(List<ListePromotionDetail> listeAdmis, FicheDemande fiche) {
+		 Boolean ret = false;
+		 try {
+			 if(listeAdmis.size()!=0 && fiche!=null) {
+				 FicheDemandeDetail detailFiche = ficheDemandeDetailService.getFicheDemandeByFiche(fiche.getId());
+				 for(ListePromotionDetail admis : listeAdmis) {
+					 if(admis.getListePromotion().getSessionSortie() == detailFiche.getAnneeDeb() && 
+						 admis.getListePromotion().getListesDiplome().getId() == fiche.getListesDiplome().getId()) {
+						 ret = true;
+						 break;
+					 }
+				 }
+			 }
+		 }catch(Exception e) {
+			 throw e;
+		 }
+		 return ret;
+	 }
 	
 
 }

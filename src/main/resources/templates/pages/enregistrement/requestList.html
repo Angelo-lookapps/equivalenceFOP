@@ -62,7 +62,7 @@
                 </div>
             </div> <!-- /. Content Header (Page header) -->
             <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-10">
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -70,6 +70,18 @@
                             </div>
                         </div>
                         <div class="panel-body">
+                        	<div th:if="${compteurFiche!=null}">
+                                 <div  class="alert alert-sm alert-info alert-dismissible" role="alert">
+                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                     <i class="fa fa-exclamation-circle"></i><strong>Resultat : </strong>
+                                     <span th:text="'Nombre de rejet mise à jour : ' + ${compteurFiche} + ' .'" ></span> 
+                                 </div>
+                                 <!-- <div th:if="${compteurFiche!=1}" class="alert alert-sm alert-warning alert-dismissible" role="alert">
+                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                     <i class="fa fa-exclamation-circle"></i><strong>Resultat : </strong>
+                                     <span th:text="${compteurFiche} + ' rejet ont été mise à jour après l'actualisation.'" ></span>  
+                                 </div> -->
+                           	</div>
                             <div th:if="${not #lists.isEmpty(listeDemande)}">
 
                                 <div class="table-responsive">
@@ -96,11 +108,11 @@
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
                                                 <td class="text-center"><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
                                                 <!-- <td class="text-center"><a th:class="${demande.statusEnregistrement} ? 'btn btn-primary disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'" th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'A traiter' : 'Finie'"></a></td> -->
-                                                <td class="text-center"><a th:class="${demande.statusRejet} ? 'btn btn-base disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'"  th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusRejet} ? 'En-cours' : 'Rejeté'"></a></td>
+                                                <td class="text-center"><a th:class="${demande.statusRejet} ? 'btn btn-danger disabled w-md m-rb-5' : 'btn btn-base disabled w-md m-rb-5'"  th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusRejet} ? 'Rejeté' : 'En cours'"></a></td>
                                                 <td class="text-center">
                                                     <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                     <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Mettre dans les rejets " th:onclick="|goToDelete('${demande.id}')|"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-													<a th:href="'/traitement/'+${demande.id}"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
+													<a th:href="'/traitement/'+${demande.id}+'/statusRejet/1'"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
                                                     
                                                     <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow"> -->
                                                 </td>
@@ -150,6 +162,9 @@
 	                        <input th:if="${filter!=null && filter==2}" checked id="radio1" type="radio"  name="myRadio"  value="2">
 	                        <label for="rejet">Rejeté</label>
 	                    </div> 
+	                    
+                    <hr/>
+               	 	<a href="/refreshAllRejet"><button type="button" class="btn btn-inverse w-md m-rb-5">Actualiser les rejets</button></a>
                 	
                 </div>
             </div>

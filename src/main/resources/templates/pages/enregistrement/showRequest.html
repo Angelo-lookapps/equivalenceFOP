@@ -68,10 +68,21 @@
                         </div>
 
                         <div class="panel-body">
+                        	<div th:if="${statusRejet!=null}">
+			                    <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
+			                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+			                                aria-hidden="true">&times;</span></button>
+			                        <i class="fa fa-exclamation-circle"></i><strong>Information!</strong> Cette demande a été enregistreé en tant que rejets (cause: <span class="text-danger"> il n'a pas encore de liste de promotion!!!</span>)
+			                    </div>
+			                </div>
                         	<div th:if="${size!=null}">
-	                           <div class="alert alert-sm alert-info alert-dismissible" role="alert">
+	                           <div th:if="${size==1}" class="alert alert-sm alert-info alert-dismissible" role="alert">
 	                               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                               <i class="fa fa-exclamation-circle"></i><strong>Information! </strong> Cette personne se trouve sur  (<b th:text="${size}+' promotion différent'" class="text-danger"></b>)  !!!
+	                               <i class="fa fa-exclamation-circle"></i><strong>Information! </strong> Cette personne a été trouve dans  (<b th:text="'une seule promotion'" class="text-danger"></b>)  !!!
+	                           </div>
+	                           <div th:if="${size!=1}" class="alert alert-sm alert-info alert-dismissible" role="alert">
+	                               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                               <i class="fa fa-exclamation-circle"></i><strong>Information! </strong> Cette personne a été trouve dans  (<b th:text="${size}+' promotion différent'" class="text-danger"></b>)  !!!
 	                           </div>
 	                       	</div>
                             <div class="table-responsive"> 
@@ -108,12 +119,11 @@
                                             <td th:text="*{ficheDemande.utilisation}"></td>
                                         </tr>
                                         <tr>
-                                            <th>Status </th>
+                                            <th>Situation </th>
                                             <td> 
-		                                        <input type="checkbox" th:field="*{ficheDemande.statusEnregistrement}" data-toggle="toggle"
-		                                            data-on="confirmé" data-off="non-confirmé" data-onstyle="base" data-offstyle="danger" data-size="small" disabled>
-			                                    
-                                            </td>
+		                                        <input type="checkbox" th:field="*{ficheDemande.statusRejet}" data-toggle="toggle"
+		                                            data-on="En cours" data-off="Rejeté" data-onstyle="base" data-offstyle="danger" data-size="small" disabled> 
+                                            </td> 
                                         </tr>
                                         <tr>
                                             <th>Date Retrait </th>
@@ -166,7 +176,7 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                	<a th:href="'/traitement/'+*{ficheDemandeDetail.ficheDemande.id}"><button class="btn btn-primary w-md m-rb-5" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i> Traiter</button></a>
+                	<a th:href="'/traitement/'+*{ficheDemandeDetail.ficheDemande.id}+'/statusRejet/1'"><button class="btn btn-primary w-md m-rb-5" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i> Traiter</button></a>
                 </div>
             </div>
         </div> <!-- CONTENT -->

@@ -56,8 +56,8 @@ public class FicheDemandeServiceImpl implements FicheDemandeService {
 	}
 
 	@Override
-	public List<FicheDemande> getFicheDemandeByStatus(String status) {
-		TypedQuery<FicheDemande> query = em.createNamedQuery("FicheDemande.findFicheDemandeByStatus", FicheDemande.class).setParameter("status", status);
+	public List<FicheDemande> getFicheDemandeByStatusRejet() {
+		TypedQuery<FicheDemande> query = em.createNamedQuery("FicheDemande.findFicheDemandeByStatusRejet", FicheDemande.class) ;
 		List<FicheDemande> ret = query.getResultList();
 		
 		return ret;
@@ -127,13 +127,12 @@ public class FicheDemandeServiceImpl implements FicheDemandeService {
 	public List<FicheDemande> selectByRejet(List<FicheDemande> listeDemande, Boolean statusRejet) throws Exception {
 		List<FicheDemande> liste = new ArrayList<FicheDemande>();
 		try {
-			if(listeDemande.size()==0) {
-				throw new Exception("Error in selectByRejet : listeDeamnde is zero!");
-			}
-			for(FicheDemande temp : listeDemande) {
-				if(temp.getStatusRejet()==statusRejet) { 
-					liste.add(temp);
-				}
+			if(listeDemande.size()!=0) { 
+				for(FicheDemande temp : listeDemande) {
+					if(temp.getStatusRejet()==statusRejet) { 
+						liste.add(temp);
+					}
+				}	
 			}
 		}catch(Exception e) {
 			throw e;

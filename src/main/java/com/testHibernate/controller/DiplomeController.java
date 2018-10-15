@@ -244,7 +244,7 @@ public class DiplomeController {
 	 }
 	 
 	 @PutMapping(value = "/updateDiploma")
-	 public String updateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @PathVariable String id, BindingResult bindingResult){
+	 public String updateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @PathVariable String id, BindingResult bindingResult, Model model ){
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
@@ -265,7 +265,7 @@ public class DiplomeController {
 	 }
 	 
 	@GetMapping("/diploma/delete/{id}")
-	 public String delete(@PathVariable String id){
+	 public String delete(@PathVariable String id, Model model){
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";

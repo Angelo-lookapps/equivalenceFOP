@@ -198,6 +198,12 @@ public class CIN {
 		this.photo = photo;
 	}
 
-	
+	public Boolean compareTo(CIN cin) {
+		Boolean ret = false; 
+		if(this == cin) {
+			ret = true;
+		}		
+		return ret;
+	}
 	
 }

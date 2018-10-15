@@ -14,6 +14,7 @@ public class DiplomeToDiplomeForm implements Converter<ListesDiplome, ListesDipl
     public ListesDiplomeForm convert(ListesDiplome diplome) {
     	ListesDiplomeForm listesDiplomeForm = new ListesDiplomeForm();
 
+    	listesDiplomeForm.setId(diplome.getId());
     	listesDiplomeForm.setFiliere(diplome.getFiliere());
     	listesDiplomeForm.setOption(diplome.getOption());
     	listesDiplomeForm.setEcole(diplome.getEcole());

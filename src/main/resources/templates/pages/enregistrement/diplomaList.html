@@ -93,11 +93,11 @@
                                             <tr th:each="diploma : ${listesDiplome}">
                                                 <td class="text-center" th:text="${diploma.id}"></td>
                                                 <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}"
+                                                        th:text="${diploma.ecole}"></a></td>
+                                                <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}"
                                                         th:text="${diploma.filiere}"></a></td>
                                                 <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}"
-                                                        th:text="${diploma.option}"></a></td>
-                                                <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}"
-                                                        th:text="${diploma.ecole}"></a></td>
+                                                        th:text="${diploma.option}"></a></td> 
   												<td class="text-center"><b><a th:href="'/showDiploma/'+${diploma.id}"
                                                             th:text="*{diploma.niveauDiplome.niveau}"></a></b></td>
                                              
@@ -105,9 +105,9 @@
                                                     <a th:href="'/editDiploma/'+${diploma.id}"><button class="btn btn-base btn-sm"
                                                             data-toggle="tooltip" data-placement="top" title="Update"><i
                                                                 class="fa fa-pencil" aria-hidden="true"></i></button></a>
-                                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                                   <!-- <button class="btn btn-danger btn-sm" data-toggle="tooltip"
                                                         data-placement="top" title="Delete " th:onclick="|goToDelete('${diploma.id}')|"><i
-                                                            class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                            class="fa fa-trash-o" aria-hidden="true"></i></button> -->
                                                 </td> 
                                             </tr>
 											

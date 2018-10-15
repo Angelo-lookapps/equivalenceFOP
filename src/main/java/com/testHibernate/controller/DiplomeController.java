@@ -147,11 +147,17 @@ public class DiplomeController {
         }
         initialListeDiploma();
         List<ListesDiplome> listeDiploma = listesDiplomeService.pagination(1, nombreLigneMax);
-		
-	
+   	 	List<Integer> annee = null;
+   	 	try {
+			annee = DateHelper.getAnneeList(1999, 2022);
+		} catch (Exception e) { 
+			//e.printStackTrace();
+		}
         ListesDiplomeForm listesDiplome = diplomeToDiplomeForm.convert(liste);
  
         List<NiveauDiplome> niveauxDiploma = niveauDiplomeService.listAll();
+        
+        model.addAttribute("annees", annee);
         model.addAttribute("listNiveauDiploma", niveauxDiploma);
         model.addAttribute("listDiploma", listeDiploma);
         model.addAttribute("listesDiplome", listesDiplome);
@@ -206,7 +212,7 @@ public class DiplomeController {
 	 }
 	 
 	 @PostMapping(value = "/saveDiploma")
-	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @RequestParam String anneeSortie, BindingResult bindingResult, Model model){
+	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @RequestParam(required=false) String anneeSortie, BindingResult bindingResult, Model model){
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
@@ -219,7 +225,8 @@ public class DiplomeController {
 		 ListesDiplome listesSaved = null;
 		 ArreteEqRef arrete = null;
 		 try{
-			  
+			 System.out.println("\n\n IdDiplome actuel = "+listesDiplome.getId());
+			 System.out.println("\n\n IdDiplome actuel = "+listesDiplome.getFiliere());
 			 listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
 			 
 			 //Mis en historique
@@ -228,7 +235,7 @@ public class DiplomeController {
 			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
 			 	activiteRecentService.saveOrUpdate(historique);
 		 	 //fin historique
-		 	if(!anneeSortie.equals("vide")) { 
+		 	if(anneeSortie!=null && !anneeSortie.equals("vide")) { 
 				 arrete = this.insertArreteLink(listesSaved, anneeSortie);
 		 	}
 		 }catch(Exception e) {

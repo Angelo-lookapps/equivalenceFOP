@@ -12,6 +12,7 @@ public class CINToCINForm implements Converter<CIN, CINForm> {
     public CINForm convert(CIN cin) {
     	CINForm cinForm = new CINForm();
     	
+    	cinForm.setId(cin.getId());
     	cinForm.setNom(cin.getNom());
     	cinForm.setPrenom(cin.getPrenom());
     	cinForm.setDateNaissance(cin.getDateNaissance());

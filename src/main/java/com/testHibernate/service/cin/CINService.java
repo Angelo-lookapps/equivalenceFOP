@@ -4,6 +4,7 @@ package com.testHibernate.service.cin;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 
 import com.testHibernate.model.cin.CIN;
@@ -19,6 +20,7 @@ public interface CINService {
 
     CIN getById(Long id);
 
+    @Modifying(clearAutomatically = true)
     CIN saveOrUpdate(CIN cin);
 
     void delete(Long id);

@@ -91,7 +91,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">Num&eacute;ro /anne&eacute; </th>
-                                                <th class="text-center">Date de retrait </th>
+                                                <th class="text-center">Rendez-vous le </th>
                                                 <th class="text-center">Carte d'identit&eacute; </th>
                                               
                                                 <th class="text-center">Dipl&ocirc;me associe (arr&ecirc;t&eacute;) :</th>
@@ -104,15 +104,15 @@
                                         <tbody>
                                             <tr th:each="demande : ${listeDemande}">
                                                 <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()-100}"></td>
-                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="'Rendez-vous le '+${#dates.format(demande.dateRetrait, 'dd-MM-yyyy')}"></a></td>
+                                                <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text=" ${#dates.format(demande.dateRetrait, 'dd-MM-yyyy')}"></a></td>
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>
                                                 <td class="text-center"><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
                                                 <!-- <td class="text-center"><a th:class="${demande.statusEnregistrement} ? 'btn btn-primary disabled w-md m-rb-5' : 'btn btn-danger disabled w-md m-rb-5'" th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusEnregistrement} ? 'A traiter' : 'Finie'"></a></td> -->
                                                 <td class="text-center"><a th:class="${demande.statusRejet} ? 'btn btn-danger disabled w-md m-rb-5' : 'btn btn-base disabled w-md m-rb-5'"  th:href="'/showRequest/'+${demande.id}" th:text="${demande.statusRejet} ? 'Rejeté' : 'En cours'"></a></td>
                                                 <td class="text-center">
                                                     <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm" data-toggle="tooltip" data-placement="top" title="Modifier"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
-                                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Mettre dans les rejets " th:onclick="|goToDelete('${demande.id}')|"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-													<a th:href="'/traitement/'+${demande.id}+'/statusRejet/1'"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
+                                                    <!-- <button th:if="${demande.statusRejet}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Mettre dans les rejets " th:onclick="|goToDelete('${demande.id}')|"><i class="fa fa-minus-square" aria-hidden="true"></i></button> -->
+                                                    <a th:href="'/traitement/'+${demande.id}+'/statusRejet/1'"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
                                                     
                                                     <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Valide" data-off="Rejeter" data-onstyle="base" data-offstyle="danger" data-size="small" data-style="slow"> -->
                                                 </td>

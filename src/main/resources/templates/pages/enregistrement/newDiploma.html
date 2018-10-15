@@ -74,9 +74,8 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                            <form th:object="${listesDiplome}" th:action="${isEdit == 1} ? @{/udpateDiploma} : @{/saveDiploma}"
-                                th:method="${isEdit == 1} ? 'PUT' : 'POST'" class="f1">
-
+                            <form th:object="${listesDiplome}" th:action=" @{/saveDiploma}" method="post" class="f1">
+	
 
                                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible"
                                     role="alert">
@@ -85,10 +84,11 @@
                                     <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error
                                         Message!!!</strong>
                                 </div>
-
+								<input type="hidden" th:field="*{id}">
                                 <div class="form-group row">
                                     <label for="ecole" class="col-sm-3 col-form-label">Ecole</label>
                                     <div class="col-lg-6 col-md-9 col-sm-12">
+                                        
                                         <input class="form-control" th:field="*{ecole}" placeholder="Le nom de l'école . . ."
                                             id="ecole">
                                     </div>
@@ -138,7 +138,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div th:if="${isEdit==null}" class="form-group row">
                                     <label class="col-sm-3 col-form-label">Anne&eacute; sortie</label>
                                     <div class="col-sm-7">
                                         <select class="form-control " th:name="'anneeSortie'">

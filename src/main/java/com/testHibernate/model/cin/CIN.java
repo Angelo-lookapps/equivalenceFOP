@@ -65,7 +65,7 @@ public class CIN {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long _id;
 	
 	
 	private String nom;
@@ -95,11 +95,11 @@ public class CIN {
 	}
 	
 	public Long getId() {
-		return id;
+		return _id;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this._id = id;
 	}
 
 	public String getNom() {

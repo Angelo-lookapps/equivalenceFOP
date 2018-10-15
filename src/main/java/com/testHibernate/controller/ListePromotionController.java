@@ -254,6 +254,7 @@ public class ListePromotionController {
 				}
 				//System.out.println("\n\n getIt = "+getit.getNom()+" "+getit.getPrenom());
 				String nomComplet = getit.getNom()+" "+getit.getPrenom();
+				System.out.println("\n\n convertToStringDate === " + getit.getDateNaissance());
 				String dateNaissance = GlobalHelper.convertToStringDate(getit.getDateNaissance()); 
 				
 				listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
@@ -276,8 +277,9 @@ public class ListePromotionController {
 	 	//fin historique	
 
 		}catch(Exception er) {
-			model.addAttribute("error", er.getMessage());
- 			return "pages/erreur/505"; 
+			model.addAttribute("error", er);
+			er.printStackTrace();
+			return "pages/erreur/505"; 
 			//er.printStackTrace();
 		}
 		if(newCIN!=0) {

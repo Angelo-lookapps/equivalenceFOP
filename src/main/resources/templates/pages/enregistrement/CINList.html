@@ -102,7 +102,7 @@
                                                 <td class="text-center" th:text="${cin.id}"></td>
                                                 <td class="text-center"><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nom}"></a></td>
                                                 <td class="text-center"><a th:href="'cin/show/'+${cin.id}" th:text="${cin.prenom}"></a></td>
-                                                <td class="text-center"><a th:href="'cin/show/'+${cin.id}" th:text="${#dates.format(cin.dateNaissance, 'dd-MM-yyyy')}+' à '+${cin.lieuNaissance}"></a></td>
+                                                <td class="text-center"><a th:href="'cin/show/'+${cin.id}" th:text="'Née le '+ ${#dates.format(cin.dateNaissance, 'dd-MM-yyyy')}+' à '+${cin.lieuNaissance}"></a></td>
                                                 <td class="text-center"><a th:href="'cin/show/'+${cin.id}" th:text="${cin.numeroCIN}"></a></td>
                                                	<td class="text-center"><a th:href="'cin/show/'+${cin.id}" th:text="${#dates.format(cin.dateDelivrance, 'dd-MM-yyyy')}+' à '+${cin.lieuDelivrance}"></a></td>
                                                 <td class="text-center"><a th:href="'cin/show/'+${cin.id}" th:text="${cin.fonction}+' à '+${cin.lieuTravail}"></a></td>

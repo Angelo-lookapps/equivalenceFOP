@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.testHibernate.converts.cin.CINFormToCIN;
 import com.testHibernate.converts.cin.CINToCINForm;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.Tag;
@@ -40,6 +41,13 @@ public class CINController {
 	 private List<CIN> cins;
 	 
 	 private HttpSession session;
+	 
+	 private CINFormToCIN cinFormToCIN;
+
+	 @Autowired
+	 public void setCINFormToCIN(CINFormToCIN cinFormToCIN) {
+		this.cinFormToCIN = cinFormToCIN;
+	 }
 	 
 	 GlobalHelper gh = new GlobalHelper();
 	 
@@ -163,7 +171,7 @@ public class CINController {
 	 }
 	
 	 @PostMapping(value = "/saveCIN")
-	 public String saveOrUpdateCIN(@Valid  @ModelAttribute CINForm cinForm, BindingResult bindingResult, Model model){
+	 public String saveOrUpdateCIN(@Valid  @ModelAttribute CINForm cinForm, @RequestParam(required=false) String id, BindingResult bindingResult, Model model){
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
@@ -174,7 +182,16 @@ public class CINController {
 		 }	 	
 			 	
 		 cinForm.setDateAjout(GlobalHelper.getCurrentDate());
+		/* CIN temp = cinFormToCIN.convert(cinForm);
+		 if(cinForm.getId()!=null) {
+			 System.out.println("\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			 System.out.println("cinForm = "+cinForm.getId());
+			 temp.setId(cinForm.getId());
+		 }*/
+		 System.out.println("\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		 System.out.println("cinForm = "+cinForm.getId());
 		 CIN savedCIN = cinService.saveOrUpdateCINForm(cinForm); 
+		 System.out.println("savedCIN = "+savedCIN.getId());
 		 //Mis en historique
 		 ActiviteRecent historique = new ActiviteRecent(); 
 		 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un CIN "+savedCIN.getNom().toUpperCase()+" "+savedCIN.getPrenom()));

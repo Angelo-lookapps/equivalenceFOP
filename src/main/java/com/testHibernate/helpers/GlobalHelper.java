@@ -11,6 +11,7 @@ import java.util.List;
 import com.testHibernate.model.cin.CIN; 
 import com.testHibernate.model.diplome.ListesDiplome; 
 import com.testHibernate.model.historique.ActiviteRecent;
+import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
 
 public class GlobalHelper {
@@ -45,7 +46,35 @@ public class GlobalHelper {
 			"<hr />\r\n" + 
 			"<p>&nbsp;</p>\r\n" + 
 			"";
-	
+	public static String _contentChamp = " <p style=\"margin-left:0cm; margin-right:0cm\">---------------------------------------------------</p>\r\n" + 
+			"\r\n" + 
+			"                                                        <p style=\"margin-left:0cm; margin-right:0cm\"><span style=\"font-size:9pt\"><span\r\n" + 
+			"                                                                    style=\"font-family:&quot;Times New Roman&quot;,serif\"><strong><span\r\n" + 
+			"                                                                            style=\"font-size:9.0pt\"><span style=\"color:#333333\">N&deg;\r\n" + 
+			"                                                                                <span th:text=\"'####'\"></span> /<span\r\n" + 
+			"                                                                                    th:text=\"'##'\"></span> -\r\n" + 
+			"                                                                                MFPRATELS/SG/DGFOP/DFPAE</span></span></strong></span></span></p>\r\n" + 
+			"\r\n" + 
+			"                                                        <p style=\"margin-left:0cm; margin-right:0cm\"><span style=\"font-size:9pt\"><span\r\n" + 
+			"                                                                    style=\"font-family:&quot;Times New Roman&quot;,serif\"><strong><span\r\n" + 
+			"                                                                            style=\"font-size:9.0pt\"><span style=\"color:#333333\">D&eacute;livr&eacute;\r\n" + 
+			"                                                                                &agrave; M/Mr&nbsp;: <span th:text=\"'...'\"></span>\r\n" + 
+			"                                                                                &nbsp;&nbsp;&nbsp;&nbsp;</span></span></strong></span></span></p>\r\n" + 
+			"\r\n" + 
+			"                                                        <p style=\"margin-left:0cm; margin-right:0cm\"><span style=\"font-size:9pt\"><span\r\n" + 
+			"                                                                    style=\"font-family:&quot;Times New Roman&quot;,serif\"><strong><span\r\n" + 
+			"                                                                            style=\"font-size:9.0pt\"><span style=\"color:#333333\">Titulaire\r\n" + 
+			"                                                                                de : <span th:text=\"'...'\"></span>\r\n" + 
+			"                                                                            </span></span></strong></span></span></p>\r\n" + 
+			"\r\n" + 
+			"                                                        <p style=\"margin-left:0cm; margin-right:0cm\"><span style=\"font-size:9pt\"><span\r\n" + 
+			"                                                                    style=\"font-family:&quot;Times New Roman&quot;,serif\"><strong><span\r\n" + 
+			"                                                                            style=\"font-size:9.0pt\"><span style=\"color:#333333\">Sp&eacute;cialit&eacute;&nbsp;:\r\n" + 
+			"                                                                                <span th:text=\"'...'\"></span></span></span></strong></span></span></p>\r\n" + 
+			"														<p style=\"margin-left:0cm; margin-right:0cm\"><span style=\"font-size:12pt\">\r\n" + 
+			"															<span style=\"font-family:&quot;Times New Roman&quot;,serif\">\r\n" + 
+			"																<span style=\"font-size:9.0pt\">www.dgfop.gov.mg</span></span>\r\n" + 
+			"																</span></p>";
 	
 	public static List<String> getMentionList(){
 		List<String> ret = new ArrayList<String>();
@@ -264,6 +293,21 @@ public class GlobalHelper {
 			}
 		} 
 		
+		return ret;
+	}
+	public static List<TempListePromotion> getTempListPromotion(List<ListePromotion> listePromotion, Integer[] effectifTotal)throws Exception{
+		List<TempListePromotion> ret = new ArrayList<TempListePromotion>();
+		try {
+			if(listePromotion.size()!=0 && effectifTotal.length!=0){
+				int i = 0;
+				for(ListePromotion temp : listePromotion) {
+					ret.add(new TempListePromotion(temp, effectifTotal[i]));
+					i++;
+				}
+			}
+		}catch(Exception e) {
+			throw e;
+		}
 		return ret;
 	}
 }

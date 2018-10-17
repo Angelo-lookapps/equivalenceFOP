@@ -243,22 +243,29 @@ public class ArreteController {
 	}
 	 
 	@PostMapping("/saveContent/{id}")
-	public String articleLoiArrete(@PathVariable String id, @Valid @ModelAttribute ContentArreteForm contentArreteForm, Model model, BindingResult bindingResult) {
+	public String articleLoiArrete(@PathVariable String id, @Valid @ModelAttribute ContentArreteForm contentArreteForm, @RequestParam(required=false) String signatureDefaut, @RequestParam(required=false) String champDefaut, Model model, BindingResult bindingResult) {
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";
 		 }	
 		ContentArrete listesSaved = null;
+		if(signatureDefaut!=null ) { 
+			String content = contentArreteForm.getContenu()+" "+GlobalHelper._ArticleContent; 
+			if(champDefaut!=null) {
+				content += " "+GlobalHelper._contentChamp;
+			}
+			contentArreteForm.setContenu(content); 
+		}else if(signatureDefaut==null && champDefaut!=null) {
+			String content = contentArreteForm.getContenu()+" "+GlobalHelper._contentChamp;  
+			contentArreteForm.setContenu(content); 
+		}
+		
 		ContentArreteForm content = contentArreteForm; 
-	/*	System.out.println("\n\n\n contenu = "+contenu);
-			ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
-			contentArreteForm.setArreteEqRef(temp);
-			contentArreteForm.setContenu(contenu);*/
 		ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
 		content.setArreteEqRef(temp);
 		content.setDateAjout(GlobalHelper.getCurrentDate());
 		if(bindingResult.hasErrors()){
-			 return "redirect:/error505"; 
+			 return "redirect:/error404/newArrete/"+id; 
 		 }
 	try {
 			

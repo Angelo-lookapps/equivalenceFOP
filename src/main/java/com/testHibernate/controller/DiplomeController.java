@@ -17,22 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
-import com.testHibernate.helpers.DateHelper;
-import com.testHibernate.helpers.GlobalHelper;
-import com.testHibernate.model.diplome.ListesDiplome;
-import com.testHibernate.model.diplome.ListesDiplomeForm;
-import com.testHibernate.model.diplome.NiveauDiplome;
-import com.testHibernate.model.equivalence.ArreteEqRef;
-import com.testHibernate.model.equivalence.ArreteEqRefForm;
-import com.testHibernate.model.equivalence.ContentArrete;
-import com.testHibernate.model.historique.ActiviteRecent;
-import com.testHibernate.service.diplome.ListesDiplomeService;
-import com.testHibernate.service.diplome.NiveauDiplomeService;
-import com.testHibernate.service.equivalence.ArreteEqRefService;
-import com.testHibernate.service.equivalence.ContentArreteService;
-import com.testHibernate.service.historique.ActiviteRecentService;
-
+import com.testHibernate.converts.diplome.*;
+import com.testHibernate.helpers.*;
+import com.testHibernate.model.diplome.*;
+import com.testHibernate.model.equivalence.*;
+import com.testHibernate.model.historique.*;
+import com.testHibernate.service.diplome.*;
+import com.testHibernate.service.equivalence.*;
+import com.testHibernate.service.historique.*;
+  
 @Controller
 public class DiplomeController {
 	 private ListesDiplomeService listesDiplomeService;
@@ -224,9 +217,7 @@ public class DiplomeController {
 		 }	
 		 ListesDiplome listesSaved = null;
 		 ArreteEqRef arrete = null;
-		 try{
-			 System.out.println("\n\n IdDiplome actuel = "+listesDiplome.getId());
-			 System.out.println("\n\n IdDiplome actuel = "+listesDiplome.getFiliere());
+		 try{ 
 			 listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
 			 
 			 //Mis en historique
@@ -318,6 +309,7 @@ public class DiplomeController {
 		//initialisation ContentArrete
 		ContentArrete content = new ContentArrete(); 
 		content.setArreteEqRef(ret);
+		content.setContenu(GlobalHelper._ArticleContent+" "+GlobalHelper._contentChamp);
 		content.setDateAjout(GlobalHelper.getCurrentDate());
 		ContentArrete temp = this.contentArreteService.saveOrUpdate(content);
 		arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());

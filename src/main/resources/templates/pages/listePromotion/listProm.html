@@ -62,7 +62,7 @@
                 </div>
             </div> <!-- /. Content Header (Page header) -->
             <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-10">
                       <div th:if="${deleteWarning!=null}">
                            <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -92,26 +92,25 @@
                                             	<th class="text-center">Session</th>
                                                 <th class="text-center">Nom de l'&eacute;cole</th> 
                                                 <th class="text-center">Nom de la promotion</th>
-                                                <th class="text-center">Total Admis</th>
+                                                <th class="text-center">Effectif(s) total</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each="promo : ${promos}"> 
-                                                <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}"
-                                                        th:text="${promo.sessionSortie}"></</a> </td>
-                                                <td class="text-center"><a th:href="'/showPromoDetail/'+ ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}"
-                                                        th:text="${promo.listesDiplome.ecole} + ' | ' + ${promo.listesDiplome.filiere}+ ' | option: ' + ${promo.listesDiplome.option} "></a></td>
+                                                <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.listePromotion.sessionSortie} + '/'+ ${promo.listePromotion.listesDiplome.id}"
+                                                        th:text="${promo.listePromotion.sessionSortie}"></</a> </td>
+                                                <td class="text-center"><a th:href="'/showPromoDetail/'+ ${promo.listePromotion.sessionSortie} + '/'+ ${promo.listePromotion.listesDiplome.id}"
+                                                        th:text="${promo.listePromotion.listesDiplome.ecole} + ' | ' + ${promo.listePromotion.listesDiplome.filiere}+ ' | option: ' + ${promo.listePromotion.listesDiplome.option} "></a></td>
                                                 
-                                                <td class="text-center"><a
-                                                            th:href="'/showPromoDetail/' + ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}" th:text="${promo.nomPromotion}"></</a>
-                                                                </td> 
-                                               	<td class="text-center"><b th:text="''"></b></td>
+                                                <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.listePromotion.sessionSortie} + '/'+ ${promo.listePromotion.listesDiplome.id}" th:text="${promo.listePromotion.nomPromotion}"></</a> </td> 
+                                               	<td class="text-center" th:if="${promo.effectiftotal==0}" ><span class="text-danger" th:text="'Vide'"></span></td>
+                                              	<td class="text-center" th:if="${promo.effectiftotal!=0}" ><v th:text="${promo.effectiftotal}"></span></td>
                                               	<td class="text-center">
-                                                            <a th:href="'/showPromoDetail/'+ ${promo.sessionSortie} + '/'+ ${promo.listesDiplome.id}" class="btn btn-base btn-sm">Modifier</a>
+                                                            <a th:href="'/showPromoDetail/'+ ${promo.listePromotion.sessionSortie} + '/'+ ${promo.listePromotion.listesDiplome.id}" class="btn btn-base btn-sm">Modifier</a>
                                                             <button class="btn btn-danger btn-sm" data-toggle="tooltip"
                                                                 data-placement="top" title="Supprimer"><i class="fa fa-trash"
-                                                                    aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"></i></button>
+                                                                    aria-hidden="true" th:onclick="|goToDelete('${promo.listePromotion.id}')|"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>

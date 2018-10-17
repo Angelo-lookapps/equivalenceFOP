@@ -40,7 +40,7 @@ public class ContentArrete {
 	private ArreteEqRef arreteEqRef;
 	
 	//@Lob
-	@Column(length= 100000)
+	@Column(length= 1000000)
 	private String contenu;
 	
 	private String dateAjout;

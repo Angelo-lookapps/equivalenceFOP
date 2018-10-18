@@ -139,4 +139,14 @@ public class FicheDemandeServiceImpl implements FicheDemandeService {
 		}
 		return liste;
 	}
+
+
+	@Override
+	public long getFicheDemandeByMonth(Integer month) {
+		long result = 0;
+		result = (long) em.createNamedQuery("FicheDemande.getDemandeByMonth", Long.class)
+				.setParameter(1, month).getSingleResult(); 
+	 
+		return result;
+	}
 }

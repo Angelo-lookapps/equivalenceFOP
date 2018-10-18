@@ -61,91 +61,19 @@
                     </ol>
                 </div>
             </div> <!-- /. Content Header (Page header) -->
-            <div class="row">
-            	
-                <div class="col-sm-8">
-                     <div class="row home1_analys">
-	                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
-	                            <div class="statistic-box">
-	                                <div class=small>Happy Customers </div>
-	                                <h2><span class=count-number>50</span>K <span class=slight><i class="fa fa-play fa-rotate-50 text-warning"> </i> +50%</span></h2>
-	                                <div class="progress-radial blue">
-	                                    <span class="progress-left">
-	                                        <span class="progress-bar"></span>
-	                                    </span>
-	                                    <span class="progress-right">
-	                                        <span class="progress-bar"></span>
-	                                    </span>
-	                                    <div class="progress-value">50%</div>
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
-	                            <div class="statistic-box">
-	                                <div class=small>Total page views</div>
-	                                <h2><span class=count-number>321</span>M <span class=slight><i class="fa fa-play fa-rotate-90 c-white"> </i> +10%</span> </h2>
-	                                <div class="progress-radial yellow">
-	                                    <span class="progress-left">
-	                                        <span class="progress-bar"></span>
-	                                    </span>
-	                                    <span class="progress-right">
-	                                        <span class="progress-bar"></span>
-	                                    </span>
-	                                    <div class="progress-value">75%</div>
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
-	                            <div class="statistic-box">
-	                                <div class=small>Total page views</div>
-	                                <h2><span class=count-number>321</span>M <span class=slight><i class="fa fa-play fa-rotate-90 c-white"> </i> +10%</span> </h2>
-	                                <div class="progress-radial yellow">
-	                                    <span class="progress-left">
-	                                        <span class="progress-bar"></span>
-	                                    </span>
-	                                    <span class="progress-right">
-	                                        <span class="progress-bar"></span>
-	                                    </span>
-	                                    <div class="progress-value">75%</div>
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
-	                            <div class="statistic-box">
-	                                <div class=small>Total Sales</div>
-	                                <h2><span class=count-number>5489</span>$ <span class=slight><i class="fa fa-play fa-rotate-90 c-white"> </i> +24%</span></h2>
-	                                <div class="progress-radial pink">
-	                                    <span class="progress-left">
-	                                        <span class="progress-bar"></span>
-	                                    </span>
-	                                    <span class="progress-right">
-	                                        <span class="progress-bar"></span>
-	                                    </span>
-	                                    <div class="progress-value">90%</div>
-	                                </div>
-	                            </div>
-	                        </div>
-	                        
-	                    </div>
-                    <div class="panel panel-bd lobidrag">
-
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-sm-9"></div>
-                                <div class="col-sm-3">
-                                    <a href="/newRequest" class="btn btn-primary w-md m-rb-5">Faire une nouvelle
-                                        demande</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="row"> 
+                <div class="col-sm-8">  
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
                             <div class="panel-title">
                                 <h4>Liste des Demandes En cours</h4>
                             </div>
                         </div>
+                        <div th:each=" stat : ${stats}">
+                        	<input type="hidden" id="mois[]" name="mois[]" th:value="${stat}" >
+                        </div>
                         <div class="panel-body">
+                       	 	<a href="/newRequest" class="btn btn-primary w-md m-rb-5">Faire une nouvelle demande</a>
                             <div th:if="${not #lists.isEmpty(listeDemande)}">
 
                                 <div class="table-responsive">
@@ -206,6 +134,17 @@
                          </div>
                         
                     </div>
+                    <!-- STATISTIQUEs -->
+                    <div class="panel panel-bd lobidrag">
+	            		<div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Statistique mensuel des demandes</h4>
+                            </div>
+                        </div>
+	            		<div id="myChart">
+	           				 
+	           			</div>
+	            	</div>
                 </div>
                 <div class="col-lg-4 visible-lg">
                     <div class="panel panel-bd lobidisable">
@@ -235,6 +174,8 @@
                         </div>
                     </div>
                 </div>
+                
+                 
             </div>
         </div> <!-- /.main content -->
     </div>
@@ -253,6 +194,119 @@
     <!-- START CORE PLUGINS -->
     <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
     <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/dist/js/Chart.min.js"></script>
+    <script src="assets/dist/js/Chart.bundle.min.js"></script> 
+    <script src="assets/dist/js/utils.js"></script> 
+    <script>
+	    //var ctx = document.getElementById("myChart");
+	    
+	    var tableauFiche = $("input[name='mois[]']").map(function(){ return $(this).val(); }).get(); 
+	  /*  var myChart = new Chart(ctx, {
+	        type: 'bar',
+	        data: {
+	            labels: ["Janvier", "Février", "Mars", "Avril","Mai","Juin",
+	            	"Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+	            datasets: [{
+	                label: '# Nombre demande(s)',
+	                data: [tableauFiche[0], tableauFiche[1], tableauFiche[2], tableauFiche[3], tableauFiche[4] , 
+	                	tableauFiche[5], tableauFiche[6], tableauFiche[7], tableauFiche[8], 
+	                	tableauFiche[9], tableauFiche[10], tableauFiche[11]],
+	                backgroundColor: [
+	                	'rgba(75, 194, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)'
+	                ],
+	                borderColor: [
+	                	'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)',
+	                    'rgba(75, 192, 192, 0.5)'
+	                ],
+	                borderWidth: 1
+	            }]
+	        },
+	        options: {
+	            scales: {
+	                yAxes: [{
+	                    ticks: {
+	                        beginAtZero:true
+	                    }
+	                }]
+	            }
+	        }
+	    });*/
+	    var tableauFiche = $("input[name='mois[]']").map(function(){ return $(this).val(); }).get(); 
+	    function createConfig(position) {
+			return {
+				type: 'line',
+				data: {
+					labels: ["Janvier", "Février", "Mars", "Avril","Mai","Juin",
+		            	"Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+					datasets: [{
+						label: 'par mois',
+						borderColor: window.chartColors.red,
+						backgroundColor: window.chartColors.red,
+						data: [tableauFiche[0], tableauFiche[1], tableauFiche[2], tableauFiche[3], tableauFiche[4] , 
+		                	tableauFiche[5], tableauFiche[6], tableauFiche[7], tableauFiche[8], 
+		                	tableauFiche[9], tableauFiche[10], tableauFiche[11]],
+						fill: false,
+					}, {
+						label: 'par jour',
+						borderColor: window.chartColors.blue,
+						backgroundColor: window.chartColors.blue,
+						data: [7, 49, 46, 13, 25, 30, 22, 49, 46, 13, 25, 30, 22],
+						fill: false,
+					}]
+				},
+				options: {
+					responsive: true,
+					title: {
+						display: true,
+						text: 'Statistique des demandes: ' + position
+					},
+					tooltips: {
+						position: position,
+						mode: 'index',
+						intersect: false,
+					},
+				}
+			};
+		}
+
+		window.onload = function() {
+			var container =  document.getElementById("myChart");
+
+			['average'].forEach(function(position) {
+				var div = document.createElement('div');
+				div.classList.add('chart-container');
+
+				var canvas = document.createElement('canvas');
+				div.appendChild(canvas);
+				container.appendChild(div);
+
+				var ctx = canvas.getContext('2d');
+				var config = createConfig(position);
+				new Chart(ctx, config);
+			});
+		};
+	</script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/fastclick/fastclick.min.js"></script>

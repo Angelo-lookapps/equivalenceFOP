@@ -35,5 +35,7 @@ public interface FicheDemandeService {
 	List<FicheDemande> pagination(int page, int limit);
 	
 	List<FicheDemande> selectByRejet(List<FicheDemande> listeDemande, Boolean statusRejet) throws Exception;
+	
+	long getFicheDemandeByMonth(Integer month);
 
 }

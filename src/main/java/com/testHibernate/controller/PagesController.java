@@ -1,5 +1,6 @@
 package com.testHibernate.controller;
  
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -99,9 +100,11 @@ public class PagesController {
 			
 			tempActivities = global.splitActivityTime(activities);  
 			
+			
 		} catch (Exception e) { 
 			e.printStackTrace();
 		}
+		//modelMap.put("nbFiche", ficheDemandeService.getFicheDemandeByMonth(10));
 		modelMap.put("activities", activities);
 		modelMap.put("tempActivities", tempActivities);  
 		
@@ -128,6 +131,7 @@ public class PagesController {
 			try {
 				ret = ficheDemandeService.selectByRejet(ret, false); 
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
+				modelMap.put("stats", this.getAllStatistiqueMonth());
 				modelMap.put("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
 				modelMap.put("error", e);
@@ -242,5 +246,17 @@ public class PagesController {
 	}
 	
 		
+	public List<Long> getAllStatistiqueMonth(){
+		List<Long> ret = new ArrayList<Long>();
+		int mois = 12;
+		try {
+			for(int i=1 ; i <= mois ; i++) {
+				ret.add((Long)ficheDemandeService.getFicheDemandeByMonth(i));
+			}
+		}catch(Exception e) {
+			throw e;
+		}
+		return ret;
+	}
 	
 }

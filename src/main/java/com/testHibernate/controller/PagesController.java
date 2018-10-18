@@ -25,7 +25,6 @@ import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
 import com.testHibernate.service.historique.ActiviteRecentService;
-import com.testHibernate.service.listePromotion.ListePromotionService;
 
 @Controller
 public class PagesController {
@@ -35,15 +34,9 @@ public class PagesController {
 	 private ActiviteRecentService activiteRecentService;
 	 private GlobalHelper global = new GlobalHelper();
 	 
-	 private ListePromotionService listePromotionService;
 	 int nombreLigneMax = 5;
 	 private List<FicheDemande> fiches;
 	 
-	 @Autowired
-	 public void setListePromotionService(ListePromotionService listePromotionService) {
-		this.listePromotionService = listePromotionService;
-	 }
-	  
 	 @Autowired
 	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
 		this.activiteRecentService = activiteRecentService;
@@ -75,7 +68,7 @@ public class PagesController {
 		this.ficheDemandeService = ficheDemandeService;
 	 }
 	
-	
+
 	@GetMapping("/")
 	public String accueil() {
 		return "pages/login";		
@@ -162,7 +155,7 @@ public class PagesController {
 		return "pages/login";
 	}
 	
-	@GetMapping("/filter")
+	/*@GetMapping("/filter")
 	public String home(@RequestParam(required=false, defaultValue = "fi.id") String champ, @RequestParam(required=false) String ordre, ModelMap modelMap) {
 		 
 		List<FicheDemande> ret = null;
@@ -192,7 +185,7 @@ public class PagesController {
 		}
 		modelMap.put("errorlogin", "4");
 		return "pages/login";
-	}
+	}*/
 
 	@PostMapping(value = "/login")
 	public String login(@RequestParam(required=true) String pseudo,

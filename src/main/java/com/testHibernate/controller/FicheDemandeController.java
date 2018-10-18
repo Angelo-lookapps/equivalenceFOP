@@ -610,12 +610,8 @@ public class FicheDemandeController {
 	 public Boolean checkAdmisOK(List<ListePromotionDetail> listeAdmis, FicheDemande fiche, String anneeDeb) {
 		 Boolean ret = false;
 		 try {
-			 if(listeAdmis.size()!=0 && fiche!=null) { 
-				 System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-				 for(ListePromotionDetail admis : listeAdmis) {  
-					 
-					 System.out.println(admis.getListePromotion().getSessionSortie()+" == "+anneeDeb);
-					 System.out.println(admis.getListePromotion().getListesDiplome().getId()+" == "+ fiche.getListesDiplome().getId());
+			 if(listeAdmis.size()!=0 && fiche!=null) {  
+				 for(ListePromotionDetail admis : listeAdmis) {   
 					 if(admis.getListePromotion().getSessionSortie().equals(anneeDeb)) {
 						 if( admis.getListePromotion().getListesDiplome().getId() == fiche.getListesDiplome().getId()) {
 							 System.out.println(">>>>>>>>>>>>>>>>>>>>>HELLO<<<<<<<<<<<<<<<<<<<< ");

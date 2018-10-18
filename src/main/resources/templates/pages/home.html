@@ -54,7 +54,7 @@
                     <i class="pe-7s-display2"></i>
                 </div>
                 <div class="header-title">
-                    <h1>Liste des promotions de chaque &eacute;cole par session</h1>
+                    <h1>Tableau de bord : </h1>
                     <small></small>
                     <ol class="breadcrumb">
                         <li><a href="/homePage"><i class="pe-7s-home"></i> Accueil </a></li>  
@@ -64,42 +64,69 @@
             <div class="row">
             	
                 <div class="col-sm-8">
-                    <div class="panel panel-bd lobidrag">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <h4>Trier :</h4>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                       
-                            <form th:action="@{/filter}" method="GET" class="f1">
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Champ :</label>
-                                    <div class="col-lg-3 col-md-9 ">
-                                        <select class="form-control " th:name="'champ'">
-                                            <option th:value="'*'" th:text="'Trier par'" selected disabled></option>
-                                            <div th:each="champ : ${champs}">
-                                                <option th:value="${champ.key}" th:text="${champ.value}"></option>
-                                            </div>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 ">
-                                        <label for="lieuNaissance" class="col-form-label"> par Ordre: </label>
-                                    </div>
-                                    <div class="col-lg-3  ">
-                                        <select class="form-control " th:name="'ordre'">
-                                            <option th:value="'ASC'" th:text="'croissant'"></option>
-                                            <option th:value="'DESC'" th:text="'décroissant'"></option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <button type="submit" class="btn btn-base pull-right">Valider</button>
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
+                     <div class="row home1_analys">
+	                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+	                            <div class="statistic-box">
+	                                <div class=small>Happy Customers </div>
+	                                <h2><span class=count-number>50</span>K <span class=slight><i class="fa fa-play fa-rotate-50 text-warning"> </i> +50%</span></h2>
+	                                <div class="progress-radial blue">
+	                                    <span class="progress-left">
+	                                        <span class="progress-bar"></span>
+	                                    </span>
+	                                    <span class="progress-right">
+	                                        <span class="progress-bar"></span>
+	                                    </span>
+	                                    <div class="progress-value">50%</div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+	                            <div class="statistic-box">
+	                                <div class=small>Total page views</div>
+	                                <h2><span class=count-number>321</span>M <span class=slight><i class="fa fa-play fa-rotate-90 c-white"> </i> +10%</span> </h2>
+	                                <div class="progress-radial yellow">
+	                                    <span class="progress-left">
+	                                        <span class="progress-bar"></span>
+	                                    </span>
+	                                    <span class="progress-right">
+	                                        <span class="progress-bar"></span>
+	                                    </span>
+	                                    <div class="progress-value">75%</div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+	                            <div class="statistic-box">
+	                                <div class=small>Total page views</div>
+	                                <h2><span class=count-number>321</span>M <span class=slight><i class="fa fa-play fa-rotate-90 c-white"> </i> +10%</span> </h2>
+	                                <div class="progress-radial yellow">
+	                                    <span class="progress-left">
+	                                        <span class="progress-bar"></span>
+	                                    </span>
+	                                    <span class="progress-right">
+	                                        <span class="progress-bar"></span>
+	                                    </span>
+	                                    <div class="progress-value">75%</div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+	                            <div class="statistic-box">
+	                                <div class=small>Total Sales</div>
+	                                <h2><span class=count-number>5489</span>$ <span class=slight><i class="fa fa-play fa-rotate-90 c-white"> </i> +24%</span></h2>
+	                                <div class="progress-radial pink">
+	                                    <span class="progress-left">
+	                                        <span class="progress-bar"></span>
+	                                    </span>
+	                                    <span class="progress-right">
+	                                        <span class="progress-bar"></span>
+	                                    </span>
+	                                    <div class="progress-value">90%</div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        
+	                    </div>
                     <div class="panel panel-bd lobidrag">
 
                         <div class="panel-body">

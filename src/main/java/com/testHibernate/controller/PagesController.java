@@ -1,6 +1,7 @@
 package com.testHibernate.controller;
  
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
+import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.TempActivite;
 import com.testHibernate.model.demande.FicheDemande;
@@ -131,12 +133,14 @@ public class PagesController {
 			try {
 				ret = ficheDemandeService.selectByRejet(ret, false); 
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
+				modelMap.put("moyenne", this.getMoyenneDuMois((int)new Date().getDay()));
 				modelMap.put("stats", this.getAllStatistiqueMonth());
 				modelMap.put("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
 				modelMap.put("error", e);
+				e.printStackTrace();
 	 			return "pages/erreur/505"; 
-				//e.printStackTrace();
+				//
 			}
 		HashMap<String, String> champs = GlobalHelper.getChampDemande();
 		if(session.getAttribute("isConnected")!=null) {
@@ -246,12 +250,37 @@ public class PagesController {
 	}
 	
 		
-	public List<Long> getAllStatistiqueMonth(){
+	public List<Long> getAllStatistiqueMonth() throws Exception{
 		List<Long> ret = new ArrayList<Long>();
 		int mois = 12;
 		try {
 			for(int i=1 ; i <= mois ; i++) {
-				ret.add((Long)ficheDemandeService.getFicheDemandeByMonth(i));
+				ret.add((Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" ,i));
+			}
+		}catch(Exception e) {
+			throw e;
+		}
+		return ret;
+	}
+	
+	public double getMoyenneDuMois(int mois) throws Exception{
+		double ret = 0;
+		try {
+			double maxDaysOfMonth = 0;
+			maxDaysOfMonth = DateHelper.getNombreJoursParMois(mois);
+			System.out.println("\n\n maxDaysOfMonth ===== "+maxDaysOfMonth+"  DU mois = "+mois);
+			long sommeStats = 0; 
+			for(int k = 1 ; k < maxDaysOfMonth ; k++ ) {  
+				sommeStats +=  ficheDemandeService.getFicheDemandeByDayOrMonth("day" , k);
+				System.out.println("day stats = "+sommeStats);
+			}
+			if(maxDaysOfMonth!=0) {
+				ret = sommeStats/maxDaysOfMonth;
+				System.out.println("MOYENNE = "+ret);
+				ret *= (double)100;
+				System.out.println("MOYENNE ret = "+ret);
+			} else {
+				throw new Exception("Error division by 0 !!!");
 			}
 		}catch(Exception e) {
 			throw e;

@@ -62,7 +62,9 @@
                 </div>
             </div> <!-- /. Content Header (Page header) -->
             <div class="row"> 
-                <div class="col-sm-8">  
+                <div class="col-sm-8"> 
+                 		<h1 th:text="${#numbers.formatDecimal(moyenne,2,2)}+' %'"></h1>
+                 
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -321,7 +323,12 @@
     <!-- Footable Js -->
     <script src="assets/plugins/footable-bootstrap/js/footable.all.min.js"></script>
     <script src="assets/plugins/footable-bootstrap/js/footable-active.js"></script>
-
+   <!-- CounterUp Js -->
+        <script src="assets/plugins/counterup/waypoints.js"></script>
+        <script src="assets/plugins/counterup/jquery.counterup.min.js"></script>
+        <!-- Sparkline Js -->
+        <script src="assets/plugins/sparkline/sparkline.min.js"></script>
+        <script src="assets/plugins/sparkline/sparkline-active.js"></script>
     <!-- icheck Js -->
     <script src="assets/plugins/icheck/icheck.min.js"></script>
     <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>

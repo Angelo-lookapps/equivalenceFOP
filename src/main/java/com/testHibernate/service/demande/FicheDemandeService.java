@@ -36,6 +36,6 @@ public interface FicheDemandeService {
 	
 	List<FicheDemande> selectByRejet(List<FicheDemande> listeDemande, Boolean statusRejet) throws Exception;
 	
-	long getFicheDemandeByMonth(Integer month);
+	long getFicheDemandeByDayOrMonth(String field, Integer month);
 
 }

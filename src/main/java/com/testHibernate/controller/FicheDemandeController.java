@@ -286,10 +286,10 @@ public class FicheDemandeController {
 		} catch (Exception e) { 
 			e.printStackTrace();
 		}
- if(session.getAttribute("isConnected")==null) {
-	 model.addAttribute("errorlogin", "4");
-	 return "pages/login";
- }	
+	 if(session.getAttribute("isConnected")==null) {
+		 model.addAttribute("errorlogin", "4");
+		 return "pages/login";
+	 }	
 
 		 //List<ListesDiplome> listesDiplome = listesDiplomeService.listAll();
 		 List<String> listLieuDelivrance = cinService.getAllLieuDelivrance();
@@ -358,12 +358,14 @@ public class FicheDemandeController {
 			 ficheDemandeForm.setStatusRejet(false);
 			 ficheDemandeForm.setDateAjout(GlobalHelper.getCurrentDate());
 			 ficheDemandeForm.setStatusEnregistrement(false);
-			 System.out.println("\n\n +++++++++++++++++++++++++++++++++++++++++++++++++++++");
-			 System.out.println("leTraiter size = "+leTraiter.size());
-			 System.out.println("ficheDemandeForm isnull = "+(ficheDemandeForm==null));
-			 if(leTraiter.size()!=0 && checkAdmisOK(leTraiter, demandeFormToDemande.convert(ficheDemandeForm))) {
+			 ficheDemandeForm.setCin(cinService.getById(Long.valueOf(cin)));
+			 ficheDemandeForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
+			  
+			 if(leTraiter.size()!=0 && checkAdmisOK(leTraiter, demandeFormToDemande.convert(ficheDemandeForm), ficheDemandeDetailForm.getAnneeDeb())==true) {
+				 //System.out.println("\n\n +++++++++++++++++++++++++++++++++++++++++++++++++++++");
 				 size = leTraiter.size();
-			 }else if(leTraiter.size()!=0 && !checkAdmisOK(leTraiter, demandeFormToDemande.convert(ficheDemandeForm))){
+			 }else if(leTraiter.size()==0 || checkAdmisOK(leTraiter, demandeFormToDemande.convert(ficheDemandeForm), ficheDemandeDetailForm.getAnneeDeb())==false){
+				 System.out.println("\n\n 77777777777777777777777777777777777777777777777777777");
 				 ficheDemandeForm.setStatusRejet(true);
 				 rejete = 1;
 				 //return "redirect:/newRequest/needAddListe/cin-"+Long.valueOf(cin)+"/diplome-"+Long.valueOf(listeDiplome)+"-"+ficheDemandeDetailForm.getAnneeDeb();
@@ -371,8 +373,7 @@ public class FicheDemandeController {
 			 // System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
 			
 			 
-			 ficheDemandeForm.setCin(cinService.getById(Long.valueOf(cin)));
-			 ficheDemandeForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
+	
 			 ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
 			 
 				 //Mis en historique
@@ -521,7 +522,7 @@ public class FicheDemandeController {
 		 initialListeFiche();
 		 try{
 			 if(data.size()==0) {
-				 data =  gh.convertDiplomeToListTag(listeDiplomes); 
+				 data =  gh.convertDiplomeToListTag(this.listeDiplomes); 
 			 }
 			 //System.out.println("data == "+data.size());
 			// iterate a list and filter by tagName
@@ -606,20 +607,20 @@ public class FicheDemandeController {
 	 }
 	 
 	 
-	 public Boolean checkAdmisOK(List<ListePromotionDetail> listeAdmis, FicheDemande fiche) {
+	 public Boolean checkAdmisOK(List<ListePromotionDetail> listeAdmis, FicheDemande fiche, String anneeDeb) {
 		 Boolean ret = false;
 		 try {
-			 if(listeAdmis.size()!=0 && fiche!=null) {
-				 FicheDemandeDetail detailFiche = ficheDemandeDetailService.getFicheDemandeByFiche(fiche.getId());
-				 System.out.println("/*****************************************************************************");
-				 for(ListePromotionDetail admis : listeAdmis) {
-					 System.out.println("getSessionSortie = "+admis.getListePromotion().getSessionSortie()+" == getAnneeDeb"+detailFiche.getAnneeDeb() );
-					 System.out.println(" AND  ");
-					 System.out.println("getListesDiplome = "+admis.getListePromotion().getListesDiplome().getId()+" == getId"+fiche.getListesDiplome().getId() );
-					 if(admis.getListePromotion().getSessionSortie() == detailFiche.getAnneeDeb() && 
-						 admis.getListePromotion().getListesDiplome().getId() == fiche.getListesDiplome().getId()) {
-						 ret = true;
-						 break;
+			 if(listeAdmis.size()!=0 && fiche!=null) { 
+				 System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+				 for(ListePromotionDetail admis : listeAdmis) {  
+					 
+					 System.out.println(admis.getListePromotion().getSessionSortie()+" == "+anneeDeb);
+					 System.out.println(admis.getListePromotion().getListesDiplome().getId()+" == "+ fiche.getListesDiplome().getId());
+					 if(admis.getListePromotion().getSessionSortie().equals(anneeDeb)) {
+						 if( admis.getListePromotion().getListesDiplome().getId() == fiche.getListesDiplome().getId()) {
+							 System.out.println(">>>>>>>>>>>>>>>>>>>>>HELLO<<<<<<<<<<<<<<<<<<<< ");
+							 ret = true;break;
+						 }
 					 }
 				 }
 			 }
@@ -627,6 +628,7 @@ public class FicheDemandeController {
 			 throw e;
 			 //e.printStackTrace();
 		 }
+		 System.out.println("RET === "+ret);
 		 return ret;
 	 }
 	

@@ -240,8 +240,9 @@ public class ListePromotionController {
 			return "redirect:/error505";
 		}  
 		CIN getit = null;
-		 System.out.println("\n\n .......................................................\n"
-			 		+ " listePromotionDetailForm = "+listePromotionDetailForm.getId());
+		 if(listePromotionDetailForm.getId()!=0) {
+			 listePromotionDetailForm.setId(Long.valueOf(0));///FORCER l'INCREMENTATION de Id
+		 }
 		try {
 			if(!listePromotionDetailForm.getNomComplet().equals("") || !listePromotionDetailForm.getLieuNaissance().equals("") ) {
 				
@@ -253,16 +254,14 @@ public class ListePromotionController {
 				  }
 				
 			}else {
-				System.out.println("999999999999999999999999999999999999999999999999999999999999999"); 
 				if(!idCin.equals("")) {
 					getit = cinService.getById(Long.valueOf(idCin));
 					System.out.println("getit = "+getit.getId()); 
 				}
 				//System.out.println("\n\n getIt = "+getit.getNom()+" "+getit.getPrenom());
 				String nomComplet = getit.getNom()+" "+getit.getPrenom();
-				System.out.println("\n\n convertToStringDate === " + getit.getDateNaissance());
 				String dateNaissance = GlobalHelper.convertToStringDate(getit.getDateNaissance()); 
-				
+				System.out.println(" convertToStringDate2 === " + dateNaissance);
 				listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
 				listePromotionDetailForm.setNomComplet(nomComplet);
 				listePromotionDetailForm.setDateNaissance(dateNaissance);
@@ -271,8 +270,6 @@ public class ListePromotionController {
 		
 		listePromotionDetailForm.setCin(getit); 
 		listePromotionDetailForm.setListePromotion(listePromotion1);
-		 System.out.println("\n\n .......................................................\n"
-		 		+ " listePromotionDetailForm = "+listePromotionDetailForm.getId());
 		listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(listePromotionDetailForm);
 		//System.out.println("\n\n\n GEGE ===== " + listesSaved.getNomComplet());
 		

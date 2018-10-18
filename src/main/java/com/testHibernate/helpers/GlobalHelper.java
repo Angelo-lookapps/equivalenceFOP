@@ -209,7 +209,7 @@ public class GlobalHelper {
 					subs[1] = act.getDateAjout();
 					tab1 = subs;
 				}
-				System.out.println("\n\n SplitActivite1 = "+tab1[0]);
+				//System.out.println("\n\n SplitActivite1 = "+tab1[0]);
 				temp.setDateAjout1(tab1[0]);
 				temp.setDateAjout2(tab1[1]);
 				

@@ -61,9 +61,20 @@
                     </ol>
                 </div>
             </div> <!-- /. Content Header (Page header) -->
-            <div class="row"> 
+            <div class="row">  
                 <div class="col-sm-8"> 
-                 		<h1 th:text="${#numbers.formatDecimal(moyenne,2,2)}+' %'"></h1>
+                	<!-- STATISTIQUEs -->
+                    <div class="col-sm-11 panel panel-bd lobidrag">
+	            		<div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>Statistique mensuel des demandes</h4>
+                            </div>
+                        </div>
+	            		<div id="myChart">
+	           				 
+	           			</div>
+	            	</div>
+                		<h1 th:text="'fréquence des demandes quotidienne: '+${#numbers.formatDecimal(moyenne,2,2)}+' /jours '"></h1>
                  
                     <div class="panel panel-bd lobidrag">
                         <div class="panel-heading">
@@ -136,19 +147,22 @@
                          </div>
                         
                     </div>
-                    <!-- STATISTIQUEs -->
-                    <div class="panel panel-bd lobidrag">
-	            		<div class="panel-heading">
-                            <div class="panel-title">
-                                <h4>Statistique mensuel des demandes</h4>
-                            </div>
-                        </div>
-	            		<div id="myChart">
-	           				 
-	           			</div>
-	            	</div>
+                    
                 </div>
+                <!-- Sparklines Charts --> 
+	                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+	                    <!-- statistic box -->
+	                    <div class="statistic-box statistic-filled-3">
+	                        <h2>N° <span class="count-number">2000</span> /18<span class="slight"><i class="fa fa-play fa-rotate-90 c-white"> </i> 24%</span> du mois</h2>
+	                        <h2>N° <span class="count-number">500</span> /18<span class="slight"><i class="fa fa-play fa-rotate-90 c-white"> </i> 24%</span> du mois</h2>
+	                        
+	                        <div class="small">Total Sales</div>
+	                        <i class="ti-user statistic_icon"></i>
+	                        <div class="sparkline4 text-center"></div>
+	                    </div> <!--/. statistic box -->
+	                </div> 
                 <div class="col-lg-4 visible-lg">
+                	
                     <div class="panel panel-bd lobidisable">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -259,7 +273,7 @@
 			return {
 				type: 'line',
 				data: {
-					labels: ["Janvier", "Février", "Mars", "Avril","Mai","Juin",
+					labels: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
 		            	"Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
 					datasets: [{
 						label: 'par mois',
@@ -268,12 +282,12 @@
 						data: [tableauFiche[0], tableauFiche[1], tableauFiche[2], tableauFiche[3], tableauFiche[4] , 
 		                	tableauFiche[5], tableauFiche[6], tableauFiche[7], tableauFiche[8], 
 		                	tableauFiche[9], tableauFiche[10], tableauFiche[11]],
-						fill: false,
+						fill: true,
 					}, {
 						label: 'par jour',
 						borderColor: window.chartColors.blue,
 						backgroundColor: window.chartColors.blue,
-						data: [7, 49, 46, 13, 25, 30, 22, 49, 46, 13, 25, 30, 22],
+						data: [7, 49, 46, 13, 25, 30, 22, 49, 46, 13, 25, 30],
 						fill: false,
 					}]
 				},

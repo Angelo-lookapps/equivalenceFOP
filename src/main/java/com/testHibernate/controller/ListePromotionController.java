@@ -3,6 +3,7 @@ package com.testHibernate.controller;
  
  
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ import com.testHibernate.converts.listePromotion.ListePromotionToListePromotionF
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.TempListePromotion;
+import com.testHibernate.helpers.UtilsHelper;
 import com.testHibernate.importFile.excel.MyReaderExcel;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.cin.CINForm;
@@ -148,7 +150,7 @@ public class ListePromotionController {
 	 
 
 	@GetMapping({"/listProm", "/listProm/warning/{id}", "/listProm/page-{page}"})
-	 public String listPromo(Model model, @PathVariable(required=false) Optional<String> id,  @PathVariable(required=false) Optional<Integer> page){
+	 public String listPromo(Model model, @PathVariable(required=false) Optional<String> id, @PathVariable(required=false) Optional<Integer> page){
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";
@@ -238,12 +240,19 @@ public class ListePromotionController {
 		Long newCIN = (long) 0;  
 		if(bindingResult.hasErrors()){
 			return "redirect:/error505";
-		}  
+		}
+		
 		CIN getit = null;
 		 if(listePromotionDetailForm.getId()!=0) {
 			 listePromotionDetailForm.setId(Long.valueOf(0));///FORCER l'INCREMENTATION de Id
 		 }
+		
 		try {
+			List<ListePromotionDetail> list = this.getAllAdmisPromotion(Long.valueOf(id));
+			if(this.checkIfExist(list, listePromotionDetailForm, idCin)) {
+				return "redirect:/showPromoDetail/"+listePromotion1.getSessionSortie()+"/"+listePromotion1.getListesDiplome().getId()+"/duplicate=true" ;
+			}
+			
 			if(!listePromotionDetailForm.getNomComplet().equals("") || !listePromotionDetailForm.getLieuNaissance().equals("") ) {
 				
 				listePromotionDetailForm.setDateAjout(GlobalHelper.getCurrentDate());
@@ -294,8 +303,8 @@ public class ListePromotionController {
 		return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId();		
 	}
 	
-	@GetMapping({"/showPromoDetail/{session2}/{id}", "/showPromoDetail/{session2}/{id}/newCIN-{newCIN}"})
-	public String ajoutPromo(@PathVariable String session2, @PathVariable String id, Model model, @PathVariable(required=false) Long newCIN) {
+	@GetMapping({"/showPromoDetail/{session2}/{id}", "/showPromoDetail/{session2}/{id}/duplicate={duplicate}", "/showPromoDetail/{session2}/{id}/newCIN-{newCIN}"})
+	public String ajoutPromo(@PathVariable String session2, @PathVariable String id, @RequestParam(required=false) String duplicate, Model model, @PathVariable(required=false) Long newCIN) {
 		//modication
 		if(session.getAttribute("isConnected")==null) {
 			model.addAttribute("errorlogin", "4");
@@ -323,6 +332,11 @@ public class ListePromotionController {
 			model.addAttribute("listePromotionDetails", listePromotionDetails);
 			model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
 			model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
+			
+			if(duplicate!=null ) {
+				model.addAttribute("checking", 1); 
+			}
+			
 		} catch (Exception e) { 
 			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
@@ -696,6 +710,76 @@ public class ListePromotionController {
 		 }catch(Exception e) {
 			 throw e;
 		 }
+		 return ret;
+	 }
+	 
+	 public List<ListePromotionDetail> getAllAdmisPromotion(Long idListePromotion)throws Exception{
+		 List<ListePromotionDetail> ret = new ArrayList<ListePromotionDetail>();
+		 try {
+			 ret = listePromotionDetailService.getDetailByIdListePromotion(idListePromotion);
+		 }catch(Exception e) {
+			 throw e;
+		 }
+		 return ret;
+	 }
+	 public int compareTwoName(String nomComplet1, String nomComplet2)throws Exception {
+		 int ret = 0;
+		 try {
+			 String[] tab1 = UtilsHelper.getTabBySplit(nomComplet1, " "), tab2 = UtilsHelper.getTabBySplit(nomComplet2, " ");
+			 if(tab1.length == tab2.length) { 
+				 ret = UtilsHelper.compareTwoTabs(tab1, tab2) ? 1 : 0 ;
+			 }
+		 }catch(Exception e) {
+			 throw e;
+		 }
+		 System.out.println("\n compareTwoTabs ======= " + ret);
+		 return ret;
+	 }
+	 public Boolean checkIfExist(List<ListePromotionDetail> listeAdmis, ListePromotionDetailForm compare, String idCin)throws Exception{
+		 Boolean ret = false;
+		 try {
+			 int comparaison1 = 0, comparaison2 = 0, comparaison3 = 0;
+			 CIN temp = new CIN();
+			 if(idCin!=null) {
+				 temp = cinService.getById(Long.valueOf(idCin));
+			 }
+			  for(ListePromotionDetail admis : listeAdmis) {
+				  comparaison1 = this.compareTwoName(admis.getNomComplet(), compare.getNomComplet());
+				  if(admis.getCin()!=null) {
+					  comparaison2 = this.compareTwoName(admis.getCin().getNom()+" "+admis.getCin().getPrenom(), compare.getNomComplet());
+				  }
+				  if(admis.getCin()!=null && temp!=null) {
+					  System.out.println("  CIN TO CIN = "+admis.getCin().getNom()+" vs "+temp.getNom());
+					  comparaison3 = admis.getCin().compareTo(temp) ? 1 : 0;
+							  /*this.compareTwoName(admis.getCin().getNom()+" "+admis.getCin().getPrenom(), temp.getNom()+" "+temp.getPrenom());*/
+				  }
+				   //Mila manambotra fonction miverifier CIN tsy NULL
+				  System.out.println("\n comp1 = "+comparaison1);
+				  System.out.println("  comp2 = "+comparaison2);
+				  System.out.println("  comp3 = "+comparaison3);
+				  Date dat1 = null;
+				  Date dat2 = null;
+				  if(comparaison1 == 1 ) {  
+			  		  dat1 = GlobalHelper.convertStringToDate(admis.getDateNaissance());
+			  		  dat2 = GlobalHelper.convertStringToDate(compare.getDateNaissance()); 
+				  }else if(comparaison2 == 1 ){
+					  dat1 = GlobalHelper.convertStringToDate(admis.getDateNaissance());
+					  dat2 = GlobalHelper.convertStringToDate(compare.getDateNaissance());
+				  }else if(comparaison3 == 1) {
+					  dat1 = admis.getCin().getDateNaissance();
+					  dat2 = temp.getDateNaissance();
+				  } 
+				  if(dat1.compareTo(dat2) == 0) {
+					  System.out.println(dat1+" = DAT = "+dat2);
+					  ret = true;
+					  break;
+				  }
+				  
+			  }
+		 }catch(Exception e) {
+			 throw e;
+		 }
+		 System.out.println("checkIfExist ret = "+ret);
 		 return ret;
 	 }
 }

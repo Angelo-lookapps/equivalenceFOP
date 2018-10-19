@@ -180,6 +180,10 @@ public class GlobalHelper {
 		String ret = daty[2]+"-"+daty[1]+"-"+daty[0];
 		return  ret;
 	}
+	public static Date convertToDateUtil(String date) throws ParseException { 
+		 Date ret = formater.parse(date);
+		return  ret;
+	}
 	public static java.sql.Date convertStringToDate(String date){ 
         java.sql.Date ret = null;
         java.util.Date temp = null;

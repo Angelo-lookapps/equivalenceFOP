@@ -69,7 +69,7 @@
                                 <h4>Formulaire d'insertion d'un &eacute;tudiant :</h4>
                             </div>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body"> 
                             <form th:action="'/importExcel/' + ${listePromotion.id}" th:method="GET" id="fileForm"
                                 class="fileForm">
                                 <div class="row">
@@ -95,6 +95,11 @@
                                         <div th:if="${newCIN!=null}">
                                             <div class="alert alert-sm alert-success alert-dismissible" role="alert"> <span>Une Carte d'identit&eacute; temporaire vient d'&ecirc;tre cr&eacute;&eacute;!(<b><a th:href="'/cin/show/'+${newCIN}" th:text="'N° '+${newCIN}"></a></b>)</span></div>
                                         </div>
+                                        <div th:if="${checking!=null}">
+                                        	<div class="alert alert-sm alert-warning alert-dismissible" role="alert">
+                                        	 <span>Erreur : Duplication de donnée repèrer!!!</span></div>
+                                        </div>
+                                        
                                         <b><label class="text-muted" id="output"></label></b>
                                     </div>
                                 </div>

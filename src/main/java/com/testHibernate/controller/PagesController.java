@@ -255,7 +255,9 @@ public class PagesController {
 		int mois = 12;
 		try {
 			for(int i=1 ; i <= mois ; i++) {
-				ret.add((Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" ,i));
+				long somme =(Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" , i, true) + (Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" , i, false) ;
+				System.out.println("\n getAllStatistiqueMonth = " + somme);
+				ret.add(somme);
 			}
 		}catch(Exception e) {
 			throw e;
@@ -271,13 +273,15 @@ public class PagesController {
 			System.out.println("\n\n maxDaysOfMonth ===== "+maxDaysOfMonth+"  DU mois = "+mois);
 			long sommeStats = 0; 
 			for(int k = 1 ; k < maxDaysOfMonth ; k++ ) {  
-				sommeStats +=  ficheDemandeService.getFicheDemandeByDayOrMonth("day" , k);
-				System.out.println("day stats = "+sommeStats);
+				long somme =(Long)ficheDemandeService.getFicheDemandeByDayOrMonth("day" , k, true) + (Long)ficheDemandeService.getFicheDemandeByDayOrMonth("day" , k, false) ;
+				//System.out.println("\n SOMME = "+somme);
+				sommeStats +=  somme;
+				//System.out.println("day stats = "+sommeStats);
 			}
 			if(maxDaysOfMonth!=0) {
 				ret = sommeStats/maxDaysOfMonth;
 				System.out.println("MOYENNE = "+ret);
-				ret *= (double)100;
+				//ret *= (double)100;
 				System.out.println("MOYENNE ret = "+ret);
 			} else {
 				throw new Exception("Error division by 0 !!!");

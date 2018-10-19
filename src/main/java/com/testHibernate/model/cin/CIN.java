@@ -200,6 +200,9 @@ public class CIN {
 
 	public Boolean compareTo(CIN cin) {
 		Boolean ret = false; 
+		/*if(this.getNom().toUpperCase().equals(cin.getNom().toUpperCase()) && this.getPrenom().toUpperCase().equals(cin.getPrenom().toUpperCase())){
+			
+		}*/
 		if(this == cin) {
 			ret = true;
 		}		

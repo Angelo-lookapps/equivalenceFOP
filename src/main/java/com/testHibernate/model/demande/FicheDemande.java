@@ -36,7 +36,7 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		query = "SELECT fd FROM FicheDemande as fd order by fd.id"),
 	@NamedQuery(
 		name = "FicheDemande.getDemandeByMonth",
-		query = "SELECT COUNT(fd.id) as nbFiche FROM FicheDemande as fd WHERE date_part(?1, DATE(fd.dateAjout)) = ?2")
+		query = "SELECT COUNT(fd.id) as nbFiche FROM FicheDemande as fd WHERE date_part(?1, DATE(fd.dateAjout)) = ?2 AND statusRejet = ?3"  )
 
 })
 public class FicheDemande {

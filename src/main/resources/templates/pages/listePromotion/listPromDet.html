@@ -95,9 +95,11 @@
                                         <div th:if="${newCIN!=null}">
                                             <div class="alert alert-sm alert-success alert-dismissible" role="alert"> <span>Une Carte d'identit&eacute; temporaire vient d'&ecirc;tre cr&eacute;&eacute;!(<b><a th:href="'/cin/show/'+${newCIN}" th:text="'N° '+${newCIN}"></a></b>)</span></div>
                                         </div>
-                                        <div th:if="${checking!=null}">
+                                        <div th:if="${checking==1}">
                                         	<div class="alert alert-sm alert-warning alert-dismissible" role="alert">
-                                        	 <span>Erreur : Duplication de donnée repèrer!!!</span></div>
+	                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                                            <i class="fa fa-exclamation-circle"></i><strong>Erreur : </strong>Erreur : Duplication de donnée repèrer!!! 
+                                        	</div>
                                         </div>
                                         
                                         <b><label class="text-muted" id="output"></label></b>
@@ -139,8 +141,9 @@
                                            <span class="input-group-btn">
                                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchCINModal">Choisir</button>
                                            </span>
+                                           
                                        	</div><!-- /input-group -->
-                                     </div>   
+                                     </div><small id="fileHelpTel" class="text-muted ">Si cette personne est déjà inscrit dans une liste, vous pouvez joindre son CIN ici.</small>   
                                 </div>
 								<!-- END -->
 								<div id="delete2"> 
@@ -275,7 +278,7 @@
                                                 <td class="text-center" th:text="${promo.id}"></td>
                                                 <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.numeroMatricule}"></a></td>
                                                 <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.nomComplet}"></a></td> 
-                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.dateNaissance} + ' à ' + ${promo.lieuNaissance}"></a></td>
+                                                <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${#dates.format(promo.cin.dateNaissance, 'dd-MM-yyyy')} + ' à ' + ${promo.cin.lieuNaissance}"></a></td>
                                                 <td class="text-center"><a th:href="'/showAdmis/' + ${promo.id}" th:text="${promo.mention}"></a></td>
                                                 <td class="text-center"><button class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Supprimer" aria-hidden="true" th:onclick="|goToDelete('${promo.id}')|"><i class="fa fa-trash" ></i></button></td>
 											</tr>

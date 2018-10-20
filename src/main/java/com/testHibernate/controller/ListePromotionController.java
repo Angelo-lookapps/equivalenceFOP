@@ -250,7 +250,7 @@ public class ListePromotionController {
 		try {
 			List<ListePromotionDetail> list = this.getAllAdmisPromotion(Long.valueOf(id));
 			if(this.checkIfExist(list, listePromotionDetailForm, idCin)) {
-				return "redirect:/showPromoDetail/"+listePromotion1.getSessionSortie()+"/"+listePromotion1.getListesDiplome().getId()+"/duplicate=true" ;
+				return "redirect:/showPromoDetail/"+listePromotion1.getSessionSortie()+"/"+listePromotion1.getListesDiplome().getId()+"/duplicate/1" ;
 			}
 			
 			if(!listePromotionDetailForm.getNomComplet().equals("") || !listePromotionDetailForm.getLieuNaissance().equals("") ) {
@@ -303,8 +303,8 @@ public class ListePromotionController {
 		return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId();		
 	}
 	
-	@GetMapping({"/showPromoDetail/{session2}/{id}", "/showPromoDetail/{session2}/{id}/duplicate={duplicate}", "/showPromoDetail/{session2}/{id}/newCIN-{newCIN}"})
-	public String ajoutPromo(@PathVariable String session2, @PathVariable String id, @RequestParam(required=false) String duplicate, Model model, @PathVariable(required=false) Long newCIN) {
+	@GetMapping({"/showPromoDetail/{session2}/{id}", "/showPromoDetail/{session2}/{id}/duplicate/{duplicate}", "/showPromoDetail/{session2}/{id}/newCIN-{newCIN}"})
+	public String ajoutPromo(@PathVariable String session2, @PathVariable String id, @PathVariable(required=false) Integer duplicate, Model model, @PathVariable(required=false) Long newCIN) {
 		//modication
 		if(session.getAttribute("isConnected")==null) {
 			model.addAttribute("errorlogin", "4");
@@ -332,8 +332,9 @@ public class ListePromotionController {
 			model.addAttribute("listePromotionDetails", listePromotionDetails);
 			model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
 			model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
-			
-			if(duplicate!=null ) {
+			System.out.println("DUPLICATED == "+duplicate);
+			if(duplicate!=null && duplicate==1) {
+				System.out.println("DUPLICATED == "+duplicate);
 				model.addAttribute("checking", 1); 
 			}
 			
@@ -739,14 +740,16 @@ public class ListePromotionController {
 		 Boolean ret = false;
 		 try {
 			 int comparaison1 = 0, comparaison2 = 0, comparaison3 = 0;
-			 CIN temp = new CIN();
-			 if(idCin!=null) {
+			 CIN temp = null;
+			 if(idCin!=null && !idCin.equals("")) {
 				 temp = cinService.getById(Long.valueOf(idCin));
 			 }
 			  for(ListePromotionDetail admis : listeAdmis) {
 				  comparaison1 = this.compareTwoName(admis.getNomComplet(), compare.getNomComplet());
+				  System.out.println("+++++++ Nomcomplet = "+admis.getNomComplet()+" # "+compare.getNomComplet());
 				  if(admis.getCin()!=null) {
 					  comparaison2 = this.compareTwoName(admis.getCin().getNom()+" "+admis.getCin().getPrenom(), compare.getNomComplet());
+					  System.out.println("+++++++22 Nomcomplet = "+admis.getCin().getNom()+" "+admis.getCin().getPrenom()+" # "+compare.getNomComplet());
 				  }
 				  if(admis.getCin()!=null && temp!=null) {
 					  System.out.println("  CIN TO CIN = "+admis.getCin().getNom()+" vs "+temp.getNom());
@@ -769,7 +772,7 @@ public class ListePromotionController {
 					  dat1 = admis.getCin().getDateNaissance();
 					  dat2 = temp.getDateNaissance();
 				  } 
-				  if(dat1.compareTo(dat2) == 0) {
+				  if(dat1!=null && dat2!=null && dat1.compareTo(dat2) == 0) {
 					  System.out.println(dat1+" = DAT = "+dat2);
 					  ret = true;
 					  break;

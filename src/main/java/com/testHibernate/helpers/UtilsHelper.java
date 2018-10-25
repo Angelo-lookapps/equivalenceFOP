@@ -1,5 +1,10 @@
 package com.testHibernate.helpers;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.springframework.core.io.ClassPathResource;
+
 public class UtilsHelper {
 	
 	public static String[] getTabBySplit(String field, String  separator) {
@@ -31,5 +36,11 @@ public class UtilsHelper {
 			ret = true;
 		} 
 		return ret;
+	}
+	
+	public static File getFilePath(String path) throws IOException {
+		ClassPathResource res = new ClassPathResource(path);
+		File jrxmlFile =  res.getFile(); 
+		return jrxmlFile;
 	}
 }

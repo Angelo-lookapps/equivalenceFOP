@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.NamedQueries;
@@ -52,6 +53,9 @@ public class ArreteEqRef {
 	private Boolean status;
 	private String dateAjout;
 	
+	@ManyToOne
+	private TypeArreteJasper typeArreteJasper;
+	
 	public Boolean getStatus() {
 		return status;
 	}
@@ -97,6 +101,14 @@ public class ArreteEqRef {
 
 	public void setAnneeSortie(String anneeSortie) {
 		this.anneeSortie = anneeSortie;
+	}
+
+	public TypeArreteJasper getTypeArreteJasper() {
+		return typeArreteJasper;
+	}
+
+	public void setTypeArreteJasper(TypeArreteJasper typeArreteJasper) {
+		this.typeArreteJasper = typeArreteJasper;
 	}
 	
 	

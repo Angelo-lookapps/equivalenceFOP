@@ -62,6 +62,13 @@ public class FicheDemandeServiceImpl implements FicheDemandeService {
 		
 		return ret;
 	}
+	@Override
+	public List<FicheDemande> getFicheDemandeByStatusEnCours() {
+		TypedQuery<FicheDemande> query = em.createNamedQuery("FicheDemande.findFicheDemandeByStatusEnCours", FicheDemande.class) ;
+		List<FicheDemande> ret = query.getResultList();
+		
+		return ret;
+	}
 
 	@Override
 	public List<FicheDemande> getFicheDemandeByDate(String dateRetrait) {

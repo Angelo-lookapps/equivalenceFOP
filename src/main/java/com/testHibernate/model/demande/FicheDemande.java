@@ -23,6 +23,9 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		name = "FicheDemande.findFicheDemandeByStatusRejet", 
 		query = "SELECT fi FROM FicheDemande as fi WHERE fi.statusRejet = 'true' "),
 	@NamedQuery(
+		name = "FicheDemande.findFicheDemandeByStatusEnCours", 
+		query = "SELECT fi FROM FicheDemande as fi WHERE fi.statusRejet = 'false' "),
+	@NamedQuery(
 		name = "FicheDemande.findFicheDemandeByDate", 
 		query = "SELECT fi FROM FicheDemande as fi WHERE fi.dateRetrait = :dateRetrait "),		
 	@NamedQuery(

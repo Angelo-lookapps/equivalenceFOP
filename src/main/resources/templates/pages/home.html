@@ -153,8 +153,7 @@
 	                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
 	                    <!-- statistic box -->
 	                    <div class="statistic-box statistic-filled-3">
-	                        <h2>N° <span class="count-number">2000</span> /18<span class="slight"><i class="fa fa-play fa-rotate-90 c-white"> </i> 24%</span> du mois</h2>
-	                        <h2>N° <span class="count-number">500</span> /18<span class="slight"><i class="fa fa-play fa-rotate-90 c-white"> </i> 24%</span> du mois</h2>
+	                        <h2>N° <span class="count-number">220</span> /18<span class="slight"><i class="fa fa-play fa-rotate-90 c-white"> </i> 5%</span> numéro en cours</h2> 
 	                        
 	                        <div class="small">Total Sales</div>
 	                        <i class="ti-user statistic_icon"></i>
@@ -271,24 +270,24 @@
 	    var tableauFiche = $("input[name='mois[]']").map(function(){ return $(this).val(); }).get(); 
 	    function createConfig(position) {
 			return {
-				type: 'line',
+				type: 'bar',
 				data: {
 					labels: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
 		            	"Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
 					datasets: [{
-						label: 'par mois',
+							label: 'année dernière',
+							borderColor: window.chartColors.blue,
+							backgroundColor: window.chartColors.blue,
+							data: [7, 10, 22, 12, 6, 8, 15, 26, 25, 15, 9, 3],
+							fill: false,
+						}, {
+						label: 'cette année',
 						borderColor: window.chartColors.red,
 						backgroundColor: window.chartColors.red,
 						data: [tableauFiche[0], tableauFiche[1], tableauFiche[2], tableauFiche[3], tableauFiche[4] , 
 		                	tableauFiche[5], tableauFiche[6], tableauFiche[7], tableauFiche[8], 
 		                	tableauFiche[9], tableauFiche[10], tableauFiche[11]],
 						fill: true,
-					}, {
-						label: 'par jour',
-						borderColor: window.chartColors.blue,
-						backgroundColor: window.chartColors.blue,
-						data: [7, 49, 46, 13, 25, 30, 22, 49, 46, 13, 25, 30],
-						fill: false,
 					}]
 				},
 				options: {

@@ -116,14 +116,35 @@ public class ListePromotionController {
 	@GetMapping("/refreshAllRejet")
 	public String actualiserFicheDemande(Model model) {
 		List<FicheDemande> ficheRejetRecent = null;
+		List<FicheDemande> ficheEnCoursRecent = null;
 		int compteurFiche = 0;
 		try {
 			ficheRejetRecent = refreshAllStatusRejet(); 
+			ficheEnCoursRecent = refreshAllStatusEnCours(); 
 			if(ficheRejetRecent!=null && ficheRejetRecent.size()!=0) {
 				/*System.out.println("/////////////////////////////////////////////////////////////////////////"); 
 				System.out.println("Fiche Rejete to EnCour = "+ficheRejetRecent.size()); */
 				for(FicheDemande cible : ficheRejetRecent) {
 			    	cible.setStatusRejet(false);
+			    	
+			    	FicheDemande temp = ficheDemandeService.saveOrUpdate(cible);
+					//Mis en historique
+					ActiviteRecent historique = new ActiviteRecent(); 
+					 	historique.setDefinition( GlobalHelper.getQueryStringActivities(3, " la demande \""+temp.getListesDiplome().getEcole()+" "+temp.getListesDiplome().getFiliere()+" "
+					 			+ ""+temp.getListesDiplome().getOption()+" : de "+temp.getCin().getNom()+" "+temp.getCin().getPrenom()+" rendez-vous le "+temp.getDateRetrait()+"\""));
+					 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+					 	activiteRecentService.saveOrUpdate(historique);
+				 	 //fin historique
+					 if(temp!=null) {
+						 compteurFiche++;
+					 }
+			    }
+			 }
+			if(ficheEnCoursRecent!=null && ficheEnCoursRecent.size()!=0) {
+				/*System.out.println("/////////////////////////////////////////////////////////////////////////"); 
+				System.out.println("Fiche Rejete to EnCour = "+ficheRejetRecent.size()); */
+				for(FicheDemande cible : ficheEnCoursRecent) {
+			    	cible.setStatusRejet(true);
 			    	
 			    	FicheDemande temp = ficheDemandeService.saveOrUpdate(cible);
 					//Mis en historique
@@ -683,6 +704,40 @@ public class ListePromotionController {
 				 }
 				
 				 if(temp!=null) {//
+					 //System.out.println("\n fiche resolue = "+fiche.getId());
+					 ret.add(fiche);
+				 }
+			 }
+			
+		 }catch(Exception e) {
+			 throw e;
+			 //e.printStackTrace();
+		 }
+		 return ret;
+	 }
+	 public List<FicheDemande> refreshAllStatusEnCours() throws Exception {
+		 //ret va contenir le nombre de ListePromotionDetail(Admis) qui vont etre changer en false
+		 List<FicheDemande> ret = new ArrayList<FicheDemande>();
+		 List<FicheDemande> allEnCours = ficheDemandeService.getFicheDemandeByStatusEnCours();
+		 
+		 //On va prendre les ficheDemande avec statusRejet true 
+		 try {
+			 if(allEnCours.size()==0) {
+				 return ret;
+			 }
+			 for(FicheDemande fiche : allEnCours) {
+				 
+				 ListePromotion listeProm = this.getListePromotionByFiche(fiche);
+				 if(listeProm==null) {
+					 //System.out.println("\n\n listeProm is NULL = "+fiche.getId()); 
+				 }
+				 ListePromotionDetail temp = null;
+				 //System.out.println(" listeProm = "+listeProm.getNomPromotion());
+				 if(listeProm!=null) {
+					 temp = this.getAdmisByFicheDemande(listeProm, fiche);
+				 }
+				
+				 if(temp==null) {//
 					 //System.out.println("\n fiche resolue = "+fiche.getId());
 					 ret.add(fiche);
 				 }

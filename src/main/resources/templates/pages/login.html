@@ -61,7 +61,7 @@
                                 <div th:if="${keepConnected!=null}"><input id="pass" type="password" class="form-control" name="mdp" th:value="${keepConnected[1]}" placeholder="mot de passe: ****"></div>
                                 <div th:if="${keepConnected==null}"><input id="pass" type="password" class="form-control" name="mdp" placeholder="mot de passe: ****"></div>
                             </div>
-                            <span class="help-block small">Votre nom d'utilisateur unique pour l'application</span>
+                            <span class="help-block small">Votre mot de passe unique pour l'application</span>
                         </div>
                         <div>
                             <div th:switch="${errorlogin}">
@@ -111,8 +111,7 @@
                 </div>
             </div>
             <div id="bottom_text">
-                Vous n'avez pas de compte? <a href="/signup">S'inscrire</a><br>
-                Rappeler <a href="forget_password.html">Mot de passe</a>
+                Vous n'avez pas de compte? <a href="/signup">Inscrire</a><br> 
             </div>
 
         </div>

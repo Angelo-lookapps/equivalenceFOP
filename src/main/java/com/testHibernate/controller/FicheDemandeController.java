@@ -100,7 +100,7 @@ public class FicheDemandeController {
 	//Tags
 	 private HttpSession session;
 	 private List<Tag> data = new ArrayList<Tag>();
-	 int nombreLigneMax = 5;
+	 int nombreLigneMax = 10;
 	 private List<FicheDemande> fiches;
 	 GlobalHelper gh = new GlobalHelper();
 	 
@@ -201,7 +201,7 @@ public class FicheDemandeController {
 	 }	
 	 
 	 @GetMapping({"/showRequest/{id}", "/showRequest/{id}/statusRejet/{statusRejet}", "/showRequest/{id}/notification-{size}"})
-	 public String getDemandeById(@PathVariable String id, @PathVariable(required=false) Boolean statusRejet , @PathVariable(required=false) String size, Model model){
+	 public String afficherDemande(@PathVariable String id, @PathVariable(required=false) String statusRejet , @PathVariable(required=false) String size, Model model){
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";
@@ -218,8 +218,16 @@ public class FicheDemandeController {
 		 if(size!=null) {
 			 model.addAttribute("size", size );
 		 }
-		 if(statusRejet!=null && statusRejet) {
-			 model.addAttribute("statusRejet", statusRejet );
+		 if(statusRejet!=null && !statusRejet.equals("")) {
+			 System.out.println("HELLO statusRejet == "+statusRejet);
+			 if(statusRejet.equals("1")) {
+				 model.addAttribute("statusRejet", statusRejet);
+			 }else if(statusRejet.equals("2")){
+				 ArreteEqRef arrete = arreteEqRefService.getArreteByIdDiplome(fiche.getListesDiplome().getId());
+				 model.addAttribute("statusRejet", statusRejet);
+				 model.addAttribute("arreteRejet", arrete!=null ? arrete : null);
+			 }
+			
 		 }
 	  
 		 return "pages/enregistrement/showRequest";	
@@ -362,17 +370,18 @@ public class FicheDemandeController {
 			 ficheDemandeForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
 			  
 			 if(leTraiter.size()!=0 && checkAdmisOK(leTraiter, demandeFormToDemande.convert(ficheDemandeForm), ficheDemandeDetailForm.getAnneeDeb())==true) {
-				 //System.out.println("\n\n +++++++++++++++++++++++++++++++++++++++++++++++++++++");
+				 
 				 size = leTraiter.size();
-			 }else if(leTraiter.size()==0 || checkAdmisOK(leTraiter, demandeFormToDemande.convert(ficheDemandeForm), ficheDemandeDetailForm.getAnneeDeb())==false){
-				 System.out.println("\n\n 77777777777777777777777777777777777777777777777777777");
+			 }else if(leTraiter.size()==0 || checkIfArreteDiplomeExist(listesDiplomeService.getById(Long.valueOf(listeDiplome)))==false || checkAdmisOK(leTraiter, demandeFormToDemande.convert(ficheDemandeForm), ficheDemandeDetailForm.getAnneeDeb())==false){
+				
 				 ficheDemandeForm.setStatusRejet(true);
 				 rejete = 1;
+				 if(checkIfArreteDiplomeExist(listesDiplomeService.getById(Long.valueOf(listeDiplome)))==false ) {
+					 rejete = 2;
+				 }
 				 //return "redirect:/newRequest/needAddListe/cin-"+Long.valueOf(cin)+"/diplome-"+Long.valueOf(listeDiplome)+"-"+ficheDemandeDetailForm.getAnneeDeb();
 			 }
 			 // System.out.println("\n\n TEST : cin = "+cin+ "\n listeDiplome = "+listeDiplome); 
-			
-			 
 	
 			 ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
 			 
@@ -477,9 +486,9 @@ public class FicheDemandeController {
 	 		return "redirect:/error404/requestList";
 	 	}  
 	 	if(ficheSaved.getStatusRejet() && status==1) {
-	 		return "redirect:/showRequest/"+ficheSaved.getId()+"/statusRejet/"+ficheSaved.getStatusRejet();
+	 		return "redirect:/showRequest/"+ficheSaved.getId()+"/statusRejet/1";
 	 	}else if(ficheSaved.getStatusRejet() && status!=1) {
-	 		return "redirect:/home/statusRejet/"+ficheSaved.getStatusRejet() ;
+	 		return "redirect:/home/statusRejet/1" ;
 	 	}
 	 	
 	 	List<ListePromotionDetail> listeTraiter = null;
@@ -625,6 +634,20 @@ public class FicheDemandeController {
 			 //e.printStackTrace();
 		 }
 		 System.out.println("RET === "+ret);
+		 return ret;
+	 }
+	 public boolean checkIfArreteDiplomeExist(ListesDiplome diplome)throws Exception {
+		 boolean ret = false;
+		 ArreteEqRef arrete = null;
+		 
+		 try {
+			 arrete = this.arreteEqRefService.getArreteByIdDiplome(diplome.getId());
+			 if(diplome!=null && arrete!=null && arrete.getStatus()==true) {
+				 ret = true;
+			 }
+		 } catch(Exception e) {
+			 throw e;
+		 }
 		 return ret;
 	 }
 	

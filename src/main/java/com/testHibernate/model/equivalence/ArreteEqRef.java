@@ -25,7 +25,7 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		query = "SELECT ld FROM ArreteEqRef as ld order by ld.id"),
 	@NamedQuery(
 		name = "ArreteEqRef.findArreteByIdDiplome", 
-		query = "SELECT ld FROM ArreteEqRef as ld WHERE ld.listesDiplome.id = :idDiplome order by ld.id")
+		query = "SELECT ld FROM ArreteEqRef as ld WHERE ld.listesDiplome.id = :idDiplome order by ld.id") 
 })
 public class ArreteEqRef {
 

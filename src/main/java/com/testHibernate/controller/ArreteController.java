@@ -61,7 +61,7 @@ public class ArreteController {
 	 
 	
 	 private HttpSession session;
-	 int nombreLigneMax = 5;
+	 int nombreLigneMax = 10;
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
@@ -243,7 +243,7 @@ public class ArreteController {
 	}
 	 
 	@PostMapping("/saveContent/{id}")
-	public String articleLoiArrete(@PathVariable String id, @Valid @ModelAttribute ContentArreteForm contentArreteForm, @RequestParam(required=false) String signatureDefaut, @RequestParam(required=false) String champDefaut, Model model, BindingResult bindingResult) {
+	public String saveContenu(@PathVariable String id, @Valid @ModelAttribute ContentArreteForm contentArreteForm, @RequestParam(required=false) String signatureDefaut, @RequestParam(required=false) String champDefaut, Model model, BindingResult bindingResult) {
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";
@@ -258,12 +258,13 @@ public class ArreteController {
 		}else if(signatureDefaut==null && champDefaut!=null) {
 			String content = contentArreteForm.getContenu()+" "+GlobalHelper._contentChamp;  
 			contentArreteForm.setContenu(content); 
-		}
-		
+		} 
 		ContentArreteForm content = contentArreteForm; 
 		ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
+		temp.setStatus(true);
 		content.setArreteEqRef(temp);
 		content.setDateAjout(GlobalHelper.getCurrentDate());
+		
 		if(bindingResult.hasErrors()){
 			 return "redirect:/error404/newArrete/"+id; 
 		 }

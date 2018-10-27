@@ -69,10 +69,15 @@
 
                         <div class="panel-body">
                         	<div th:if="${statusRejet!=null}">
-			                    <div class="alert alert-sm alert-warning alert-dismissible" role="alert">
+			                    <div th:if="${statusRejet=='1'}" class="alert alert-sm alert-warning alert-dismissible" role="alert">
 			                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
 			                                aria-hidden="true">&times;</span></button>
 			                        <i class="fa fa-exclamation-circle"></i><strong>Information!</strong> Cette demande a été enregistreé en tant que rejets (cause: <span class="text-danger"> il n'a pas encore de liste de promotion!!!</span>)
+			                    </div>
+			                    <div th:if="${statusRejet=='2'}" class="alert alert-sm alert-warning alert-dismissible" role="alert">
+			                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+			                                aria-hidden="true">&times;</span></button>
+			                        <i class="fa fa-exclamation-circle"></i><strong>Information!</strong> Cette demande a été enregistreé en tant que rejets (cause: <span class="text-danger"> le diplôme demandé n'as pas encore d'arrêté d'équivalence ou le contenu de l'arrêté <a th:if="${arreteRejet!=null}" th:href="'/newArrete/'+${arreteRejet.id}" th:text="'N° ' + ${arreteRejet.id}"></a> n'as pas encore été mise à jour!!!</span>)
 			                    </div>
 			                </div>
                         	<div th:if="${size!=null}">
@@ -162,13 +167,13 @@
                                             <th>Anne&eacute; scolaire (Session) </th>
                                             <td th:text="*{ficheDemandeDetail.anneeDeb} + ' - ' + *{ficheDemandeDetail.anneeFin}"></td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <th>Mention </th>
                                             <td>
                                             	<button type="button" th:if="*{ficheDemandeDetail.mention=='Passable'}" th:class="'btn btn-black btn-transparent w-md m-rb-5'" disabled th:text="*{ficheDemandeDetail.mention}"></button>
                                            		<button type="button" th:if="*{ficheDemandeDetail.mention!='Passable'}" th:class="'btn btn-success btn-transparent w-md m-rb-5'" disabled th:text="*{ficheDemandeDetail.mention}"></button>
 											</td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                 </table> 
                             </div>

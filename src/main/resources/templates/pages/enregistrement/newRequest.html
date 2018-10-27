@@ -184,7 +184,7 @@
 	                                    </div>
 	                                    
 	                                </div>
-	                                <div class="form-group row">
+	                                <!-- <div class="form-group row">
 	                                    <label class="col-sm-3 col-form-label">Mention obtenu</label>
 	                                    <div class="col-lg-6 col-md-9 col-sm-12">
 	                                        <select class="form-control " th:field="*{mention}"  aria-describedby="fileHelp1">
@@ -195,7 +195,7 @@
 	                                    </div>
 	                                    <small id="fileHelp1" class="text-muted">Ceci sera v&eacute;rifier dans la liste des promotions.</small>
 	                                
-	                                </div> 
+	                                </div>  --> 
                                	</div>
 
                                 <button type="submit" class="btn btn-base pull-right">Valider</button>
@@ -248,7 +248,7 @@
                                 	<label class="col-md-4">Pagination :</label>
                                 	<div class="btn-toolbar col-md-8" role="toolbar" aria-label="Toolbar with button groups">
                                         <div class="btn-group" role="group" aria-label="First group">
-                                            <span th:each=" page : ${nombrePagination}"><a th:href="'/requestList/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
+                                            <span th:each=" page : ${nombrePagination}"><a th:href="'/newRequest/page-'+${page}" type="button" class="btn btn-default" th:text="${page}"></a></span>
                                         </div>
                                     </div>
                                 </div> 

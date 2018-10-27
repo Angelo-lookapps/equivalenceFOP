@@ -33,7 +33,7 @@ public class DiplomeController {
 	 private DiplomeToDiplomeForm diplomeToDiplomeForm; 
 	 private List<ListesDiplome> listeDiplomes;
 	 private HttpSession session;
-	 int nombreLigneMax = 5;
+	 int nombreLigneMax = 10;
 	 
 	 private ArreteEqRefService arreteEqRefService;
 	 @Autowired
@@ -288,14 +288,14 @@ public class DiplomeController {
 		ListesDiplome listeDiplome = listeDiplomeTemp; 
 		ArreteEqRefForm arreteEqRefForm = new ArreteEqRefForm();
 		if(listeDiplome==null) {
-			throw new Exception("Error : listeDiplomeTemp is invalid line 246!!");
+			throw new Exception("Error : listeDiplomeTemp is invalid !!");
 		}
 		try {  
 			arreteEqRefForm.setListesDiplome(listeDiplome);
 			arreteEqRefForm.setAnneeSortie(anneeSortie);
 			arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
 			arreteEqRefForm.setTitre(listeDiplome.getEcole()+" - "+listeDiplome.getFiliere()+" - "+listeDiplome.getOption());
-			arreteEqRefForm.setStatus(false);
+			arreteEqRefForm.setStatus(false); //status si l'arrete a été mise à jour.
 			
 			ret = arreteEqRefService.saveOrUpdateArreteEqRefForm(arreteEqRefForm);
 			

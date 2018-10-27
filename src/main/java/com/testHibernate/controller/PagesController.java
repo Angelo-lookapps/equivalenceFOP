@@ -37,7 +37,7 @@ public class PagesController {
 	 private ActiviteRecentService activiteRecentService;
 	 private GlobalHelper global = new GlobalHelper();
 	 
-	 int nombreLigneMax = 5;
+	 int nombreLigneMax = 10;
 	 private List<FicheDemande> fiches;
 	 
 	 @Autowired
@@ -96,7 +96,7 @@ public class PagesController {
 	
 	@GetMapping("/timeline")
 	public String historique(ModelMap modelMap) {
-		List<ActiviteRecent> activities = activiteRecentService.listAll();
+		List<ActiviteRecent> activities = activiteRecentService.findDESC();
 		List<TempActivite> tempActivities = null;
 		try {
 			
@@ -135,6 +135,8 @@ public class PagesController {
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
 				modelMap.put("moyenne", this.getMoyenneDuMois((int)new Date().getDay()));
 				modelMap.put("stats", this.getAllStatistiqueMonth());
+				modelMap.put("numeroEnregistrement", this.getStatistiqueMonth());
+				modelMap.put("anneeActuelle", new Date().getYear()-100);
 				modelMap.put("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
 				modelMap.put("error", e);
@@ -263,7 +265,21 @@ public class PagesController {
 			throw e;
 		}
 		return ret;
-	}
+	} 
+	public long getStatistiqueMonth() throws Exception{
+		long ret = 0;
+		try {
+			Date daty = new Date();
+			int month = daty.getMonth()+1;
+				System.out.println(" month = "+month+" ret = "+(Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" , month, false));
+				ret =(Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" , month, true) + (Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" , month, false) ;
+				System.out.println("\n getStatistiqueMonth = " + ret);
+				
+		}catch(Exception e) {
+			throw e;
+		}
+		return ret;
+	} 
 	
 	public double getMoyenneDuMois(int mois) throws Exception{
 		double ret = 0;

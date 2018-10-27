@@ -96,5 +96,12 @@ public class ActiviteRecentServiceImpl implements ActiviteRecentService {
 		
 		return ret;
 	}
+	@Override
+	public List<ActiviteRecent> findDESC() {
+		TypedQuery<ActiviteRecent> query = em.createNamedQuery("ActiviteRecent.findDESC", ActiviteRecent.class);
+		List<ActiviteRecent> ret = query.getResultList();
+		
+		return ret;
+	}
  
 }

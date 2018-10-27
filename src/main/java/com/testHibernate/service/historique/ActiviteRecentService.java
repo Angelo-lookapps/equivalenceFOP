@@ -24,6 +24,8 @@ public interface ActiviteRecentService {
     ActiviteRecent saveOrUpdate(ActiviteRecent activiteRecent);
 
     void delete(Long id);
+
+	List<ActiviteRecent> findDESC();
     
     //ActiviteRecent saveOrUpdateActiviteRecentForm(ActiviteRecentForm activiteRecent);
 

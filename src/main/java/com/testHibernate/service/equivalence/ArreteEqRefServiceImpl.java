@@ -119,7 +119,8 @@ public class ArreteEqRefServiceImpl implements ArreteEqRefService {
 
 	@Override
 	public ArreteEqRef getArreteByIdDiplome(Long idDiplome) {
-		TypedQuery<ArreteEqRef> query = em.createNamedQuery("ArreteEqRef.findArreteByIdDiplome", ArreteEqRef.class).setParameter("idDiplome", idDiplome);
+		TypedQuery<ArreteEqRef> query = em.createNamedQuery("ArreteEqRef.findArreteByIdDiplome", ArreteEqRef.class)
+				.setParameter("idDiplome", idDiplome);
 		List<ArreteEqRef> ret = query.getResultList();
 		ArreteEqRef retour = null; 
 		if(ret.size()!=0) {

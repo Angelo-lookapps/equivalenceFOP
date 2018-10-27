@@ -82,6 +82,7 @@
                                 <h4>Liste des Demandes En cours</h4>
                             </div>
                         </div>
+                        <input type="hidden" th:if="${numeroEnregistrer!=null}" id="numeroEnregistrer" name="numeroEnregistrer" th:value="${numeroEnregistrer}" >
                         <div th:each=" stat : ${stats}">
                         	<input type="hidden" id="mois[]" name="mois[]" th:value="${stat}" >
                         </div>
@@ -112,10 +113,10 @@
                                                 <td><b><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.listesDiplome.ecole} + ' | ' + ${demande.listesDiplome.niveauDiplome.niveau} + ' | ' + ${demande.listesDiplome.filiere}"></a></b></td>
                                                 <td class="text-center">
                                                     <a th:href="'/editRequest/'+${demande.id}"><button class="btn btn-base btn-sm"
-                                                            data-toggle="tooltip" data-placement="top" title="Update"><i
+                                                            data-toggle="tooltip" data-placement="top" title="Mettre à jour"><i
                                                                 class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                     <button class="btn btn-danger btn-sm" data-toggle="tooltip"
-                                                        data-placement="top" title="Delete " th:onclick="|goToDelete('${demande.id}')|"><i
+                                                        data-placement="top" title="Mettre en rejet " th:onclick="|goToDelete('${demande.id}')|"><i
                                                             class="fa fa-trash-o" aria-hidden="true"></i></button>
 													<a th:href="'/traitement/'+${demande.id}+'/statusRejet/0'"><button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Effectuer le traitement"><i class="fa fa-balance-scale" aria-hidden="true"></i></button></a>
                                                     
@@ -153,9 +154,9 @@
 	                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
 	                    <!-- statistic box -->
 	                    <div class="statistic-box statistic-filled-3">
-	                        <h2>N° <span class="count-number">220</span> /18<span class="slight"><i class="fa fa-play fa-rotate-90 c-white"> </i> 5%</span> numéro en cours</h2> 
+	                        <h2>N° <span class="count-number" th:text="${numeroEnregistrement}"></span> / <span th:text="${anneeActuelle}"></span><span class="slight"> </span> | numéro en cours</h2> 
 	                        
-	                        <div class="small">Total Sales</div>
+	                        <div class="small">Demande d'équivalence en cours</div>
 	                        <i class="ti-user statistic_icon"></i>
 	                        <div class="sparkline4 text-center"></div>
 	                    </div> <!--/. statistic box -->
@@ -268,6 +269,7 @@
 	        }
 	    });*/
 	    var tableauFiche = $("input[name='mois[]']").map(function(){ return $(this).val(); }).get(); 
+	    
 	    function createConfig(position) {
 			return {
 				type: 'bar',

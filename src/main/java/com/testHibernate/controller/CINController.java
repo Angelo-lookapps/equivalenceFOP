@@ -51,7 +51,7 @@ public class CINController {
 	 
 	 GlobalHelper gh = new GlobalHelper();
 	 
-	 int nombreLigneMax = 5;
+	 int nombreLigneMax = 10;
 	 
 	 void setNombreLigneMax(int nombre) {
 		 this.nombreLigneMax = nombre;

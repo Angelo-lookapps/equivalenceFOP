@@ -59,7 +59,7 @@ public class ListePromotionController {
 	 private List<ListePromotion> listeProms;
 	 private FicheDemandeDetailService ficheDemandeDetailService;
 	 private FicheDemandeService ficheDemandeService;
-	 int nombreLigneMax = 5;
+	 int nombreLigneMax = 10;
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
@@ -827,7 +827,7 @@ public class ListePromotionController {
 					  dat1 = admis.getCin().getDateNaissance();
 					  dat2 = temp.getDateNaissance();
 				  } 
-				  if(dat1!=null && dat2!=null && dat1.compareTo(dat2) == 0) {
+				  if(dat1!=null && dat2!=null && dat1.compareTo(dat2) == 0 || compare.getNumeroMatricule().equals(admis.getNumeroMatricule())) {
 					  System.out.println(dat1+" = DAT = "+dat2);
 					  ret = true;
 					  break;

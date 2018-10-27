@@ -17,6 +17,9 @@ import org.hibernate.annotations.NamedQuery;
 		name = "ActiviteRecent.findASC", 
 		query = "SELECT c FROM ActiviteRecent as c order by c.dateAjout ASC"),
 	@NamedQuery(
+		name = "ActiviteRecent.findDESC", 
+		query = "SELECT c FROM ActiviteRecent as c order by c.dateAjout DESC"),
+	@NamedQuery(
 		name = "ActiviteRecent.deleteTheLatest", 
 		query = "DELETE FROM ActiviteRecent as c WHERE c.dateAjout < ':dateCompare'"),
 	@NamedQuery(

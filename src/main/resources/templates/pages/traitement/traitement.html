@@ -81,12 +81,8 @@
                                            </div>
                                            <div class="f1-step">
                                                <div class="f1-step-count"><h5><i class="fa fa-check-square-o"></i></h5></div>
-                                               <p>3- VERIFICATION DE L'ARRETE</p>
-                                           </div>
-                                           <div class="f1-step">
-                                               <div class="f1-step-count"><h5><i class="fa fa-file-pdf-o" ></i></h5></div>
-                                               <p>4- IMPRIMER (EN PDF)</p>
-                                           </div>
+                                               <p>3- VERIFICATION + IMPRIMER (EN PDF)</p>
+                                           </div> 
                                        </div>
                                        <fieldset> 
                                            <h4 class="wizard_heading">Demande de conformit&eacute; du diplome (avec l'original)</h4>
@@ -109,7 +105,7 @@
                                        <fieldset>
                                            <h4 class="wizard_heading">Identification dans la liste des Promotions</h4>
                                            <div class="row">
-	                                           	<div class="col-md-7">
+	                                           	<div class="col-md-11">
 	                                           		<div th:if="${leTraiter==null}">
 	                                           			<h2 class="text-center text-warning" >Nous sommes désolé, cette personne n'est pas encore dans la liste des promotion.<a th:href="'/listProm'" >cliquez ici</a> pour l'assigné dans une promotion ou importer la liste de sa promotion</h2>
 	                                           		</div>
@@ -119,7 +115,7 @@
 							                                    <thead>
 							                                        <tr>
 							                                            <th>Informations sur le diplome :</th>
-							                                            <th><a class="text-purple" th:href="'/showPromoDetail/'+ ${leTraiter.listePromotion.id}"><i class="fa fa-angle-double-right"></i> <span th:text="'Voir promotion'"></span> <i class="fa fa-angle-double-left"></i> </a> </th>
+							                                            <th><a class="text-purple" th:href="'/showPromoDetail/'+ ${leTraiter.listePromotion.sessionSortie}+ '/'+${leTraiter.listePromotion.listesDiplome.id}" target="_blank"><i class="fa fa-angle-double-right"></i> <span th:text="'Voir promotion'"></span> <i class="fa fa-angle-double-left"></i> </a> </th>
 							                                            <th> </th>
 							                                        </tr>
 							                                    </thead>
@@ -156,16 +152,6 @@
 							                            </div> 
 						                            </div> 
                                            		</div>
-                                           		<div class="col-md-1"></div>
-                                           		<div class="col-md-4">
-                                          		   <h4 class="wizard_heading text-center">Veuillez confirmer: </h4>
-		                                           <div class="form-group row"> 
-					                                    <small  class="col-sm-5 col-form-label">L'etudiant est-elle la même personne que sur le CIN ?</small>
-					                                    <div class="col-lg-6 col-md-9 col-sm-12">
-					                                        <input type="checkbox" th:name="'status'" data-toggle="toggle" data-on="Oui" data-off="Non" data-onstyle="primary" data-offstyle="danger" data-size="small" >
-				                                        </div>
-				                                   </div> 
-                                           		</div>
                                            		
                                            </div>
                                            
@@ -175,7 +161,7 @@
                                            </div>
                                        </fieldset>
                                        <fieldset>
-                                           <h4 class="wizard_heading">V&eacute;rification de l'arr&ecirc;t&eacute;</h4>
+                                           <h4 class="wizard_heading">V&eacute;rification de l'arr&ecirc;t&eacute; + export au format PDF</h4>
                                            <div class="form-group"> 
                                            	  <label class="sr-only" for="f1-google-plus">Voici l'arrêté d'équivalence</label>
                                               <input type="submit" class="btn btn-default  w-md m-rb-5 " data-toggle="modal"
@@ -211,25 +197,9 @@
 			                                </div>
                                            <div class="f1-buttons">
                                                <button type="button" class="btn btn-previous">Précèdent</button>
-                                               <button type="button" class="btn btn-base btn-next">Suivant</button>
+                                               <button type="submit" class="btn btn-base btn-submit"><i class="fa fa-file-pdf-o" ></i> Valider</button>
                                            </div>
-                                       </fieldset>
-                                       <fieldset>
-                                           <h4 class="wizard_heading">Confirmation + Export au format PDF</h4>
-                                           <div class="form-group">
-                                               <label class="" for="f1-cardholder">Card Holder</label>
-                                               <input type="text" name="f1-cardholder" placeholder="John Cena" class="form-control" id="f1-cardholder">
-                                           </div>
-                                           <div class="form-group">
-                                               <label class="" for="f1-card-number">Card Number</label>
-                                               <input type="text" name="f1-card-number" placeholder="1552562547821536" class="form-control" id="f1-card-number">
-                                           </div>
-                                          
-                                           <div class="f1-buttons">
-                                               <button type="button" class="btn btn-previous">Précèdent</button>
-                                               <button type="submit" class="btn btn-base btn-submit">Valider</button>
-                                           </div>
-                                       </fieldset>
+                                       </fieldset> 
                                    </form>
                                </div>
                            </div>

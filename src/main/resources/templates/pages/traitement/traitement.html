@@ -179,20 +179,20 @@
 			                                    <label for="example-text-input" class="col-sm-3 col-form-label">D&eacute;livr&eacute;
 			                                        &agrave;</label>
 			                                    <div class="col-sm-9">
-			                                        <input class="form-control" th:value="${#strings.capitalize(ficheDemande.cin.nom)}+'  '+${#strings.capitalize(ficheDemande.cin.prenom)}" type="text" disabled>
+			                                        <input class="form-control" th:value="${#strings.toUpperCase(ficheDemande.cin.nom)}+'  '+${#strings.toUpperCase(ficheDemande.cin.prenom)}" type="text" disabled>
 			                                    </div>
 			                                </div>
 			                                <div class="form-group row">
 			                                    <label for="example-text-input" class="col-sm-3 col-form-label">Titulaire de</label>
 			                                    <div class="col-sm-9">
-			                                        <input class="form-control" th:value="'DIPLOME  DE  ' + ${#strings.capitalize(ficheDemande.listesDiplome.filiere)}"
+			                                        <input class="form-control" th:value="'DIPLOME  DE  ' + ${#strings.toUpperCase(ficheDemande.diplome)}"
 			                                            type="text" disabled>
 			                                    </div>
 			                                </div>
 			                                <div class="form-group row">
 			                                    <label for="example-text-input" class="col-sm-3 col-form-label">Sp&eacute;cialit&eacute;</label>
 			                                    <div class="col-sm-9">
-			                                        <input class="form-control" th:value="${#strings.capitalize(ficheDemande.listesDiplome.option)}" type="text" disabled>
+			                                        <input class="form-control" th:value="${#strings.toUpperCase(ficheDemande.listesDiplome.option)}" type="text" disabled>
 			                                    </div>
 			                                </div>
                                            <div class="f1-buttons">

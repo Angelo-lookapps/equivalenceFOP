@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="650" pageHeight="842" columnWidth="610" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="955a7148-c9c7-4bd3-85a0-a57c979dcea3">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -119,9 +120,17 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="numeroArrete" class="java.lang.String"/>
 	<field name="id" class="java.lang.Long"/>
+	<field name="numeroArrete" class="java.lang.String"/>
 	<field name="dateSortieArrete" class="java.lang.String"/>
+	<field name="jourSortieArrete" class="java.lang.Integer"/>
+	<field name="moisSortieArrete" class="java.lang.String"/>
+	<field name="anneeSortieArrete" class="java.lang.Integer"/>
+	<field name="nomCompletDemande" class="java.lang.String"/>
+	<field name="anneeDemande" class="java.lang.Integer"/>
+	<field name="titulaireDemande" class="java.lang.String"/>
+	<field name="specialiteDemande" class="java.lang.String"/>
+	<field name="idDemande" class="java.lang.Long"/>
 	<field name="decretsArrete" class="java.lang.String"/>
 	<field name="titreTableau" class="java.lang.String"/>
 	<field name="organismePaysTableau" class="java.lang.String"/>
@@ -130,7 +139,7 @@
 	<field name="categorieTableau" class="java.lang.String"/>
 	<field name="dateSignature" class="java.lang.String"/>
 	<field name="nomMinistreSignature" class="java.lang.String"/>
-	<field name="anneeArrete" class="java.lang.String"/>
+	<field name="anneeSortieArrete2" class="java.lang.Integer"/>
 	<title>
 		<band height="81" splitType="Stretch">
 			<image>
@@ -158,12 +167,12 @@
 				<text><![CDATA[-------------------]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="ElementGroupHeight" x="281" y="15" width="239" height="21" uuid="0364b83c-871c-482a-aabf-077d3afc85e6"/>
+				<reportElement stretchType="ElementGroupHeight" x="281" y="15" width="239" height="15" uuid="0364b83c-871c-482a-aabf-077d3afc85e6"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="8.5"/>
 				</textElement>
 				<text><![CDATA[ l’équivalence administrative d’un titre dans la Fonction Publique.
-Session du 07 JUIN  2012.
+
 ]]></text>
 			</staticText>
 			<staticText>
@@ -199,53 +208,45 @@ Session du 07 JUIN  2012.
 				<textElement markup="styled">
 					<font fontName="Times New Roman" size="8.5" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["/ "+$F{anneeArrete}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["/ "+$F{anneeSortieArrete2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="27" width="170" height="12" uuid="0fd93e67-a206-4b41-a462-8c91ba5d5567"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8.5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Session du  "+$F{jourSortieArrete}+" "+$F{moisSortieArrete}+" "+$F{anneeSortieArrete}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="381" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
-			<textField>
-				<reportElement x="50" y="0" width="480" height="130" uuid="4b3688bb-64f6-4c62-9442-2352a81255e5"/>
-				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="8.5"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Vu la Constitution, "+
-"Vu la loi n°2003-011 du 28 septembre  2003 portant  Statut Général des Fonctionnaires, et les textes subséquent ; "+
-"Vu le décret n° 96-745 du 27 août 1996 portant classement hiérarchique des corps de fonctionnaires; "+
-"Vu le décret n° 2005-074 du 01 février 2005 fixant les missions, la composition et les règles de fonctionnement de la Commission Nationale des Equivalences Administratives des Titres ; "+
-"Vu le décret n° 2012-032  du 10 Janvier 2012  fixant les attributions du Ministre de la Fonction publique, du Travail et des Lois Sociales ainsi que l’organisation générale de son Ministère ; "+
-"Vu le décret n°2014-200 du11 avril 2014 portant nomination du Premier Ministre, Chef du Gouvernement ;"+
-"Vu le décret n°2014-235 du18 avril 2014 portant nomination des Membres du Gouvernement ; "+
-"Vu l’arrêté n°8176 /2014 - CNEAT du 07 Février 2014  portant nomination des membres de la  Commission Nationale des Equivalences Administratives des Titres ;"+
-"Vu l’avis de la Commission Nationale  des Equivalences Administratives des Titres de la session du 08 MAI  2014, "]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement stretchType="ElementGroupHeight" x="271" y="119" width="56" height="14" uuid="c1ae53d4-00f2-487c-ae85-bed4dd7ec457"/>
+				<reportElement stretchType="ElementGroupHeight" x="271" y="91" width="56" height="14" uuid="c1ae53d4-00f2-487c-ae85-bed4dd7ec457"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="8.5" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ARRETE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="50" y="131" width="60" height="13" uuid="620b1dc6-c61c-4e8e-ac20-646a91e53c89"/>
+				<reportElement x="60" y="103" width="60" height="13" uuid="620b1dc6-c61c-4e8e-ac20-646a91e53c89"/>
 				<textElement>
 					<font fontName="Times New Roman" size="8.5" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Article premier : ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="116" y="131" width="414" height="33" uuid="09bc0e88-f78e-4973-bf9a-93ffb1343ab9"/>
+				<reportElement x="121" y="103" width="414" height="25" uuid="09bc0e88-f78e-4973-bf9a-93ffb1343ab9"/>
 				<textElement>
 					<font fontName="Times New Roman" size="8.5"/>
 				</textElement>
 				<text><![CDATA[Est reconnue dans la Fonction Publique, en vue de recrutement dans la spécialité correspondante et  dans les cadres et échelle ci-après, l’équivalence administrative du titre : ]]></text>
 			</staticText>
 			<frame>
-				<reportElement x="65" y="171" width="470" height="108" uuid="033d0176-5260-46b7-902e-795fb4056e4d"/>
+				<reportElement x="44" y="128" width="506" height="140" uuid="033d0176-5260-46b7-902e-795fb4056e4d"/>
 				<componentElement>
-					<reportElement positionType="FixRelativeToBottom" x="24" y="2" width="444" height="93" uuid="74ac70b8-7ddf-4e5a-a9d9-c72d00c1396b">
+					<reportElement positionType="FixRelativeToBottom" x="3" y="8" width="495" height="125" uuid="74ac70b8-7ddf-4e5a-a9d9-c72d00c1396b">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 						<property name="com.jaspersoft.studio.table.style.table_header" value="Table 3_TH"/>
 						<property name="com.jaspersoft.studio.table.style.column_header" value="Table 3_CH"/>
@@ -256,63 +257,55 @@ Session du 07 JUIN  2012.
 						<datasetRun subDataset="Dataset1" uuid="c1e838b9-d4ef-4b7d-a1e8-d4e2b85e7d79">
 							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 						</datasetRun>
-						<jr:column width="60" uuid="bffc0136-506f-4370-8269-bd496a3ecebd">
+						<jr:column width="190" uuid="031c4b0a-2af7-48e9-b680-025fb75f7372">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne1"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+							<jr:columnHeader style="Table 3_CH" height="50" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="60" height="20" uuid="2006b339-5601-4e23-a9ee-58cd9cbc8f51"/>
+									<reportElement x="0" y="0" width="190" height="50" uuid="9f2bb254-627f-4759-a0c0-97b9b358809c"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman" isBold="false"/>
+										<font fontName="Times New Roman" size="9"/>
 									</textElement>
-									<text><![CDATA[Catégorie]]></text>
+									<text><![CDATA[TITRE]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="Table 3_TD" height="70"/>
 						</jr:column>
-						<jr:column width="100" uuid="031c4b0a-2af7-48e9-b680-025fb75f7372">
+						<jr:column width="170" uuid="7533d369-de1f-4994-af6d-c4ecc80eb13a">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne2"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+							<jr:columnHeader style="Table 3_CH" height="50" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="100" height="20" uuid="9f2bb254-627f-4759-a0c0-97b9b358809c"/>
+									<reportElement x="0" y="0" width="170" height="50" uuid="34c4e48e-2a64-4804-808e-7ee943d78018"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
+										<font fontName="Times New Roman" size="9"/>
 									</textElement>
-									<text><![CDATA[Niveau de référence]]></text>
+									<text><![CDATA[ORGANISME ET PAYS DE DELIVRANCE]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="Table 3_TD" height="70"/>
 						</jr:column>
-						<jr:column width="110" uuid="7533d369-de1f-4994-af6d-c4ecc80eb13a">
+						<jr:column width="60" uuid="ccb6e72f-4252-4c4f-b032-62ed8d55cb48">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne3"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+							<jr:columnHeader style="Table 3_CH" height="50" rowSpan="1">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne3"/>
+								<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 								<staticText>
-									<reportElement x="0" y="0" width="110" height="20" uuid="34c4e48e-2a64-4804-808e-7ee943d78018"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font fontName="Times New Roman"/>
-									</textElement>
-									<text><![CDATA[Diplômes équivalents]]></text>
-								</staticText>
-							</jr:columnHeader>
-							<jr:detailCell style="Table 3_TD" height="70"/>
-						</jr:column>
-						<jr:column width="90" uuid="ccb6e72f-4252-4c4f-b032-62ed8d55cb48">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne4"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
-								<staticText>
-									<reportElement x="0" y="0" width="90" height="20" uuid="69577dba-7ee1-4143-9830-7b4fa050d19d"/>
+									<reportElement x="0" y="0" width="60" height="50" uuid="69577dba-7ee1-4143-9830-7b4fa050d19d"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman"/>
 									</textElement>
 									<text><![CDATA[Corps des fonctionnaires]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="Table 3_TD" height="70"/>
+							<jr:detailCell style="Table 3_TD" height="70">
+								<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
+							</jr:detailCell>
 						</jr:column>
 						<jr:column width="60" uuid="54024073-c3c0-4be0-9bad-d321f4abc60c">
-							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne5"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne4"/>
+							<jr:columnHeader style="Table 3_CH" height="50" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="60" height="20" uuid="5e4f4ba1-9e46-44fc-b8c7-41cb65250b7b"/>
+									<reportElement x="0" y="0" width="60" height="50" uuid="5e4f4ba1-9e46-44fc-b8c7-41cb65250b7b"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman"/>
 									</textElement>
@@ -324,23 +317,97 @@ Session du 07 JUIN  2012.
 					</jr:table>
 				</componentElement>
 			</frame>
+			<textField>
+				<reportElement x="40" y="5" width="490" height="85" uuid="1b4f026d-ea47-4909-abc5-f84d5b75700d"/>
+				<textFieldExpression><![CDATA[$F{decretsArrete}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Band">
+				<reportElement x="363" y="309" width="137" height="11" uuid="f5634b65-dc46-460f-b979-3719fb2fdc50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8.5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Antananarivo  le  "+$F{dateSignature}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="333" y="340" width="190" height="20" uuid="4e21b59c-08e5-4a69-a861-2de4aa18946b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8.5"/>
+				</textElement>
+				<text><![CDATA[LE MINISTRE DE LA FONCTION PUBLIQUE, DU TRAVAIL ET DES LOIS SOCIALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="320" width="224" height="10" uuid="d97b5616-b937-4248-b21b-e78b46529ad8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8.5"/>
+				</textElement>
+				<text><![CDATA[P.LE PREMIER MINISTRE, CHEF DU GOUVERNEMENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="331" width="82" height="14" uuid="713756ab-4094-4a31-86e7-111cc627c671"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8.5"/>
+				</textElement>
+				<text><![CDATA[Et par délégation]]></text>
+			</staticText>
+			<textField evaluationTime="Band">
+				<reportElement x="353" y="360" width="137" height="11" uuid="fe4498d3-0c75-41f0-b2d7-e670d93e6057"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8.5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomMinistreSignature}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="95" y="286" width="268" height="15" uuid="4896d24b-37e2-4f15-b3f6-996fa9c9afb9"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="8.5"/>
+				</textElement>
+				<text><![CDATA[ Le présent arrêté sera enregistré et publié au journal officiel de la République.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="59" y="286" width="35" height="15" uuid="c040e7e7-f504-4fb3-8e60-b52c0ed5a490"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="8.5" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Article 4:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="95" y="277" width="268" height="15" uuid="6ccebb19-c71a-492b-a02e-77e11916ec9d"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="8.5"/>
+				</textElement>
+				<text><![CDATA[Toutes dispositions contraires au présent arrêté sont et demeurent abrogées.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="59" y="277" width="35" height="15" uuid="9fd402cf-5df2-4b3a-97a2-80c742523037"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="8.5" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Article 3:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="95" y="268" width="344" height="15" uuid="8d8199df-a13f-4199-8e9f-e18975a12b13"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="8.5"/>
+				</textElement>
+				<text><![CDATA[La présente équivalence administrative ne peut être considérée comme une équivalence académique.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="59" y="268" width="35" height="15" uuid="07c5e8e6-0ec6-4559-8705-da15cc2780d8"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="8.5" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Article 2:]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="253" splitType="Stretch">
 			<staticText>
-				<reportElement x="157" y="149" width="172" height="22" uuid="dd5a421a-23d3-4ec0-a570-95283367b4a2"/>
+				<reportElement x="132" y="149" width="172" height="22" uuid="dd5a421a-23d3-4ec0-a570-95283367b4a2"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[- MFPRATELS /SG /DGFOP/ DFPAE]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="63" y="153" width="19" height="17" uuid="6ba53ea4-7eae-46cb-9bd5-6ab75cf36cda"/>
-				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[N°   ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="62" y="170" width="66" height="16" uuid="2b866d5c-5dc9-4ed4-b10a-cfee947aa674"/>
@@ -357,25 +424,25 @@ Session du 07 JUIN  2012.
 				<text><![CDATA[Titulaire du : ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="116" y="154" width="38" height="16" uuid="f2dae5ad-8cab-4a62-bcdb-b244d1890539"/>
+				<reportElement x="100" y="154" width="38" height="16" uuid="f2dae5ad-8cab-4a62-bcdb-b244d1890539"/>
 				<textElement textAlignment="Left">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" /"+$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="134" y="170" width="74" height="16" uuid="eb3e8096-46c4-489a-9fd5-bf5fe94aaf6f"/>
+				<reportElement x="134" y="170" width="126" height="16" uuid="eb3e8096-46c4-489a-9fd5-bf5fe94aaf6f"/>
 				<textElement>
 					<font fontName="Times New Roman" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["NAME"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nomCompletDemande}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="119" y="184" width="71" height="16" uuid="c68bb62b-28ab-42f7-9f83-eba26f528ebc"/>
+				<reportElement x="119" y="184" width="103" height="16" uuid="c68bb62b-28ab-42f7-9f83-eba26f528ebc"/>
 				<textElement>
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Diplome"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{titulaireDemande}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="63" y="226" width="98" height="16" uuid="2df7a5aa-7374-4f20-8c51-a12060416568"/>
@@ -385,11 +452,11 @@ Session du 07 JUIN  2012.
 				<text><![CDATA[www.dgfop.gov.mg]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="110" y="199" width="77" height="18" uuid="57ecb6ef-ed76-4978-878b-3ec3440a1849"/>
+				<reportElement x="110" y="199" width="112" height="18" uuid="57ecb6ef-ed76-4978-878b-3ec3440a1849"/>
 				<textElement>
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Diplome"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{specialiteDemande}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="62" y="200" width="46" height="18" uuid="f7bc194b-5a57-478c-a87e-214610148edc"/>
@@ -399,11 +466,11 @@ Session du 07 JUIN  2012.
 				<text><![CDATA[Spécialité :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="81" y="153" width="38" height="16" uuid="7e7d5d21-12e2-44c1-9361-72c800215395"/>
+				<reportElement x="63" y="154" width="45" height="16" uuid="7e7d5d21-12e2-44c1-9361-72c800215395"/>
 				<textElement textAlignment="Left">
 					<font fontName="Times New Roman" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["N° "+$F{idDemande}+" "]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="53" y="62" width="169" height="32" uuid="5d6e4e4b-d26a-4f79-afdc-335c90048137"/>

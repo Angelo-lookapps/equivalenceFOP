@@ -40,7 +40,9 @@ public class UtilsHelper {
 	
 	public static File getFilePath(String path) throws IOException {
 		ClassPathResource res = new ClassPathResource(path);
+		System.out.println("Path == "+path);
 		File jrxmlFile =  res.getFile(); 
+		System.out.println("Chemin == "+jrxmlFile);
 		return jrxmlFile;
 	}
 }

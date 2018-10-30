@@ -4,6 +4,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.model.equivalence.InfoArrete;
 import com.testHibernate.model.equivalence.InfoArreteForm;
  
@@ -31,7 +32,7 @@ public class InfoArreteFormToInfoArrete implements Converter<InfoArreteForm, Inf
     	infoArrete.setDiplomeEquivalentDecret( infoArreteForm.getDiplomeEquivalentDecret());
     	infoArrete.setCorpsFonctionnaireDecret( infoArreteForm.getCorpsFonctionnaireDecret());
     	infoArrete.setIndiceDecret( infoArreteForm.getIndiceDecret());
-    	infoArrete.setDateSignature( infoArreteForm.getDateSignature());
+    	infoArrete.setDateSignature(infoArreteForm.getDateSignature());
 		infoArrete.setNomMinistreSignature( infoArreteForm.getNomMinistreSignature());
 		 
         return infoArrete;

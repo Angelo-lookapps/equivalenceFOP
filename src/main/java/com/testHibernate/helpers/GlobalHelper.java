@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;
+import com.testHibernate.model.equivalence.ArreteEqRef;
+import com.testHibernate.model.equivalence.InfoArrete;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;
@@ -311,6 +313,76 @@ public class GlobalHelper {
 			}
 		}catch(Exception e) {
 			throw e;
+		}
+		return ret;
+	}
+	
+	public static InfoArrete getInitialInfoArrete(ArreteEqRef arreteEqRef) {
+		InfoArrete ret = new InfoArrete();
+		try {
+			if(arreteEqRef==null) {
+				System.out.println("arreteEqRef === NULLLL");
+			}
+			System.out.println("arreteEqRef === "+arreteEqRef.getTitre());
+			
+			ret.setArreteEqRef(arreteEqRef);  
+			ret.setNumeroArrete("000");
+			ret.setDateSortieArrete(new Date()); 
+			ret.setDecretsArrete("Vu la Constitution,\r\n" + 
+					"Vu la loi n°2003-011 du 03 septembre  2003 portant  Statut Général des  Fonctionnaires, et les textes subséquent ; \r\n" + 
+					"Vu le décret n° 96-745 du 27 août 1996 portant classement hiérarchique des corps de fonctionnaires ;\r\n" + 
+					"Vu le décret n° 2005-074 du 01 février 2005 fixant les missions, la composition et les règles de fonctionnement de la Commission Nationale des Equivalences Administratives des Titres ;\r\n" + 
+					"Vu le décret n° 2014-367  du 10 Janvier 2012  fixant les attributions du Ministre de la Fonction Publique, du Travail et des Lois Sociales ainsi que l’organisation générale de son Ministère ; \r\n" + 
+					"Vu le décret n°2014-200 du11 avril 2014 portant nomination du Premier Ministre, Chef du Gouvernement ;\r\n" + 
+					"Vu le décret n°2014-235 du18 avril 2014 portant nomination des Membres du Gouvernement ;\r\n" + 
+					"Vu l’arrêté n°8176 /2014 - CNEAT du 07 Février 2014 et l’arrêté n°25.047 /2014-CNEAT portant nomination des membres de la Commission Nationale des Equivalences Administratives des Titres ;\r\n" + 
+					"Vu l’avis de la Commission Nationale  des Equivalences Administratives des Titres de la session du 11 septembre  2014.\r\n" + 
+					"");
+			ret.setTitreTableau("SANS TITRE");
+			ret.setOrganismePaysTableau("VIDE");
+			ret.setCadreTableau( "VIDE");
+			ret.setEchelleTableau( "VIDE");
+			ret.setCategorieTableau( "VIDE");
+	    	ret.setDiplomeEquivalentDecret( "VIDE");
+	    	ret.setCorpsFonctionnaireDecret( "VIDE");
+	    	ret.setIndiceDecret( "VIDE");
+	    	ret.setDateSignature(new Date());
+	    	ret.setNomMinistreSignature( "VIDE");
+			 
+		}catch(Exception e) {
+			throw e;
+		}
+		return ret;
+	}
+	
+	public static String getMoisBy(int mois) {
+		String ret = "";
+		
+		switch(mois) {
+			case 1:
+				ret = "Janvier";break;
+			case 2:
+				ret = "Février";break;
+			case 3:
+				ret = "Mars";break;
+			case 4:
+				ret = "Avril";break;
+			case 5:
+				ret = "Mai";break;
+			case 6:
+				ret = "Juin";break;
+			case 7:
+				ret = "Juillet";break;
+			case 8:
+				ret = "Août";break;
+			case 9:
+				ret = "Septembre";break;
+			case 10:
+				ret = "Octobre";break;
+			case 11:
+				ret = "Novembre";break;
+			default: 
+				ret = "Décembre";break;
 		}
 		return ret;
 	}

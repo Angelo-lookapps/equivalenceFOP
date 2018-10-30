@@ -1,5 +1,6 @@
 package com.testHibernate.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,12 +27,15 @@ import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
 import com.testHibernate.model.equivalence.ContentArrete;
+import com.testHibernate.model.equivalence.InfoArrete;
+import com.testHibernate.model.equivalence.InfoArreteForm;
 import com.testHibernate.model.equivalence.TypeArreteJasper;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
 import com.testHibernate.service.equivalence.ArreteEqRefService;
 import com.testHibernate.service.equivalence.ContentArreteService;
+import com.testHibernate.service.equivalence.InfoArreteService;
 import com.testHibernate.service.equivalence.TypeArreteJasperService;
 import com.testHibernate.service.historique.ActiviteRecentService;
   
@@ -45,7 +49,14 @@ public class DiplomeController {
 	 int nombreLigneMax = 10;
 	 
 	 private ArreteEqRefService arreteEqRefService;
+	 private InfoArreteService infoArreteService;
 	 private TypeArreteJasperService typeArreteService;
+	 
+	 @Autowired
+	 public void setInfoArreteService(InfoArreteService infoArreteService) {
+		this.infoArreteService = infoArreteService;
+	 }
+	 
 	 @Autowired
 	 public void setArreteEqRefService(ArreteEqRefService arreteEqRefService) {
 		this.arreteEqRefService = arreteEqRefService;
@@ -212,8 +223,7 @@ public class DiplomeController {
 		 model.addAttribute("typesArrete", typesArrete);
 		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
 		 model.addAttribute("listesDiplome", new ListesDiplomeForm());
-		 
-		
+ 
 		 
 		 return "pages/enregistrement/newDiploma";	
 		 
@@ -237,6 +247,8 @@ public class DiplomeController {
 		 }	
 		 ListesDiplome listesSaved = null;
 		 ArreteEqRef arrete = null;
+		 InfoArrete infoArrete = null;
+		 
 		 try{ 
 			 listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
 			 
@@ -248,7 +260,10 @@ public class DiplomeController {
 		 	 //fin historique
 		 	if(anneeSortie!=null && !anneeSortie.equals("vide")) { 
 				 arrete = this.insertArreteLink(listesSaved, anneeSortie, typeArrete);
+			 	 infoArrete = GlobalHelper.getInitialInfoArrete(arrete);
+			 	 infoArrete = infoArreteService.saveOrUpdate(infoArrete);
 		 	}
+		 	
 		 }catch(Exception e) {
 				model.addAttribute("error", e);
 	 			return "pages/erreur/505"; 
@@ -303,6 +318,7 @@ public class DiplomeController {
 			this.listeDiplomes = listesDiplomeService.listAll();
 	}
 	 
+	
 	public ArreteEqRef insertArreteLink(ListesDiplome listeDiplomeTemp, String anneeSortie, String typeArrete) throws Exception {
 		ArreteEqRef ret = null;
 		ListesDiplome listeDiplome = listeDiplomeTemp; 

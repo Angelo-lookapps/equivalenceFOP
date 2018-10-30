@@ -1,12 +1,19 @@
 package com.testHibernate.controller;
  
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,24 +23,36 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+ 
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.helpers.InfoArreteReport;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
 import com.testHibernate.model.equivalence.ChampArreteEqForm;
 import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.model.equivalence.ContentArreteForm;
+import com.testHibernate.model.equivalence.InfoArrete;
+import com.testHibernate.model.equivalence.InfoArreteForm;
 import com.testHibernate.model.equivalence.TypeArreteJasper;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.equivalence.ArreteEqRefService;
 import com.testHibernate.service.equivalence.ContentArreteService;
+import com.testHibernate.service.equivalence.InfoArreteService;
 import com.testHibernate.service.equivalence.TypeArreteJasperService;
-import com.testHibernate.service.historique.ActiviteRecentService; 
+import com.testHibernate.service.historique.ActiviteRecentService;
+
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource; 
 
 @Controller
 public class ArreteController {
@@ -45,11 +64,20 @@ public class ArreteController {
 	 List<ArreteEqRef> arretes ;
 	 
 	 private ActiviteRecentService activiteRecentService;
+	 private InfoArreteService infoArreteService;
 	 
 	 @Autowired
 	 public void setTypeArreteJasperService(TypeArreteJasperService typeArreteService) {
 		this.typeArreteService = typeArreteService;
 	 }
+	 @Autowired
+	 private HttpServletResponse httpServletResponse;
+	 
+	 @Autowired
+	 public void setInfoArreteService(InfoArreteService infoArreteService) {
+		this.infoArreteService = infoArreteService;
+	 }
+	 
 	 
 	 @Autowired
 	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
@@ -152,7 +180,41 @@ public class ArreteController {
 		}
 		return "redirect:/newArrete/" + updateEntity.getId();		
 	}
-	
+	@GetMapping("/showPDF/arrete/{idArrete}")
+	public void showPDFArrete(@PathVariable(required=true) String idArrete) {
+		if(idArrete!=null && idArrete.equals("") ) {
+			return;
+		}
+		InfoArrete infoArrete = infoArreteService.getArreteByIdArrete(Long.valueOf(idArrete));
+		
+		List<Map<String, ?>> dataSource = InfoArreteReport.getReportInfoArrete(infoArrete);
+		List<Map<String, ?>> one = new ArrayList<Map<String, ?>>();
+		one.add(dataSource.get(0));
+		JRDataSource jrDataSource = new JRBeanCollectionDataSource(one);
+		try {
+			ClassPathResource res = null;
+			if(infoArrete.getArreteEqRef().getTypeArreteJasper().equals("1")) {
+				res = new ClassPathResource("reports/arrete1.jrxml");
+			}else if(infoArrete.getArreteEqRef().getTypeArreteJasper().equals("2")){
+				res = new ClassPathResource("reports/decret.jrxml");
+			}
+			File jrxmlFile =  res.getFile(); 
+			
+			System.out.println("\n\n PATH ====== "+jrxmlFile);
+			
+			InputStream input = new FileInputStream(jrxmlFile);
+			JasperReport jasperReport = JasperCompileManager.compileReport(input);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, jrDataSource);
+			JasperExportManager.exportReportToPdfStream(jasperPrint, httpServletResponse.getOutputStream());
+			
+			httpServletResponse.flushBuffer(); 
+		
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		} 
+		
+	}
 	@GetMapping("/newArrete/{id}")
 	public String newArrete(@PathVariable String id, Model model){
 		 if(session.getAttribute("isConnected")==null) {
@@ -185,7 +247,7 @@ public class ArreteController {
 			model.addAttribute("contentArticle", contentArticle);
 			model.addAttribute("contentArrete",  contentArrete);
 			model.addAttribute("champArreteEqForm", new ChampArreteEqForm());
-			model.addAttribute("contentArreteForm", new ContentArreteForm());
+			model.addAttribute("infoArreteForm", new InfoArreteForm());
 			
 		} catch (Exception e) {
 			model.addAttribute("error", e);

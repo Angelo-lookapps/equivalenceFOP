@@ -80,8 +80,9 @@
                                 <div class="col-xs-8">
                                     <div class="inbox-toolbar btn-toolbar">
                                         <div class="btn-group">
-                                            <input type="submit" class="btn btn-default  w-md m-rb-5" data-toggle="modal"
-                                                data-target="#example" value="Voir l'arr&ecirc;t&eacute;"></a>
+                                            <a class="btn btn-default  w-md m-rb-5"  th:href="'/showPDF/arrete/'+${arreteEqRef.id}" > Voir
+                                                        arrêt&eacute; PDF</a>
+                                                        
                                             <a class="btn btn-primary w-md m-rb-5" data-toggle="modal" data-target="#myModal">Renommer
                                                 ce titre</a>
                                             <a href="/listArrete" class="hidden-xs hidden-sm btn btn-default"><span
@@ -99,10 +100,10 @@
 
                                             <ul class="nav nav-tabs tabs-left">
                                                 <h6>Arr&ecirc;t&eacute; detail</h6>
-                                                <li><a href="#arreteDetail" data-toggle="tab"><i class="fa fa-check-square-o"></i>Voir
-                                                        arret&eacute; detail</a></li>
+                                                <li><a th:href="'/showPDF/arrete/'+${arreteEqRef.id}" ><i class="fa fa-check-square-o"></i>Voir
+                                                        arret&eacute; PDF</a></li>
                                                 <br />
-                                                <h6>Contenu ;</h6>
+                                                <h6>Contenu </h6>
                                                 <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-picture-o"></i>Contenu
                                                         global de l'arr&ecirc;t&eacute</a></li>
                                                 <br />
@@ -120,17 +121,15 @@
 
                                     <!-- En-tête -->
                                     <div class="tab-pane fade in active" id="tab1">
-                                        <form data-toggle="validator" th:object="${contentArreteForm}" th:action="@{/saveContent}+ '/' + ${arreteEqRefForm.id}"
+                                        <form data-toggle="validator" th:object="${infoArreteForm}" th:action="@{/saveContent}+ '/' + ${arreteEqRefForm.id}"
                                             method="POST" class="formContent">
-                                            <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible"
-                                                role="alert">
+                                            <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                                                         aria-hidden="true">&times;</span></button>
-                                                <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error
-                                                    Message!!!</strong>
+                                                <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error Message!!!</strong>
                                             </div>
                                             <div class="panel-body">
-                                            	<div class="skin-line">
+                                            	<!-- <div class="skin-line">
                                             		<div class="i-check">
 	                                                    <input tabindex="17" type="checkbox" id="signatureDefaut" th:name="'signatureDefaut'" checked>
 	                                                    <label for="line-checkbox-1">Ajouter la signature de ministre par défaut</label>
@@ -139,14 +138,89 @@
 	                                                    <input tabindex="18" type="checkbox" id="champDefaut" th:name="'champDefaut'" checked>
 	                                                    <label for="line-checkbox-2">Champ formulaire par défaut (En bas de page)</label>
 	                                                </div>
-                                            	</div>
-                                                <p><strong>En-t&ecirc;te arr&ecirc;t&eacute; : </strong></p>
-                                                <h4>Veuillez coller ici la copie Word de l'arrêté : </h4>
-                                                <div class="form-group row">
-                                                    <textarea type="text" th:field="*{contenu}" id="editor1"></textarea>
-                                                </div>
-
-                                                <div id="postResultDiv"></div>
+                                            	</div> -->
+                                            	
+                                            	<div class="form-group row">
+				                                    <label for="numeroArrete" class="col-sm-3 col-form-label">N° Arrêté</label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{numeroArrete}" type="number" min="0" max="99999"
+				                                            placeholder="Numéro arrêté . . ." id="numeroArrete" >
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="numeroArrete" class="col-sm-3 col-form-label">Date de sortie</label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{dateSortieArrete}" type="date" 
+				                                            placeholder="Date sortie arrêté . . ." id="numeroArrete" >
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="decretsArrete" class="col-sm-3 col-form-label">Lois engagé</label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <textarea class="form-control" th:field="*{decretsArrete}" type="text" 
+				                                            placeholder="Veuillez ecrire ici les lois et article concerné . . ." id="decretsArrete" ></textarea>
+				                                    </div>
+				                                </div>
+				                                <hr/>
+				                                <h5>Détail du tableau : </h5>
+				                                <div class="form-group row">
+				                                    <label for="numeroArrete" class="col-sm-3 col-form-label">Titre </label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{titreTableau}" type="text" 
+				                                            placeholder="Titre . . ." id="numeroArrete" >
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="organismePaysTableau" class="col-sm-3 col-form-label">Organisme et pays de délivrance </label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{organismePaysTableau}" type="text" 
+				                                            placeholder="Organisme et pays . . ." id="organismePaysTableau" >
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="cadreTableau" class="col-sm-3 col-form-label">Cadre</label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{cadreTableau}" type="text" 
+				                                            placeholder="Cadre . . ." id="cadreTableau" >
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="echelleTableau" class="col-sm-3 col-form-label">Echelle</label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{echelleTableau}" type="text" 
+				                                            placeholder="Echelle . . ." id="echelleTableau" >
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="categorieTableau" class="col-sm-3 col-form-label">Catégorie</label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{categorieTableau}" type="text" 
+				                                            placeholder="Catégorie . . ." id="categorieTableau" >
+				                                    </div>
+				                                </div>
+				                                <hr/>
+				                                <h5>Information décret : </h5>
+			                                 	<div class="form-group row">
+				                                    <label for="diplomeEquivalentDecret" class="col-sm-3 col-form-label">Diplômes équivalents</label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{diplomeEquivalentDecret}" type="text" 
+				                                            placeholder="Diplôme équivalent . . ." id="diplomeEquivalentDecret" >
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="corpsFonctionnaireDecret" class="col-sm-3 col-form-label">Corps des fonctionnaires</label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{corpsFonctionnaireDecret}" type="text" 
+				                                            placeholder="Corps des fonctionnaires . . ." id="corpsFonctionnaireDecret" >
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="indiceDecret" class="col-sm-3 col-form-label">Indices</label>
+				                                    <div class="col-lg-6 col-md-9 col-sm-12">
+				                                        <input class="form-control" th:field="*{indiceDecret}" type="text" 
+				                                            placeholder="Indices . . ." id="indiceDecret" >
+				                                    </div>
+				                                </div>  
 
                                                 <div class="btn-group pull-right">
                                                     <button type="submit" class="btn btn-base">Sauvegarder</button>

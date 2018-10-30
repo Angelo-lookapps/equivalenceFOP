@@ -20,6 +20,16 @@ public class ArreteEqRefForm {
 	
 	private ListesDiplome listesDiplome;
 	
+	private TypeArreteJasper typeArreteJasper;
+	
+	public TypeArreteJasper getTypeArreteJasper() {
+		return typeArreteJasper;
+	}
+
+	public void setTypeArreteJasper(TypeArreteJasper typeArreteJasper) {
+		this.typeArreteJasper = typeArreteJasper;
+	}
+
 	private String anneeSortie;
 	private String titre;
 	private String dateAjout;

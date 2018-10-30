@@ -119,9 +119,18 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
+	<field name="numeroArrete" class="java.lang.String"/>
 	<field name="id" class="java.lang.Long"/>
-	<field name="niveau" class="java.lang.String"/>
-	<field name="categorie" class="java.lang.String"/>
+	<field name="dateSortieArrete" class="java.lang.String"/>
+	<field name="decretsArrete" class="java.lang.String"/>
+	<field name="titreTableau" class="java.lang.String"/>
+	<field name="organismePaysTableau" class="java.lang.String"/>
+	<field name="cadreTableau" class="java.lang.String"/>
+	<field name="echelleTableau" class="java.lang.String"/>
+	<field name="categorieTableau" class="java.lang.String"/>
+	<field name="dateSignature" class="java.lang.String"/>
+	<field name="nomMinistreSignature" class="java.lang.String"/>
+	<field name="anneeArrete" class="java.lang.String"/>
 	<title>
 		<band height="81" splitType="Stretch">
 			<image>
@@ -176,7 +185,7 @@ Session du 07 JUIN  2012.
 				<textElement markup="styled">
 					<font fontName="Times New Roman" size="8.5" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{numeroArrete}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="381" y="4" width="138" height="13" uuid="86428be9-aabd-4ecd-a14a-3ee1c0a280ae"/>
@@ -190,7 +199,7 @@ Session du 07 JUIN  2012.
 				<textElement markup="styled">
 					<font fontName="Times New Roman" size="8.5" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["/ "+$F{id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["/ "+$F{anneeArrete}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

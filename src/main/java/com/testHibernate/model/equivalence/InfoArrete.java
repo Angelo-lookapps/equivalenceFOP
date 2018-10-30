@@ -49,7 +49,7 @@ public class InfoArrete {
 	
 	//DECRET Critère
 	private String diplomeEquivalentDecret;
-	private String copsFonctionnaireDecret;
+	private String corpsFonctionnaireDecret;
 	private String indiceDecret;
 	
 	private Date dateSignature;
@@ -160,12 +160,12 @@ public class InfoArrete {
 		this.diplomeEquivalentDecret = diplomeEquivalentDecret;
 	}
 
-	public String getCopsFonctionnaireDecret() {
-		return copsFonctionnaireDecret;
+	public String getCorpsFonctionnaireDecret() {
+		return corpsFonctionnaireDecret;
 	}
 
-	public void setCopsFonctionnaireDecret(String copsFonctionnaireDecret) {
-		this.copsFonctionnaireDecret = copsFonctionnaireDecret;
+	public void setCorpsFonctionnaireDecret(String copsFonctionnaireDecret) {
+		this.corpsFonctionnaireDecret = copsFonctionnaireDecret;
 	}
 
 	public String getIndiceDecret() {

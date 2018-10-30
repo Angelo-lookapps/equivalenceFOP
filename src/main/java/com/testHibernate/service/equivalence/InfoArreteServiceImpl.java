@@ -45,7 +45,7 @@ public class InfoArreteServiceImpl implements InfoArreteService {
 	}
 
 	@Override
-	public InfoArrete getArreteByIdArrete(String idArreteEqRef) {
+	public InfoArrete getArreteByIdArrete(Long idArreteEqRef) {
 		InfoArrete sortie = null;
 		try{
 			TypedQuery<InfoArrete> list = em.createNamedQuery("InfoArrete.findInfoArreteByIdArrete", InfoArrete.class)
@@ -83,5 +83,5 @@ public class InfoArreteServiceImpl implements InfoArreteService {
        
         return savedInfoArrete;
 	}
-
+  
 }

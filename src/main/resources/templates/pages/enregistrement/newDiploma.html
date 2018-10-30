@@ -152,6 +152,19 @@
                                         <small id="fileHelpTel" class="text-muted ">(Une arr&ecirc;t&eacute; vide sera cr&eacute;&eacute; apr&egrave;s avoir rempli ce champ)</small>
                                     </div>
                                 </div>
+                                <hr/>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Type d'arrêté à associé</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control " th:name="'typeArrete'">
+                                            <option disabled="disabled" selected="selected" value="1" th:text="'Type arrêté:'"></option>
+                                            <!--placeholder-->
+                                            <div th:each="type : ${typesArrete}">
+                                                <option th:value="${type.typeArrete}" th:text="${type.description}"></option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-base pull-right">Valider</button>
                             </form>
                         </div>

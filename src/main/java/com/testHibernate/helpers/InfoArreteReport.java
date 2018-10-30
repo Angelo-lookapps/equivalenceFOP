@@ -10,7 +10,7 @@ import com.testHibernate.model.equivalence.InfoArrete;
 
 public class InfoArreteReport {
 
-	public List<Map<String, ?>> getReportInfoArrete( InfoArrete info){
+	public static List<Map<String, ?>> getReportInfoArrete( InfoArrete info){
 		List<Map<String, ?>> ret = new ArrayList<Map<String, ?>>(); 
 		 
 		
@@ -26,7 +26,7 @@ public class InfoArreteReport {
 			map.put("echelleTableau", info.getEchelleTableau());
 			map.put("categorieTableau", info.getCategorieTableau());
 			map.put("diplomeEquivalenceDecret", info.getDiplomeEquivalentDecret());
-			map.put("copsFonctionnaireDecret", info.getCopsFonctionnaireDecret());
+			map.put("corpsFonctionnaireDecret", info.getCorpsFonctionnaireDecret());
 			map.put("indiceDecret", info.getIndiceDecret());
 			map.put("dateSignature", info.getDateSignature());
 			map.put("nomMinistreSignature", info.getNomMinistreSignature());

@@ -9,15 +9,15 @@ public interface InfoArreteService {
 	
     List<InfoArrete> listAll();
 
-    InfoArrete getById(Long id);
-    
-    InfoArrete  getArreteByIdArrete( String idArreteEqRef);
+    InfoArrete getById(Long id); 
     
     InfoArrete saveOrUpdate(InfoArrete infoArrete);
 
     void delete(Long id);
     
     InfoArrete saveOrUpdateInfoArreteForm(InfoArreteForm infoArreteForm);
+
+	InfoArrete getArreteByIdArrete(Long idArreteEqRef);
 
 
 }

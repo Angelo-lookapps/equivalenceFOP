@@ -87,16 +87,18 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">N° </th>
-                                                <th class="text-center">Titre </th>
                                                 <th class="text-center">Anne&eacute; sortie </th>
+                                                <th class="text-center">Titre </th>
+                                                <th class="text-center">Type d'équivalence </th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each="arrete : ${arreteList}">
                                                 <td class="text-center" th:text="${arrete.id}"></td>
-                                                <td class="text-center"><a th:href="'/newArrete/'+${arrete.id}" th:text="${arrete.titre}"></a></td>
                                                 <td class="text-center"><a th:href="'/newArrete/'+${arrete.id}" th:text="${arrete.anneeSortie}"></a></td>
+                                               	<td class="text-center"><a th:href="'/newArrete/'+${arrete.id}" th:text="${arrete.titre}"></a></td>
+                                                <td class="text-center"><a th:href="'/newArrete/'+${arrete.id}" th:text="${arrete.typeArreteJasper.description}"></a></td>
                                                 <td class="text-center">
                                                     <a th:href="'/newArrete/'+${arrete.id}"><button class="btn btn-base btn-sm"
                                                             data-toggle="tooltip" data-placement="top" title="Editer"><i
@@ -184,7 +186,7 @@
                                                 <option disabled="disabled" selected="selected" value="1" th:text="'Type arrêté:'"></option>
                                                 <!--placeholder-->
                                                 <div th:each="type : ${typesArrete}">
-                                                    <option th:value="${type}" th:text="${type}"></option>
+                                                    <option th:value="${type.typeArrete}" th:text="${type.description}"></option>
                                                 </div>
                                             </select>
                                         </div>

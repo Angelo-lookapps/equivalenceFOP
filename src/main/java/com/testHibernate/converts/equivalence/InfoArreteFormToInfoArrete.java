@@ -29,7 +29,7 @@ public class InfoArreteFormToInfoArrete implements Converter<InfoArreteForm, Inf
     	infoArrete.setEchelleTableau( infoArreteForm.getEchelleTableau());
     	infoArrete.setCategorieTableau( infoArreteForm.getCategorieTableau());
     	infoArrete.setDiplomeEquivalentDecret( infoArreteForm.getDiplomeEquivalentDecret());
-    	infoArrete.setCopsFonctionnaireDecret( infoArreteForm.getCopsFonctionnaireDecret());
+    	infoArrete.setCorpsFonctionnaireDecret( infoArreteForm.getCorpsFonctionnaireDecret());
     	infoArrete.setIndiceDecret( infoArreteForm.getIndiceDecret());
     	infoArrete.setDateSignature( infoArreteForm.getDateSignature());
 		infoArrete.setNomMinistreSignature( infoArreteForm.getNomMinistreSignature());

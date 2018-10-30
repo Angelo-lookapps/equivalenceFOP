@@ -26,11 +26,13 @@ import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
 import com.testHibernate.model.equivalence.ContentArrete;
+import com.testHibernate.model.equivalence.TypeArreteJasper;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
 import com.testHibernate.service.equivalence.ArreteEqRefService;
 import com.testHibernate.service.equivalence.ContentArreteService;
+import com.testHibernate.service.equivalence.TypeArreteJasperService;
 import com.testHibernate.service.historique.ActiviteRecentService;
   
 @Controller
@@ -43,9 +45,14 @@ public class DiplomeController {
 	 int nombreLigneMax = 10;
 	 
 	 private ArreteEqRefService arreteEqRefService;
+	 private TypeArreteJasperService typeArreteService;
 	 @Autowired
 	 public void setArreteEqRefService(ArreteEqRefService arreteEqRefService) {
 		this.arreteEqRefService = arreteEqRefService;
+	 }
+	 @Autowired
+	 public void setTypeArreteJasperService(TypeArreteJasperService typeArreteService) {
+		this.typeArreteService = typeArreteService;
 	 }
 	 private ContentArreteService contentArreteService;
 	 @Autowired
@@ -148,6 +155,8 @@ public class DiplomeController {
         initialListeDiploma();
         List<ListesDiplome> listeDiploma = listesDiplomeService.pagination(1, nombreLigneMax);
    	 	List<Integer> annee = null;
+		 List<TypeArreteJasper> typesArrete = null;
+		 typesArrete = typeArreteService.listAll();
    	 	try {
 			annee = DateHelper.getAnneeList(1999, 2022);
 		} catch (Exception e) { 
@@ -160,6 +169,7 @@ public class DiplomeController {
         model.addAttribute("annees", annee);
         model.addAttribute("listNiveauDiploma", niveauxDiploma);
         model.addAttribute("listDiploma", listeDiploma);
+        model.addAttribute("typesArrete", typesArrete);
         model.addAttribute("listesDiplome", listesDiplome);
         model.addAttribute("isEdit", "1");
         
@@ -182,6 +192,8 @@ public class DiplomeController {
 		 initialListeDiploma();
 		 List<ListesDiplome> listeDiploma = listesDiplomeService.pagination(1, nombreLigneMax);
 		 List<Integer> annee = null;
+		 List<TypeArreteJasper> typesArrete = null;
+		 typesArrete = typeArreteService.listAll();
 			if(page.isPresent()) {
 				listeDiploma = listesDiplomeService.pagination(page.get(), nombreLigneMax);
 			}  
@@ -197,6 +209,7 @@ public class DiplomeController {
 		 
 		 model.addAttribute("annees", annee);
 		 model.addAttribute("listDiploma", listeDiploma);
+		 model.addAttribute("typesArrete", typesArrete);
 		 model.addAttribute("listNiveauDiploma", niveauxDiploma);
 		 model.addAttribute("listesDiplome", new ListesDiplomeForm());
 		 
@@ -212,7 +225,7 @@ public class DiplomeController {
 	 }
 	 
 	 @PostMapping(value = "/saveDiploma")
-	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @RequestParam(required=false) String anneeSortie, BindingResult bindingResult, Model model){
+	 public String saveOrUpdateDiploma(@Valid  @ModelAttribute ListesDiplomeForm listesDiplome, @RequestParam(required=false) String anneeSortie, @RequestParam(required=false) String typeArrete, BindingResult bindingResult, Model model){
 		 
 		 if(bindingResult.hasErrors()){
 			 return "redirect:/error505";
@@ -234,7 +247,7 @@ public class DiplomeController {
 			 	activiteRecentService.saveOrUpdate(historique);
 		 	 //fin historique
 		 	if(anneeSortie!=null && !anneeSortie.equals("vide")) { 
-				 arrete = this.insertArreteLink(listesSaved, anneeSortie);
+				 arrete = this.insertArreteLink(listesSaved, anneeSortie, typeArrete);
 		 	}
 		 }catch(Exception e) {
 				model.addAttribute("error", e);
@@ -290,16 +303,19 @@ public class DiplomeController {
 			this.listeDiplomes = listesDiplomeService.listAll();
 	}
 	 
-	public ArreteEqRef insertArreteLink(ListesDiplome listeDiplomeTemp, String anneeSortie) throws Exception {
+	public ArreteEqRef insertArreteLink(ListesDiplome listeDiplomeTemp, String anneeSortie, String typeArrete) throws Exception {
 		ArreteEqRef ret = null;
 		ListesDiplome listeDiplome = listeDiplomeTemp; 
 		ArreteEqRefForm arreteEqRefForm = new ArreteEqRefForm();
+		TypeArreteJasper type = null;
 		if(listeDiplome==null) {
 			throw new Exception("Error : listeDiplomeTemp is invalid !!");
 		}
 		try {  
 			arreteEqRefForm.setListesDiplome(listeDiplome);
 			arreteEqRefForm.setAnneeSortie(anneeSortie);
+			type = typeArreteService.getById(Long.valueOf(typeArrete));
+			arreteEqRefForm.setTypeArreteJasper(type);
 			arreteEqRefForm.setDateAjout(GlobalHelper.getCurrentDate());
 			arreteEqRefForm.setTitre(listeDiplome.getEcole()+" - "+listeDiplome.getFiliere()+" - "+listeDiplome.getOption());
 			arreteEqRefForm.setStatus(false); //status si l'arrete a été mise à jour.

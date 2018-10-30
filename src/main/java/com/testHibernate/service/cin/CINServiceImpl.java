@@ -10,9 +10,9 @@ import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.testHibernate.converts.cin.CINFormToCIN; 
+import com.testHibernate.converts.cin.CINFormToCIN;
 import com.testHibernate.model.cin.CIN;
-import com.testHibernate.model.cin.CINForm; 
+import com.testHibernate.model.cin.CINForm;
 import com.testHibernate.repo.cin.CINRepository;
  
 @Service

@@ -1,7 +1,6 @@
 package com.testHibernate.service.equivalence;
 
 import java.util.List;
- 
 
 import com.testHibernate.model.equivalence.InfoArrete;
 import com.testHibernate.model.equivalence.InfoArreteForm;

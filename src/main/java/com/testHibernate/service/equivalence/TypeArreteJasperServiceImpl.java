@@ -5,13 +5,14 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
- 
-import com.testHibernate.model.equivalence.TypeArreteJasper; 
+import org.springframework.stereotype.Service;
+
+import com.testHibernate.model.equivalence.TypeArreteJasper;
 import com.testHibernate.repo.equivalence.TypeArreteJasperRepository;
 
+@Service
 public class TypeArreteJasperServiceImpl implements TypeArreteJasperService {
 	private TypeArreteJasperRepository typeArreteJasperRepository; 
 	

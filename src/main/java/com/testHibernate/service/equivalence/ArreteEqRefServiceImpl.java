@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
-import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.repo.equivalence.ArreteEqRefRepository;
  
 @Service

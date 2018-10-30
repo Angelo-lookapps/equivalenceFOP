@@ -1,7 +1,8 @@
 package com.testHibernate.converts.equivalence;
 
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component; 
+import org.springframework.stereotype.Component;
+
 import com.testHibernate.model.equivalence.InfoArrete;
 import com.testHibernate.model.equivalence.InfoArreteForm;
  

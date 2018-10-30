@@ -1,8 +1,5 @@
 package com.testHibernate.model.demande;
 
-import java.sql.Blob;
-
-
 public class FicheDemandeDetailForm {
 	
 	public FicheDemandeDetailForm () {

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.equivalence.ContentArreteFormToContentArrete;
-import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.model.equivalence.ContentArreteForm;
 import com.testHibernate.repo.equivalence.ContentArreteRepository;

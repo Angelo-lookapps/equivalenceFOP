@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.diplome.DiplomeFormToDiplome;
 import com.testHibernate.model.diplome.NiveauDiplome;
-import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.repo.diplome.NiveauDiplomeRepository;
  
 @Service

@@ -1,10 +1,10 @@
 package com.testHibernate.service.equivalence;
 
 import java.util.List;
- 
+
 
 import com.testHibernate.model.equivalence.TypeArreteJasper; 
-
+ 
 public interface TypeArreteJasperService {
 	
     List<TypeArreteJasper> listAll();

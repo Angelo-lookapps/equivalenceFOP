@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.demande.DemandeDetailFormToDemandeDetail;
-import com.testHibernate.converts.demande.DemandeFormToDemande;
 import com.testHibernate.model.demande.FicheDemandeDetail;
 import com.testHibernate.model.demande.FicheDemandeDetailForm;
-import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.repo.demande.FicheDemandeDetailRepository;
  
 @Service

@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.testHibernate.helpers.GlobalHelper;
-import com.testHibernate.model.cin.CIN; 
+import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 

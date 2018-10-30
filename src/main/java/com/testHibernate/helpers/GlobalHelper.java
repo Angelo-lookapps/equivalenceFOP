@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.testHibernate.model.cin.CIN; 
-import com.testHibernate.model.diplome.ListesDiplome; 
+import com.testHibernate.model.cin.CIN;
+import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetail;

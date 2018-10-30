@@ -20,19 +20,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.DateHelper;
-import com.testHibernate.helpers.Encrypt;
 import com.testHibernate.helpers.GlobalHelper;
-import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
 import com.testHibernate.model.equivalence.ChampArreteEqForm;
 import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.model.equivalence.ContentArreteForm;
+import com.testHibernate.model.equivalence.TypeArreteJasper;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.equivalence.ArreteEqRefService;
 import com.testHibernate.service.equivalence.ContentArreteService;
+import com.testHibernate.service.equivalence.TypeArreteJasperService;
 import com.testHibernate.service.historique.ActiviteRecentService; 
 
 @Controller
@@ -41,9 +41,15 @@ public class ArreteController {
 	 private ArreteEqRefService arreteEqRefService;
 	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm; 
 	 private ListesDiplomeService listesDiplomeService;
+	 private TypeArreteJasperService typeArreteService;
 	 List<ArreteEqRef> arretes ;
 	 
 	 private ActiviteRecentService activiteRecentService;
+	 
+	 @Autowired
+	 public void setTypeArreteJasperService(TypeArreteJasperService typeArreteService) {
+		this.typeArreteService = typeArreteService;
+	 }
 	 
 	 @Autowired
 	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
@@ -224,9 +230,11 @@ public class ArreteController {
 					} catch (Exception e) { 
 						e.printStackTrace();
 					}
+				List<TypeArreteJasper> typesArrete = this.typeArreteService.listAll();
 				
 				model.addAttribute("arreteEqRefForm", new ArreteEqRefForm());
 				model.addAttribute("annees", annee);
+				model.addAttribute("typesArrete", typesArrete);
 				model.addAttribute("listEcole", listEcole);
 				model.addAttribute("listeDiploma", listeDiploma);
 				model.addAttribute("arreteList", arreteList);

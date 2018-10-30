@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.testHibernate.converts.demande.DemandeFormToDemande;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.demande.FicheDemandeForm;
-import com.testHibernate.model.diplome.NiveauDiplome;
 import com.testHibernate.repo.demande.FicheDemandeRepository;
  
 @Service

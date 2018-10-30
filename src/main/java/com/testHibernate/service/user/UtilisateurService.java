@@ -1,6 +1,6 @@
 package com.testHibernate.service.user;
 
-import java.util.List; 
+import java.util.List;
 
 import com.testHibernate.model.user.Utilisateur;
 import com.testHibernate.model.user.UtilisateurForm;

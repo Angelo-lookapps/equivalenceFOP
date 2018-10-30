@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.testHibernate.converts.user.UtilisateurFormToUtilisateur;
-import com.testHibernate.model.listePromotion.ListePromotion;
-import com.testHibernate.model.listePromotion.ListePromotionDetail;
-import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 import com.testHibernate.model.user.Utilisateur;
 import com.testHibernate.model.user.UtilisateurForm;
 import com.testHibernate.repo.user.UtilisateurRepository;

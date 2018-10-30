@@ -17,14 +17,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.testHibernate.converts.diplome.*;
-import com.testHibernate.helpers.*;
-import com.testHibernate.model.diplome.*;
-import com.testHibernate.model.equivalence.*;
-import com.testHibernate.model.historique.*;
-import com.testHibernate.service.diplome.*;
-import com.testHibernate.service.equivalence.*;
-import com.testHibernate.service.historique.*;
+import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
+import com.testHibernate.helpers.DateHelper;
+import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.model.diplome.ListesDiplome;
+import com.testHibernate.model.diplome.ListesDiplomeForm;
+import com.testHibernate.model.diplome.NiveauDiplome;
+import com.testHibernate.model.equivalence.ArreteEqRef;
+import com.testHibernate.model.equivalence.ArreteEqRefForm;
+import com.testHibernate.model.equivalence.ContentArrete;
+import com.testHibernate.model.historique.ActiviteRecent;
+import com.testHibernate.service.diplome.ListesDiplomeService;
+import com.testHibernate.service.diplome.NiveauDiplomeService;
+import com.testHibernate.service.equivalence.ArreteEqRefService;
+import com.testHibernate.service.equivalence.ContentArreteService;
+import com.testHibernate.service.historique.ActiviteRecentService;
   
 @Controller
 public class DiplomeController {

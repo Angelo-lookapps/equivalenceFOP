@@ -147,11 +147,11 @@
 				<text><![CDATA[-------------------------------]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="ContainerBottom" x="140" y="30" width="273" height="16" uuid="b9f07669-3c95-44c9-900b-800e4c97b3b9"/>
+				<reportElement stretchType="ContainerBottom" x="182" y="30" width="56" height="13" uuid="b9f07669-3c95-44c9-900b-800e4c97b3b9"/>
 				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
 					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[DECRET N° 79-363 du 22 décembre 1979]]></text>
+				<text><![CDATA[DECRET N°]]></text>
 			</staticText>
 			<staticText>
 				<reportElement stretchType="ContainerBottom" x="140" y="40" width="273" height="13" uuid="9c27c9cd-17be-45bc-af6e-3e4e9b36da1a"/>
@@ -160,6 +160,18 @@
 				</textElement>
 				<text><![CDATA[Portant classement hiérarchique des corps de fonctionnaires]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="240" y="29" width="40" height="14" uuid="432ce4ed-9045-494c-9c5c-0f301fc8dde5"/>
+				<textFieldExpression><![CDATA["79-363"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="29" width="17" height="14" uuid="58a4324e-9970-4ed8-848a-54cc42bdbeb6"/>
+				<text><![CDATA[du]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="294" y="29" width="100" height="14" uuid="6d2f6e61-0b0c-4a30-a615-aed497dbbcac"/>
+				<textFieldExpression><![CDATA["22 décembre 1979"]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -205,42 +217,28 @@
 				<text><![CDATA[Antananarivo, le ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="112" y="112" width="158" height="10" uuid="a96f51e2-ec50-4f4c-ad45-475f4f9b0346"/>
-				<textElement textAlignment="Left">
+				<reportElement x="115" y="111" width="158" height="12" uuid="a96f51e2-ec50-4f4c-ad45-475f4f9b0346"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[MFPRATELS /SG /DGFOP/ DFPAE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="60" y="112" width="62" height="10" uuid="a9364403-0a43-497c-a9f9-e6e564e502c1"/>
+				<reportElement x="60" y="112" width="10" height="12" uuid="a9364403-0a43-497c-a9f9-e6e564e502c1"/>
 				<textElement textAlignment="Left">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[N° 24975/18  ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="120" y="124" width="158" height="10" uuid="787c5bb4-39f8-4b01-afda-0b43ec5c596b"/>
-				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[MFPRATELS /SG /DGFOP/ DFPAE]]></text>
+				<text><![CDATA[N°   ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="60" y="124" width="62" height="10" uuid="9b4c62af-ec50-4936-a444-d189671fb131"/>
 				<textElement textAlignment="Left">
 					<font fontName="Times New Roman" size="8" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Délivré à M/Mr: ]]></text>
+				<text><![CDATA[Délivré à M/Mr : ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="107" y="136" width="158" height="10" uuid="00199d0c-f80d-430f-a857-3eb7ca2ec209"/>
-				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[MFPRATELS /SG /DGFOP/ DFPAE]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="60" y="136" width="62" height="10" uuid="6a77b0e3-e023-4e1b-844d-ad89e16227df"/>
+				<reportElement x="60" y="136" width="47" height="10" uuid="6a77b0e3-e023-4e1b-844d-ad89e16227df"/>
 				<textElement textAlignment="Left">
 					<font fontName="Times New Roman" size="8" isBold="false"/>
 				</textElement>
@@ -252,34 +250,6 @@
 					<font fontName="Times New Roman" size="7"/>
 				</textElement>
 				<text><![CDATA[-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]></text>
-			</staticText>
-			<staticText>
-				<reportElement stretchType="ContainerBottom" x="141" y="184" width="273" height="14" uuid="97c313fc-d500-4989-b6aa-7feff9f4ebb3"/>
-				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
-					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false"/>
-				</textElement>
-				<text><![CDATA[REPOBLIKA DEMOKRATIKA MALAGASY ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement stretchType="ContainerBottom" x="141" y="194" width="273" height="16" uuid="25d46a87-0d9f-48e2-a40e-c1623370bdca"/>
-				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
-					<font fontName="Times New Roman" size="11" isBold="false" isItalic="true" isUnderline="false" pdfEncoding=""/>
-				</textElement>
-				<text><![CDATA[Tanindrazana-Tolom-piavotana-Fahafahana]]></text>
-			</staticText>
-			<staticText>
-				<reportElement stretchType="ContainerBottom" x="141" y="200" width="273" height="20" uuid="03eb7f4a-243d-4f5f-b2c2-2c634c2f7233"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
-					<font fontName="Times New Roman" size="10" isBold="false" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[-------------------------------]]></text>
-			</staticText>
-			<staticText>
-				<reportElement stretchType="ContainerBottom" x="140" y="214" width="273" height="16" uuid="0ea31997-47da-4374-bc42-3b2d68789263"/>
-				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
-					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false"/>
-				</textElement>
-				<text><![CDATA[DECRET N° 79-363 du 22 décembre 1979]]></text>
 			</staticText>
 			<staticText>
 				<reportElement stretchType="ContainerBottom" x="141" y="225" width="273" height="16" uuid="40d006d0-6b18-4af1-b480-f0451e87b580"/>
@@ -312,7 +282,7 @@
 			<frame>
 				<reportElement x="40" y="-90" width="470" height="108" uuid="335436fe-e64f-44e0-a00b-06b0f5bef4a7"/>
 				<componentElement>
-					<reportElement positionType="FixRelativeToBottom" x="10" y="7" width="459" height="93" uuid="0f9e14a9-9f2a-429c-948f-b73c22c0b0fc">
+					<reportElement positionType="FixRelativeToBottom" x="24" y="7" width="444" height="93" uuid="0f9e14a9-9f2a-429c-948f-b73c22c0b0fc">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 						<property name="com.jaspersoft.studio.table.style.table_header" value="Table 3_TH"/>
 						<property name="com.jaspersoft.studio.table.style.column_header" value="Table 3_CH"/>
@@ -325,28 +295,108 @@
 						</datasetRun>
 						<jr:column width="60" uuid="f208ff9f-d4d8-4c9f-a4c0-5e9516cb4787">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne1"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
-							<jr:detailCell style="Table 3_TD" height="70"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="20" uuid="47131746-57f4-44e7-9ff2-ef19ccfb9f75"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" isBold="false"/>
+									</textElement>
+									<text><![CDATA[Catégorie]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="70">
+								<textField>
+									<reportElement x="0" y="0" width="60" height="70" uuid="92115b54-5a11-47f5-8f38-fc476b8d5909"/>
+									<textElement textAlignment="Left">
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
 						</jr:column>
-						<jr:column width="120" uuid="b79f62e6-0c4d-43e9-a05b-bd170c193790">
+						<jr:column width="100" uuid="b79f62e6-0c4d-43e9-a05b-bd170c193790">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne2"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
-							<jr:detailCell style="Table 3_TD" height="70"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="100" height="20" uuid="07b9783a-aba3-4852-81d2-00428af6c615"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<text><![CDATA[Niveau de référence]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="70">
+								<textField>
+									<reportElement x="0" y="0" width="100" height="70" uuid="1a83a5de-0718-4dcf-b5ae-a66981c8e512"/>
+									<textElement>
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
 						</jr:column>
-						<jr:column width="120" uuid="59a9acb0-119f-4fcc-bf08-eb9b4d88713a">
+						<jr:column width="110" uuid="59a9acb0-119f-4fcc-bf08-eb9b4d88713a">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne3"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
-							<jr:detailCell style="Table 3_TD" height="70"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="110" height="20" uuid="15ecd205-4348-44fa-9adc-8f889bc0e193"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<text><![CDATA[Diplômes équivalents]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="70">
+								<textField>
+									<reportElement x="0" y="0" width="110" height="70" uuid="5eead02f-6300-4b35-a731-e6fee7dae51a"/>
+									<textElement>
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
 						</jr:column>
 						<jr:column width="90" uuid="8a79c147-ac21-47ae-82f5-8215e2ceba51">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne4"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
-							<jr:detailCell style="Table 3_TD" height="70"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="90" height="20" uuid="96289616-5c42-40eb-947d-dd442f66e44c"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<text><![CDATA[Corps des fonctionnaires]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="70">
+								<textField>
+									<reportElement x="0" y="0" width="90" height="70" uuid="3605a6f8-d2b0-494c-b134-3c1328a1da48"/>
+									<textElement>
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
 						</jr:column>
 						<jr:column width="60" uuid="7737cd4c-abce-43d1-824e-bfeebcf06117">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne5"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
-							<jr:detailCell style="Table 3_TD" height="70"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="20" uuid="169acbce-0441-4d0d-816f-19b17124156b"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<text><![CDATA[Indices]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="70">
+								<textField>
+									<reportElement x="0" y="0" width="60" height="70" uuid="4d0294f6-a564-4df9-a560-5b7932ee9479"/>
+									<textElement>
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
 						</jr:column>
 					</jr:table>
 				</componentElement>
@@ -354,7 +404,7 @@
 			<frame>
 				<reportElement x="41" y="277" width="470" height="108" uuid="7574ec54-09c7-43a1-9998-380ae06abc3b"/>
 				<componentElement>
-					<reportElement positionType="FixRelativeToBottom" x="10" y="6" width="459" height="93" uuid="4dbfaf88-41df-4557-ab31-0f1ae8608f42">
+					<reportElement positionType="FixRelativeToBottom" x="24" y="7" width="444" height="93" uuid="b95540b0-c04d-49cc-b787-84a150de41f7">
 						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 						<property name="com.jaspersoft.studio.table.style.table_header" value="Table 3_TH"/>
 						<property name="com.jaspersoft.studio.table.style.column_header" value="Table 3_CH"/>
@@ -362,32 +412,72 @@
 						<property name="net.sf.jasperreports.export.headertoolbar.table.name" value="Decret"/>
 					</reportElement>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="Dataset1" uuid="78505eb3-0ce8-44ff-b7b6-e686442dcbbe">
+						<datasetRun subDataset="Dataset1" uuid="210e8224-9c36-44e6-8728-19d29a70c6d9">
 							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 						</datasetRun>
-						<jr:column width="60" uuid="10ece7c0-a72a-4996-ac68-9d81212b1d61">
+						<jr:column width="60" uuid="d59d3c57-0987-4534-87b7-5844403c12d2">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne1"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="20" uuid="9c4f81c9-03ff-4711-a6fd-5e3fbab078ad"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" isBold="false"/>
+									</textElement>
+									<text><![CDATA[Catégorie]]></text>
+								</staticText>
+							</jr:columnHeader>
 							<jr:detailCell style="Table 3_TD" height="70"/>
 						</jr:column>
-						<jr:column width="120" uuid="078c6887-6e04-4594-8f87-abf486fc9988">
+						<jr:column width="100" uuid="d5290ad4-7d77-4463-b9f3-e2d96d8f6fae">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne2"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="100" height="20" uuid="2fd84054-63cf-48ee-81c0-37b0d6a0b1b5"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<text><![CDATA[Niveau de référence]]></text>
+								</staticText>
+							</jr:columnHeader>
 							<jr:detailCell style="Table 3_TD" height="70"/>
 						</jr:column>
-						<jr:column width="120" uuid="560805a9-6d36-41fd-afc8-c5dff852c40f">
+						<jr:column width="110" uuid="e7b532e6-fbb7-4ce5-a896-3af3e4d9bddc">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne3"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="110" height="20" uuid="b6d73f90-c4cf-468b-a906-0236b93efd36"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<text><![CDATA[Diplômes équivalents]]></text>
+								</staticText>
+							</jr:columnHeader>
 							<jr:detailCell style="Table 3_TD" height="70"/>
 						</jr:column>
-						<jr:column width="90" uuid="01cf73ea-51f2-4c44-b94e-0c3812f0afd1">
+						<jr:column width="90" uuid="32fbfb33-d991-4c99-b56c-5615ed7fa63b">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne4"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="90" height="20" uuid="69b9f8f4-ac35-476e-8c44-78c0d296ec9d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<text><![CDATA[Corps des fonctionnaires]]></text>
+								</staticText>
+							</jr:columnHeader>
 							<jr:detailCell style="Table 3_TD" height="70"/>
 						</jr:column>
-						<jr:column width="60" uuid="de1d4406-9d2f-4e97-8cd3-f61f8f3c3570">
+						<jr:column width="60" uuid="5366cc66-21b3-439b-aeaa-81685a44e025">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne5"/>
-							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1"/>
+							<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="20" uuid="dd4ad1b1-ac2f-441e-993b-7396e9131c23"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman"/>
+									</textElement>
+									<text><![CDATA[Indices]]></text>
+								</staticText>
+							</jr:columnHeader>
 							<jr:detailCell style="Table 3_TD" height="70"/>
 						</jr:column>
 					</jr:table>
@@ -407,48 +497,116 @@
 				</textElement>
 				<text><![CDATA[Antananarivo, le ]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="107" y="486" width="158" height="10" uuid="daa49b60-9ff5-496e-b771-bc43e73ef635"/>
+			<textField>
+				<reportElement x="72" y="112" width="41" height="12" uuid="049c4d0f-6b57-4536-aaac-9d3fa215b7e2"/>
 				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["000 /18"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="123" width="74" height="12" uuid="5a9b78f7-1f8d-4e79-95ce-711dc6a4dbee"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NAME"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="109" y="135" width="71" height="14" uuid="83bb0cdd-5d21-47e3-aaae-60f20c397677"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Diplome"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="116" y="481" width="158" height="12" uuid="4fe0e3eb-cb0c-48c4-a1fb-1cd5a0202558"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[MFPRATELS /SG /DGFOP/ DFPAE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="55" y="486" width="62" height="10" uuid="8e9ae0a4-5bee-4d23-8446-4b33f84f42da"/>
+				<reportElement x="64" y="482" width="10" height="12" uuid="7f441422-f3e3-4704-b138-8f3cd389eb78"/>
 				<textElement textAlignment="Left">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[N° 24975/18  ]]></text>
+				<text><![CDATA[N°   ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="115" y="498" width="158" height="10" uuid="dd419c4f-b4d1-4614-868b-165e890610d6"/>
-				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[MFPRATELS /SG /DGFOP/ DFPAE]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="55" y="498" width="62" height="10" uuid="480588c8-4732-46f6-aebe-201f862d560e"/>
+				<reportElement x="64" y="494" width="62" height="10" uuid="c0c5bbeb-6693-4955-bc61-0df40c613525"/>
 				<textElement textAlignment="Left">
 					<font fontName="Times New Roman" size="8" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Délivré à M/Mr: ]]></text>
+				<text><![CDATA[Délivré à M/Mr : ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="102" y="510" width="158" height="10" uuid="09522a59-0288-4cf3-bd8c-3146fb8e6544"/>
-				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[MFPRATELS /SG /DGFOP/ DFPAE]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="55" y="510" width="62" height="10" uuid="39d5d0e3-56bf-409c-8f9a-ee2ffa4db015"/>
+				<reportElement x="64" y="506" width="47" height="10" uuid="a16bfda7-4172-4a09-a11b-af9751b681d8"/>
 				<textElement textAlignment="Left">
 					<font fontName="Times New Roman" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Titulaire du : ]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="76" y="482" width="37" height="12" uuid="129df3c6-b49f-4954-9502-70008f23c159"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["000 /18"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="493" width="74" height="12" uuid="f1b018b8-e021-4487-b9e3-36a99cf2003d"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NAME"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="505" width="71" height="14" uuid="03a857b0-6ebc-4e33-9459-e3d6b26ff6a2"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Diplome"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="ContainerBottom" x="140" y="182" width="273" height="14" uuid="b463224a-190c-42a3-818d-68be1075c068"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[REPOBLIKA DEMOKRATIKA MALAGASY ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ContainerBottom" x="140" y="192" width="273" height="16" uuid="9352be2c-aaf8-486c-b5b6-c7a19246fc52"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font fontName="Times New Roman" size="11" isBold="false" isItalic="true" isUnderline="false" pdfEncoding=""/>
+				</textElement>
+				<text><![CDATA[Tanindrazana-Tolom-piavotana-Fahafahana]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ContainerBottom" x="140" y="198" width="273" height="20" uuid="00e80c61-b1b9-48ab-ab15-244b5b544be9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[-------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ContainerBottom" x="183" y="212" width="56" height="13" uuid="e5c4dbb4-85df-4175-8df4-031d86a9b490"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[DECRET N°]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="240" y="211" width="40" height="14" uuid="42fb76b2-d393-4b6f-aa14-b2d0d6613b08"/>
+				<textFieldExpression><![CDATA["79-363"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="211" width="17" height="14" uuid="d93f4000-7d66-4ff2-822b-a73eb52f0b68"/>
+				<text><![CDATA[du]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="294" y="211" width="100" height="14" uuid="d4babe70-02e0-4f6c-a9cf-27a6cfa0c3f0"/>
+				<textFieldExpression><![CDATA["22 décembre 1979"]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 </jasperReport>

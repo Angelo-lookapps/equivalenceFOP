@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <base href="http://localhost:8080/newArrete" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Arrete - Administration Equivalence FOP(67Ha)</title>
+    <link rel="shortcut icon" href="assets/dist/img/favicon.png'" type="image/x-icon">
+    <script src="assets/js/webfont.js"></script>
+    <script>
+        WebFont.load({
+                google: {families: ['Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i']},
+                active: function () {
+                    sessionStorage.fonts = true;
+                }
+            });
+        </script>
+    <!-- START GLOBAL MANDATORY STYLE -->
+    <link href="assets/dist/css/base.css" rel="stylesheet" type="text/css">
+
+    <!-- START PAGE LABEL PLUGINS -->
+    <link href="assets/plugins/summernote/summernote.css" rel="stylesheet" type="text/css" />
+
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <!-- START THEME LAYOUT STYLE -->
+    <link href="assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+    
+  	<!-- START PAGE LABEL PLUGINS --> 
+	<link href="assets/plugins/icheck/skins/all.css" rel="stylesheet" type="text/css">
+	<link href="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.css" rel="stylesheet" type="text/css">
+	
+    <!-- THEME INPUTS -->
+    <link href="assets/plugins/inputs/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+
+    <!-- START THEME JS -->
+    <script src="assets/js/ckeditor.js"></script>
+
+    <script src="assets/js/jspdf.debug.js"></script>
+    <script src="assets/js/jspdf.min.js"></script>
+    <script src="assets/plugins/inputs/js/plugins/sortable.js" type="text/javascript"></script>
+    <script src="assets/plugins/inputs/js/fileinput.js" type="text/javascript"></script>
+    <script src="assets/plugins/inputs/js/locales/fr.js" type="text/javascript"></script>
+    <script src="assets/plugins/inputs/js/locales/es.js" type="text/javascript"></script>
+
+    <script src="assets/js/popper.min.js" type="text/javascript"></script>
+    <title>Nouvelle arret&eacute;</title>
+</head>
+
+<body class="hold-transition fixed sidebar-mini">
+
+    <!-- Preloader -->
+    <div class="preloader"></div>
+
+    <!-- Site wrapper -->
+    <!-- Content Wrapper. Contains page content -->
+    <div th:replace="fragments/header :: header">Static header</div>
+    <!--  -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <div class="mailbox">
+                        <div class="mailbox-header">
+                            <div th:object="${arreteEqRefForm}" class="row">
+                                <div class="col-xs-4">
+                                    <div class="inbox-avatar"><img src="assets/dist/img/logo.png" class="img-circle border-green"
+                                            alt="img">
+                                        <div class="inbox-avatar-text hidden-xs hidden-sm">
+                                            <div class="avatar-name">Cr&eacute;ation de l'Arr&ecirc;t&eacute;
+                                                d'&eacute;quivalence</div>
+                                            <div>TITRE: <small th:text="*{titre}+' anneé: '+*{anneeSortie}"></small></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="inbox-toolbar btn-toolbar">
+                                        <div class="btn-group">
+                                            <input type="submit" class="btn btn-default  w-md m-rb-5" data-toggle="modal"
+                                                data-target="#example" value="Voir l'arr&ecirc;t&eacute;"></a>
+                                            <a class="btn btn-primary w-md m-rb-5" data-toggle="modal" data-target="#myModal">Renommer
+                                                ce titre</a>
+                                            <a href="/listArrete" class="hidden-xs hidden-sm btn btn-default"><span
+                                                    class="fa fa-reply"></span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mailbox-body">
+                            <div class="row m-0">
+                                <div class="col-sm-3 p-0 inbox-nav hidden-xs hidden-sm">
+                                    <div class="mailbox-sideber">
+                                        <div class="profile-usermenu">
+
+                                            <ul class="nav nav-tabs tabs-left">
+                                                <h6>Arr&ecirc;t&eacute; detail</h6>
+                                                <li><a href="#arreteDetail" data-toggle="tab"><i class="fa fa-check-square-o"></i>Voir
+                                                        arret&eacute; detail</a></li>
+                                                <br />
+                                                <h6>Contenu ;</h6>
+                                                <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-picture-o"></i>Contenu
+                                                        global de l'arr&ecirc;t&eacute</a></li>
+                                                <br />
+                                                <hr />
+                                                <a class="btn btn-default" data-toggle="modal" data-target="#champArrete"><i
+                                                        class="fa fa-address-card-o"></i> Voir extrait champ
+                                                    d'arr&ecirc;t&eacute;</a>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-9 p-0 inbox-mail p-20  tab-content">
+
+                                    <!-- En-tête -->
+                                    <div class="tab-pane fade in active" id="tab1">
+                                        <form data-toggle="validator" th:object="${contentArreteForm}" th:action="@{/saveContent}+ '/' + ${arreteEqRefForm.id}"
+                                            method="POST" class="formContent">
+                                            <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible"
+                                                role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                        aria-hidden="true">&times;</span></button>
+                                                <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error
+                                                    Message!!!</strong>
+                                            </div>
+                                            <div class="panel-body">
+                                            	<div class="skin-line">
+                                            		<div class="i-check">
+	                                                    <input tabindex="17" type="checkbox" id="signatureDefaut" th:name="'signatureDefaut'" checked>
+	                                                    <label for="line-checkbox-1">Ajouter la signature de ministre par défaut</label>
+	                                                </div>
+	                                                <div class="i-check">
+	                                                    <input tabindex="18" type="checkbox" id="champDefaut" th:name="'champDefaut'" checked>
+	                                                    <label for="line-checkbox-2">Champ formulaire par défaut (En bas de page)</label>
+	                                                </div>
+                                            	</div>
+                                                <p><strong>En-t&ecirc;te arr&ecirc;t&eacute; : </strong></p>
+                                                <h4>Veuillez coller ici la copie Word de l'arrêté : </h4>
+                                                <div class="form-group row">
+                                                    <textarea type="text" th:field="*{contenu}" id="editor1"></textarea>
+                                                </div>
+
+                                                <div id="postResultDiv"></div>
+
+                                                <div class="btn-group pull-right">
+                                                    <button type="submit" class="btn btn-base">Sauvegarder</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                    <!-- Detail Arrete -->
+                                    <div class="tab-pane fade" id="arreteDetail">
+                                        <div class="panel-body">
+                                            <div class="inbox-mail-details p-20">
+                                                <div id="pdf">
+                                                    <div th:if="${contentArrete!=null}" th:title="${contentArrete.arreteEqRef.titre}">
+                                                        <div th:utext="${contentArrete.contenu}"></div> 
+                                                    </div>
+                                                </div>
+                                                <hr>
+
+                                                <div class="btn-group pull-right">
+                                                    <button class="btn btn-base" th:onclick="|printPDF('${contentArrete.arreteEqRef.titre}')|">Exporter
+                                                        en PDF</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- MODALS DIALOG -->
+                <div class="modal fade" id="example" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" th:object="${arreteEqRefForm}">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h1 class="modal-title">
+                                    <div>TITRE: <small th:text="*{titre}+' anneé: '+*{anneeSortie}"></small></div>
+                                </h1>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="panel-body">
+                                    <div th:if="${contentArrete!=null}" th:title="${contentArrete.arreteEqRef.titre}">
+                                        <div th:utext="${contentArrete.contenu}"></div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            	<button type="submit" class="btn btn-base" th:onclick="|print()|"><i
+                                        class="fa fa-print"></i> GEGE</button>
+                                <button type="submit" class="btn btn-base" th:onclick="|printPDF('${contentArrete.arreteEqRef.titre}')|">
+                                		<i class="fa fa-print"></i></button>
+                                <button type="button" class="btn btn-base" data-dismiss="modal">OK</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <!-- MODALS DIALOG -->
+                <div class="modal fade" id="champArrete" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h1 class="modal-title">Champ l'arr&ecirc;t&eacute; </h1>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-sm-3 col-form-label">N° d'enregistrement
+                                        / Année</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" value="ex: N° 17 002/1818 - MFPRATELS/SG/DGFOP/DFPAE "
+                                            type="text" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-sm-3 col-form-label">D&eacute;livr&eacute;
+                                        &agrave;</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" value="ex: RAKOTO JEAN " type="text" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-sm-3 col-form-label">Titulaire de</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" value="ex: MASTER I EN DROIT ET SCIENCES POLITIQUES  "
+                                            type="text" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-sm-3 col-form-label">Sp&eacute;cialit&eacute;</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" value="ex: DROIT PRIVE" type="text" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-base" data-dismiss="modal">OK</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                <!-- MODALS DIALOG -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h1 class="modal-title">Renommer l'arr&ecirc;t&eacute; </h1>
+                            </div>
+                            <form th:object="${arreteEqRefForm}" th:action="@{/updateArrete/}+''+${arreteEqRef.id}"
+                                th:method="PUT">
+
+                                <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible"
+                                    role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error
+                                        Message!!!</strong>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-sm-3 col-form-label">N° identifiant:</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text" th:field="*{id}" id="example-text-input"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-sm-3 col-form-label">Nommer le titre
+                                            de l'Arr&ecirc;t&eacute; :</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text" th:field="*{titre}" id="example-text-input"
+                                                placholder="Titre de l'arrêté d'équivalence ..." required>
+                                        </div>
+                                    </div>
+
+                                     <div class="form-group row"> 
+	                                    <label class="col-sm-3 col-form-label">Veuillez choisir le dipl&ocirc;me</label>
+	                                     <div class="col-lg-8 col-md-9 col-sm-12">
+	                                     	<div class="input-group">
+	                                     	   <input type="text" id="listeDiplomeHidden" th:name="'listeDiplome'" hidden>
+	                                           <input type="text" class="form-control" autocomplete="off" id="listeDiplomeChamp" placeholder="Diplôme demandé..." data-toggle="modal" data-target="#searchlisteDiplomeModal">
+	                                           <span class="input-group-btn">
+	                                               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#searchlisteDiplomeModal">Choisir</button>
+	                                           </span>
+	                                       	</div><!-- /input-group -->
+	                                     </div>  
+	                                </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Anne&eacute; sortie</label>
+                                        <div class="col-sm-7">
+                                            <select class="form-control " th:field="*{anneeSortie}">
+                                                <option disabled="disabled" selected="selected" th:value="${#calendars.format(#calendars.createNow(), 'yyyy')}"
+                                                    th:text="'Sortie le'"></option>
+                                                <!--placeholder-->
+                                                <div th:each="annee : ${annees}">
+                                                    <option th:value="${annee}" th:text="${annee}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-base">Ok</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                                </div>
+                            </form>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                
+                <!-- MODALS DIALOG -->
+	            <div class="modal fade" id="searchlisteDiplomeModal" tabindex="-1" role="dialog">	
+	                <div class="modal-dialog" role="document">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+	                                    aria-hidden="true">&times;</span></button>
+	                            <h1 class="modal-title">Rechercher dipl&ocirc;me </h1>
+	                        </div>
+	                        <!-- <form th:action="@{/searchCIN}" method="GET"> -->
+	                        <ul class="nav nav-tabs tabs-top">
+	                        	<li><a href="#search1" data-toggle="tab"><i class="fa fa-search"></i> Recherche simple</a></li>
+	                        	<li><a href="#search2" data-toggle="tab"><i class="fa fa-search-plus"></i> Recherche Avanc&eacute;e</a></li>
+		                    </ul>   
+	                            <div class="modal-body  tab-content">   
+	                                <div class="tab-pane fade in active" id="search1">
+		                                <div class="form-group row">
+		                                    <div class="col-sm-12">
+		                                    	<div class="col-md-3">
+		                                    		<label for="example-text-input" class=" col-form-label">Champ de recherche :</label>
+		                                    	</div>
+		                                    	<div class="col-md-6" >
+		                                        	<input class="form-control" id="listeDiplome" type="text" placeholder="Rechercher Diplôme ...">
+		                                        </div>
+		                                        <div class="col-md-3">
+		                                        	<button class="btn btn-base " th:onclick="|searchListeDiplome()|" > RECHERCHE</button>
+		                                    	</div>
+		                                    </div>
+	                                    </div>
+                                    </div> 
+                                  	<div class="tab-pane fade" id="search2">
+	                                  	<div class="form-group row">  
+		                                    <div class="col-sm-12">
+		                                    	<h5>Recherche par crit&egrave;re :</h5> 
+		                                        <div class="form-group row">
+				                                    <label for="dateRetrait" class="col-sm-2 col-form-label">Ecole </label>
+				                                    <div class="col-md-8 col-md-offset-1">
+				                                        <input class="form-control" type="text" th:name="'ecole'" placeholder=" " id="ecole">
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="dateRetrait" class="col-sm-2 col-form-label">Fili&egrave;re </label>
+				                                    <div class="col-md-8 col-md-offset-1">
+				                                        <input class="form-control" type="text" th:name="'filiere'" placeholder=" " id="filiere">
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+				                                    <label for="dateRetrait" class="col-sm-2 col-form-label">Option </label>
+				                                    <div class="col-md-8 col-md-offset-1">
+				                                        <input class="form-control" type="text" th:name="'option'" placeholder=" " id="option">
+				                                    </div>
+				                                </div>
+				                                <div class="form-group row">
+								                    <div th:if="${not #lists.isEmpty(listNiveauDiploma)}" >
+								                    	<label for="dateRetrait" class="col-sm-2 col-form-label">Niveau </label>
+				                                      	<div class="col-md-8 col-md-offset-1">
+								                             <select class="form-control" th:name="'niveau'" id="niveau">
+								                                  <option th:value="''" th:text="'-- Tous les niveaux --'"> </option> 
+								                                  <div th:each="niveau : ${listNiveauDiploma}"> 
+								                                       <option th:value="${niveau.id}" th:text="${niveau.niveau}"> </option> 
+								                                  </div>
+								                             </select>
+								                        </div>
+								                 	</div>
+								                </div>	 
+		                                        <div class="col-md-6 col-md-offset-5">
+		                                        	<button class="btn btn-base " th:onclick="|searchCritereDiplome()|" >RECHERCHE</button>
+		                                    	</div>
+		                                    </div>
+	                                    </div>
+                                    </div>
+                                    <div class="form-group row">
+	                                    <div class="skin-flat">
+	                                    	<div id="outputlisteDiplome" class="row"></div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="modal-footer">
+	                                <button  class="btn btn-base" data-dismiss="modal" >Ok</button>
+	                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+	                            </div>
+	                        <!-- </form> -->
+	                    </div><!-- /.modal-content -->
+	                </div><!-- /.modal-dialog -->
+	            </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer">&copy; 2018 The Static Templates</div>
+
+    <!-- ./²wrapper -->
+    <!-- START CORE PLUGINS -->
+
+
+    <script>
+        //entete
+        CKEDITOR.replace('editor1');
+    </script>
+    <script>
+        function getAlert() {
+            event.preventDefault();
+            ajaxPost();
+
+        }
+
+        function ajaxPost() {
+            // PREPARE FORM DATA
+            var contenu = CKEDITOR.instances.editor1.getData();
+
+            $.ajax({
+                type: "POST",
+                contentType: "text/html",
+                url: $(".formContent").attr("action"),
+                data: contenu,
+                dataType: 'text',
+                success: function (result) {
+
+                    $("#postResultDiv")
+                        .html(
+                            "<div class=\"alert alert-sm alert-info alert-dismissible\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><i class=\"fa fa-exclamation-circle\"></i><strong>INFO :</strong> Sauvegarde reussie!</div> "
+                        );
+
+                    console.log("SUCCESS!!! \n result = " + contenu);
+                    //window.location.replace($(".formEntete").attr("action"));
+                },
+                error: function (e) {
+                    alert("Error!")
+                    console.log("ERROR: ", e);
+                }
+            });
+
+        }
+    </script>
+
+    <script src="assets/plugins/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script>
+	    function searchListeDiplome() {
+			$.ajax({
+				  method: "GET",
+				  url: "http://localhost:8080/searchDiplome",
+				  data: { champ: $("#listeDiplome").val() }
+				}).done(function( msg ) {
+					//var obj = JSON.parse(msg); 
+					
+					$('#outputlisteDiplome').html(getHtml(msg,"setIdDiplome")); 
+					
+					 console.log( "Data Saved: " + msg[0].tagName );
+					//$("#outputCIN").html(msg);
+				   
+		  		});
+		}
+		function searchCritereDiplome() { 
+			$.ajax({
+				  method: "GET",
+				  url: "http://localhost:8080/searchCritereDiplome",
+				  data: { 
+					  	ecole: $("#ecole").val(),
+					  	filiere: $("#filiere").val(),
+					  	option: $("#option").val() ,
+					  	niveau: $("#niveau").val()
+					  	}
+				}).done(function( msg ) {
+					//var obj = JSON.parse(msg); 
+					
+					$('#outputlisteDiplome').html(getHtml(msg,"setIdDiplome")); 
+					
+					 console.log( "Data Saved: " + msg);
+					//$("#outputCIN").html(msg);
+				   
+		  		});
+		}
+		function setIdDiplome(id, name){ 
+			 $('#listeDiplomeChamp').val(name); 
+			 $('#listeDiplomeHidden').val(id);
+			// cinChamp.setAttribute("name", "cin");
+	   	} 
+	   	function getHtml(msg, fonction){
+	   		var html = "<div class=\"col-md-10\"><h4>Resultat(s) du recherche : <b class=\"text-primary\" >" + msg.length + " </b></h4>";
+	   		//console.log("size = " + msg.length);
+	   		html+="<div class=\"col-md-1\"></div><div class=\"col-md-11\"> ";
+	   		var i = 0; 
+	   		while (i < msg.length){
+	   			html+="<div class=\"i-check\"><input tabindex=\""+i+"\" "+
+	   				  "type=\"radio\" id=\"flat-radio-"+i+"\" name=\"selectRadio\" onclick=\""+fonction+"("+ msg[i].id + ",'" + msg[i].tagName + "')\" value=\""+msg[i].id+"\">"+
+	   				  "  <label for=\"flat-radio-"+i+"\"> " + msg[i].tagName + " </label></div>";
+	   			i++;
+	   		}
+	   		html+="</div><div class=\"col-md-2\"></div></div>";
+	   		return html;
+	   	}
+		function print(){ 
+			var pdf = new jsPDF('p', 'pt', 'a4');
+            // source can be HTML-formatted string, or a reference
+            // to an actual DOM element from which the text will be scraped.
+            source = $('#pdf')[0];
+
+            // we support special element handlers. Register them with jQuery-style 
+            // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+            // There is no support for any other type of selectors 
+            // (class, of compound) at this time.
+            specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector
+                '#bypassme': function(element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"
+                    return true
+                }
+            };
+            margins = {
+                top: 80,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+            // all coords and widths are in jsPDF instance's declared units
+            // 'inches' in this case
+            pdf.fromHTML(
+                    source, // HTML string or DOM elem ref.
+                    margins.left, // x coord
+                    margins.top, {// y coord
+                        'width': margins.width, // max width of content on PDF
+                        'elementHandlers': specialElementHandlers
+                    },
+            function(dispose) {
+                // dispose: object with X, Y of the last line add to the PDF 
+                //          this allow the insertion of new lines after html
+                pdf.save('Test.pdf');
+            }
+            , margins);
+	   	}
+        function printPDF(titre) {
+            var pdf = new jsPDF('p', 'pt', 'a4');
+            // source can be HTML-formatted string, or a reference
+            // to an actual DOM element from which the text will be scraped.
+            source = $('#pdf')[0];
+
+            // we support special element handlers. Register them with jQuery-style 
+            // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+            // There is no support for any other type of selectors 
+            // (class, of compound) at this time.
+            specialElementHandlers = {
+                // element with id of "bypass" - jQuery style selector
+                '#bypassme': function (element, renderer) {
+                    // true = "handled elsewhere, bypass text extraction"
+                    return true
+                }
+            };
+            margins = {
+                top: 80,
+                bottom: 60,
+                left: 40,
+                width: 522
+            };
+            // all coords and widths are in jsPDF instance's declared units
+            // 'inches' in this case
+            pdf.fromHTML(
+                source, // HTML string or DOM elem ref.
+                margins.left, // x coord
+                margins.top, { // y coord
+                    'width': margins.width, // max width of content on PDF
+                    'elementHandlers': specialElementHandlers
+                },
+
+                function (dispose) {
+                    // dispose: object with X, Y of the last line add to the PDF 
+                    //          this allow the insertion of new lines after html
+                    pdf.save(titre + '.pdf');
+                }, margins
+            );
+        }
+    </script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/fastclick/fastclick.min.js"></script>
+    <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="assets/plugins/lobipanel/lobipanel.min.js"></script>
+    <!-- Summernote Js -->
+    <script src="assets/plugins/summernote/summernote.js"></script>
+    <script src="assets/plugins/summernote/summernote-active.js"></script>
+    <!-- modals js -->
+    <script src="assets/plugins/modals/classie.js"></script>
+    <script src="assets/plugins/modals/modalEffects.js"></script>
+    <!-- icheck Js -->
+    <script src="assets/plugins/icheck/icheck.min.js"></script>
+    <script src="assets/plugins/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+    <script src="assets/plugins/icheck/icheck-active.js"></script>
+    <!-- START THEME LABEL SCRIPT -->
+    <script src="assets/dist/js/theme.js"></script>
+</body>
+
+</html>

@@ -1,11 +1,15 @@
 package com.testHibernate.helpers;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;  
 /**
  *
  * @author Angelo-KabyLake
  */ 
 public class Encrypt {
+	private static MessageDigest md;
+	
     public static String encode(String message) throws Exception{ 
 	String originalInput = message,encodedString = "";
         
@@ -27,5 +31,10 @@ public class Encrypt {
 		throw new Exception(e);
         }
         return decodedString;
+    }
+    
+    public static String toSHA1(byte[] convertme) throws NoSuchAlgorithmException {
+        md = MessageDigest.getInstance("SHA-1");
+        return Base64.getEncoder().encodeToString((md.digest(convertme)));
     }
 }

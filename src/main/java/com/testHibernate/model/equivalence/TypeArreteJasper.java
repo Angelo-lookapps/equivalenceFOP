@@ -16,6 +16,8 @@ public class TypeArreteJasper {
 	private Long id; 
 	
 	private String typeArrete;
+	
+	private String description;
 
 	public Long getId() {
 		return id;
@@ -32,6 +34,15 @@ public class TypeArreteJasper {
 	public void setTypeArrete(String typeArrete) {
 		this.typeArrete = typeArrete;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	
 		
 }

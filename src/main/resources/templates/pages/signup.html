@@ -46,39 +46,61 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <form action="#" id="loginForm" novalidate>
+                        <form th:object="${utilisateurForm}" th:action="@{/inscription}" method="POST" id="loginForm" novalidate>
                             
                             <div class="form-group">
-                                <label class="control-label">Pseudo</label>
+                                <label class="control-label">Nom utilisateur </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input id="username" type="text" class="form-control" name="pseudo" placeholder="Pseudo">
+                                    <input id="nom" type="text" class="form-control" th:field="*{nomUser}" placeholder="Nom ">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Mot de passe</label>
+                                <label class="control-label">Prènom utilisateur </label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                    <input id="pass" type="password" class="form-control" name="mdp" placeholder="******">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Rep&eacute;ter votre mot de passe</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                    <input id="rpass" type="password" class="form-control" name="rmdp" placeholder="******">  
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input id="prenom" type="text" class="form-control" th:field="*{prenomUser}" placeholder="Prènom ">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Adresse email</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                    <input id="email" type="password" class="form-control" name="email" placeholder="S'il vous plaît entrer votre adresse email">
+                                    <input id="email" type="text" class="form-control" th:field="*{emailUser}" placeholder="S'il vous plaît entrer votre adresse email">
                                 </div>
                             </div>
+                            <hr/>
+                            
+                            <h5>Identifiant <small>(unique)</small> : </h5>
+                            <div class="form-group">
+                                <label class="control-label">Pseudo </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input id="pseudo" type="text" class="form-control" th:field="*{pseudoUser}" placeholder="Pseudo ">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Mot de passe</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                    <input id="mdp" type="password" class="form-control" th:name="'mdp1'" placeholder="******">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Rep&eacute;ter votre mot de passe</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                    <input id="rpass" type="password" class="form-control" th:name="'mdp2'" placeholder="******">  
+                                </div>
+                            </div>
+                          	<div th:if="${errorSignup=='2'}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+		                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+		                                aria-hidden="true">&times;</span></button>
+		                        <i class="fa fa-exclamation-circle"></i><strong>ERREUR : </strong> Mot de passe non identique! Veuillez recommencez svp!
+		                    </div>
                             <div>
-                                <a href="#" class="btn btn-base pull-right">Inscrire</a>
-                                <a href="/login" class="btn btn-base pull-right m-r-5">Se connecter</a>
+                                <input type="submit" class="btn btn-base pull-right" value="Inscrire"></a>
+                                <a href="/" class="btn btn-default pull-right m-r-5">Se connecter</a>
                             </div>
                         </form>
                     </div>

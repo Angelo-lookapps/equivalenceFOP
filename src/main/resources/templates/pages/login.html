@@ -44,6 +44,12 @@
                     </div>
                 </div>
                 <div class="panel-body">
+               	  	<div th:if="${saved!=null}" class="alert alert-sm alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <i class="fa fa-exclamation-circle"></i><strong>SUCC&Egrave;S : </strong> Nouvelle compte admin
+                        a été enregistré! Vous pouvez maintenant vous connecter!
+                    </div>
                     <form action="/login" id="loginForm" method="POST" novalidate>
                         <div class="form-group">
                             <label class="control-label">Pseudo</label>

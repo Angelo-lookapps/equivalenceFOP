@@ -7,36 +7,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToOne; 
 
-import org.hibernate.annotations.NamedQueries;
-import org.hibernate.annotations.NamedQuery; 
-
-@Entity 
-@NamedQueries({
-	@NamedQuery(  
-		name = "InfoArrete.findInfoArreteByIdArrete", 
-		query = "SELECT c FROM InfoArrete as c WHERE c.arreteEqRef.id = ?1 ")
-})
-public class InfoArrete {
+ 
+public class InfoArreteForm {
 	
-	public InfoArrete() {} 
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public InfoArreteForm() {} 
+ 
 	private Long id; 
 	
-	@ManyToOne 
+	 
 	private ArreteEqRef arreteEqRef;
  
 	private String numeroArrete;
 	
 	private Date dateSortieArrete;
-	
-	@Column(length= 1000000)
+ 
 	private String decretsArrete;
-	
-	@Column(length= 1000)
+ 
 	private String titreTableau;
 	
 	private String organismePaysTableau;

@@ -6,13 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpSession; 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,11 +26,14 @@ import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.TempActivite;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.historique.ActiviteRecent;
+import com.testHibernate.model.user.Utilisateur;
+import com.testHibernate.model.user.UtilisateurForm;
 import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.demande.FicheDemandeService;
 import com.testHibernate.service.diplome.ListesDiplomeService;
 import com.testHibernate.service.diplome.NiveauDiplomeService;
 import com.testHibernate.service.historique.ActiviteRecentService;
+import com.testHibernate.service.user.UtilisateurService;
 
 @Controller
 public class PagesController {
@@ -35,10 +41,16 @@ public class PagesController {
 	 private FicheDemandeService ficheDemandeService;
 	 private HttpSession session; 
 	 private ActiviteRecentService activiteRecentService;
+	 private UtilisateurService utilisateurService;
 	 private GlobalHelper global = new GlobalHelper();
 	 
 	 int nombreLigneMax = 10;
 	 private List<FicheDemande> fiches;
+	 
+	 @Autowired
+	 public void setUtilisateurService(UtilisateurService utilisateurService) {
+		this.utilisateurService = utilisateurService;
+	 }
 	 
 	 @Autowired
 	 public void setActiviteRecentService(ActiviteRecentService activiteRecentService) {
@@ -72,8 +84,13 @@ public class PagesController {
 	 }
 	
 
-	@GetMapping("/")
-	public String accueil() {
+	@GetMapping({"/", "/saved/{id}"})
+	public String accueil(@PathVariable(required=false) String id, Model model) {
+		Utilisateur user = null; 
+		if(id!=null) {
+			user = this.utilisateurService.getById(Long.valueOf(id));
+			model.addAttribute("saved", user);
+		}
 		return "pages/login";		
 	}
 	@GetMapping("/productList")
@@ -90,7 +107,8 @@ public class PagesController {
 	}
 	
 	@GetMapping("/signup")
-	public String signUpPage() {
+	public String signUpPage(Model model) {
+		model.addAttribute("utilisateurForm", new UtilisateurForm());
 		return "pages/signup";		
 	}
 	
@@ -200,9 +218,19 @@ public class PagesController {
 	@PostMapping(value = "/login")
 	public String login(@RequestParam(required=true) String pseudo,
 			@RequestParam(required=true) String mdp, @RequestParam(required=false) Optional<Boolean> stillConnected, ModelMap modelMap) {
+		List<Utilisateur> listePseudo = null;
+		listePseudo = pseudo!=null ? this.utilisateurService.findUserByLogin(pseudo) : null;
+		if(listePseudo.size()!=0) {
+			System.out.println("Search : '"+pseudo+"' , result = "+listePseudo.size());
+		}
+		else if(listePseudo.size()==0) {
+			modelMap.put("errorlogin", "1"); 
+			return "pages/login";
+		}
 		
-		if(pseudo.toUpperCase().equals("ADMIN")) {
-			if(mdp.equals("admin")) {
+		for(Utilisateur temp : listePseudo) { 
+			
+			if( temp.getMdpUser()!=null && temp.getMdpUser().equals(mdp)) {
 				if(stillConnected.isPresent()) {
 					String[] admin = {pseudo,mdp};
 					session.setAttribute("keepConnected", admin);
@@ -210,18 +238,55 @@ public class PagesController {
 				session.setAttribute("isConnected", pseudo);
 				return "redirect:/home";
 			}
-			else if(!mdp.equals("admin")) {
+			else if(mdp==null || temp.getMdpUser()!=null && !temp.getMdpUser().equals(mdp)) {
 				modelMap.put("errorlogin", "2");	
 				return "pages/login";
 			}
-		}else if(!pseudo.toUpperCase().equals("ADMIN")) {
-			modelMap.put("errorlogin", "1");
-			return "pages/login";
-		}
+		} 
+
+		modelMap.put("errorlogin", "2");	
 		
 		return "pages/login";	
 	}
 	
+	@PostMapping(value = "/inscription")
+	public String saveOrUpdateDiploma(@Valid  @ModelAttribute UtilisateurForm utilisateurForm, @RequestParam(required=true) String mdp1, @RequestParam(required=true) String mdp2, BindingResult bindingResult, Model model){
+		 
+		 if(bindingResult.hasErrors()){
+			 return "redirect:/error505"; 
+		 }
+		 if(mdp1==null || mdp2==null || !mdp1.equals(mdp2)) {
+			 model.addAttribute("errorSignup", "2"); 
+			 return "/pages/signup";
+		 }
+		 System.out.println("mdp1 = "+ mdp1);
+		 
+		 Utilisateur listesSaved = null; 
+		 if(mdp1.equals(mdp2)) {
+			 utilisateurForm.setMdpUser(mdp1);
+		 }
+		 
+		 utilisateurForm.setDateAjout(GlobalHelper.getCurrentDate());
+		
+		 try{ 
+			 listesSaved = utilisateurService.saveOrUpdateUtilisateurForm(utilisateurForm);
+			 
+			 //Mis en historique
+			 ActiviteRecent historique = new ActiviteRecent(); 
+			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "Un Nouveau compte Administrateur : \""+listesSaved.getPseudoUser().toUpperCase())+"\"");
+			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+			 	activiteRecentService.saveOrUpdate(historique);
+		 	 //fin historique
+		 	 
+		 }catch(Exception e) {
+				model.addAttribute("error", e);
+	 			return "pages/erreur/505"; 
+			// e.printStackTrace();
+		 } 
+		 System.out.println("Query saved 1 : "+listesSaved.getPseudoUser().toUpperCase());
+		 return "redirect:/saved/"+listesSaved.getId();
+		
+	 }
 	
 	@GetMapping(value = "/logout")
 	public String logout(Model model) {

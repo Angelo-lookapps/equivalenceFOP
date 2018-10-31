@@ -36,7 +36,7 @@ public class InfoArrete {
 	@Column(length= 1000000)
 	private String decretsArrete;
 	
-	@Column(length= 1000)
+	@Column(length= 10000)
 	private String titreTableau;
 	
 	private String organismePaysTableau;
@@ -48,6 +48,7 @@ public class InfoArrete {
 	private String categorieTableau;
 	
 	//DECRET Critère
+	private String niveauRefDecret;
 	private String diplomeEquivalentDecret;
 	private String corpsFonctionnaireDecret;
 	private String indiceDecret;
@@ -55,6 +56,14 @@ public class InfoArrete {
 	private Date dateSignature;
 	
 	private String nomMinistreSignature;
+
+	public String getNiveauRefDecret() {
+		return niveauRefDecret;
+	}
+
+	public void setNiveauRefDecret(String niveauRefDecret) {
+		this.niveauRefDecret = niveauRefDecret;
+	}
 
 	public Long getId() {
 		return id;

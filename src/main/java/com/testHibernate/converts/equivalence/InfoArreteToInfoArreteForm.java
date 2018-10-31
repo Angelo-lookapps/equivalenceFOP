@@ -13,21 +13,23 @@ public class InfoArreteToInfoArreteForm implements Converter<InfoArrete, InfoArr
   @Override
     public InfoArreteForm convert(InfoArrete  infoArrete ) {
   	InfoArreteForm infoArreteForm = new InfoArreteForm();
-	  	infoArrete.setId(infoArreteForm.getId());
-	  	infoArrete.setArreteEqRef(infoArreteForm.getArreteEqRef());
-  		infoArrete.setNumeroArrete(infoArreteForm.getNumeroArrete());
-	  	infoArrete.setDateSortieArrete(infoArreteForm.getDateSortieArrete());
-	  	infoArrete.setDecretsArrete(infoArreteForm.getDecretsArrete());
-	  	infoArrete.setTitreTableau(infoArreteForm.getTitreTableau());
-	  	infoArrete.setOrganismePaysTableau(infoArreteForm.getOrganismePaysTableau());
-	  	infoArrete.setCadreTableau( infoArreteForm.getCadreTableau());
-	  	infoArrete.setEchelleTableau( infoArreteForm.getEchelleTableau());
-	  	infoArrete.setCategorieTableau( infoArreteForm.getCategorieTableau());
-	  	infoArrete.setDiplomeEquivalentDecret( infoArreteForm.getDiplomeEquivalentDecret());
-	  	infoArrete.setCorpsFonctionnaireDecret( infoArreteForm.getCorpsFonctionnaireDecret());
-	  	infoArrete.setIndiceDecret( infoArreteForm.getIndiceDecret());
-	  	infoArrete.setDateSignature( infoArreteForm.getDateSignature());
-		infoArrete.setNomMinistreSignature( infoArreteForm.getNomMinistreSignature());
+  	infoArreteForm.setId(infoArrete.getId());
+  	infoArreteForm.setArreteEqRef(infoArrete.getArreteEqRef());
+  	infoArreteForm.setNumeroArrete(infoArrete.getNumeroArrete());
+  	infoArreteForm.setDateSortieArrete(infoArrete.getDateSortieArrete());
+  	infoArreteForm.setDecretsArrete(infoArrete.getDecretsArrete());
+  	infoArreteForm.setTitreTableau(infoArrete.getTitreTableau());
+  	infoArreteForm.setOrganismePaysTableau(infoArrete.getOrganismePaysTableau());
+  	infoArreteForm.setCadreTableau( infoArrete.getCadreTableau());
+  	infoArreteForm.setEchelleTableau( infoArrete.getEchelleTableau());
+  	infoArreteForm.setCategorieTableau( infoArrete.getCategorieTableau());
+  	
+  	infoArreteForm.setNiveauRefDecret( infoArrete.getNiveauRefDecret());
+  	infoArreteForm.setDiplomeEquivalentDecret( infoArrete.getDiplomeEquivalentDecret());
+  	infoArreteForm.setCorpsFonctionnaireDecret( infoArrete.getCorpsFonctionnaireDecret());
+  	infoArreteForm.setIndiceDecret( infoArrete.getIndiceDecret());
+  	infoArreteForm.setDateSignature( infoArrete.getDateSignature());
+  	infoArreteForm.setNomMinistreSignature( infoArrete.getNomMinistreSignature());
 	  
 	return infoArreteForm;
     }

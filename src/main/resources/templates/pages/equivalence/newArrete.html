@@ -139,89 +139,115 @@
 	                                                    <label for="line-checkbox-2">Champ formulaire par défaut (En bas de page)</label>
 	                                                </div>
                                             	</div> -->
-                                            	
-                                            	<div class="form-group row">
-				                                    <label for="numeroArrete" class="col-sm-3 col-form-label">N° Arrêté</label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{numeroArrete}" type="number" min="0" max="99999"
-				                                            placeholder="Numéro arrêté . . ." id="numeroArrete" >
-				                                    </div>
-				                                </div>
-				                                <div class="form-group row">
-				                                    <label for="numeroArrete" class="col-sm-3 col-form-label">Date de sortie</label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{dateSortieArrete}" type="date" 
-				                                            placeholder="Date sortie arrêté . . ." id="numeroArrete" >
-				                                    </div>
-				                                </div>
-				                                <div class="form-group row">
-				                                    <label for="decretsArrete" class="col-sm-3 col-form-label">Lois engagé</label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <textarea class="form-control" th:field="*{decretsArrete}" type="text" 
-				                                            placeholder="Veuillez ecrire ici les lois et article concerné . . ." id="decretsArrete" ></textarea>
-				                                    </div>
-				                                </div>
-				                                <hr/>
-				                                <h5>Détail du tableau : </h5>
-				                                <div class="form-group row">
-				                                    <label for="numeroArrete" class="col-sm-3 col-form-label">Titre </label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{titreTableau}" type="text" 
-				                                            placeholder="Titre . . ." id="numeroArrete" >
-				                                    </div>
-				                                </div>
-				                                <div class="form-group row">
-				                                    <label for="organismePaysTableau" class="col-sm-3 col-form-label">Organisme et pays de délivrance </label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{organismePaysTableau}" type="text" 
-				                                            placeholder="Organisme et pays . . ." id="organismePaysTableau" >
-				                                    </div>
-				                                </div>
-				                                <div class="form-group row">
-				                                    <label for="cadreTableau" class="col-sm-3 col-form-label">Cadre</label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{cadreTableau}" type="text" 
-				                                            placeholder="Cadre . . ." id="cadreTableau" >
-				                                    </div>
-				                                </div>
-				                                <div class="form-group row">
-				                                    <label for="echelleTableau" class="col-sm-3 col-form-label">Echelle</label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{echelleTableau}" type="text" 
-				                                            placeholder="Echelle . . ." id="echelleTableau" >
-				                                    </div>
-				                                </div>
-				                                <div class="form-group row">
+                                            	<input type="hidden" th:field="*{id}"/>
+                                            	<h4 th:if="${arreteEqRef.typeArreteJasper.typeArrete=='1'}" >Information Arrêté normale : </h4>
+					                            <h4 th:if="${arreteEqRef.typeArreteJasper.typeArrete=='2'}" >Information décret : </h4>    	
+                                            	<div th:if="${arreteEqRef.typeArreteJasper.typeArrete=='1'}">
+		                                            	<div class="form-group row">
+						                                    <label for="numeroArrete" class="col-sm-3 col-form-label">N° Arrêté</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{numeroArrete}" type="number" min="0" max="99999"
+						                                            placeholder="Numéro arrêté . . ." id="numeroArrete" >
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="numeroArrete" class="col-sm-3 col-form-label">Date de sortie</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{dateSortieArrete}" type="date" 
+						                                            placeholder="Date sortie arrêté . . ." id="numeroArrete" >
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="decretsArrete" class="col-sm-3 col-form-label">Lois engagé</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <textarea class="form-control" th:field="*{decretsArrete}" type="text" 
+						                                            placeholder="Veuillez ecrire ici les lois et article concerné . . ." id="decretsArrete" ></textarea>
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="nomMinistreSignature" class="col-sm-3 col-form-label">Nom du présent ministre (DFOP)</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{nomMinistreSignature}" type="text" 
+						                                            placeholder="Veuillez renseigner le présent Ministre MFTLS . . ." id="nomMinistreSignature" >
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="dateSignatureArrete" class="col-sm-3 col-form-label">Date de signature</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{dateSignature}" type="date" 
+						                                            placeholder="Date signature arrêté . . ." id="dateSignatureArrete" >
+						                                    </div>
+						                                </div>
+						                                <hr/>
+						                                <h4>Détail du tableau : </h4>
+						                                <div class="form-group row">
+						                                    <label for="*{titreTableau}" class="col-sm-3 col-form-label">Titre(s)</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                         <textarea class="form-control" th:field="*{titreTableau}" type="text" 
+						                                            placeholder="Veuillez renseigner les titres des diplômes . . ." id="*{titreTableau}" ></textarea>
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="organismePaysTableau" class="col-sm-3 col-form-label">Organisme et pays de délivrance </label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{organismePaysTableau}" type="text" 
+						                                            placeholder="Organisme et pays . . ." id="organismePaysTableau" >
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="cadreTableau" class="col-sm-3 col-form-label">Cadre</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{cadreTableau}" type="text" 
+						                                            placeholder="Cadre . . ." id="cadreTableau" >
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="echelleTableau" class="col-sm-3 col-form-label">Echelle</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{echelleTableau}" type="text" 
+						                                            placeholder="Echelle . . ." id="echelleTableau" >
+						                                    </div>
+						                                </div>
+						                               
+			                                 	</div>
+			                                 	<hr/>
+				                                <div th:if="${arreteEqRef.typeArreteJasper.typeArrete=='2'}">
+						                                <div class="form-group row">
+						                                    <label for="*{niveauRefDecret}" class="col-sm-3 col-form-label">Niveau de références</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{niveauRefDecret}" type="text" 
+						                                            placeholder="Niveau de référence . . ." id="*{niveauRefDecret}" >
+						                                    </div>
+						                                </div>
+					                                 	<div class="form-group row">
+						                                    <label for="diplomeEquivalentDecret" class="col-sm-3 col-form-label">Diplômes équivalents</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{diplomeEquivalentDecret}" type="text" 
+						                                            placeholder="Diplôme équivalent . . ." id="diplomeEquivalentDecret" >
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="corpsFonctionnaireDecret" class="col-sm-3 col-form-label">Corps des fonctionnaires</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{corpsFonctionnaireDecret}" type="text" 
+						                                            placeholder="Corps des fonctionnaires . . ." id="corpsFonctionnaireDecret" >
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="indiceDecret" class="col-sm-3 col-form-label">Indices</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{indiceDecret}" type="text" 
+						                                            placeholder="Indices . . ." id="indiceDecret" >
+						                                    </div>
+						                                </div>  
+												</div>  
+												<div class="form-group row">
 				                                    <label for="categorieTableau" class="col-sm-3 col-form-label">Catégorie</label>
 				                                    <div class="col-lg-6 col-md-9 col-sm-12">
 				                                        <input class="form-control" th:field="*{categorieTableau}" type="text" 
 				                                            placeholder="Catégorie . . ." id="categorieTableau" >
 				                                    </div>
 				                                </div>
-				                                <hr/>
-				                                <h5>Information décret : </h5>
-			                                 	<div class="form-group row">
-				                                    <label for="diplomeEquivalentDecret" class="col-sm-3 col-form-label">Diplômes équivalents</label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{diplomeEquivalentDecret}" type="text" 
-				                                            placeholder="Diplôme équivalent . . ." id="diplomeEquivalentDecret" >
-				                                    </div>
-				                                </div>
-				                                <div class="form-group row">
-				                                    <label for="corpsFonctionnaireDecret" class="col-sm-3 col-form-label">Corps des fonctionnaires</label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{corpsFonctionnaireDecret}" type="text" 
-				                                            placeholder="Corps des fonctionnaires . . ." id="corpsFonctionnaireDecret" >
-				                                    </div>
-				                                </div>
-				                                <div class="form-group row">
-				                                    <label for="indiceDecret" class="col-sm-3 col-form-label">Indices</label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{indiceDecret}" type="text" 
-				                                            placeholder="Indices . . ." id="indiceDecret" >
-				                                    </div>
-				                                </div>  
-
                                                 <div class="btn-group pull-right">
                                                     <button type="submit" class="btn btn-base">Sauvegarder</button>
                                                 </div>
@@ -231,7 +257,7 @@
 
 
                                     <!-- Detail Arrete -->
-                                    <div class="tab-pane fade" id="arreteDetail">
+                                <!--  <div class="tab-pane fade" id="arreteDetail">
                                         <div class="panel-body">
                                             <div class="inbox-mail-details p-20">
                                                 <div id="pdf">
@@ -247,14 +273,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <!-- MODALS DIALOG -->
+                <!-- 
+              
                 <div class="modal fade" id="example" tabindex="-1" role="dialog">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
@@ -280,9 +307,9 @@
                                 		<i class="fa fa-print"></i></button>
                                 <button type="button" class="btn btn-base" data-dismiss="modal">OK</button>
                             </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
+                        </div> 
+                    </div> 
+                </div> -->
                 <!-- MODALS DIALOG -->
                 <div class="modal fade" id="champArrete" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">

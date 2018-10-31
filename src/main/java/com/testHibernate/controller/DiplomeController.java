@@ -260,7 +260,7 @@ public class DiplomeController {
 		 	 //fin historique
 		 	if(anneeSortie!=null && !anneeSortie.equals("vide")) { 
 				 arrete = this.insertArreteLink(listesSaved, anneeSortie, typeArrete);
-			 	 infoArrete = GlobalHelper.getInitialInfoArrete(arrete);
+			 	 infoArrete = GlobalHelper.getInitialInfoArrete(null, arrete);
 			 	 infoArrete = infoArreteService.saveOrUpdate(infoArrete);
 		 	}
 		 	

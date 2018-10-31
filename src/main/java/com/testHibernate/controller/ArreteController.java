@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  
 import com.testHibernate.converts.equivalence.ArreteEqRefFormToArreteEqRef;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
+import com.testHibernate.converts.equivalence.InfoArreteToInfoArreteForm;
 import com.testHibernate.helpers.DateHelper;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.InfoArreteReport;
@@ -65,6 +66,7 @@ public class ArreteController {
 	 private ListesDiplomeService listesDiplomeService;
 	 private TypeArreteJasperService typeArreteService;
 	 List<ArreteEqRef> arretes ;
+	 private InfoArreteToInfoArreteForm infoArreteToInfoArreteForm;
 	 
 	 
 	 private FicheDemandeService demandeService;
@@ -72,6 +74,10 @@ public class ArreteController {
 	 private ActiviteRecentService activiteRecentService;
 	 private InfoArreteService infoArreteService;
 	 
+	 @Autowired
+	 public void setInfoArreteToInfoArreteForm(InfoArreteToInfoArreteForm infoArreteToInfoArreteForm) {
+		this.infoArreteToInfoArreteForm = infoArreteToInfoArreteForm;
+	 }
 	 @Autowired
 	 public void setFicheDemandeService(FicheDemandeService demandeService) {
 		this.demandeService = demandeService;
@@ -200,13 +206,18 @@ public class ArreteController {
 		try { 
 			 
 			ArreteEqRef listesSaved = arreteEqRefService.getById(Long.valueOf(id));
-			ContentArrete contentArrete = contentArreteService.getContentByArrete(Long.valueOf(id))!=null ? contentArreteService.getContentByArrete(Long.valueOf(id)) : null;
+			//ContentArrete contentArrete = contentArreteService.getContentByArrete(Long.valueOf(id))!=null ? contentArreteService.getContentByArrete(Long.valueOf(id)) : null;
+				System.out.println("ID = "+id);
+				System.out.println(" value idInfo= "+infoArreteService.getArreteByIdArrete(Long.valueOf(id)).getId());
+			InfoArrete infoArrete = (infoArreteService.getArreteByIdArrete(Long.valueOf(id))!=null) ? infoArreteService.getArreteByIdArrete(Long.valueOf(id)) :  new InfoArrete();
+				System.out.println(" value infoArrete= "+infoArrete.getId());
 			
-			
+			InfoArreteForm infoArreteForm = infoArreteToInfoArreteForm.convert(infoArrete);
+				System.out.println(" value infoArreteForm= "+infoArreteForm.getId());
 			if(listesSaved==null) {
 				return "redirect:/error404/listArrete";	
 			}
-			ArreteEqRefForm arreteEqRefForm = listesSaved!=null ? this.arreteEqRefToArreteEqRefForm.convert(listesSaved) : new ArreteEqRefForm();
+			ArreteEqRefForm arreteEqRefForm = (listesSaved!=null) ? this.arreteEqRefToArreteEqRefForm.convert(listesSaved) : new ArreteEqRefForm();
 			 	
 			//List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 			List<String> listEcole = listesDiplomeService.getAllEcole();
@@ -220,11 +231,12 @@ public class ArreteController {
 			model.addAttribute("arreteEqRefForm", arreteEqRefForm);
 			model.addAttribute("idArrete", arreteEqRefForm!=null ? arreteEqRefForm.getId().toString() : "");
 			 
-			model.addAttribute("contentArticle", contentArticle);
-			model.addAttribute("contentArrete",  contentArrete);
+			//model.addAttribute("contentArticle", contentArticle);
+			//model.addAttribute("contentArrete",  contentArrete);
 			model.addAttribute("champArreteEqForm", new ChampArreteEqForm());
-			model.addAttribute("infoArreteForm", new InfoArreteForm());
-			
+			model.addAttribute("infoArreteForm", infoArreteForm);
+			System.out.println("INFO ARRETE === "+infoArreteForm.getNumeroArrete());
+			System.out.println(" "+infoArreteForm.getId());
 		} catch (Exception e) {
 			model.addAttribute("error", e);
  			return "pages/erreur/505"; 
@@ -304,10 +316,9 @@ public class ArreteController {
 		FicheDemande demande = null;
 		if(idDemande!=null && !idDemande.equals("")) {
 			demande = demandeService.getById(Long.valueOf(idDemande));
-		}
-		if(infoArrete==null) {
-			infoArrete = GlobalHelper.getInitialInfoArrete(arrete);
-		}
+		} 
+		infoArrete = GlobalHelper.getInitialInfoArrete(infoArrete, arrete);
+		 
 		System.out.println(">>>>>>>>>>>>>> idInfoArrrete = "+idArrete); 
 		List<Map<String, ?>> dataSource = InfoArreteReport.getReportInfoArrete(infoArrete, demande);
 		List<Map<String, ?>> one = new ArrayList<Map<String, ?>>();
@@ -336,6 +347,40 @@ public class ArreteController {
 		} 
 		
 	}
+	@PostMapping("/saveContent/{id}")
+	public String saveContenu(@PathVariable String id, @Valid @ModelAttribute InfoArreteForm infoArreteForm, @RequestParam(required=false) String signatureDefaut, @RequestParam(required=false) String champDefaut, Model model, BindingResult bindingResult) {
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
+		InfoArrete listesSaved = null;
+		 
+		InfoArreteForm content = infoArreteForm; 
+		ArreteEqRef temp = arreteEqRefService.getById(Long.valueOf(id));		//add arreteEqRef to entete foreign key
+		temp.setStatus(true); 
+		content.setArreteEqRef(temp);
+		if(bindingResult.hasErrors()){
+			 return "redirect:/error404/newArrete/"+id; 
+		 }
+	try {
+			
+			listesSaved = infoArreteService.saveOrUpdateInfoArreteForm(content);
+			//Mis en historique
+			 ActiviteRecent historique = new ActiviteRecent(); 
+			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(1, "un contenue à l'arrêté \""+listesSaved.getArreteEqRef().getTitre()+" année sortie: "+listesSaved.getArreteEqRef().getAnneeSortie()+"\""));
+			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+			 	activiteRecentService.saveOrUpdate(historique);
+		 	 //fin historique
+						
+		} catch (Exception e) {
+			model.addAttribute("error", e);
+ 			return "pages/erreur/505"; 
+			//e.printStackTrace();
+		}
+			
+		return "redirect:/newArrete/" + id ;		
+	}
+	/*
 	@PostMapping("/saveContent/{id}")
 	public String saveContenu(@PathVariable String id, @Valid @ModelAttribute ContentArreteForm contentArreteForm, @RequestParam(required=false) String signatureDefaut, @RequestParam(required=false) String champDefaut, Model model, BindingResult bindingResult) {
 		 if(session.getAttribute("isConnected")==null) {
@@ -379,9 +424,7 @@ public class ArreteController {
 		}
 			
 		return "redirect:/newArrete/" + id ;		
-	}
-	
-	
+	}*/
 	
 	public void initialListeArrete() {
 		if(this.arretes==null){

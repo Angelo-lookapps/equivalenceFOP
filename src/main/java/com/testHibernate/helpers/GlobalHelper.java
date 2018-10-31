@@ -182,6 +182,13 @@ public class GlobalHelper {
 		String ret = daty[2]+"-"+daty[1]+"-"+daty[0];
 		return  ret;
 	}
+	public static Date convertToDate(Date date) throws ParseException { 
+		int day = date.getDay();
+		int month = date.getMonth();
+		int year = date.getYear()+(int)1900;
+		Date ret = formater.parse(year+"-"+month+"-"+day);
+		return  ret;
+	}
 	public static Date convertToDateUtil(String date) throws ParseException { 
 		 Date ret = formater.parse(date);
 		return  ret;
@@ -317,7 +324,7 @@ public class GlobalHelper {
 		return ret;
 	}
 	
-	public static InfoArrete getInitialInfoArrete(ArreteEqRef arreteEqRef) {
+	public static InfoArrete getInitialInfoArrete(InfoArrete info, ArreteEqRef arreteEqRef) {
 		InfoArrete ret = new InfoArrete();
 		try {
 			if(arreteEqRef==null) {
@@ -325,10 +332,13 @@ public class GlobalHelper {
 			}
 			System.out.println("arreteEqRef === "+arreteEqRef.getTitre());
 			
+			if(info!=null) {
+				
+			}
 			ret.setArreteEqRef(arreteEqRef);  
-			ret.setNumeroArrete("000");
-			ret.setDateSortieArrete(new Date()); 
-			ret.setDecretsArrete("Vu la Constitution,\r\n" + 
+			ret.setNumeroArrete(info==null ? "000" : info.getNumeroArrete());
+			ret.setDateSortieArrete(info==null ? new Date() : info.getDateSortieArrete()); 
+			ret.setDecretsArrete(info==null ? "Vu la Constitution,\r\n" + 
 					"Vu la loi n°2003-011 du 03 septembre  2003 portant  Statut Général des  Fonctionnaires, et les textes subséquent ; \r\n" + 
 					"Vu le décret n° 96-745 du 27 août 1996 portant classement hiérarchique des corps de fonctionnaires ;\r\n" + 
 					"Vu le décret n° 2005-074 du 01 février 2005 fixant les missions, la composition et les règles de fonctionnement de la Commission Nationale des Equivalences Administratives des Titres ;\r\n" + 
@@ -337,17 +347,19 @@ public class GlobalHelper {
 					"Vu le décret n°2014-235 du18 avril 2014 portant nomination des Membres du Gouvernement ;\r\n" + 
 					"Vu l’arrêté n°8176 /2014 - CNEAT du 07 Février 2014 et l’arrêté n°25.047 /2014-CNEAT portant nomination des membres de la Commission Nationale des Equivalences Administratives des Titres ;\r\n" + 
 					"Vu l’avis de la Commission Nationale  des Equivalences Administratives des Titres de la session du 11 septembre  2014.\r\n" + 
-					"");
-			ret.setTitreTableau("SANS TITRE");
-			ret.setOrganismePaysTableau("VIDE");
-			ret.setCadreTableau( "VIDE");
-			ret.setEchelleTableau( "VIDE");
-			ret.setCategorieTableau( "VIDE");
-	    	ret.setDiplomeEquivalentDecret( "VIDE");
-	    	ret.setCorpsFonctionnaireDecret( "VIDE");
-	    	ret.setIndiceDecret( "VIDE");
-	    	ret.setDateSignature(new Date());
-	    	ret.setNomMinistreSignature( "VIDE");
+					"" :  info.getDecretsArrete());
+			ret.setTitreTableau(info==null ? "SANS TITRE" : info.getTitreTableau());
+			ret.setOrganismePaysTableau(info==null ? "VIDE" : info.getOrganismePaysTableau());
+			ret.setCadreTableau(info==null ? "VIDE" : info.getCadreTableau());
+			ret.setEchelleTableau(info==null ?  "VIDE" : info.getEchelleTableau());
+			ret.setCategorieTableau( info==null ? "VIDE" : info.getCategorieTableau());
+	    	
+			ret.setNiveauRefDecret(info==null ?  "VIDE" : info.getNiveauRefDecret());
+	    	ret.setDiplomeEquivalentDecret(info==null ?  "VIDE" : info.getDiplomeEquivalentDecret());
+	    	ret.setCorpsFonctionnaireDecret(info==null ?  "VIDE" : info.getCorpsFonctionnaireDecret());
+	    	ret.setIndiceDecret(info==null ?  "VIDE": info.getIndiceDecret());
+	    	ret.setDateSignature(info==null ? new Date() : info.getDateSignature());
+	    	ret.setNomMinistreSignature(info==null ?  "VIDE": info.getNomMinistreSignature());
 			 
 		}catch(Exception e) {
 			throw e;

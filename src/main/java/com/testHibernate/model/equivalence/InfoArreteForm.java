@@ -29,6 +29,7 @@ public class InfoArreteForm {
 	private String categorieTableau;
 	
 	//DECRET Critère
+	private String niveauRefDecret;
 	private String diplomeEquivalentDecret;
 	private String corpsFonctionnaireDecret;
 	private String indiceDecret;
@@ -36,6 +37,14 @@ public class InfoArreteForm {
 	private Date dateSignature;
 	
 	private String nomMinistreSignature;
+
+	public String getNiveauRefDecret() {
+		return niveauRefDecret;
+	}
+
+	public void setNiveauRefDecret(String niveauRefDecret) {
+		this.niveauRefDecret = niveauRefDecret;
+	}
 
 	public Long getId() {
 		return id;

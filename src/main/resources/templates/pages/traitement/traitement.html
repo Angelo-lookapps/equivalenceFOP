@@ -69,7 +69,14 @@
                        <div class="panel-body">
                            <div class="row">
                                <div class="col-sm-12 col-md-12 col-lg-10 col-lg-offset-1 text-center">
-                                   <form method="post" class="f1 form4">
+                                   <form th:object="${ficheDemandeForm}" th:action="'/traitement/demande'" method="post" class="f1 form4">
+                                       
+                                       <div th:if="${#fields.hasErrors('*')}" class="alert alert-sm alert-danger alert-dismissible" role="alert">
+                                           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                   aria-hidden="true">&times;</span></button>
+                                           <i class="fa fa-exclamation-circle"></i><strong th:text="#{form.hasErrors}">Error Message!!!</strong>
+                                       </div>
+                                       
                                        <div class="f1-steps f4-steps">
                                            <div class="f1-step active">
                                                <div class="f1-step-count"><h5><i class="fa fa-user-circle"></i></h5></div>
@@ -84,18 +91,29 @@
                                                <p>3- VERIFICATION + IMPRIMER (EN PDF)</p>
                                            </div> 
                                        </div>
+                                       <!-- ALL DATA DEMANDE -->
+                                       <input type="hidden" th:field="*{id}">
+                                       <input type="hidden" th:field="*{telephone}">
+                                       <input type="hidden" th:field="*{diplome}">
+                                       <input type="hidden" th:field="*{utilisation}">
+                                       <input type="hidden" th:field="*{dateRetrait}">
+                                       <input type="hidden" th:field="*{statusRejet}">
+                                       <input type="hidden" th:field="*{dateAjout}"> 
+                                       <input type="hidden" th:field="*{cin}"> 
+                                       <input type="hidden" th:field="*{listesDiplome}"> 
+                                       <!-- END -->
                                        <fieldset> 
                                            <h4 class="wizard_heading">Demande de conformit&eacute; du diplome (avec l'original)</h4>
                                            <div class="form-group row"> 
 			                                    <label for="status" class="col-sm-5 col-form-label">Le dipl&ocirc;me Original est-elle conforme au dipl&ocirc;me certifie&eacute; ?</label>
 			                                    <div class="col-lg-6 col-md-9 col-sm-12">
-			                                        <input type="checkbox" th:name="'status'" data-toggle="toggle" data-on="Oui" data-off="Non" data-onstyle="primary" data-offstyle="danger" data-size="small" >
+			                                        <input type="checkbox" th:field="*{statusEnregistrement}" data-toggle="toggle" data-on="Oui" data-off="Non" data-onstyle="primary" data-offstyle="danger" data-size="small" >
 		                                        </div>
 		                                   </div> 
 		                                   <div class="form-group row">
 			                                    <label for="commentaire" class="col-sm-5 col-form-label">Remarque : </label>
 			                                    <div class="col-lg-6 col-md-9 col-sm-12">
-			                                        <textarea class="form-control" id="remarque" rows="3" type="text" th:name="'commentaire'" value="Aucune" placeholder="Si vous avez une remarque à faire, ecrivez ici ... " ></textarea>
+			                                        <textarea class="form-control" id="remarque" rows="3" type="text" th:field="*{remarque}" value="Aucune" placeholder="Si vous avez une remarque à faire, ecrivez ici ... " ></textarea>
 		                                        </div>
 		                                   </div> 
                                            <div class="f1-buttons">
@@ -164,8 +182,7 @@
                                            <h4 class="wizard_heading">V&eacute;rification de l'arr&ecirc;t&eacute; + export au format PDF</h4>
                                            <div class="form-group"> 
                                            	  <label class="sr-only" for="f1-google-plus">Voici l'arrêté d'équivalence</label>
-                                              <input type="submit" class="btn btn-default  w-md m-rb-5 " data-toggle="modal"
-                                                data-target="#example" value="Voir l'arr&ecirc;t&eacute;"></a>
+                                              <a th:href="'/showPDF/arrete/' +${arreteEqRefForm.id}+ '/demande/' +${ficheDemande.id}" class="btn btn-default  w-md m-rb-5 " target="_blank">Voir l'arr&ecirc;t&eacute;</a>
                                            </div>
                                            <h6>Champ de l'arrêté :</h6>
                                            <div class="form-group row">
@@ -205,7 +222,7 @@
                            </div>
                        </div>
                        <!-- MODALS DIALOG -->
-		                <div class="modal fade" id="example" tabindex="-1" role="dialog">
+		               <!-- <div class="modal fade" id="example" tabindex="-1" role="dialog">
 		                    <div class="modal-dialog modal-lg" role="document">
 		                        <div class="modal-content">
 		                            <div class="modal-header" th:object="${arreteEqRefForm}">
@@ -259,10 +276,10 @@
 		                                        class="fa fa-print"></i></button> 
 		                                <button type="button" class="btn btn-base" data-dismiss="modal">OK</button>
 		                            </div>
-		                        </div><!-- /.modal-content -->
-		                    </div><!-- /.modal-dialog -->
-		                </div><!-- /.modal -->
-		                <!-- MODALS DIALOG -->
+		                        </div> 
+		                    </div> 
+		                </div> 
+		                  -->
                    </div>
                </div>
             </div>

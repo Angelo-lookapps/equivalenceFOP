@@ -268,7 +268,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="promo : ${listePromotionDetails}">
+                                            <tr th:each="promo : ${listePromotionDetails}"  th:title="'Date de dernière modification : '+${promo.dateAjout}">
                                            		<td>
                                                     <div class="checkbox checkbox-success">
                                                         <input th:id="'checkbox'+${promo.id}" type="checkbox" th:name="'checkbox'">

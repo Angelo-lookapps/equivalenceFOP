@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.testHibernate.helpers.GlobalHelper;
+import com.testHibernate.helpers.UtilsHelper;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.listePromotion.ListePromotion;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
@@ -25,7 +26,9 @@ public class MyReaderExcel {
 		System.out.println("\n\n ListePormotion = "+listePromotion.getNomPromotion());
 		try { 		
 			// Creating a Workbook from an Excel file (.xls or .xlsx)
-	        workbook = WorkbookFactory.create(new File(fileName));
+			
+			System.out.println("PATH = "+"C:\\imports\\"+fileName);
+	        workbook = WorkbookFactory.create(new File("C:\\imports\\"+fileName));
 	        
 	        if(workbook.getNumberOfSheets()==0) {
 	        	throw new Exception("Error : le fichier excel incorrect !!!");

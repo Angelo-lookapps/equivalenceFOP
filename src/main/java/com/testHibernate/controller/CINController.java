@@ -263,6 +263,7 @@ public class CINController {
 		 initialListeCIN();
 		 
 		 try{ 
+			 //System.out.println("Nom = "+nom);
 			 result =  gh.convertCINToListTag(cinService.searchMultiple(nom, prenom , numeroCIN, 
 					 adresseActuelle, fonction, lieuTravail)); 
 			  

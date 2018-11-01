@@ -24,6 +24,8 @@ public interface FicheDemandeService {
 	
 	List<FicheDemande> getFicheDemandeByStatusEnCours();
 	
+	List<FicheDemande> getFicheDemandeFini();
+	
     List<FicheDemande> getFicheDemandeByDate(@Param("dateRetrait") String dateRetrait);
 
     FicheDemande getById(Long id);
@@ -39,7 +41,6 @@ public interface FicheDemandeService {
 	List<FicheDemande> selectByRejet(List<FicheDemande> listeDemande, Boolean statusRejet) throws Exception;
 	
 	long getFicheDemandeByDayOrMonth(String field, Integer month, Boolean statusRejet);
-
-	
+ 
 
 }

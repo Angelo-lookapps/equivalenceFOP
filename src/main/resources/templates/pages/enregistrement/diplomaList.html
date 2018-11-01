@@ -90,7 +90,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="diploma : ${listesDiplome}">
+                                            <tr th:each="diploma : ${listesDiplome}" th:title="'Date de dernière modification : '+${diploma.dateAjout}">
                                                 <td class="text-center" th:text="${diploma.id}"></td>
                                                 <td class="text-center"><a th:href="'/showDiploma/'+${diploma.id}"
                                                         th:text="${diploma.ecole}"></a></td>

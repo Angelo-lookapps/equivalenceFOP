@@ -158,4 +158,15 @@ public class FicheDemandeServiceImpl implements FicheDemandeService {
 	 
 		return result;
 	}
+
+
+	@Override
+	public List<FicheDemande> getFicheDemandeFini() {
+		TypedQuery<FicheDemande> query = em.createNamedQuery("FicheDemande.findDemandeFini", FicheDemande.class)  ;
+		List<FicheDemande> ret = query.getResultList();
+		
+		return ret;
+	}
+
+ 
 }

@@ -2,6 +2,7 @@ package com.testHibernate.model.demande;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,8 +36,11 @@ import com.testHibernate.model.diplome.ListesDiplome;
 		name = "FicheDemande.findByFilterASC", 
 		query = "SELECT fi FROM FicheDemande as fi ORDER BY :champ ASC "),
 	@NamedQuery(
+		name = "FicheDemande.findDemandeFini", 
+		query = "SELECT fi FROM FicheDemande as fi WHERE fi.statusEnregistrement = 'true' ")	,
+	@NamedQuery(
 		name = "FicheDemande.pagination", 
-		query = "SELECT fd FROM FicheDemande as fd order by fd.id"),
+		query = "SELECT fd FROM FicheDemande as fd order by fd.id"), 
 	@NamedQuery(
 		name = "FicheDemande.getDemandeByMonth",
 		query = "SELECT COUNT(fd.id) as nbFiche FROM FicheDemande as fd WHERE date_part(?1, DATE(fd.dateAjout)) = ?2 AND statusRejet = ?3"  )
@@ -79,6 +83,21 @@ public class FicheDemande {
 	private Date dateRetrait;
 	private Boolean statusRejet;
 	
+	@Column(length= 1000)
+	private String remarque;
+	
+	public String getRemarque() {
+		return remarque;
+	}
+
+	public void setRemarque(String remarque) {
+		this.remarque = remarque;
+	}
+
+	public void setStatusEnregistrement(Boolean statusEnregistrement) {
+		this.statusEnregistrement = statusEnregistrement;
+	}
+
 	public Boolean getStatusRejet() {
 		return statusRejet;
 	}

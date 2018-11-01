@@ -25,6 +25,7 @@ import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.converts.equivalence.ArreteEqRefToArreteEqRefForm;
 import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.Tag;
+import com.testHibernate.helpers.TempFicheDemande;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.demande.FicheDemande;
 import com.testHibernate.model.demande.FicheDemandeDetail;
@@ -63,14 +64,13 @@ public class FicheDemandeController {
 	 private DemandeDetailToDemandeDetailForm ficheDemandeDetailToficheDemandeDetailForm;
 	 private NiveauDiplomeService niveauDiplomeService;
 	 private ArreteEqRefService arreteEqRefService;
-	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm;
-	 
+	 private ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm; 
 	 private DemandeFormToDemande demandeFormToDemande;
 	 
 	 @Autowired
 	 public void setDemandeFormToDemande(DemandeFormToDemande demandeFormToDemande) {
 		this.demandeFormToDemande = demandeFormToDemande;
-	 }
+	 } 
 	 
 	 @Autowired
 	 public void setArreteEqRefToArreteEqRefForm(ArreteEqRefToArreteEqRefForm arreteEqRefToArreteEqRefForm) {
@@ -193,12 +193,43 @@ public class FicheDemandeController {
 	 			return "pages/erreur/505"; 
 				//System.out.println("ERROR = "+e);
 			}
+		ret = filterByDemandeFini(filterByDemandeFini(ret, false));
         model.addAttribute("listeDemande", ret);
          
     	return "pages/enregistrement/requestList";
        
         
 	 }	
+	 @GetMapping({"/requestListFini", "/requestListFini/page-{page}"})
+	 public String listDemandeFini(Model model, @PathVariable(required=false) Optional<Integer> page ){
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
+		 initialListeFiche();
+		 
+		 List<FicheDemande> ret = ficheDemandeService.pagination(1, nombreLigneMax);
+			if(page.isPresent()) {
+				ret = ficheDemandeService.pagination(page.get(), nombreLigneMax);
+				model.addAttribute("pageActuel", page.get());
+			} 
+		List<TempFicheDemande> tempDemande = null;
+			try {
+				tempDemande = filterByDemandeFini(ret, true);
+				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
+				model.addAttribute("nombrePagination", nombrePagination);
+				
+			} catch (Exception e) { 
+				model.addAttribute("error", e);
+	 			return "pages/erreur/505"; 
+				//System.out.println("ERROR = "+e);
+			}
+        model.addAttribute("listeDemande", tempDemande);
+         
+    	return "pages/enregistrement/requestListFini";
+       
+        
+	 }
 	 
 	 @GetMapping({"/showRequest/{id}", "/showRequest/{id}/statusRejet/{statusRejet}", "/showRequest/{id}/notification-{size}"})
 	 public String afficherDemande(@PathVariable String id, @PathVariable(required=false) String statusRejet , @PathVariable(required=false) String size, Model model){
@@ -480,8 +511,8 @@ public class FicheDemandeController {
 			 return "pages/login";
 		 }	 
 		FicheDemande ficheSaved = ficheDemandeService.getById(Long.valueOf(id));
-		ContentArrete contentArrete = null;
-		String contentArticle = GlobalHelper._ArticleContent;
+		//ContentArrete contentArrete = null;
+		//String contentArticle = GlobalHelper._ArticleContent;
 	 	if(ficheSaved==null) { 
 	 		return "redirect:/error404/requestList";
 	 	}  
@@ -503,16 +534,18 @@ public class FicheDemandeController {
  			return "pages/erreur/404"; 
  		} 
  		ArreteEqRef ref = arreteEqRefService.getArreteByIdDiplome(ficheSaved.getListesDiplome().getId());
- 		contentArrete = contentArreteService.getContentByArrete(ref.getId())!=null ? contentArreteService.getContentByArrete(ref.getId()) : null;
+ 		//contentArrete = contentArreteService.getContentByArrete(ref.getId())!=null ? contentArreteService.getContentByArrete(ref.getId()) : null;
  		ArreteEqRefForm	arreteEqRefForm = arreteEqRefToArreteEqRefForm.convert(ref);
  		ListesDiplome diplome = ficheSaved.getListesDiplome();
  		
- 			model.addAttribute("contentArrete",  contentArrete);
- 			model.addAttribute("contentArticle", contentArticle);
+ 			//model.addAttribute("contentArrete",  contentArrete);
+ 			//model.addAttribute("contentArticle", contentArticle);
+ 			
  			model.addAttribute("arreteEqRefForm", arreteEqRefForm);
 			model.addAttribute("leTraiter", leTraiter);
 			model.addAttribute("diplome", diplome);
 			model.addAttribute("ficheDemande", ficheSaved);
+			model.addAttribute("ficheDemandeForm", demandeToDemandeForm.convert(ficheSaved));
 			model.addAttribute("ficheDemandeDetail", ficheDetail);
 			
 			//Verification cas demande rejeté
@@ -522,6 +555,36 @@ public class FicheDemandeController {
  			return "pages/erreur/505"; 
 	 	}
 	 	return "pages/traitement/traitement";
+	 }
+	 
+	 
+	 @PostMapping(value = "/traitement/demande")
+	 public String saveTraitement(@Valid  @ModelAttribute FicheDemandeForm ficheDemandeForm, BindingResult bindingResult, Model model) {
+		 if(bindingResult.hasErrors()){  
+			return "redirect:/error505";	 
+		 }
+		 if(session.getAttribute("isConnected")==null) {
+			 model.addAttribute("errorlogin", "4");
+			 return "pages/login";
+		 }	
+		 System.out.println("\n BINDING RESULT = " + ficheDemandeForm.getId());
+		 try{
+			 ficheDemandeForm.setStatusEnregistrement(true);
+			 FicheDemande ficheSaved = ficheDemandeService.saveOrUpdateDemandeForm(ficheDemandeForm);
+			 
+			 //Mis en historique
+			 ActiviteRecent historique = new ActiviteRecent(); 
+			 	historique.setDefinition( GlobalHelper.getQueryStringActivities(3, "Une demande au nom de "+ficheSaved.getCin().getNom().toUpperCase()+" "+ficheSaved.getCin().getPrenom()+""));
+			 	historique.setDateAjout(GlobalHelper.getCurrentDate());
+			 	activiteRecentService.saveOrUpdate(historique);
+		 	 //fin historique	
+			 	
+	 	}catch(Exception e) {
+	 		e.printStackTrace();
+	 		model.addAttribute("error", e);
+ 			return "pages/erreur/505"; 
+	 	}
+		 return "redirect:/homePage";
 	 }
 	  
 	 
@@ -545,7 +608,9 @@ public class FicheDemandeController {
 		 }
 		 return result;
 	 }
-	//My methods
+	 
+	 
+	//My methods ********************************************
 	 private List<Tag> simulateSearchResultByCritere(String ecole, String filiere, String option, String idNiveau) {
 			 List<Tag> result = new ArrayList<Tag>();
 			 initialListeFiche();
@@ -651,5 +716,36 @@ public class FicheDemandeController {
 		 return ret;
 	 }
 	
+	 public List<TempFicheDemande> filterByDemandeFini(List<FicheDemande> list, boolean statutEnregistrer){
+		 List<TempFicheDemande> ret = new ArrayList<TempFicheDemande>();
+		 
+		 if(list.size()!=0) {
+			 for(FicheDemande temp : list) {
+				 
+				 if(temp.getStatusEnregistrement()==statutEnregistrer) { 
+					 TempFicheDemande arrete = new TempFicheDemande(getArreteByFiche(temp), temp);
+					 ret.add(arrete);
+				 }
+			 }
+		 }
+		 return ret;
+	 }
+	 public List<FicheDemande> filterByDemandeFini(List<TempFicheDemande> liste){
+		 List<FicheDemande> ret = new ArrayList<FicheDemande>();
+		 
+		 if(liste.size()!=0) {
+			 for(TempFicheDemande temp : liste) {
+				 ret.add(temp.getFicheDemande());
+			 }
+		 }
+		 return ret;
+	 }
+	 public ArreteEqRef getArreteByFiche(FicheDemande demande){
+		 ArreteEqRef ret = null;
+		  if(demande!=null && demande.getListesDiplome().getId()!=0) {
+		  	ret = arreteEqRefService.getArreteByIdDiplome(demande.getListesDiplome().getId());
+		  }
+		 return ret;
+	 }
 
 }

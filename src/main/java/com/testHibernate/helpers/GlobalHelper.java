@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -177,12 +178,29 @@ public class GlobalHelper {
 	public static String convertToStringDate(java.sql.Date date) { 
 		return  formater.format(date);
 	} 
-	public static String formatDate(String date) { 
-		String[] daty = date.split("-");
-		String ret = daty[2]+"-"+daty[1]+"-"+daty[0];
+	public static String formatDate(String date) {  
+		date = date.replaceAll("\\s+","");   //remove all space
+		String[] daty = date.split("-"); 
+		String ret = date;
+		//System.out.println("--------------------------------------");
+		//System.out.println("date = "+date);
+		if(Integer.parseInt(daty[2])<Integer.parseInt(daty[0])) {
+			ret = Integer.parseInt(daty[2])+"-"+Integer.parseInt(daty[1])+"-"+Integer.parseInt(daty[0]);
+		}   
 		return  ret;
 	}
+	public static String formatDate(Date date) {
+		Date dat = new Date(date.getTime());
+		return formater.format(dat);
+	}
+	public static Integer getByFormat(Date daty, String byFormat) {
+		SimpleDateFormat simple = new SimpleDateFormat(byFormat);
+		return Integer.parseInt(simple.format(daty));
+	}
+	 
+	
 	public static Date convertToDate(Date date) throws ParseException { 
+		
 		int day = date.getDay();
 		int month = date.getMonth();
 		int year = date.getYear()+(int)1900;
@@ -337,7 +355,8 @@ public class GlobalHelper {
 			}
 			ret.setArreteEqRef(arreteEqRef);  
 			ret.setNumeroArrete(info==null ? "000" : info.getNumeroArrete());
-			ret.setDateSortieArrete(info==null ? new Date() : info.getDateSortieArrete()); 
+			java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+			ret.setDateSortieArrete(info==null ? date : info.getDateSortieArrete()); 
 			ret.setDecretsArrete(info==null ? "Vu la Constitution,\r\n" + 
 					"Vu la loi n°2003-011 du 03 septembre  2003 portant  Statut Général des  Fonctionnaires, et les textes subséquent ; \r\n" + 
 					"Vu le décret n° 96-745 du 27 août 1996 portant classement hiérarchique des corps de fonctionnaires ;\r\n" + 
@@ -358,7 +377,7 @@ public class GlobalHelper {
 	    	ret.setDiplomeEquivalentDecret(info==null ?  "VIDE" : info.getDiplomeEquivalentDecret());
 	    	ret.setCorpsFonctionnaireDecret(info==null ?  "VIDE" : info.getCorpsFonctionnaireDecret());
 	    	ret.setIndiceDecret(info==null ?  "VIDE": info.getIndiceDecret());
-	    	ret.setDateSignature(info==null ? new Date() : info.getDateSignature());
+	    	ret.setDateSignature(info==null ? date : info.getDateSignature());
 	    	ret.setNomMinistreSignature(info==null ?  "VIDE": info.getNomMinistreSignature());
 			 
 		}catch(Exception e) {

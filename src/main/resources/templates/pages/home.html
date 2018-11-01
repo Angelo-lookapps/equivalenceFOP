@@ -106,7 +106,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="demande : ${listeDemande}">
+                                            <tr th:each="demande : ${listeDemande}" th:title="'Date de dernière modification : '+${demande.dateAjout}">
                                                 <td class="text-center" th:text="${demande.id} + ' /' + ${demande.dateRetrait.getYear()-100}"></td>
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${#dates.format(demande.dateRetrait, 'dd-MM-yyyy')}"></a></td>
                                                 <td class="text-center"><a th:href="'/showRequest/'+${demande.id}" th:text="${demande.cin.nom} + ' ' + ${demande.cin.prenom}"></a></td>

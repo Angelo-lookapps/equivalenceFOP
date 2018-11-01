@@ -250,6 +250,7 @@ public class DiplomeController {
 		 InfoArrete infoArrete = null;
 		 
 		 try{ 
+			 listesDiplome.setDateAjout(GlobalHelper.getCurrentDate());
 			 listesSaved = listesDiplomeService.saveOrUpdateListesDiplomeForm(listesDiplome);
 			 
 			 //Mis en historique

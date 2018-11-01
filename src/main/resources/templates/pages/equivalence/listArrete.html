@@ -94,7 +94,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="arrete : ${arreteList}">
+                                            <tr th:each="arrete : ${arreteList}"  th:title="'Date de dernière modification : '+${arrete.dateAjout}">
                                                 <td class="text-center" th:text="${arrete.id}"></td>
                                                 <td class="text-center"><a th:href="'/newArrete/'+${arrete.id}" th:text="${arrete.anneeSortie}"></a></td>
                                                	<td class="text-center"><a th:href="'/newArrete/'+${arrete.id}" th:text="${arrete.titre}"></a></td>

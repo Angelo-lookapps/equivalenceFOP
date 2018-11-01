@@ -36,8 +36,7 @@ import com.testHibernate.model.diplome.ListesDiplome;
 import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
 import com.testHibernate.model.equivalence.ChampArreteEqForm;
-import com.testHibernate.model.equivalence.ContentArrete;
-import com.testHibernate.model.equivalence.ContentArreteForm;
+import com.testHibernate.model.equivalence.ContentArrete; 
 import com.testHibernate.model.equivalence.InfoArrete;
 import com.testHibernate.model.equivalence.InfoArreteForm;
 import com.testHibernate.model.equivalence.TypeArreteJasper;
@@ -73,7 +72,7 @@ public class ArreteController {
 	 
 	 private ActiviteRecentService activiteRecentService;
 	 private InfoArreteService infoArreteService;
-	 
+	 private InfoArreteReport infoArreteReport = new InfoArreteReport() ;
 	 @Autowired
 	 public void setInfoArreteToInfoArreteForm(InfoArreteToInfoArreteForm infoArreteToInfoArreteForm) {
 		this.infoArreteToInfoArreteForm = infoArreteToInfoArreteForm;
@@ -86,8 +85,8 @@ public class ArreteController {
 	 public void setTypeArreteJasperService(TypeArreteJasperService typeArreteService) {
 		this.typeArreteService = typeArreteService;
 	 }
-	 @Autowired
-	 private HttpServletResponse httpServletResponse;
+	 //@Autowired
+	// private HttpServletResponse httpServletResponse;
 	 
 	 @Autowired
 	 public void setInfoArreteService(InfoArreteService infoArreteService) {
@@ -300,11 +299,12 @@ public class ArreteController {
 		 
 	}
 	
-	@GetMapping({"/showPDF/arrete/{idArrete}", "/showPDF/arrete/{idArrete}/demande/{idDemande}"})
-	public void showPDFArrete(@PathVariable(required=true) String idArrete, @PathVariable(required=false) String idDemande) {
+	@GetMapping({"/showPDF/arrete/{idArrete}", "/showPDF/arrete/{idArrete}/demande/{idDemande}/download-{download}", "/showPDF/arrete/{idArrete}/demande/{idDemande}"})
+	public void showPDFArrete(@PathVariable(required=true) String idArrete, @PathVariable(required=false) String idDemande, @PathVariable(required=false) String download, HttpServletResponse response) {
 		if(idArrete!=null && idArrete.equals("") || idArrete==null ) {
 			return;
 		}
+		
 		InfoArrete infoArrete = null;
 		infoArrete = infoArreteService.getArreteByIdArrete(Long.valueOf(idArrete));
 		ArreteEqRef arrete = null;
@@ -319,28 +319,37 @@ public class ArreteController {
 		} 
 		infoArrete = GlobalHelper.getInitialInfoArrete(infoArrete, arrete);
 		 
-		System.out.println(">>>>>>>>>>>>>> idInfoArrrete = "+idArrete); 
-		List<Map<String, ?>> dataSource = InfoArreteReport.getReportInfoArrete(infoArrete, demande);
+		List<Map<String, ?>> dataSource = infoArreteReport.getReportInfoArrete(infoArrete, demande);
 		List<Map<String, ?>> one = new ArrayList<Map<String, ?>>();
 		one.add(dataSource.get(0));
 		JRDataSource jrDataSource = new JRBeanCollectionDataSource(one);
 		try {
-			ClassPathResource res = null;
 			File jrxmlFile = null;
-			System.out.println("Types = "+arrete.getTypeArreteJasper().getTypeArrete());
+			if(!checkExistJaspers(arrete.getTypeArreteJasper().getTypeArrete())) {
+				return;
+			}
 			if(arrete.getTypeArreteJasper().getTypeArrete().equals("1")) {
 				jrxmlFile = UtilsHelper.getFilePath("reports/arrete1.jrxml");
 			}else if(arrete.getTypeArreteJasper().getTypeArrete().equals("2")){
 				jrxmlFile = UtilsHelper.getFilePath("reports/decret.jrxml");
-			} 
-			
+			}else {
+				jrxmlFile = UtilsHelper.getFilePath("reports/arrete"+arrete.getTypeArreteJasper().getTypeArrete()+".jrxml");
+			}
+			if(download!=null) {
+				String outputName = demande.getListesDiplome().getEcole()+"-"+demande.getListesDiplome().getNiveauDiplome().getNiveau()+"-"+demande.getListesDiplome().getFiliere();
+				response.setContentType("application/x-pdf");
+				response.setHeader("Content-disposition",
+				"inline; filename="+outputName+".pdf");
+			}
+		
 			InputStream input = new FileInputStream(jrxmlFile);
 			JasperReport jasperReport = JasperCompileManager.compileReport(input);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, jrDataSource);
-			JasperExportManager.exportReportToPdfStream(jasperPrint, httpServletResponse.getOutputStream());
+			JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
 			
-			httpServletResponse.flushBuffer(); 
-		
+			response.flushBuffer(); 
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -431,6 +440,19 @@ public class ArreteController {
 			this.arretes = arreteEqRefService.listAll();
 		}
 	 }
-	
+	public boolean checkExistJaspers(String type) {
+		boolean ret = false;
+		try {
+			List<TypeArreteJasper> types = typeArreteService.listAll();
+			for(TypeArreteJasper temp : types) {
+				if(temp.getTypeArrete().toLowerCase().equals(type.toLowerCase())) {
+					ret = true;break;
+				}
+			}
+		}catch(Exception e) {
+			throw e;
+		}
+		return ret;
+	}
 
 }

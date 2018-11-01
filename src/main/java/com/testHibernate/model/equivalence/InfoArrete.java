@@ -1,6 +1,6 @@
 package com.testHibernate.model.equivalence;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -184,6 +184,7 @@ public class InfoArrete {
 	public void setIndiceDecret(String indiceDecret) {
 		this.indiceDecret = indiceDecret;
 	}
+ 
  
 	
 }

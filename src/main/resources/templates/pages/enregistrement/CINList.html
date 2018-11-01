@@ -98,7 +98,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="cin : ${listCIN}">
+                                            <tr th:each="cin : ${listCIN}" th:title="'Date de dernière modification : '+${cin.dateAjout}">
                                                 <td class="text-center" th:text="${cin.id}"></td>
                                                 <td class="text-center"><a th:href="'cin/show/'+${cin.id}" th:text="${cin.nom}"></a></td>
                                                 <td class="text-center"><a th:href="'cin/show/'+${cin.id}" th:text="${cin.prenom}"></a></td> 

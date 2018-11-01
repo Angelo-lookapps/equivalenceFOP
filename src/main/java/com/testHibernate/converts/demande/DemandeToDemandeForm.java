@@ -21,6 +21,8 @@ public class DemandeToDemandeForm implements Converter<FicheDemande, FicheDemand
     	ficheForm.setStatusEnregistrement(fiche.getStatusEnregistrement());
     	ficheForm.setDateRetrait(fiche.getDateRetrait());
     	ficheForm.setStatusRejet(fiche.getStatusRejet());
+    	ficheForm.setRemarque(fiche.getRemarque());
+    	
     	ficheForm.setDateAjout(fiche.getDateAjout());
          
         return ficheForm;

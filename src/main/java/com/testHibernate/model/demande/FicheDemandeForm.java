@@ -29,7 +29,7 @@ public class FicheDemandeForm {
 	private ListesDiplome listesDiplome;
 	private String telephone;
 	private String diplome;
-	private String utilisation;
+	private String utilisation; 
 	private Boolean statusEnregistrement;
 	
 	private Boolean statusRejet;
@@ -38,8 +38,17 @@ public class FicheDemandeForm {
 	
 	private String dateAjout;
 	
+	private String remarque;
 	
 	
+	public String getRemarque() {
+		return remarque;
+	}
+
+	public void setRemarque(String remarque) {
+		this.remarque = remarque;
+	}
+
 	public Boolean getStatusRejet() {
 		return statusRejet;
 	}

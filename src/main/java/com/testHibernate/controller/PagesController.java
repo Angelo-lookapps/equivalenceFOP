@@ -153,7 +153,8 @@ public class PagesController {
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.fiches.size(), nombreLigneMax);
 				modelMap.put("moyenne", this.getMoyenneDuMois((int)new Date().getDay()));
 				modelMap.put("stats", this.getAllStatistiqueMonth());
-				modelMap.put("numeroEnregistrement", this.getStatistiqueMonth());
+				modelMap.put("numeroEnregistrement", getStatistiqueYear());
+				System.out.println("getStatistiqueMonth === "+getStatistiqueYear());
 				modelMap.put("anneeActuelle", new Date().getYear()-100);
 				modelMap.put("nombrePagination", nombrePagination);
 			} catch (Exception e) { 
@@ -164,7 +165,9 @@ public class PagesController {
 			}
 		HashMap<String, String> champs = GlobalHelper.getChampDemande();
 		if(session.getAttribute("isConnected")!=null) {
-			 
+			
+			ret = filterByDemandeFini(ret, false);
+			
 			String pseudo = ""+session.getAttribute("isConnected");
 			modelMap.put("pseudo", pseudo);	
 			modelMap.put("activities", activities);	
@@ -331,13 +334,13 @@ public class PagesController {
 		}
 		return ret;
 	} 
-	public long getStatistiqueMonth() throws Exception{
+	public long getStatistiqueYear() throws Exception{
 		long ret = 0;
 		try {
 			Date daty = new Date();
-			int month = daty.getMonth()+1;
-				System.out.println(" month = "+month+" ret = "+(Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" , month, false));
-				ret =(Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" , month, true) + (Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" , month, false) ;
+			int year = daty.getYear()+1900;
+				System.out.println(" Year = "+year+" ret = "+(Long)ficheDemandeService.getFicheDemandeByDayOrMonth("month" , year, false));
+				ret =(Long)ficheDemandeService.getFicheDemandeByDayOrMonth("year" , year, true) + (Long)ficheDemandeService.getFicheDemandeByDayOrMonth("year" , year, false) ;
 				System.out.println("\n getStatistiqueMonth = " + ret);
 				
 		}catch(Exception e) {
@@ -345,6 +348,8 @@ public class PagesController {
 		}
 		return ret;
 	} 
+	 
+	
 	
 	public double getMoyenneDuMois(int mois) throws Exception{
 		double ret = 0;
@@ -371,6 +376,17 @@ public class PagesController {
 			throw e;
 		}
 		return ret;
-	}
+	} 
+	public List<FicheDemande> filterByDemandeFini(List<FicheDemande> list, boolean statutEnregistrer){
+		 List<FicheDemande> ret = new ArrayList<FicheDemande>();
+		 if(list.size()!=0) {
+			 for(FicheDemande temp : list) {
+				 if(temp.getStatusEnregistrement()==statutEnregistrer) {
+					 ret.add(temp);
+				 }
+			 }
+		 }
+		 return ret;
+	 }
 	
 }

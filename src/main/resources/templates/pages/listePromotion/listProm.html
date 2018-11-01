@@ -97,7 +97,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="promo : ${promos}"> 
+                                            <tr th:each="promo : ${promos}"  th:title="'Date de dernière modification : '+${promo.listePromotion.dateAjout}"> 
                                                 <td class="text-center"><a th:href="'/showPromoDetail/' + ${promo.listePromotion.sessionSortie} + '/'+ ${promo.listePromotion.listesDiplome.id}"
                                                         th:text="${promo.listePromotion.sessionSortie}"></</a> </td>
                                                 <td class="text-center"><a th:href="'/showPromoDetail/'+ ${promo.listePromotion.sessionSortie} + '/'+ ${promo.listePromotion.listesDiplome.id}"

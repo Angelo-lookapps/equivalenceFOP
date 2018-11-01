@@ -111,7 +111,7 @@ public class CINServiceImpl implements CINService {
 				.setParameter(3, "%"+numeroCIN.toLowerCase()+"%")
 				.setParameter(4, "%"+adresseActuelle.toLowerCase()+"%") 
 				.setParameter(5, "%"+fonction.toLowerCase()+"%")
-				.setParameter(6, "%"+nom.toLowerCase()+"%");
+				.setParameter(6, "%"+lieuTravail.toLowerCase()+"%");
 		List<CIN> ret = query.getResultList();
 		
 		System.out.println("\n searchMultiple  CIN== "+ret.size());

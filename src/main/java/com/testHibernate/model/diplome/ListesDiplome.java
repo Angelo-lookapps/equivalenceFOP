@@ -45,14 +45,14 @@ public class ListesDiplome {
 	@ManyToOne
 	private NiveauDiplome niveauDiplome;
 	
-	private Date dateAjout;
+	private String dateAjout;
 	
-	public Date getDateAjout() {
+	public String getDateAjout() {
 		return dateAjout;
 	}
 
-	public void setDateAjout(Date dateAjout2) {
-		this.dateAjout = (Date) dateAjout2;
+	public void setDateAjout(String dateAjout2) {
+		this.dateAjout =  dateAjout2;
 	}
 	public Long getId() {
 		return id;

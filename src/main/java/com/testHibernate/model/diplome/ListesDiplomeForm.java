@@ -8,6 +8,14 @@ public class ListesDiplomeForm {
 	private String ecole;
 	private NiveauDiplome niveauDiplome;
 	
+	private String dateAjout;
+	
+	public String getDateAjout() {
+		return dateAjout;
+	}
+	public void setDateAjout(String dateAjout) {
+		this.dateAjout = dateAjout;
+	}
 	public NiveauDiplome getNiveauDiplome() {
 		return niveauDiplome;
 	}

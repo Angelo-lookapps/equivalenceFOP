@@ -235,6 +235,10 @@ public class ListePromotionController {
 		} 
 		listePromotionForm.setDateAjout(GlobalHelper.getCurrentDate()); 
 		if(listeDiplome!=null)
+			if(listeDiplome.equals("")) {
+				return "pages/equivalence/error500";
+			}
+			System.out.println("Liste Diplome = "+listeDiplome);
 			listePromotionForm.setListesDiplome(listesDiplomeService.getById(Long.valueOf(listeDiplome)));
 		
 		listesSaved = listePromotionService.saveOrUpdateListePromotionForm(listePromotionForm);
@@ -353,16 +357,17 @@ public class ListePromotionController {
 			model.addAttribute("listePromotionDetails", listePromotionDetails);
 			model.addAttribute("listePromotionDetailForm", new ListePromotionDetailForm());
 			model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
-			System.out.println("DUPLICATED == "+duplicate);
+			
 			if(duplicate!=null && duplicate==1) {
-				System.out.println("DUPLICATED == "+duplicate);
+				 
 				model.addAttribute("checking", 1); 
 			}
 			
 		} catch (Exception e) { 
 			model.addAttribute("error", e);
+			e.printStackTrace();
  			return "pages/erreur/505"; 
-			//e.printStackTrace();
+			
 		}
 		return "pages/listePromotion/listPromDet";		
 	}
@@ -378,6 +383,7 @@ public class ListePromotionController {
 			error = this.deleteAllChild(id);
 		}catch(Exception e) {
 			model.addAttribute("error", e);
+			e.printStackTrace();
  			return "pages/erreur/505"; 
 			//e.printStackTrace();
 		}
@@ -489,7 +495,7 @@ public class ListePromotionController {
 			model.addAttribute("listePromotionForm", this.listePromotionToListePromotionForm.convert(listePromotion));
 			
 		} catch (Exception e) { 
-			//e.printStackTrace();
+			e.printStackTrace();
 			model.addAttribute("errorImport", "Fichier incorrect (suggestion: vérifier si le fichier est bien sous l'extension .xls où .xlsx; Où s'il n'inclut pas une liste d'étudiants admis) Veuillez recommencez svp!!!");	
 		}
 		return "redirect:/showPromoDetail/"+listePromotion.getSessionSortie()+"/"+listePromotion.getListesDiplome().getId(); 

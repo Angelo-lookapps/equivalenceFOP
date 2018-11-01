@@ -15,13 +15,14 @@ import com.testHibernate.helpers.GlobalHelper;
 import com.testHibernate.helpers.UtilsHelper;
 import com.testHibernate.model.cin.CIN;
 import com.testHibernate.model.listePromotion.ListePromotion;
+import com.testHibernate.model.listePromotion.ListePromotionDetail;
 import com.testHibernate.model.listePromotion.ListePromotionDetailForm;
 
 public class MyReaderExcel {
 	public static final String SAMPLE_XLSX_FILE_PATH = "test.xlsx";
 	
-	public List<ListePromotionDetailForm> getPromotionByExcel(String fileName, ListePromotion listePromotion) throws Exception{
-		List<ListePromotionDetailForm> ret = new ArrayList<ListePromotionDetailForm>();
+	public List<ListePromotionDetail> getPromotionByExcel(String fileName, ListePromotion listePromotion) throws Exception{
+		List<ListePromotionDetail> ret = new ArrayList<ListePromotionDetail>();
 		Workbook workbook = null;
 		System.out.println("\n\n ListePormotion = "+listePromotion.getNomPromotion());
 		try { 		
@@ -42,7 +43,7 @@ public class MyReaderExcel {
 	 
 	        // 2. Or you can use a for-each loop to iterate over the rows and columns
 	        for (Row row: sheet) {
-	        	ListePromotionDetailForm temp = new ListePromotionDetailForm();
+	        	ListePromotionDetail temp = new ListePromotionDetail();
 	        	System.out.println(dataFormatter.formatCellValue(row.getCell(0)) + 
 	        			"\t" + dataFormatter.formatCellValue(row.getCell(1)) +
 	        			"\t" + dataFormatter.formatCellValue(row.getCell(2)) +

@@ -79,21 +79,34 @@
                                                     Excel</span>)</label>
                                             <input type="file" class="form-control-file" id="filename" th:name="'filename'"
                                                 th:onchange="|validImport()|">
-                                            <small id="fileHelpTel" class="text-muted ">Le fichier Excel doit pr&eacute;sent&eacute; les colonnes suivantes: 
+                                            <small id="fileHelpTel" class="text-muted ">Le fichier Excel(qui dans le répertoire "C:/imports/") doit pr&eacute;sent&eacute; les colonnes suivantes: 
                                             	<br/><b>N° Matricule | Nom complet | Date et lieu naissance | Mention</b></small>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
+                                    	<div th:if="${notFound!=null}"> 
+                                    		<div class="alert alert-sm alert-danger alert-dismissible" role="alert">
+	                                           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                                           <i class="fa fa-warning"></i><span>Erreur : Fichier Excel(.xls/.xlsx) introuvable !!! Recommencez svp!</span>
+                                            </div>
+                                        </div>
                                         <div th:if="${errorImport!=null}">
-                                            <div class="alert alert-sm alert-danger alert-dismissible" role="alert"><i
-                                                    class="fa fa-warning"></i><span th:text="${errorImport}"></span></div>
+                                            <div class="alert alert-sm alert-danger alert-dismissible" role="alert">
+                                            	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            	<i class="fa fa-warning"></i><span th:text="${errorImport}"></span>
+                                           	</div>
                                         </div>
                                         <div th:if="${successImport!=null}">
-                                            <div class="alert alert-sm alert-success alert-dismissible" role="alert"><i
-                                                    class="fa fa-check-circle"></i><span th:text="${successImport}"></span></div>
+                                            <div class="alert alert-sm alert-success alert-dismissible" role="alert">
+                                            	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            	<i class="fa fa-check-circle"></i><span th:text="${successImport}"></span>
+                                           	</div>
                                         </div>
                                         <div th:if="${newCIN!=null}">
-                                            <div class="alert alert-sm alert-success alert-dismissible" role="alert"> <span>Une Carte d'identit&eacute; temporaire vient d'&ecirc;tre cr&eacute;&eacute;!(<b><a th:href="'/cin/show/'+${newCIN}" th:text="'N° '+${newCIN}"></a></b>)</span></div>
+                                            <div class="alert alert-sm alert-success alert-dismissible" role="alert">
+                                            	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                             	<span>Une Carte d'identit&eacute; temporaire vient d'&ecirc;tre cr&eacute;&eacute;!(<b><a th:href="'/cin/show/'+${newCIN}" th:text="'N° '+${newCIN}"></a></b>)</span>
+                                           	</div>
                                         </div>
                                         <div th:if="${checking==1}">
                                         	<div class="alert alert-sm alert-warning alert-dismissible" role="alert">
@@ -538,8 +551,8 @@
             var action = $("#fileForm").attr("action");
 
             if ($("#filename").val() != null) {
-                $("#output").text("En cours d'exportion !!!").show();
-                $("#output").fadeOut(2000);
+                $("#output").text("EN COURS D'IMPORTATION !!!").show();
+                $("#output").fadeOut(3000);
                 setTimeout(function () {
                     $("#fileForm").submit();
                 }, 2000);

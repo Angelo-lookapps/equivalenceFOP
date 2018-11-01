@@ -46,7 +46,7 @@ public class InfoArreteReport {
 					}else {
 						niv = demande.getListesDiplome().getNiveauDiplome().getNiveau().toUpperCase();
 					}
-					map.put("titulaireDemande", "DIPLOME  DE  "+demande.getDiplome()+"  EN  "+demande.getListesDiplome().getFiliere().toUpperCase());
+					map.put("titulaireDemande", "DIPLOME  DE  "+demande.getDiplome().toUpperCase()+"  EN  "+demande.getListesDiplome().getFiliere().toUpperCase());
 					map.put("specialiteDemande", demande.getListesDiplome().getOption().toUpperCase());
 					map.put("idDemande", demande.getId());
 				
@@ -54,10 +54,10 @@ public class InfoArreteReport {
 				if(info.getArreteEqRef().getTypeArreteJasper().getTypeArrete().equals("1")){
 					System.out.println("DECRET == "+info.getTitreTableau());
 					map.put("decretsArrete", info.getDecretsArrete());
-					map.put("titreTableau", info.getTitreTableau());
-					map.put("organismePaysTableau", info.getOrganismePaysTableau());
-					map.put("cadreTableau", info.getCadreTableau());
-					map.put("echelleTableau", info.getEchelleTableau());
+					map.put("titreTableau", info.getTitreTableau().toUpperCase());
+					map.put("organismePaysTableau", info.getOrganismePaysTableau().toUpperCase());
+					map.put("cadreTableau", info.getCadreTableau().toUpperCase());
+					map.put("echelleTableau", info.getEchelleTableau().toUpperCase());
 				}else if(info.getArreteEqRef().getTypeArreteJasper().getTypeArrete().equals("2")) {
 					map.put("niveauRefDecret", info.getNiveauRefDecret());
 					map.put("diplomeEquivalenceDecret", info.getDiplomeEquivalentDecret());

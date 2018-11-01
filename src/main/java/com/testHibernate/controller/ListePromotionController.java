@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.testHibernate.converts.listePromotion.ListePromotionDetailFormToListePromotionDetail;
 import com.testHibernate.converts.listePromotion.ListePromotionDetailToListePromotionDetailForm;
 import com.testHibernate.converts.listePromotion.ListePromotionToListePromotionForm;
 import com.testHibernate.helpers.DateHelper;
@@ -60,6 +61,10 @@ public class ListePromotionController {
 	 private FicheDemandeDetailService ficheDemandeDetailService;
 	 private FicheDemandeService ficheDemandeService;
 	 int nombreLigneMax = 10;
+	 
+	 @Autowired
+	 private ListePromotionDetailFormToListePromotionDetail listePromotionDetailFormToListePromotionDetail;
+	 
 	 @Autowired
 	 public void setSession(HttpSession session) {
 		this.session = session;
@@ -271,10 +276,10 @@ public class ListePromotionController {
 		 if(listePromotionDetailForm.getId()!=0) {
 			 listePromotionDetailForm.setId(Long.valueOf(0));///FORCER l'INCREMENTATION de Id
 		 }
-		
+		 ListePromotionDetail admis = listePromotionDetailFormToListePromotionDetail.convert(listePromotionDetailForm);
 		try {
 			List<ListePromotionDetail> list = this.getAllAdmisPromotion(Long.valueOf(id));
-			if(this.checkIfExist(list, listePromotionDetailForm, idCin)) {
+			if(this.checkIfExist(list, admis, idCin)) {
 				return "redirect:/showPromoDetail/"+listePromotion1.getSessionSortie()+"/"+listePromotion1.getListesDiplome().getId()+"/duplicate/1" ;
 			}
 			
@@ -328,8 +333,8 @@ public class ListePromotionController {
 		return "redirect:/showPromoDetail/"+listesSaved.getListePromotion().getSessionSortie()+"/"+listesSaved.getListePromotion().getListesDiplome().getId();		
 	}
 	
-	@GetMapping({"/showPromoDetail/{session2}/{id}", "/showPromoDetail/{session2}/{id}/duplicate/{duplicate}", "/showPromoDetail/{session2}/{id}/newCIN-{newCIN}"})
-	public String ajoutPromo(@PathVariable String session2, @PathVariable String id, @PathVariable(required=false) Integer duplicate, Model model, @PathVariable(required=false) Long newCIN) {
+	@GetMapping({"/showPromoDetail/{session2}/{id}", "/showPromoDetail/{session2}/{id}/file-not-{found}", "/showPromoDetail/{session2}/{id}/duplicate/{duplicate}", "/showPromoDetail/{session2}/{id}/newCIN-{newCIN}"})
+	public String ajoutPromo(@PathVariable(required=false) String found,@PathVariable String session2, @PathVariable String id, @PathVariable(required=false) Integer duplicate, Model model, @PathVariable(required=false) Long newCIN) {
 		//modication
 		if(session.getAttribute("isConnected")==null) {
 			model.addAttribute("errorlogin", "4");
@@ -361,6 +366,9 @@ public class ListePromotionController {
 			if(duplicate!=null && duplicate==1) {
 				 
 				model.addAttribute("checking", 1); 
+			}
+			if(found!=null && !found.equals("")) {
+				model.addAttribute("notFound", found);
 			}
 			
 		} catch (Exception e) { 
@@ -439,7 +447,7 @@ public class ListePromotionController {
 	 }
 		
 	@GetMapping(value="/importExcel/{id}")
-	public String testImport(@PathVariable String id, @RequestParam(required=true)String  filename, Model model) {
+	public String importExcel(@PathVariable String id, @RequestParam(required=true)String  filename, Model model) {
 		 if(session.getAttribute("isConnected")==null) {
 			 model.addAttribute("errorlogin", "4");
 			 return "pages/login";
@@ -450,29 +458,31 @@ public class ListePromotionController {
 		 } 
 		
 		MyReaderExcel testExcel = new MyReaderExcel();
-		try {
+		try {  
+			String[] file = filename.split("\\."); 
+			System.out.println("file[0] == "+file[0]);
+			System.out.println("file[1] == "+file[1]);
+			System.out.println("!file[1].toLowerCase().equals(\"xlsx\".toLowerCase()) === "+(!file[1].toLowerCase().equals("xlsx".toLowerCase())));
+			if(!file[1].toLowerCase().equals("xls".toLowerCase()) && !file[1].toLowerCase().equals("xlsx".toLowerCase())) { 
+				
+	 			return "redirect:/showPromoDetail/"+listePromotion.getSessionSortie()+"/"+listePromotion.getListesDiplome().getId()+"/file-not-found"; 
+			}
 			//INITIALISATION
-			List<ListePromotionDetailForm> list = testExcel.getPromotionByExcel(filename, listePromotion);
+			List<ListePromotionDetail> list = testExcel.getPromotionByExcel(filename, listePromotion);
 			
-			List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(Long.valueOf(id));
-			List<String> mentions = GlobalHelper.getMentionList(); 
-			String ecole = listePromotion.getListesDiplome().getEcole(); 
-			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
-			List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
+			
  	
 			//Importation
-			for(ListePromotionDetailForm temp : list) {
-				//System.out.println("" + temp.getId() + " | " + temp.getListePromotion().getNomPromotion() + " | " + temp.getNumeroMatricule() + " | " + temp.getNomComplet()+ " | " + temp.getDateNaissance()+ " | " + temp.getLieuNaissance()+ " | " + temp.getMention());
+			for(ListePromotionDetail temp : list) {
 				CIN cin = insertNewCIN(temp.getNomComplet(), temp.getDateNaissance(), temp.getLieuNaissance(), temp.getCin().getAdresseActuelle());
-			//	System.out.println("\n DATE NAISSANCE CIN = "+temp.getLieuNaissance());
 				temp.setDateAjout(GlobalHelper.getCurrentDate());
 				temp.setCin(cin);
-			/*	System.out.println("\n CIN getDateNaissance= "+temp.getCin().getDateNaissance());
-				System.out.println("\n CIN getLieuNaissance= "+temp.getCin().getLieuNaissance());
-				System.out.println("\n CIN getNom= "+temp.getCin().getNom()+" "+temp.getCin().getPrenom());
-				System.out.println("\n CIN getNomPromotion= "+temp.getListePromotion().getNomPromotion());
-				System.out.println("\n CIN getNomComplet= "+temp.getNomComplet());*/
-				ListePromotionDetail listesSaved = listePromotionDetailService.saveOrUpdateListePromotionDetailForm(temp);
+				
+				if(this.checkIfExist(list, temp, cin.getId().toString())) {
+					return "redirect:/showPromoDetail/"+listePromotion.getSessionSortie()+"/"+listePromotion.getListesDiplome().getId()+"/duplicate/1" ;
+				}
+				
+				ListePromotionDetail listesSaved = listePromotionDetailService.saveOrUpdate(temp);
 				
 				model.addAttribute("successImport", "Félicitation, l'importation du fichier: \""+ filename +"\" est finie !!!");	
 				
@@ -483,7 +493,11 @@ public class ListePromotionController {
 				 	activiteRecentService.saveOrUpdate(historique);
 			 	 //fin historique
 			}
-			
+			List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(Long.valueOf(id));
+			List<String> mentions = GlobalHelper.getMentionList(); 
+			String ecole = listePromotion.getListesDiplome().getEcole(); 
+			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
+			List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
 			//Model View
 			model.addAttribute("listeDiploma", listeDiploma);
 			model.addAttribute("annees", annee);
@@ -498,7 +512,8 @@ public class ListePromotionController {
 			e.printStackTrace();
 			model.addAttribute("errorImport", "Fichier incorrect (suggestion: vérifier si le fichier est bien sous l'extension .xls où .xlsx; Où s'il n'inclut pas une liste d'étudiants admis) Veuillez recommencez svp!!!");	
 		}
-		return "redirect:/showPromoDetail/"+listePromotion.getSessionSortie()+"/"+listePromotion.getListesDiplome().getId(); 
+		return "pages/listePromotion/listPromDet";
+		//return "redirect:/showPromoDetail/"+listePromotion.getSessionSortie()+"/"+listePromotion.getListesDiplome().getId(); 
 	}
 	
 	@GetMapping("/admis/delete/{id}")
@@ -797,7 +812,7 @@ public class ListePromotionController {
 		 System.out.println("\n compareTwoTabs ======= " + ret);
 		 return ret;
 	 }
-	 public Boolean checkIfExist(List<ListePromotionDetail> listeAdmis, ListePromotionDetailForm compare, String idCin)throws Exception{
+	 public Boolean checkIfExist(List<ListePromotionDetail> listeAdmis, ListePromotionDetail compare, String idCin)throws Exception{
 		 Boolean ret = false;
 		 try {
 			 int comparaison1 = 0, comparaison2 = 0, comparaison3 = 0;

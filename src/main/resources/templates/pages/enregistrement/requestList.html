@@ -130,7 +130,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" th:if="${not #lists.isEmpty(listeDemande)}">
                               <div class="col-md-12">
                               	<label class="col-md-4">Pagination :</label>
                               	<div class="btn-toolbar col-md-8" role="toolbar" aria-label="Toolbar with button groups">

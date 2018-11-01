@@ -179,8 +179,12 @@
 	<title>
 		<band height="81" splitType="Stretch">
 			<image>
-				<reportElement x="232" y="0" width="134" height="80" uuid="1bd26af5-7090-4685-ae32-617e9bf05d0c"/>
+				<reportElement x="245" y="0" width="134" height="80" uuid="1bd26af5-7090-4685-ae32-617e9bf05d0c"/>
 				<imageExpression><![CDATA["src/main/resources/static/logo-arrete/2012.png"]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="59" y="12" width="83" height="57" uuid="2cd400a2-0348-418c-ad1b-f03bc9c970ac"/>
+				<imageExpression><![CDATA["src/main/resources/static/logo-arrete/mfptls.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

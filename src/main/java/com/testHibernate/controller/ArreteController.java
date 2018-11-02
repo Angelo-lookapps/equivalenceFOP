@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -220,7 +219,7 @@ public class ArreteController {
 			 	
 			//List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 			List<String> listEcole = listesDiplomeService.getAllEcole();
-			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
+			List<Integer> annee = DateHelper.getAnneeList(1920, 2022);
 			String contentArticle = GlobalHelper._ArticleContent;
 			
 			model.addAttribute("arreteEqRef", listesSaved);
@@ -263,7 +262,7 @@ public class ArreteController {
 				List<ListesDiplome> listeDiploma = listesDiplomeService.listAll();
 				List<String> listEcole = listesDiplomeService.getAllEcole();
 				 
-				List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
+				List<Integer> annee = DateHelper.getAnneeList(1920, 2022);
 				
 				if(idArrete.isPresent()) {
 					model.addAttribute("isExistArrete", idArrete.get());

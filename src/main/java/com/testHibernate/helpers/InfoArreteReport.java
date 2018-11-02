@@ -62,7 +62,7 @@ public class InfoArreteReport {
 					map.put("idDemande", demande.getId());
 				
 				}
-				if(info.getArreteEqRef().getTypeArreteJasper().getTypeArrete().equals("1")){
+				if(!info.getArreteEqRef().getTypeArreteJasper().getTypeArrete().equals("2")){
 					System.out.println("DECRET == "+info.getTitreTableau());
 					map.put("decretsArrete", info.getDecretsArrete());
 					map.put("titreTableau", info.getTitreTableau().toUpperCase());

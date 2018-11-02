@@ -140,9 +140,9 @@
 	                                                </div>
                                             	</div> -->
                                             	<input type="hidden" th:field="*{id}"/>
-                                            	<h4 th:if="${arreteEqRef.typeArreteJasper.typeArrete=='1'}" >Information Arrêté normale : </h4>
+                                            	<h4 th:if="${arreteEqRef.typeArreteJasper.typeArrete!='2'}" >Information Arrêté normale : </h4>
 					                            <h4 th:if="${arreteEqRef.typeArreteJasper.typeArrete=='2'}" >Information décret : </h4>    	
-                                            	<div th:if="${arreteEqRef.typeArreteJasper.typeArrete=='1'}">
+                                            	<div th:if="${arreteEqRef.typeArreteJasper.typeArrete!='2'}">
 		                                            	<div class="form-group row">
 						                                    <label for="numeroArrete" class="col-sm-3 col-form-label">N° Arrêté</label>
 						                                    <div class="col-lg-6 col-md-9 col-sm-12">
@@ -219,7 +219,13 @@
 			                                 	</div>
 			                                 	<hr/>
 				                                <div th:if="${arreteEqRef.typeArreteJasper.typeArrete=='2'}">
-				                                		
+				                                		<div class="form-group row">
+						                                    <label for="categorieTableau" class="col-sm-3 col-form-label">Catégorie</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{categorieTableau}" type="text" 
+						                                            placeholder="Catégorie . . ." id="categorieTableau" >
+						                                    </div>
+						                                </div>
 				                                		<div class="form-group row">
 						                                    <label for="numeroArrete" class="col-sm-3 col-form-label">N° Arrêté</label>
 						                                    <div class="col-lg-6 col-md-9 col-sm-12">
@@ -232,14 +238,6 @@
 						                                    <div class="col-lg-6 col-md-9 col-sm-12">
 						                                        <input class="form-control" th:field="*{dateSortieArrete}" type="date" 
 						                                            placeholder="Date sortie arrêté . . ." id="numeroArrete" >
-						                                    </div>
-						                                </div>
-						                                <hr/>
-						                                <div class="form-group row">
-						                                    <label for="categorieTableau" class="col-sm-3 col-form-label">Catégorie</label>
-						                                    <div class="col-lg-6 col-md-9 col-sm-12">
-						                                        <input class="form-control" th:field="*{categorieTableau}" type="text" 
-						                                            placeholder="Catégorie . . ." id="categorieTableau" >
 						                                    </div>
 						                                </div>
 						                                <div class="form-group row">
@@ -430,7 +428,6 @@
 	                                       	</div><!-- /input-group -->
 	                                     </div>  
 	                                </div>
-	                               <input type="hidden" th:field="*{typeArrete}">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Anne&eacute; sortie</label>
                                         <div class="col-sm-7">

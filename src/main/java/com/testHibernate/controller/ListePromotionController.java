@@ -208,7 +208,7 @@ public class ListePromotionController {
 				}
 			List<ListesDiplome> listeDiploma = listesDiplomeService.listAll(); 
 			List<String> listEcole = listesDiplomeService.getAllEcole();
-			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
+			List<Integer> annee = DateHelper.getAnneeList(1920, 2022);
 			model.addAttribute("annees", annee);
 			model.addAttribute("listEcole", listEcole);
 			model.addAttribute("listeDiploma", listeDiploma);
@@ -348,7 +348,7 @@ public class ListePromotionController {
 		List<String> mentions = GlobalHelper.getMentionList(); 
 		String ecole = listePromotion.getListesDiplome().getEcole();
 		try {
-			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
+			List<Integer> annee = DateHelper.getAnneeList(1920, 2022);
 			List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
 			
 			if(newCIN!=null ) {
@@ -496,7 +496,7 @@ public class ListePromotionController {
 			List<ListePromotionDetail> listePromotionDetails = listePromotionDetailService.getDetailByIdListePromotion(Long.valueOf(id));
 			List<String> mentions = GlobalHelper.getMentionList(); 
 			String ecole = listePromotion.getListesDiplome().getEcole(); 
-			List<Integer> annee = DateHelper.getAnneeList(1999, 2022);
+			List<Integer> annee = DateHelper.getAnneeList(1920, 2022);
 			List<ListesDiplome> listeDiploma = listesDiplomeService.findDiplomeByEcole(ecole);
 			//Model View
 			model.addAttribute("listeDiploma", listeDiploma);

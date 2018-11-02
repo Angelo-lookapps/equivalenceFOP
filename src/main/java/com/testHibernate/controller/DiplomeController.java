@@ -168,7 +168,7 @@ public class DiplomeController {
 		 List<TypeArreteJasper> typesArrete = null;
 		 typesArrete = typeArreteService.listAll();
    	 	try {
-			annee = DateHelper.getAnneeList(1999, 2022);
+			annee = DateHelper.getAnneeList(1920, 2022);
 		} catch (Exception e) { 
 			//e.printStackTrace();
 		}
@@ -208,7 +208,7 @@ public class DiplomeController {
 				listeDiploma = listesDiplomeService.pagination(page.get(), nombreLigneMax);
 			}  
 			try {
-				annee = DateHelper.getAnneeList(1999, 2022);
+				annee = DateHelper.getAnneeList(1920, 2022);
 				Integer[] nombrePagination = GlobalHelper.getNombrePageMax(this.listeDiplomes.size(), nombreLigneMax);
 				model.addAttribute("nombrePagination", nombrePagination);
 			} catch (Exception e) { 

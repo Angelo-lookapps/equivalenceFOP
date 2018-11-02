@@ -356,7 +356,7 @@ public class GlobalHelper {
 			ret.setArreteEqRef(arreteEqRef);  
 			ret.setNumeroArrete(info==null ? "000" : info.getNumeroArrete());
 			java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-			ret.setDateSortieArrete(info==null ? date : info.getDateSortieArrete()); 
+			ret.setDateSortieArrete((info==null || info.getDateSortieArrete()==null) ? date : info.getDateSortieArrete()); 
 			ret.setDecretsArrete(info==null ? "Vu la Constitution,\r\n" + 
 					"Vu la loi n°2003-011 du 03 septembre  2003 portant  Statut Général des  Fonctionnaires, et les textes subséquent ; \r\n" + 
 					"Vu le décret n° 96-745 du 27 août 1996 portant classement hiérarchique des corps de fonctionnaires ;\r\n" + 
@@ -377,7 +377,7 @@ public class GlobalHelper {
 	    	ret.setDiplomeEquivalentDecret(info==null ?  "VIDE" : info.getDiplomeEquivalentDecret());
 	    	ret.setCorpsFonctionnaireDecret(info==null ?  "VIDE" : info.getCorpsFonctionnaireDecret());
 	    	ret.setIndiceDecret(info==null ?  "VIDE": info.getIndiceDecret());
-	    	ret.setDateSignature(info==null ? date : info.getDateSignature());
+	    	ret.setDateSignature((info==null || info.getDateSignature()==null) ? date : info.getDateSignature());
 	    	ret.setNomMinistreSignature(info==null ?  "VIDE": info.getNomMinistreSignature());
 			 
 		}catch(Exception e) {

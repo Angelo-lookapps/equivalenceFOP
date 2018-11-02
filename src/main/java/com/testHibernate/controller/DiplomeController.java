@@ -1,6 +1,5 @@
 package com.testHibernate.controller;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.testHibernate.converts.diplome.DiplomeToDiplomeForm;
 import com.testHibernate.helpers.DateHelper;
@@ -28,7 +28,6 @@ import com.testHibernate.model.equivalence.ArreteEqRef;
 import com.testHibernate.model.equivalence.ArreteEqRefForm;
 import com.testHibernate.model.equivalence.ContentArrete;
 import com.testHibernate.model.equivalence.InfoArrete;
-import com.testHibernate.model.equivalence.InfoArreteForm;
 import com.testHibernate.model.equivalence.TypeArreteJasper;
 import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.diplome.ListesDiplomeService;

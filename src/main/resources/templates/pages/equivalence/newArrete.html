@@ -208,10 +208,40 @@
 						                                            placeholder="Echelle . . ." id="echelleTableau" >
 						                                    </div>
 						                                </div>
-						                               
+						                                <hr/>
+						                               <div class="form-group row">
+						                                    <label for="categorieTableau" class="col-sm-3 col-form-label">Catégorie</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{categorieTableau}" type="text" 
+						                                            placeholder="Catégorie . . ." id="categorieTableau" >
+						                                    </div>
+						                                </div>
 			                                 	</div>
 			                                 	<hr/>
 				                                <div th:if="${arreteEqRef.typeArreteJasper.typeArrete=='2'}">
+				                                		
+				                                		<div class="form-group row">
+						                                    <label for="numeroArrete" class="col-sm-3 col-form-label">N° Arrêté</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{numeroArrete}" type="number" min="0" max="99999"
+						                                            placeholder="Numéro arrêté . . ." id="numeroArrete" >
+						                                    </div>
+						                                </div>
+						                                <div class="form-group row">
+						                                    <label for="numeroArrete" class="col-sm-3 col-form-label">Date de sortie</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{dateSortieArrete}" type="date" 
+						                                            placeholder="Date sortie arrêté . . ." id="numeroArrete" >
+						                                    </div>
+						                                </div>
+						                                <hr/>
+						                                <div class="form-group row">
+						                                    <label for="categorieTableau" class="col-sm-3 col-form-label">Catégorie</label>
+						                                    <div class="col-lg-6 col-md-9 col-sm-12">
+						                                        <input class="form-control" th:field="*{categorieTableau}" type="text" 
+						                                            placeholder="Catégorie . . ." id="categorieTableau" >
+						                                    </div>
+						                                </div>
 						                                <div class="form-group row">
 						                                    <label for="*{niveauRefDecret}" class="col-sm-3 col-form-label">Niveau de références</label>
 						                                    <div class="col-lg-6 col-md-9 col-sm-12">
@@ -241,13 +271,7 @@
 						                                    </div>
 						                                </div>  
 												</div>  
-												<div class="form-group row">
-				                                    <label for="categorieTableau" class="col-sm-3 col-form-label">Catégorie</label>
-				                                    <div class="col-lg-6 col-md-9 col-sm-12">
-				                                        <input class="form-control" th:field="*{categorieTableau}" type="text" 
-				                                            placeholder="Catégorie . . ." id="categorieTableau" >
-				                                    </div>
-				                                </div>
+												
                                                 <div class="btn-group pull-right">
                                                     <button type="submit" class="btn btn-base">Sauvegarder</button>
                                                 </div>
@@ -406,6 +430,7 @@
 	                                       	</div><!-- /input-group -->
 	                                     </div>  
 	                                </div>
+	                               <input type="hidden" th:field="*{typeArrete}">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Anne&eacute; sortie</label>
                                         <div class="col-sm-7">

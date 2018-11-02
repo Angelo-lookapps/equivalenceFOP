@@ -584,7 +584,7 @@ public class FicheDemandeController {
 	 		model.addAttribute("error", e);
  			return "pages/erreur/505"; 
 	 	}
-		 return "redirect:/homePage";
+		 return "redirect:/requestListFini";
 	 }
 	  
 	 

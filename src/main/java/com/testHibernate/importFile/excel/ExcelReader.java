@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class ExcelReader {
     public static final String SAMPLE_XLSX_FILE_PATH = "test.xlsx";
 
-    public static void main(String[] args) throws IOException, InvalidFormatException {
+  /*  public static void main(String[] args) throws IOException, InvalidFormatException {
 
         // Creating a Workbook from an Excel file (.xls or .xlsx)
         Workbook workbook = WorkbookFactory.create(new File(SAMPLE_XLSX_FILE_PATH));
@@ -27,7 +27,7 @@ public class ExcelReader {
            =============================================================
            Iterating over all the sheets in the workbook (Multiple ways)
            =============================================================
-        */
+       
 
         // 1. You can obtain a sheetIterator and iterate over it
         Iterator<Sheet> sheetIterator = workbook.sheetIterator();
@@ -53,7 +53,7 @@ public class ExcelReader {
            ==================================================================
            Iterating over all the rows and columns in a Sheet (Multiple ways)
            ==================================================================
-        */
+       
 
         // Getting the Sheet at index zero
         Sheet sheet = workbook.getSheetAt(0);
@@ -88,7 +88,7 @@ public class ExcelReader {
                 String cellValue = dataFormatter.formatCellValue(cell);
                 System.out.print(cellValue + "\t");
                 System.out.println("*ligne*");
-            }*/
+            }
             System.out.println();
         }
 
@@ -104,5 +104,5 @@ public class ExcelReader {
 
         // Closing the workbook
         workbook.close();
-    }
+    }*/
 }

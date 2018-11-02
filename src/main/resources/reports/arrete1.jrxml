@@ -294,9 +294,9 @@
 						</datasetRun>
 						<jr:column width="191" uuid="526a1e90-f998-4717-a95d-dae072d1dc9d">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne1"/>
-							<jr:columnHeader style="Table 3_CH" height="60" rowSpan="2">
+							<jr:columnHeader style="Table 3_CH" height="50" rowSpan="2">
 								<staticText>
-									<reportElement x="0" y="0" width="191" height="60" uuid="245a7239-edeb-4d8c-8510-2a313ad8c928"/>
+									<reportElement x="0" y="0" width="191" height="50" uuid="245a7239-edeb-4d8c-8510-2a313ad8c928"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 									</textElement>
@@ -304,9 +304,9 @@
 								</staticText>
 							</jr:columnHeader>
 							<jr:columnFooter style="Table 3_CH" height="30" rowSpan="1"/>
-							<jr:detailCell style="Table 3_TD" height="30">
+							<jr:detailCell style="Table 3_TD" height="40">
 								<textField>
-									<reportElement x="0" y="0" width="191" height="30" uuid="ee1555ff-ed80-49d2-8c61-b64f6e5889c8"/>
+									<reportElement x="0" y="0" width="191" height="40" uuid="ee1555ff-ed80-49d2-8c61-b64f6e5889c8"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 									</textElement>
@@ -316,9 +316,9 @@
 						</jr:column>
 						<jr:column width="191" uuid="91e6a326-5e82-48e5-988a-9f9e5bfd0ca7">
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne2"/>
-							<jr:columnHeader style="Table 3_CH" height="60" rowSpan="2">
+							<jr:columnHeader style="Table 3_CH" height="50" rowSpan="2">
 								<staticText>
-									<reportElement x="0" y="0" width="191" height="60" uuid="6241513d-f42a-4b7c-9881-947c211a8083"/>
+									<reportElement x="0" y="0" width="191" height="50" uuid="6241513d-f42a-4b7c-9881-947c211a8083"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font fontName="Times New Roman" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 									</textElement>
@@ -326,9 +326,9 @@
 								</staticText>
 							</jr:columnHeader>
 							<jr:columnFooter style="Table 3_CH" height="30" rowSpan="1"/>
-							<jr:detailCell style="Table 3_TD" height="30">
+							<jr:detailCell style="Table 3_TD" height="40">
 								<textField>
-									<reportElement x="0" y="0" width="191" height="30" uuid="968702ac-749f-4c34-9c81-96d2ce02bde0"/>
+									<reportElement x="0" y="0" width="191" height="40" uuid="968702ac-749f-4c34-9c81-96d2ce02bde0"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="false" pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 									</textElement>
@@ -360,18 +360,18 @@
 								</jr:columnFooter>
 								<jr:column width="55" uuid="0160158a-a522-4280-a93e-68b8d32c63a7">
 									<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne3"/>
-									<jr:columnHeader style="Table 3_CH" height="30" rowSpan="1">
+									<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
 										<staticText>
-											<reportElement x="0" y="0" width="55" height="30" uuid="52b61f41-b793-4ad5-97b5-1477aa8191f8"/>
+											<reportElement x="0" y="0" width="55" height="20" uuid="52b61f41-b793-4ad5-97b5-1477aa8191f8"/>
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font fontName="Times New Roman" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 											</textElement>
 											<text><![CDATA[CADRE]]></text>
 										</staticText>
 									</jr:columnHeader>
-									<jr:detailCell style="Table 3_TD" height="30">
+									<jr:detailCell style="Table 3_TD" height="40">
 										<textField>
-											<reportElement x="0" y="0" width="55" height="30" uuid="f7d4b647-f46b-4ad8-b14a-7a40babce119"/>
+											<reportElement x="0" y="0" width="55" height="40" uuid="f7d4b647-f46b-4ad8-b14a-7a40babce119"/>
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font isBold="false" pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 											</textElement>
@@ -381,18 +381,18 @@
 								</jr:column>
 								<jr:column width="55" uuid="34234c78-e1b2-490f-9f4d-7b986d95426a">
 									<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne4"/>
-									<jr:columnHeader style="Table 3_CH" height="30" rowSpan="1">
+									<jr:columnHeader style="Table 3_CH" height="20" rowSpan="1">
 										<staticText>
-											<reportElement x="0" y="0" width="55" height="30" uuid="90ca21d9-6b81-454e-8ee3-f5892cd7740f"/>
+											<reportElement x="0" y="0" width="55" height="20" uuid="90ca21d9-6b81-454e-8ee3-f5892cd7740f"/>
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font fontName="Times New Roman" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 											</textElement>
 											<text><![CDATA[ECHELLE]]></text>
 										</staticText>
 									</jr:columnHeader>
-									<jr:detailCell style="Table 3_TD" height="30">
+									<jr:detailCell style="Table 3_TD" height="40">
 										<textField>
-											<reportElement x="0" y="0" width="55" height="30" uuid="7b5fca02-25a6-4ea4-948b-70c7ed7cdcce"/>
+											<reportElement x="0" y="0" width="55" height="40" uuid="7b5fca02-25a6-4ea4-948b-70c7ed7cdcce"/>
 											<textElement textAlignment="Center" verticalAlignment="Middle">
 												<font isBold="false" pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 											</textElement>

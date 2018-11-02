@@ -55,7 +55,7 @@ public class ApachePOIExcelRead {
         } 
     	return ret;
     }
-    public static void main(String[] args) {
+  /*  public static void main(String[] args) {
 
         try {
 
@@ -79,7 +79,7 @@ public class ApachePOIExcelRead {
                         double test = currentCell.getNumericCellValue();
                         int convert = (int)test;
                     	System.out.print( convert + "-");
-                    }*/
+                    }
                     
                 }
                 System.out.println();
@@ -91,5 +91,5 @@ public class ApachePOIExcelRead {
             e.printStackTrace();
         }
 
-    }
+    }*/
 }

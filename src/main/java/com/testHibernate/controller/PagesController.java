@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.testHibernate.converts.demande.DemandeToDemandeForm;
 import com.testHibernate.helpers.DateHelper;
@@ -35,7 +36,7 @@ import com.testHibernate.service.diplome.NiveauDiplomeService;
 import com.testHibernate.service.historique.ActiviteRecentService;
 import com.testHibernate.service.user.UtilisateurService;
 
-@Controller
+@Controller 
 public class PagesController {
 	 ///SERVICES
 	 private FicheDemandeService ficheDemandeService;

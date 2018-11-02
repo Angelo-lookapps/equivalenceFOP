@@ -8,7 +8,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseBody; 
 
 import com.testHibernate.converts.cin.CINFormToCIN;
 import com.testHibernate.converts.cin.CINToCINForm;
@@ -30,7 +30,7 @@ import com.testHibernate.model.historique.ActiviteRecent;
 import com.testHibernate.service.cin.CINService;
 import com.testHibernate.service.historique.ActiviteRecentService;
 
-@Controller
+@Controller 
 public class CINController {
 	 private CINService cinService; 
 	 
@@ -60,7 +60,7 @@ public class CINController {
 	 public void setSession(HttpSession session) {
 		this.session = session;
 	 }
-	 
+ 
 	 private ActiviteRecentService activiteRecentService;
 	 
 	 @Autowired

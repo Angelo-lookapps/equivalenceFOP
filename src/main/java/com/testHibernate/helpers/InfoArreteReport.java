@@ -46,7 +46,18 @@ public class InfoArreteReport {
 					}else {
 						niv = demande.getListesDiplome().getNiveauDiplome().getNiveau().toUpperCase();
 					}
-					map.put("titulaireDemande", "DIPLOME  DE  "+demande.getDiplome().toUpperCase()+"  EN  "+demande.getListesDiplome().getFiliere().toUpperCase());
+					String titulaire = "DIPLOME  DE  "+demande.getDiplome().toUpperCase()+"  EN  "+demande.getListesDiplome().getFiliere().toUpperCase();
+							
+					
+					if(info.getArreteEqRef().getTypeArreteJasper().getTypeArrete().equals("2")) {
+						String noSpace = info.getCategorieTableau().replaceAll("\\s+", "");
+						if(noSpace.equals("II")) {
+							titulaire = "BREVET  D’ETUDE  DU  PREMIER  CYCLE  DE   L’ENSEIGNEMENT  SECONDAIRE".toUpperCase();
+						}else  {
+							titulaire = "DIPLOME DE BACHELIER DE L’ENSEIGNEMENT SECONDAIRE".toUpperCase();
+						}
+					} 
+					map.put("titulaireDemande", titulaire);
 					map.put("specialiteDemande", demande.getListesDiplome().getOption().toUpperCase());
 					map.put("idDemande", demande.getId());
 				
@@ -59,12 +70,19 @@ public class InfoArreteReport {
 					map.put("cadreTableau", info.getCadreTableau().toUpperCase());
 					map.put("echelleTableau", info.getEchelleTableau().toUpperCase());
 				}else if(info.getArreteEqRef().getTypeArreteJasper().getTypeArrete().equals("2")) {
+					System.out.println("DECRET ==== "+2);
+					System.out.println("niveauRefDecret =:== "+info.getNiveauRefDecret());
+					System.out.println("diplomeEquivalenceDecret =:== "+info.getDiplomeEquivalentDecret());
+					System.out.println("corpsFonctionnaireDecret =:== "+info.getCorpsFonctionnaireDecret());
+					System.out.println("indiceDecret =:== "+info.getIndiceDecret());
+					
 					map.put("niveauRefDecret", info.getNiveauRefDecret());
 					map.put("diplomeEquivalenceDecret", info.getDiplomeEquivalentDecret());
 					map.put("corpsFonctionnaireDecret", info.getCorpsFonctionnaireDecret());
 					map.put("indiceDecret", info.getIndiceDecret());
 				}
-				map.put("categorieTableau", info.getCategorieTableau()); 
+				map.put("categorieTableau", info.getCategorieTableau());
+				//System.out.println("DateSignature ======== "+info.getDateSignature());
 				int joursSignature =  GlobalHelper.getByFormat(info.getDateSignature(), "dd") ;
 				String moisSignature = GlobalHelper.getMoisBy(GlobalHelper.getByFormat(info.getDateSignature(), "MM"));
 				int anneeSignature =  GlobalHelper.getByFormat(info.getDateSignature(), "yyyy") ;
